@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
+import { RecoilRoot } from "recoil";
+import MainView from "_/views/MainView/MainView";
 
 function App(): JSX.Element {
   useEffect(() => {
@@ -6,10 +8,11 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <div className="app">
-      <h4>Welcome to React, Electron and TypeScript</h4>
-      <p>Hello</p>
-    </div>
+    <RecoilRoot>
+      <div className="app">
+        <MainView />
+      </div>
+    </RecoilRoot>
   );
 }
 
