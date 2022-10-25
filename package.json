@@ -50,14 +50,20 @@
   "author": "Wing Chau @Devtography",
   "license": "MIT",
   "dependencies": {
+    "@mui/material": "^5.10.10",
+    "glamor": "^2.20.40",
+    "mdb-react-ui-kit": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "recoil": "^0.7.6"
+    "recoil": "^0.7.6",
+    "recoil-nexus": "^0.4.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.1.2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
     "cross-env": "^7.0.3",
