@@ -17,6 +17,10 @@ function createWindow() {
       devTools: nodeEnv.dev,
       preload: path.join(__dirname, "./preload.bundle.js"),
       webSecurity: nodeEnv.prod,
+      // Both needed to use "fs" module
+      nodeIntegration: true,
+      contextIsolation: false,
+      //
     },
   });
 

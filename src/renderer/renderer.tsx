@@ -10,6 +10,7 @@ import { createRoot } from "react-dom/client";
 import App from "_renderer/App";
 import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
+import SaveStateManager from "_/components/FunctionalComponents/SaveStateManager";
 
 const container = document.getElementById("app");
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -17,6 +18,7 @@ const root = createRoot(container!);
 root.render(
   <RecoilRoot>
     <RecoilNexus />
+    <SaveStateManager />
     <App />
   </RecoilRoot>
 );

@@ -11,7 +11,7 @@ import {
   MDBInput,
 } from "mdb-react-ui-kit";
 import { Resident, emptyResident } from "_/types/resident";
-import { addResident } from "_/states/residentStates/all_residents_state";
+import { addResident } from "_/states/saveStates/resident_state";
 
 interface CreateResidentModalProps {
   show: boolean;
