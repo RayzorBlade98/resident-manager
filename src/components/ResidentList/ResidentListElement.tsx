@@ -10,7 +10,7 @@ function ResidentListElement(props: ResidentListElementProps): JSX.Element {
   return (
     <>
       <div {...styles.residentListElementContainer}>
-        {props.resident.first_name + " " + props.resident.last_name}
+        {props.resident.firstName + " " + props.resident.lastName}
       </div>
     </>
   );

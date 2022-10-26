@@ -22,7 +22,7 @@ function ResidentList(): JSX.Element {
         <CreateResidentModal
           show={showModal}
           onClose={() => setShowModal(false)}
-        ></CreateResidentModal>
+        />
       )}
 
       <div {...styles.residentListContainer}>

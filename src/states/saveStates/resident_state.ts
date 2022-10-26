@@ -11,14 +11,14 @@ export function defaultResidentsState(): ResidentState {
   for (let i = 0; i < 8; i++) {
     dummyResidents.push({
       id: uuid(),
-      first_name: "Max",
-      last_name: "Mustermann",
+      firstName: "Max",
+      lastName: "Mustermann",
     });
   }
   return dummyResidents;
 }
 
-const residentState = selector<ResidentState>({
+export const residentState = selector<ResidentState>({
   key: "residentState",
   get: ({ get }) => {
     const state = get(saveState);
