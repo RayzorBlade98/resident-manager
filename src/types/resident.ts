@@ -1,4 +1,4 @@
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from 'uuid';
 
 export interface Resident {
   id: string;
@@ -9,7 +9,7 @@ export interface Resident {
 export function emptyResident(): Resident {
   return {
     id: uuid(),
-    firstName: "",
-    lastName: "",
+    firstName: '',
+    lastName: '',
   };
 }

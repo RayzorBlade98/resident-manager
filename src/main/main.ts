@@ -1,10 +1,10 @@
 /**
  * Entry point of the Election app.
  */
-import * as path from "path";
+import * as path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { BrowserWindow, app, ipcMain } from "electron";
-import * as nodeEnv from "_utils/node-env";
+import { BrowserWindow, app, ipcMain } from 'electron';
+import * as nodeEnv from '_utils/node-env';
 
 let mainWindow: Electron.BrowserWindow | undefined;
 
@@ -15,7 +15,7 @@ function createWindow() {
     width: 1920,
     webPreferences: {
       devTools: nodeEnv.dev,
-      preload: path.join(__dirname, "./preload.bundle.js"),
+      preload: path.join(__dirname, './preload.bundle.js'),
       webSecurity: nodeEnv.prod,
       // Both needed to use "fs" module
       nodeIntegration: true,
@@ -25,12 +25,12 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile("index.html").finally(() => {
+  mainWindow.loadFile('index.html').finally(() => {
     /* no action */
   });
 
   // Emitted when the window is closed.
-  mainWindow.on("closed", () => {
+  mainWindow.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -46,7 +46,7 @@ app
   .then(() => {
     if (nodeEnv.dev || nodeEnv.prod) createWindow();
 
-    app.on("activate", () => {
+    app.on('activate', () => {
       if (BrowserWindow.getAllWindows.length === 0) createWindow();
     });
   })
@@ -57,13 +57,13 @@ app
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit();
 });
 
-ipcMain.on("renderer-ready", () => {
+ipcMain.on('renderer-ready', () => {
   // eslint-disable-next-line no-console
-  console.log("Renderer is ready.");
+  console.log('Renderer is ready.');
 });
 
 // In this file you can include the rest of your app"s specific main process

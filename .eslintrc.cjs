@@ -5,11 +5,7 @@ const baseConfig = {
   parserOptions: {
     project: ['./tsconfig.eslint.json'],
   },
-  extends: [
-    'airbnb',
-    'airbnb/hooks',
-    'plugin:import/recommended',
-  ],
+  extends: ['airbnb', 'airbnb/hooks', 'plugin:import/recommended'],
   rules: {
     'max-len': [
       'warn',
@@ -20,20 +16,21 @@ const baseConfig = {
       },
     ],
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-    'import/order': [
-      'error',
-      { alphabetize: { order: 'asc' } },
-    ],
+    'import/order': ['error', { alphabetize: { order: 'asc' } }],
+    // Own adjustments
+    'linebreak-style': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'jsx-a11y/no-noninteractive-element-interactions': 'off',
+    'react/destructuring-assignment': 'off',
+    'prefer-destructuring': 'off',
   },
 };
 
 const tsConfig = {
   files: ['*.ts', '*.tsx'],
   excludedFiles: ['*.spec.ts', '*.spec.tsx', '*.test.ts', '*.test.tsx'],
-  plugins: [
-    ...baseConfig.plugins,
-    '@typescript-eslint',
-  ],
+  plugins: [...baseConfig.plugins, '@typescript-eslint'],
   extends: [
     ...baseConfig.extends,
     'airbnb-typescript',
@@ -68,10 +65,7 @@ const tsConfig = {
 const jestConfig = {
   files: ['*.spec.ts', '*.spec.tsx', '*.test.ts', '*.test.tsx'],
   env: { node: true, 'jest/globals': true },
-  plugins: [
-    ...tsConfig.plugins,
-    'jest',
-  ],
+  plugins: [...tsConfig.plugins, 'jest'],
   extends: [
     ...tsConfig.extends,
     'plugin:jest/recommended',
@@ -103,9 +97,5 @@ const specialConfig = {
 module.exports = {
   root: true,
   ...baseConfig,
-  overrides: [
-    tsConfig,
-    jestConfig,
-    specialConfig,
-  ],
+  overrides: [tsConfig, jestConfig, specialConfig],
 };

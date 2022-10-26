@@ -1,5 +1,5 @@
-import React from "react";
-import ResidentList from "_/components/ResidentList/ResidentList";
+import React from 'react';
+import ResidentList from '_/components/ResidentList/ResidentList';
 
 function ResidentView(): JSX.Element {
   return <ResidentList />;

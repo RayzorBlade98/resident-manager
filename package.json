@@ -11,6 +11,7 @@
     "jest-ci": "npm run jest -- --config jest.config.ci.mjs",
     "watch-jest": "npm run jest -- --watchAll",
     "lint": "eslint . --cache --ext js,jsx,cjs,mjs,ts,tsx",
+    "lint-fix": "eslint . --cache --ext js,jsx,cjs,mjs,ts,tsx --fix",
     "test": "npm run lint && npm run jest",
     "next-rc": "npm --no-git-tag-version version prerelease --preid=rc",
     "next-patch": "npm --no-git-tag-version version patch",
@@ -105,5 +106,9 @@
   "bugs": {
     "url": "https://github.com/Devtography/electron-react-typescript-webpack-boilerplate/issues"
   },
-  "homepage": "https://github.com/Devtography/electron-react-typescript-webpack-boilerplate#readme"
+  "homepage": "https://github.com/Devtography/electron-react-typescript-webpack-boilerplate#readme",
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
+  }
 }

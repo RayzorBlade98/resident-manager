@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/jsx-no-useless-fragment */
 import {
   MDBBtn,
   MDBModal,
@@ -8,7 +8,8 @@ import {
   MDBModalTitle,
   MDBModalBody,
   MDBModalFooter,
-} from "mdb-react-ui-kit";
+} from 'mdb-react-ui-kit';
+import React from 'react';
 
 export interface GenericModalProps {
   show: boolean;
@@ -17,28 +18,35 @@ export interface GenericModalProps {
 }
 
 export function GenericModal(
-  props: React.PropsWithChildren<GenericModalProps>
+  props: React.PropsWithChildren<GenericModalProps>,
 ): JSX.Element {
   const children = React.Children.toArray(props.children);
-  if (children.length != 2)
-    throw "Modal needs exactly two children: The body content and the footer content";
+  if (children.length !== 2) {
+    throw new Error(
+      'Modal needs exactly two children: The body and footer content',
+    );
+  }
   return (
-    <MDBModal show={true} tabIndex="-1" staticBackdrop>
-      <MDBModalDialog>
-        <MDBModalContent>
-          <MDBModalHeader>
-            <MDBModalTitle>{props.title}</MDBModalTitle>
-            <MDBBtn
-              className="btn-close"
-              color="none"
-              onClick={props.onClose}
-            ></MDBBtn>
-          </MDBModalHeader>
-          <MDBModalBody>{children[0]}</MDBModalBody>
-          <MDBModalFooter>{children[1]}</MDBModalFooter>
-        </MDBModalContent>
-      </MDBModalDialog>
-    </MDBModal>
+    <>
+      {props.show && (
+        <MDBModal show tabIndex="-1" staticBackdrop>
+          <MDBModalDialog>
+            <MDBModalContent>
+              <MDBModalHeader>
+                <MDBModalTitle>{props.title}</MDBModalTitle>
+                <MDBBtn
+                  className="btn-close"
+                  color="none"
+                  onClick={props.onClose}
+                />
+              </MDBModalHeader>
+              <MDBModalBody>{children[0]}</MDBModalBody>
+              <MDBModalFooter>{children[1]}</MDBModalFooter>
+            </MDBModalContent>
+          </MDBModalDialog>
+        </MDBModal>
+      )}
+    </>
   );
 }
 

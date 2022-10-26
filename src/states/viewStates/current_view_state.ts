@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 export enum View {
   Main,
@@ -7,7 +7,7 @@ export enum View {
 }
 
 export const currentViewState = atom<View>({
-  key: "currentViewState",
+  key: 'currentViewState',
   default: View.Incidentals,
 });
 

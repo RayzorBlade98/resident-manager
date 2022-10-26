@@ -1,8 +1,8 @@
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from 'uuid';
 
 export enum DeductionType {
-  PerResident = "Pro Bewohner",
-  PerApartment = "Pro Wohnung",
+  PerResident = 'Pro Bewohner',
+  PerApartment = 'Pro Wohnung',
 }
 
 export interface Incidentals {
@@ -16,7 +16,7 @@ export interface Incidentals {
 export function emptyIncidentals(): Incidentals {
   return {
     id: uuid(),
-    name: "",
+    name: '',
     currentPrice: 0,
     deductionType: DeductionType.PerApartment,
     invoiceInterval: 1,

@@ -1,6 +1,6 @@
-import { atom } from "recoil";
-import { defaultIncidentalsState, IncidentalsState } from "./incidentals_state";
-import { defaultResidentsState, ResidentState } from "./resident_state";
+import { atom } from 'recoil';
+import { defaultIncidentalsState, IncidentalsState } from './incidentals_state';
+import { defaultResidentsState, ResidentState } from './resident_state';
 
 export interface SaveState {
   residents: ResidentState;
@@ -13,7 +13,7 @@ const defaultSaveState: SaveState = {
 };
 
 export const saveState = atom<SaveState>({
-  key: "saveState",
+  key: 'saveState',
   default: defaultSaveState,
 });
 

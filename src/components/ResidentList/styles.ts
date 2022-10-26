@@ -1,30 +1,30 @@
-import { css, Rule, StyleAttribute } from "glamor";
-import { defaultColors } from "_/types/styles";
+import { css, Rule, StyleAttribute } from 'glamor';
+import { defaultColors } from '_/types/styles';
 
 const residentListElementStyle: Rule = {
-  width: "100%",
+  width: '100%',
   color: defaultColors.mainDark2,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  ":hover": {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  ':hover': {
     backgroundColor: defaultColors.mainLight3,
-    cursor: "pointer",
+    cursor: 'pointer',
   },
 };
 
 const residentListContainer: Rule = {
-  width: "20%",
-  height: "100%",
+  width: '20%',
+  height: '100%',
   backgroundColor: defaultColors.mainLight2,
-  overflowY: "auto",
+  overflowY: 'auto',
 };
 
-const newResidentDiv: Rule = { ...residentListElementStyle, height: "5%" };
+const newResidentDiv: Rule = { ...residentListElementStyle, height: '5%' };
 
 const residentListElementContainer: Rule = {
   ...residentListElementStyle,
-  height: "10%",
+  height: '10%',
 };
 
 const styles: { [key: string]: StyleAttribute } = {

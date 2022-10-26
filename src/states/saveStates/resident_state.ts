@@ -1,25 +1,25 @@
-import { Resident } from "_/types/resident";
-import { v4 as uuid } from "uuid";
-import { selector } from "recoil";
-import saveState, { SaveState } from "./save_state";
-import { setRecoil } from "recoil-nexus";
+import { selector } from 'recoil';
+import { setRecoil } from 'recoil-nexus';
+import { v4 as uuid } from 'uuid';
+import saveState, { SaveState } from './save_state';
+import { Resident } from '_/types/resident';
 
 export type ResidentState = Resident[];
 export function defaultResidentsState(): ResidentState {
-  //return [];
+  // return [];
   const dummyResidents: ResidentState = [];
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 8; i += 1) {
     dummyResidents.push({
       id: uuid(),
-      firstName: "Max",
-      lastName: "Mustermann",
+      firstName: 'Max',
+      lastName: 'Mustermann',
     });
   }
   return dummyResidents;
 }
 
 export const residentState = selector<ResidentState>({
-  key: "residentState",
+  key: 'residentState',
   get: ({ get }) => {
     const state = get(saveState);
     return state.residents;
@@ -27,12 +27,10 @@ export const residentState = selector<ResidentState>({
 });
 
 export function addResident(resident: Resident): void {
-  setRecoil(saveState, (state: SaveState) => {
-    return {
-      ...state,
-      residents: [...state.residents, resident],
-    };
-  });
+  setRecoil(saveState, (state: SaveState) => ({
+    ...state,
+    residents: [...state.residents, resident],
+  }));
 }
 
 export default residentState;

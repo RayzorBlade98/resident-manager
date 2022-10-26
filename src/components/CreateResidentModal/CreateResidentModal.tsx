@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Resident, emptyResident } from "_/types/resident";
-import { addResident } from "_/states/saveStates/resident_state";
-import GenericModal from "../GenericComponents/GenericModal/GenericModal";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import GenericModal from '../GenericComponents/GenericModal/GenericModal';
+import { addResident } from '_/states/saveStates/resident_state';
+import { Resident, emptyResident } from '_/types/resident';
 
 export interface CreateResidentModalProps {
   show: boolean;
@@ -28,8 +28,12 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
   }
 
   return (
-    <GenericModal title="Neuer Mieter" {...props}>
-      {/*Body*/}
+    <GenericModal
+      title="Neuer Mieter"
+      show={props.show}
+      onClose={props.onClose}
+    >
+      {/* Body */}
       <form>
         <div className="row mb-4">
           <div className="col">
@@ -38,7 +42,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
               label="Vorname"
               variant="outlined"
               required
-              onChange={residentUpdater("firstName")}
+              onChange={residentUpdater('firstName')}
             />
           </div>
           <div className="col">
@@ -47,17 +51,15 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
               label="Nachname"
               variant="outlined"
               required
-              onChange={residentUpdater("lastName")}
+              onChange={residentUpdater('lastName')}
             />
           </div>
         </div>
       </form>
-      {/*Footer*/}
-      <>
-        <Button variant="contained" onClick={onSave}>
-          Erstellen
-        </Button>
-      </>
+      {/* Footer */}
+      <Button variant="contained" onClick={() => onSave}>
+        Erstellen
+      </Button>
     </GenericModal>
   );
 }

@@ -1,8 +1,8 @@
-import { selector } from "recoil";
-import { setRecoil } from "recoil-nexus";
-import { v4 as uuid } from "uuid";
-import { DeductionType, Incidentals } from "_/types/incidentals";
-import saveState, { SaveState } from "./save_state";
+import { selector } from 'recoil';
+import { setRecoil } from 'recoil-nexus';
+import { v4 as uuid } from 'uuid';
+import saveState, { SaveState } from './save_state';
+import { DeductionType, Incidentals } from '_/types/incidentals';
 
 export interface IncidentalsState {
   mandatoryIncidentals: Incidentals[];
@@ -15,10 +15,10 @@ export function defaultIncidentalsState(): IncidentalsState {
   };
   */
   const dummyIncidentals: Incidentals[] = [];
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 8; i += 1) {
     dummyIncidentals.push({
       id: uuid(),
-      name: "Nebenkosten",
+      name: 'Nebenkosten',
       deductionType: DeductionType.PerResident,
       currentPrice: 10000,
       invoiceInterval: 12,
@@ -30,7 +30,7 @@ export function defaultIncidentalsState(): IncidentalsState {
 }
 
 export const incidentalsState = selector<IncidentalsState>({
-  key: "incidentalsState",
+  key: 'incidentalsState',
   get: ({ get }) => {
     const state = get(saveState);
     return state.incidentals;
@@ -38,18 +38,16 @@ export const incidentalsState = selector<IncidentalsState>({
 });
 
 export function addIncidentals(incidentals: Incidentals): void {
-  setRecoil(saveState, (state: SaveState) => {
-    return {
-      ...state,
-      incidentals: {
-        ...state.incidentals,
-        mandatoryIncidentals: [
-          ...state.incidentals.mandatoryIncidentals,
-          incidentals,
-        ],
-      },
-    };
-  });
+  setRecoil(saveState, (state: SaveState) => ({
+    ...state,
+    incidentals: {
+      ...state.incidentals,
+      mandatoryIncidentals: [
+        ...state.incidentals.mandatoryIncidentals,
+        incidentals,
+      ],
+    },
+  }));
 }
 
 export default IncidentalsState;
