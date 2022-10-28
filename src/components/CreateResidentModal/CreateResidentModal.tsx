@@ -1,8 +1,13 @@
-import { Button, TextField } from '@mui/material';
+import { Button, Grid, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import GenericModal from '../GenericComponents/GenericModal/GenericModal';
 import { addResident } from '_/states/saveStates/resident_state';
-import { Resident, emptyResident } from '_/types/resident';
+import {
+  createResident,
+  CreateResidentArguments,
+  CreateResidentErrors,
+  validateResidentArgs,
+} from '_/types/resident';
 
 export interface CreateResidentModalProps {
   show: boolean;
@@ -10,20 +15,40 @@ export interface CreateResidentModalProps {
 }
 
 function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
-  const [resident, setResident] = useState<Resident>(emptyResident());
+  const [resident, setResident] = useState<CreateResidentArguments>({
+    firstName: '',
+    lastName: '',
+  });
+  const [errors, setErrors] = useState<CreateResidentErrors>({});
 
   function residentUpdater(field: string) {
     function updateResident(event: React.ChangeEvent<HTMLInputElement>): void {
-      setResident({
+      const newResident = {
         ...resident,
         [field]: event.target.value,
+      };
+      setResident(newResident);
+      setErrors({
+        ...errors,
+        [field]: validateResidentArgs(
+          newResident,
+          field as keyof CreateResidentErrors,
+        ),
       });
     }
     return updateResident;
   }
 
   function onSave(): void {
-    addResident(resident);
+    const newErrors = validateResidentArgs(resident) as CreateResidentErrors;
+    const numberOfErrors = Object.keys(newErrors).filter(
+      (k) => !!newErrors[k as keyof CreateResidentErrors],
+    ).length;
+    if (numberOfErrors > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    addResident(createResident(resident));
     props.onClose();
   }
 
@@ -34,30 +59,33 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
       onClose={props.onClose}
     >
       {/* Body */}
-      <form>
-        <div className="row mb-4">
-          <div className="col">
-            <TextField
-              id="firstName"
-              label="Vorname"
-              variant="outlined"
-              required
-              onChange={residentUpdater('firstName')}
-            />
-          </div>
-          <div className="col">
-            <TextField
-              id="lastName"
-              label="Nachname"
-              variant="outlined"
-              required
-              onChange={residentUpdater('lastName')}
-            />
-          </div>
-        </div>
-      </form>
+      <Grid container columnSpacing={2} rowSpacing={2}>
+        <Grid item xs={6}>
+          <TextField
+            id="firstName"
+            label="Vorname"
+            variant="outlined"
+            required
+            onChange={residentUpdater('firstName')}
+            error={!!errors.firstName}
+            helperText={errors.firstName || ''}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="lastName"
+            label="Nachname"
+            variant="outlined"
+            required
+            onChange={residentUpdater('lastName')}
+            error={!!errors.lastName}
+            helperText={errors.lastName || ''}
+          />
+        </Grid>
+      </Grid>
+
       {/* Footer */}
-      <Button variant="contained" onClick={() => onSave}>
+      <Button variant="contained" onClick={() => onSave()}>
         Erstellen
       </Button>
     </GenericModal>
