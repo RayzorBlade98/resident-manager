@@ -9,9 +9,11 @@ import React, { useState } from 'react';
 import GenericModal from '../GenericComponents/GenericModal/GenericModal';
 import { addIncidentals } from '_/states/saveStates/incidentals_state';
 import {
+  createIncidentals,
+  CreateIncidentalsArguments,
+  CreateIncidentalsErrors,
   DeductionType,
-  emptyIncidentals,
-  Incidentals,
+  validateIncidentalsArgs,
 } from '_/types/incidentals';
 import { convertCurrencyFloatToInt } from '_/utils/currency';
 
@@ -23,9 +25,13 @@ export interface CreateIncidentalsModalProps {
 function CreateIncidentalsModal(
   props: CreateIncidentalsModalProps,
 ): JSX.Element {
-  const [incidentals, setIncidentals] = useState<Incidentals>(
-    emptyIncidentals(),
-  );
+  const [incidentals, setIncidentals] = useState<CreateIncidentalsArguments>({
+    name: '',
+    currentPrice: null,
+    deductionType: DeductionType.PerApartment,
+    invoiceInterval: null,
+  });
+  const [errors, setErrors] = useState<CreateIncidentalsErrors>({});
 
   function incidentalsUpdater(field: string) {
     function updateIncidentals(
@@ -37,16 +43,34 @@ function CreateIncidentalsModal(
         if (field === 'currentPrice') value = convertCurrencyFloatToInt(value);
       }
 
-      setIncidentals({
+      const newIncidentals = {
         ...incidentals,
         [field]: value,
+      };
+      setIncidentals(newIncidentals);
+      setErrors({
+        ...errors,
+        [field]: validateIncidentalsArgs(
+          newIncidentals,
+          field as keyof CreateIncidentalsErrors,
+        ),
       });
     }
     return updateIncidentals;
   }
 
   function onSave(): void {
-    addIncidentals(incidentals);
+    const newErrors = validateIncidentalsArgs(
+      incidentals,
+    ) as CreateIncidentalsErrors;
+    const numberOfErrors = Object.keys(newErrors).filter(
+      (k) => !!newErrors[k as keyof CreateIncidentalsErrors],
+    ).length;
+    if (numberOfErrors > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    addIncidentals(createIncidentals(incidentals));
     props.onClose();
   }
 
@@ -66,6 +90,8 @@ function CreateIncidentalsModal(
               variant="outlined"
               required
               onChange={incidentalsUpdater('name')}
+              error={!!errors.name}
+              helperText={errors.name || ''}
             />
           </Grid>
           <Grid item xs={6}>
@@ -78,6 +104,8 @@ function CreateIncidentalsModal(
               InputProps={{
                 endAdornment: <InputAdornment position="end">€</InputAdornment>,
               }}
+              error={!!errors.currentPrice}
+              helperText={errors.currentPrice || ''}
             />
           </Grid>
           <Grid item xs={6}>
@@ -88,6 +116,8 @@ function CreateIncidentalsModal(
               label="Abrechnungsart"
               value={incidentals.deductionType}
               onChange={incidentalsUpdater('deductionType')}
+              error={!!errors.deductionType}
+              helperText={errors.deductionType || ''}
             >
               {Object.values(DeductionType).map((type) => (
                 <MenuItem key={type} value={type}>
@@ -102,6 +132,9 @@ function CreateIncidentalsModal(
               id="invoiceInterval"
               type="number"
               required
+              onChange={incidentalsUpdater('invoiceInterval')}
+              error={!!errors.invoiceInterval}
+              helperText={errors.invoiceInterval || ''}
             />
           </Grid>
         </Grid>

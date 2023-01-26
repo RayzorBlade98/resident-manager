@@ -1,4 +1,9 @@
 import { v4 as uuid } from 'uuid';
+import {
+  createValidationFunction,
+  ValidationError,
+  ValidationErrorMessages,
+} from '../utils/validation';
 
 export enum DeductionType {
   PerResident = 'Pro Bewohner',
@@ -13,12 +18,35 @@ export interface Incidentals {
   invoiceInterval: number; // in months
 }
 
-export function emptyIncidentals(): Incidentals {
+export interface CreateIncidentalsArguments {
+  name: string;
+  currentPrice: number | null;
+  deductionType: DeductionType;
+  invoiceInterval: number | null;
+}
+
+export type CreateIncidentalsErrors =
+  ValidationErrorMessages<CreateIncidentalsArguments>;
+
+export function createIncidentals(
+  args: CreateIncidentalsArguments,
+): Incidentals {
   return {
     id: uuid(),
-    name: '',
-    currentPrice: 0,
-    deductionType: DeductionType.PerApartment,
-    invoiceInterval: 1,
+    ...args,
+    currentPrice: args.currentPrice as number,
+    invoiceInterval: args.invoiceInterval as number,
   };
 }
+
+export const validateIncidentalsArgs =
+  createValidationFunction<CreateIncidentalsArguments>({
+    name: [ValidationError.EmptyString],
+    currentPrice: [ValidationError.Null, ValidationError.LessEqualZero],
+    deductionType: [],
+    invoiceInterval: [
+      ValidationError.Null,
+      ValidationError.NotInteger,
+      ValidationError.NotMonth,
+    ],
+  });
