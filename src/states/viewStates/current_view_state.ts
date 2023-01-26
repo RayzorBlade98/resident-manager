@@ -8,7 +8,7 @@ export enum View {
 
 export const currentViewState = atom<View>({
   key: 'currentViewState',
-  default: View.Resident,
+  default: View.Main,
 });
 
 export default currentViewState;
