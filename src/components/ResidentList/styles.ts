@@ -1,4 +1,4 @@
-import { css, Rule, StyleAttribute } from 'glamor';
+import { css, Rule } from 'glamor';
 import { defaultColors } from '_/types/styles';
 
 const residentListElementStyle: Rule = {
@@ -14,8 +14,6 @@ const residentListElementStyle: Rule = {
 };
 
 const residentListContainer: Rule = {
-  width: '20%',
-  height: '100%',
   backgroundColor: defaultColors.mainLight2,
   overflowY: 'auto',
 };
@@ -27,10 +25,18 @@ const residentListElementContainer: Rule = {
   height: '10%',
 };
 
-const styles: { [key: string]: StyleAttribute } = {
+const residentListElementContainerSelected: Rule = {
+  ...residentListElementContainer,
+  backgroundColor: defaultColors.mainLight3,
+};
+
+const styles = {
   residentListContainer: css(residentListContainer),
   newResidentDiv: css(newResidentDiv),
   residentListElementContainer: css(residentListElementContainer),
+  residentListElementContainerSelected: css(
+    residentListElementContainerSelected,
+  ),
 };
 
 export default styles;

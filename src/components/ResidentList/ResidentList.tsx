@@ -1,17 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import CreateResidentModal from '../CreateResidentModal/CreateResidentModal';
 import ResidentListElement from './ResidentListElement';
 import styles from './styles';
-import residentsState, {
-  ResidentState,
-} from '_/states/saveStates/resident_state';
 import { Resident } from '_/types/resident';
+import { StyleAttribute } from 'glamor';
 
-function ResidentList(): JSX.Element {
+interface ResidentListProps {
+  residents: Resident[];
+  selectedResident: Resident;
+  onSelectResident: (resident: Resident) => void;
+  containerStyle?: StyleAttribute;
+}
+
+function ResidentList(props: ResidentListProps): JSX.Element {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const residents = useRecoilValue<ResidentState>(residentsState);
 
   function onNewResident(): void {
     setShowModal(true);
@@ -26,15 +29,22 @@ function ResidentList(): JSX.Element {
         />
       )}
 
-      <div {...styles.residentListContainer}>
+      <div {...{ ...styles.residentListContainer, ...props.containerStyle }}>
         <div {...styles.newResidentDiv} onClick={onNewResident}>
           Neuer Mieter
         </div>
         <hr className="hr" />
-        {residents.map((resident: Resident) => (
+        {props.residents.map((resident: Resident) => (
           <>
-            <ResidentListElement resident={resident} key={resident.id} />
-            {resident.id !== residents.slice(-1)[0].id && <hr className="hr" />}
+            <ResidentListElement
+              resident={resident}
+              selected={resident.id === props.selectedResident.id}
+              onSelectResident={props.onSelectResident}
+              key={resident.id}
+            />
+            {resident.id !== props.residents.slice(-1)[0].id && (
+              <hr className="hr" />
+            )}
           </>
         ))}
       </div>
