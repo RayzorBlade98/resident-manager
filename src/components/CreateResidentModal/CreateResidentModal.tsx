@@ -1,4 +1,4 @@
-import { Button, Grid, TextField } from '@mui/material';
+import { Button, Grid, InputAdornment, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import GenericModal from '../GenericComponents/GenericModal/GenericModal';
 import { addResident } from '_/states/saveStates/resident_state';
@@ -8,6 +8,7 @@ import {
   CreateResidentErrors,
   validateResidentArgs,
 } from '_/types/resident';
+import { convertCurrencyEurosToCents } from '_/utils/currency';
 
 export interface CreateResidentModalProps {
   show: boolean;
@@ -18,14 +19,20 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
   const [resident, setResident] = useState<CreateResidentArguments>({
     firstName: '',
     lastName: '',
+    rent: null,
   });
   const [errors, setErrors] = useState<CreateResidentErrors>({});
 
   function residentUpdater(field: string) {
     function updateResident(event: React.ChangeEvent<HTMLInputElement>): void {
+      let value: number | string = event.target.value;
+      if (field === 'rent') {
+        value = Number(value);
+        value = convertCurrencyEurosToCents(value);
+      }
       const newResident = {
         ...resident,
-        [field]: event.target.value,
+        [field]: value,
       };
       setResident(newResident);
       setErrors({
@@ -80,6 +87,20 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
             onChange={residentUpdater('lastName')}
             error={!!errors.lastName}
             helperText={errors.lastName || ''}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="rent"
+            label="Miete"
+            type="number"
+            required
+            onChange={residentUpdater('rent')}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">€</InputAdornment>,
+            }}
+            error={!!errors.rent}
+            helperText={errors.rent || ''}
           />
         </Grid>
       </Grid>

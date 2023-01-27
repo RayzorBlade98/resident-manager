@@ -1,4 +1,5 @@
 import { Resident } from '_/types/resident';
+import { convertCurrencyCentsToString } from '_/utils/currency';
 import { StyleAttribute } from 'glamor';
 import {
   MDBTabs,
@@ -54,7 +55,8 @@ function ResidentInformation(props: ResidentInformationProps): JSX.Element {
 
       <MDBTabsContent>
         <MDBTabsPane show={activeTab === ResidentTab.Information}>
-          {`${props.resident.firstName} ${props.resident.lastName}`}
+          <p>{`${props.resident.firstName} ${props.resident.lastName}`}</p>
+          <p>{`${convertCurrencyCentsToString(props.resident.rent)}`}</p>
         </MDBTabsPane>
         <MDBTabsPane show={activeTab === ResidentTab.Tab2}>
           Tab 2 content

@@ -4,6 +4,7 @@ import {
   ValidationError,
   ValidationErrorMessages,
 } from '../utils/validation';
+import { CurrencyInCents } from '_/utils/currency';
 
 export enum DeductionType {
   PerResident = 'Pro Bewohner',
@@ -13,7 +14,7 @@ export enum DeductionType {
 export interface Incidentals {
   id: string;
   name: string;
-  currentPrice: number; // in cents
+  currentPrice: CurrencyInCents;
   deductionType: DeductionType;
   invoiceInterval: number; // in months
 }

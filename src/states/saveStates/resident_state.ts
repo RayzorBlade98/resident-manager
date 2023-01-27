@@ -13,6 +13,7 @@ export function defaultResidentsState(): ResidentState {
       id: uuid(),
       firstName: 'Max',
       lastName: 'Mustermann',
+      rent: 50000,
     });
   }
   return dummyResidents;

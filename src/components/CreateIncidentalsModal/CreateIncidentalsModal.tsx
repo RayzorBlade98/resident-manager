@@ -15,7 +15,7 @@ import {
   DeductionType,
   validateIncidentalsArgs,
 } from '_/types/incidentals';
-import { convertCurrencyFloatToInt } from '_/utils/currency';
+import { convertCurrencyEurosToCents } from '_/utils/currency';
 
 export interface CreateIncidentalsModalProps {
   show: boolean;
@@ -40,7 +40,8 @@ function CreateIncidentalsModal(
       let value: number | string = event.target.value;
       if (['currentPrice', 'invoiceInterval'].includes(field)) {
         value = Number(value);
-        if (field === 'currentPrice') value = convertCurrencyFloatToInt(value);
+        if (field === 'currentPrice')
+          value = convertCurrencyEurosToCents(value);
       }
 
       const newIncidentals = {
