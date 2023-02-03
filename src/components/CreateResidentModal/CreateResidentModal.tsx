@@ -9,27 +9,51 @@ import {
   validateResidentArgs,
 } from '_/types/resident';
 import { convertCurrencyEurosToCents } from '_/utils/currency';
+import MonthYearInput from '../GenericComponents/MonthYearInput/MonthYearInput';
+import { MonthYear, getCurrentMonthYear } from '_/types/date';
 
 export interface CreateResidentModalProps {
+  /**
+   * Defines if the modal is currenly visible or not.
+   */
   show: boolean;
+
+  /**
+   * Gets called whenever the modal is closed.
+   */
   onClose: () => void;
 }
 
+/**
+ * Modal that contains an input form to create a new resident.
+ */
 function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
+  // Information of the currently created resident
   const [resident, setResident] = useState<CreateResidentArguments>({
     firstName: '',
     lastName: '',
     rent: null,
+    contractStart: getCurrentMonthYear(),
   });
+  // Error messages of the input fields
   const [errors, setErrors] = useState<CreateResidentErrors>({});
 
-  function residentUpdater(field: string) {
-    function updateResident(event: React.ChangeEvent<HTMLInputElement>): void {
-      let value: number | string = event.target.value;
-      if (field === 'rent') {
-        value = Number(value);
-        value = convertCurrencyEurosToCents(value);
-      }
+  /**
+   * Creates a function that handles the input of the specified field.
+   * It updates the value of the field and applies the validation on it.
+   * @param field field of the resident that should be updated
+   * @returns function that handles the input of the specified field.
+   */
+  function residentUpdater(
+    field: string,
+  ):
+    | ((event: React.ChangeEvent<HTMLInputElement>) => void)
+    | ((value: any) => void) {
+    /**
+     * Updates the value of the specified field of the resident
+     * @param value value that should be applied
+     */
+    function updateResident(value: any): void {
       const newResident = {
         ...resident,
         [field]: value,
@@ -43,18 +67,44 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
         ),
       });
     }
-    return updateResident;
+
+    /**
+     * Parses the changed value from the `React.ChangeEvent` and updates the specified field with it.
+     * @param event input event of the input component
+     */
+    function updateResidentWithChangeEvent(
+      event: React.ChangeEvent<HTMLInputElement>,
+    ): void {
+      let value: number | string = event.target.value;
+      if (field === 'rent') {
+        value = convertCurrencyEurosToCents(Number(value));
+      }
+      updateResident(value);
+    }
+
+    // Input for this component doesn't need to be parsed
+    if (field === 'contractStart') return updateResident;
+
+    return updateResidentWithChangeEvent;
   }
 
+  /**
+   * Handles the saving of the new resident that is triggered whenever the modal is closed.
+   */
   function onSave(): void {
+    // Validate input
     const newErrors = validateResidentArgs(resident) as CreateResidentErrors;
     const numberOfErrors = Object.keys(newErrors).filter(
       (k) => !!newErrors[k as keyof CreateResidentErrors],
     ).length;
+
     if (numberOfErrors > 0) {
+      // Invalid input(s)
       setErrors(newErrors);
       return;
     }
+
+    // Creates new resident and closes the modal
     addResident(createResident(resident));
     props.onClose();
   }
@@ -101,6 +151,17 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
             }}
             error={!!errors.rent}
             helperText={errors.rent || ''}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <MonthYearInput
+            id="contractStart"
+            label="Vertragsbeginn"
+            priorMonthChoices={6}
+            futureMonthChoices={6}
+            onChange={
+              residentUpdater('contractStart') as (value: MonthYear) => void
+            }
           />
         </Grid>
       </Grid>
