@@ -10,7 +10,7 @@ import {
 } from '_/types/resident';
 import { convertCurrencyEurosToCents } from '_/utils/currency';
 import MonthYearInput from '../GenericComponents/MonthYearInput/MonthYearInput';
-import { MonthYear, getCurrentMonthYear } from '_/types/date';
+import { MonthYear, MonthYearUtils } from '_/types/date';
 
 export interface CreateResidentModalProps {
   /**
@@ -33,7 +33,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
     firstName: '',
     lastName: '',
     rent: null,
-    contractStart: getCurrentMonthYear(),
+    contractStart: MonthYearUtils.getCurrentMonthYear(),
   });
   // Error messages of the input fields
   const [errors, setErrors] = useState<CreateResidentErrors>({});

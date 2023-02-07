@@ -1,6 +1,4 @@
-import { convertMonthYearToString } from '_/types/date';
 import { Resident } from '_/types/resident';
-import { convertCurrencyCentsToString } from '_/utils/currency';
 import { StyleAttribute } from 'glamor';
 import {
   MDBTabs,
@@ -10,13 +8,15 @@ import {
   MDBTabsPane,
 } from 'mdb-react-ui-kit';
 import React, { useState } from 'react';
+import GeneralResidentInformation from './GeneralResidentInformation';
+import RentInformation from './RentInformation';
 
 /**
  * Enum containing all tabs of this component
  */
 enum ResidentTab {
-  Information = 'information',
-  Tab2 = 'tab2',
+  General = 'Information',
+  Rent = 'Miete',
 }
 
 interface ResidentInformationProps {
@@ -36,9 +36,7 @@ interface ResidentInformationProps {
  */
 function ResidentInformation(props: ResidentInformationProps): JSX.Element {
   // Currently selected tab
-  const [activeTab, setActiveTab] = useState<ResidentTab>(
-    ResidentTab.Information,
-  );
+  const [activeTab, setActiveTab] = useState<ResidentTab>(ResidentTab.General);
 
   /**
    * Handles the tab selection
@@ -49,35 +47,36 @@ function ResidentInformation(props: ResidentInformationProps): JSX.Element {
     setActiveTab(tab);
   }
 
+  /**
+   * Returns the content of the currently active tab
+   */
+  function getTabContent(): JSX.Element {
+    switch (activeTab) {
+      case ResidentTab.General:
+        return <GeneralResidentInformation resident={props.resident} />;
+      case ResidentTab.Rent:
+        return <RentInformation resident={props.resident} />;
+    }
+  }
+
   return (
     <div {...props.containerStyle}>
       <MDBTabs fill className="mb-3">
-        <MDBTabsItem>
-          <MDBTabsLink
-            onClick={() => onClickTab(ResidentTab.Information)}
-            active={activeTab === ResidentTab.Information}
-          >
-            Information
-          </MDBTabsLink>
-        </MDBTabsItem>
-        <MDBTabsItem>
-          <MDBTabsLink
-            onClick={() => onClickTab(ResidentTab.Tab2)}
-            active={activeTab === ResidentTab.Tab2}
-          >
-            Tab 2
-          </MDBTabsLink>
-        </MDBTabsItem>
+        {Object.values(ResidentTab).map((tab: ResidentTab) => (
+          <MDBTabsItem>
+            <MDBTabsLink
+              onClick={() => onClickTab(tab)}
+              active={activeTab === tab}
+            >
+              {tab}
+            </MDBTabsLink>
+          </MDBTabsItem>
+        ))}
       </MDBTabs>
 
       <MDBTabsContent>
-        <MDBTabsPane show={activeTab === ResidentTab.Information}>
-          <p>{`${props.resident.firstName} ${props.resident.lastName}`}</p>
-          <p>{`${convertCurrencyCentsToString(props.resident.rent)}`}</p>
-          <p>{`${convertMonthYearToString(props.resident.invoiceStart)}`}</p>
-        </MDBTabsPane>
-        <MDBTabsPane show={activeTab === ResidentTab.Tab2}>
-          Tab 2 content
+        <MDBTabsPane show={true}>
+          <div>{getTabContent()}</div>
         </MDBTabsPane>
       </MDBTabsContent>
     </div>

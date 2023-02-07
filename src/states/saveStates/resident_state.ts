@@ -3,7 +3,7 @@ import { setRecoil } from 'recoil-nexus';
 import { v4 as uuid } from 'uuid';
 import saveState, { SaveState } from './save_state';
 import { Resident } from '_/types/resident';
-import { getCurrentMonthYear } from '_/types/date';
+import { MonthYearUtils } from '_/types/date';
 
 /**
  * The resident state is a list of all residents
@@ -18,8 +18,14 @@ export function defaultResidentsState(): ResidentState {
       id: uuid(),
       firstName: 'Max',
       lastName: 'Mustermann',
-      rent: 50000,
-      invoiceStart: getCurrentMonthYear(),
+      rent: [
+        {
+          dueDate: MonthYearUtils.getCurrentMonthYear(),
+          rent: 50000,
+          isPaid: false,
+        },
+      ],
+      invoiceStart: MonthYearUtils.getCurrentMonthYear(),
     });
   }
   return dummyResidents;

@@ -5,7 +5,8 @@ import {
   ValidationErrorMessages,
 } from '../utils/validation';
 import { CurrencyInCents } from '_/utils/currency';
-import { MonthYear } from './date';
+import { MonthYear, MonthYearUtils } from './date';
+import { RentInformation, RentInformationUtils } from './rent';
 
 /**
  * Object containing information about a specific resident
@@ -27,9 +28,9 @@ export interface Resident {
   lastName: string;
 
   /**
-   * Rent that the resident currently needs to pay
+   * Information about the rent payments
    */
-  rent: CurrencyInCents;
+  rent: RentInformation[];
 
   /**
    * First month and year the next invoice calculation will include
@@ -79,8 +80,12 @@ export function createResident(args: CreateResidentArguments): Resident {
     id: uuid(),
     firstName: args.firstName,
     lastName: args.lastName,
-    rent: args.rent as CurrencyInCents,
-    invoiceStart: args.contractStart,
+    rent: RentInformationUtils.timespan(
+      { ...args.contractStart },
+      MonthYearUtils.getCurrentMonthYear(),
+      args.rent as CurrencyInCents,
+    ),
+    invoiceStart: { ...args.contractStart },
   };
 }
 

@@ -3,9 +3,7 @@ import {
   Month,
   MonthYear,
   MonthYearString,
-  convertMonthYearToString,
-  getCurrentMonthYear,
-  parseMonthYearString,
+  MonthYearUtils,
 } from '_/types/date';
 import { cartesianProduct, range } from '_/utils/array';
 import React, { useState } from 'react';
@@ -53,13 +51,13 @@ interface MonthYearInputProps {
 function MonthYearInput(props: MonthYearInputProps): JSX.Element {
   // Current input
   const [input, setInput] = useState<MonthYearString>(
-    convertMonthYearToString(getCurrentMonthYear()),
+    MonthYearUtils.toString(MonthYearUtils.getCurrentMonthYear()),
   );
 
   function onChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const monthYearString = event.target.value as MonthYearString;
     setInput(monthYearString);
-    const monthYear = parseMonthYearString(monthYearString);
+    const monthYear = MonthYearUtils.parseString(monthYearString);
     props.onChange(monthYear);
   }
 
@@ -99,7 +97,7 @@ function createInputChoices(
   priorMonths: number,
   futureMonths: number,
 ): MonthYearString[] {
-  const currentMonthYear: MonthYear = getCurrentMonthYear();
+  const currentMonthYear: MonthYear = MonthYearUtils.getCurrentMonthYear();
 
   // number of prior and future years possibly included in the selction
   const numPriorYears: number = Math.ceil(priorMonths / 12);
@@ -120,7 +118,7 @@ function createInputChoices(
   // Find the index of the current month
   const currentMonthYearIndex: number = monthYears.findIndex(
     (monthYear: MonthYearString) =>
-      monthYear === convertMonthYearToString(currentMonthYear),
+      monthYear === MonthYearUtils.toString(currentMonthYear),
   );
 
   // Only included the specified number of months around the current month
