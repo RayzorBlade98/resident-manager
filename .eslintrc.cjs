@@ -24,6 +24,9 @@ const baseConfig = {
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
     'react/destructuring-assignment': 'off',
     'prefer-destructuring': 'off',
+    'react/require-default-props': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'no-continue': 'off',
   },
 };
 

@@ -48,11 +48,12 @@ export abstract class MonthYearUtils {
    */
   public static addMonths(
     monthYear: MonthYear,
-    addedMonths: number = 1,
+    addedMonths = 1,
   ): MonthYear {
-    if (addedMonths < 0)
+    if (addedMonths < 0) {
       // Add negative amount of months == subtract months
       return MonthYearUtils.subtractMonths(monthYear, addedMonths * -1);
+    }
 
     const newMonthYear = { ...monthYear };
     if (newMonthYear.month === Month.December) {
@@ -69,9 +70,10 @@ export abstract class MonthYearUtils {
     }
 
     // Call `addMonths` recursive until all months got addded
-    if (addedMonths !== 1)
+    if (addedMonths !== 1) {
       return MonthYearUtils.addMonths(newMonthYear, addedMonths - 1);
-    else return newMonthYear;
+    }
+    return newMonthYear;
   }
 
   /**
@@ -114,8 +116,8 @@ export abstract class MonthYearUtils {
     const year: Year = date.getUTCFullYear();
 
     return {
-      month: month,
-      year: year,
+      month,
+      year,
     };
   }
 
@@ -142,11 +144,12 @@ export abstract class MonthYearUtils {
    */
   public static subtractMonths(
     monthYear: MonthYear,
-    subtractedMonths: number = 1,
+    subtractedMonths = 1,
   ): MonthYear {
-    if (subtractedMonths < 0)
+    if (subtractedMonths < 0) {
       // Subtract negative amount of months == add months
       return MonthYearUtils.addMonths(monthYear, subtractedMonths * -1);
+    }
 
     const newMonthYear = { ...monthYear };
     if (newMonthYear.month === Month.January) {
@@ -163,9 +166,10 @@ export abstract class MonthYearUtils {
     }
 
     // Call `subtractMonths` recursive until all months got subtracted
-    if (subtractedMonths !== 1)
+    if (subtractedMonths !== 1) {
       return MonthYearUtils.subtractMonths(newMonthYear, subtractedMonths - 1);
-    else return newMonthYear;
+    }
+    return newMonthYear;
   }
 
   /**
@@ -193,11 +197,11 @@ export abstract class MonthYearUtils {
     if (MonthYearUtils.areEqual(start, end)) return timespan;
 
     for (
-      start = MonthYearUtils.addMonths(start, direction);
-      !MonthYearUtils.areEqual(start, end);
-      start = MonthYearUtils.addMonths(start, direction)
+      let next = MonthYearUtils.addMonths(start, direction);
+      !MonthYearUtils.areEqual(next, end);
+      next = MonthYearUtils.addMonths(next, direction)
     ) {
-      timespan.push(start);
+      timespan.push(next);
     }
     timespan.push({ ...end });
     return timespan;

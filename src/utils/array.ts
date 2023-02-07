@@ -16,7 +16,8 @@
  * @param step space between each element of the sequence (default: 1)
  * @returns sequence of numbers for the given range
  */
-export function range(start: number, stop: number, step: number = 1): number[] {
+export function range(start: number, stop: number, step = 1): number[] {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   return [...Array(Math.floor((stop - start) / step) + 1)].map(
     (_, i) => start + i * step,
   );
@@ -34,10 +35,9 @@ export function range(start: number, stop: number, step: number = 1): number[] {
  */
 export function cartesianProduct<T>(...allEntries: T[][]): T[][] {
   return allEntries.reduce<T[][]>(
-    (results, entries) =>
-      results
-        .map((result) => entries.map((entry) => result.concat([entry])))
-        .reduce((subResults, result) => subResults.concat(result), []),
+    (results, entries) => results
+      .map((result) => entries.map((entry) => result.concat([entry])))
+      .reduce((subResults, result) => subResults.concat(result), []),
     [[]],
   );
 }

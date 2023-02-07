@@ -2,8 +2,8 @@ import { selector } from 'recoil';
 import { setRecoil } from 'recoil-nexus';
 import { v4 as uuid } from 'uuid';
 import saveState, { SaveState } from './save_state';
-import { Resident } from '_/types/resident';
 import { MonthYearUtils } from '_/types/date';
+import { Resident } from '_/types/resident';
 
 /**
  * The resident state is a list of all residents

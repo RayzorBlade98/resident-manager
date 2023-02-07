@@ -1,4 +1,3 @@
-import { Resident } from '_/types/resident';
 import { StyleAttribute } from 'glamor';
 import {
   MDBTabs,
@@ -10,6 +9,7 @@ import {
 import React, { useState } from 'react';
 import GeneralResidentInformation from './GeneralResidentInformation';
 import RentInformation from './RentInformation';
+import { Resident } from '_/types/resident';
 
 /**
  * Enum containing all tabs of this component
@@ -56,6 +56,9 @@ function ResidentInformation(props: ResidentInformationProps): JSX.Element {
         return <GeneralResidentInformation resident={props.resident} />;
       case ResidentTab.Rent:
         return <RentInformation resident={props.resident} />;
+      default:
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        throw new Error(`Tab ${activeTab} is not implemented`);
     }
   }
 
@@ -75,7 +78,7 @@ function ResidentInformation(props: ResidentInformationProps): JSX.Element {
       </MDBTabs>
 
       <MDBTabsContent>
-        <MDBTabsPane show={true}>
+        <MDBTabsPane show>
           <div>{getTabContent()}</div>
         </MDBTabsPane>
       </MDBTabsContent>

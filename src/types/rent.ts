@@ -1,5 +1,5 @@
-import { CurrencyInCents } from '_/utils/currency';
 import { MonthYear, MonthYearUtils } from './date';
+import { CurrencyInCents } from '_/utils/currency';
 
 /**
  * Object containing information about the rent of a single month
@@ -26,7 +26,7 @@ export interface RentInformation {
  */
 export abstract class RentInformationUtils {
   /**
-   * Creates a list of `RentInformation` objects that contains rent information for each 
+   * Creates a list of `RentInformation` objects that contains rent information for each
    * month between the two specified `MonthYear` objects (inclusive these months)
    * @param start Start of the timespan
    * @param end End of the timespan. If `end` < `start` only the start month will be included into the timespan
@@ -47,7 +47,7 @@ export abstract class RentInformationUtils {
 
     return timespan.map<RentInformation>((m: MonthYear) => ({
       dueDate: m,
-      rent: rent,
+      rent,
       isPaid: false,
     }));
   }

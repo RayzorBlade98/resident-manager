@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /**
  * Object containing an error message for each key of `T` that had an invalid value or `undefined` if it had a valid value.
  */
@@ -61,9 +63,9 @@ const ERROR_FUNCTIONS: { [k in ValidationError]: (value: any) => boolean } = {
 export function createValidationFunction<T>(errors: {
   [k in keyof T]?: ValidationError[];
 }): (
-  object: T,
-  key?: keyof T | undefined,
-) => ValidationErrorMessages<T> | string | undefined {
+    object: T,
+    key?: keyof T | undefined,
+  ) => ValidationErrorMessages<T> | string | undefined {
   /**
    * Validates each key of an object of type `T`
    * @param object object of type `T` that should be validated
@@ -74,21 +76,23 @@ export function createValidationFunction<T>(errors: {
     object: T,
     key: keyof T | undefined = undefined,
   ): ValidationErrorMessages<T> | string | undefined {
-    const error_messages: Partial<ValidationErrorMessages<T>> = {};
-    for (const key in errors) {
-      error_messages[key] = undefined;
-      if (errors[key] === undefined) continue;
-      for (const error of errors[key] as ValidationError[]) {
-        if (ERROR_FUNCTIONS[error](object[key])) {
-          error_messages[key] = ERROR_MESSAGES[error];
+    const errorMessages: Partial<ValidationErrorMessages<T>> = {};
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [k, value] of Object.entries(errors)) {
+      errorMessages[k as keyof T] = undefined;
+      if (value === undefined) continue;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const error of value as ValidationError[]) {
+        if (ERROR_FUNCTIONS[error](object[k as keyof T])) {
+          errorMessages[k as keyof T] = ERROR_MESSAGES[error];
           break;
         }
       }
     }
     if (key) {
-      return error_messages[key];
+      return errorMessages[key];
     }
-    return error_messages;
+    return errorMessages;
   }
   return validationFunction;
 }

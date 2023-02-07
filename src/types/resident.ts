@@ -4,9 +4,9 @@ import {
   ValidationError,
   ValidationErrorMessages,
 } from '../utils/validation';
-import { CurrencyInCents } from '_/utils/currency';
 import { MonthYear, MonthYearUtils } from './date';
 import { RentInformation, RentInformationUtils } from './rent';
+import { CurrencyInCents } from '_/utils/currency';
 
 /**
  * Object containing information about a specific resident
@@ -98,9 +98,9 @@ export function createResident(args: CreateResidentArguments): Resident {
  * @returns If key is specified the error message of the field or `undefined` if the field valid.
  *          Otherwise a `CreateResidentErrors` object containing error messages for all invalid fields.
  */
-export const validateResidentArgs =
-  createValidationFunction<CreateResidentArguments>({
-    firstName: [ValidationError.EmptyString],
-    lastName: [ValidationError.EmptyString],
-    rent: [ValidationError.Null, ValidationError.LessEqualZero],
-  });
+// eslint-disable-next-line max-len
+export const validateResidentArgs = createValidationFunction<CreateResidentArguments>({
+  firstName: [ValidationError.EmptyString],
+  lastName: [ValidationError.EmptyString],
+  rent: [ValidationError.Null, ValidationError.LessEqualZero],
+});

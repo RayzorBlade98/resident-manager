@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { StyleAttribute } from 'glamor';
 import React, { useState } from 'react';
 import CreateResidentModal from '../CreateResidentModal/CreateResidentModal';
 import ResidentListElement from './ResidentListElement';
 import styles from './styles';
 import { Resident } from '_/types/resident';
-import { StyleAttribute } from 'glamor';
 
 interface ResidentListProps {
   residents: Resident[];

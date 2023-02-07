@@ -1,4 +1,5 @@
 import { MenuItem, TextField } from '@mui/material';
+import React, { useState } from 'react';
 import {
   Month,
   MonthYear,
@@ -6,7 +7,6 @@ import {
   MonthYearUtils,
 } from '_/types/date';
 import { cartesianProduct, range } from '_/utils/array';
-import React, { useState } from 'react';
 
 interface MonthYearInputProps {
   /**
@@ -46,47 +46,6 @@ interface MonthYearInputProps {
 }
 
 /**
- * Select component that provides a choice of `MonthYear` objects
- */
-function MonthYearInput(props: MonthYearInputProps): JSX.Element {
-  // Current input
-  const [input, setInput] = useState<MonthYearString>(
-    MonthYearUtils.toString(MonthYearUtils.getCurrentMonthYear()),
-  );
-
-  function onChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    const monthYearString = event.target.value as MonthYearString;
-    setInput(monthYearString);
-    const monthYear = MonthYearUtils.parseString(monthYearString);
-    props.onChange(monthYear);
-  }
-
-  const choices = createInputChoices(
-    props.priorMonthChoices || 6,
-    props.futureMonthChoices || 6,
-  );
-
-  return (
-    <TextField
-      id={props.id || 'monthYearInput'}
-      select
-      required
-      label={props.label || ''}
-      value={input}
-      onChange={onChange}
-      error={!!props.error}
-      helperText={props.error || ''}
-    >
-      {choices.map((choice: MonthYearString) => (
-        <MenuItem key={choice} value={choice}>
-          {choice}
-        </MenuItem>
-      ))}
-    </TextField>
-  );
-}
-
-/**
  * Creates a list of `MonthYearString` that contain the specified months
  * before and after the current month.
  * @param priorMonths number of months before the current month that should be included
@@ -111,20 +70,61 @@ function createInputChoices(
 
   // Create the cartesian product of all possible months and years and map them to their respective `MonthYearString`
   const monthYears = cartesianProduct(years, months).map<MonthYearString>(
-    (yearMonth: number[]) =>
-      `${Object.values(Month)[yearMonth[1]] as Month} ${yearMonth[0]}`,
+    // eslint-disable-next-line max-len
+    (yearMonth: number[]) => `${Object.values(Month)[yearMonth[1]] as Month} ${yearMonth[0]}`,
   );
 
   // Find the index of the current month
   const currentMonthYearIndex: number = monthYears.findIndex(
-    (monthYear: MonthYearString) =>
-      monthYear === MonthYearUtils.toString(currentMonthYear),
+    // eslint-disable-next-line max-len
+    (monthYear: MonthYearString) => monthYear === MonthYearUtils.toString(currentMonthYear),
   );
 
   // Only included the specified number of months around the current month
   return monthYears.slice(
     currentMonthYearIndex - priorMonths,
     currentMonthYearIndex + futureMonths + 1,
+  );
+}
+
+/**
+ * Select component that provides a choice of `MonthYear` objects
+ */
+function MonthYearInput(props: MonthYearInputProps): JSX.Element {
+  // Current input
+  const [input, setInput] = useState<MonthYearString>(
+    MonthYearUtils.toString(MonthYearUtils.getCurrentMonthYear()),
+  );
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const monthYearString = event.target.value as MonthYearString;
+    setInput(monthYearString);
+    const monthYear = MonthYearUtils.parseString(monthYearString);
+    props.onChange(monthYear);
+  };
+
+  const choices = createInputChoices(
+    props.priorMonthChoices || 6,
+    props.futureMonthChoices || 6,
+  );
+
+  return (
+    <TextField
+      id={props.id || 'monthYearInput'}
+      select
+      required
+      label={props.label || ''}
+      value={input}
+      onChange={onChange}
+      error={!!props.error}
+      helperText={props.error || ''}
+    >
+      {choices.map((choice: MonthYearString) => (
+        <MenuItem key={choice} value={choice}>
+          {choice}
+        </MenuItem>
+      ))}
+    </TextField>
   );
 }
 

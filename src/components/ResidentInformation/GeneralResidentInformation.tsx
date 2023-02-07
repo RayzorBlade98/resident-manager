@@ -1,7 +1,7 @@
+import React from 'react';
 import { MonthYearUtils } from '_/types/date';
 import { Resident } from '_/types/resident';
 import { convertCurrencyCentsToString } from '_/utils/currency';
-import React from 'react';
 
 interface GeneralResidentInformationProps {
   /**

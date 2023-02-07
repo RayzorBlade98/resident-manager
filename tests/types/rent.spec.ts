@@ -15,13 +15,13 @@ describe('RentInformationUtils', () => {
       };
       const rent = 500;
       const expected: RentInformation[] = [
-        { dueDate: start, rent: rent, isPaid: false },
+        { dueDate: start, rent, isPaid: false },
         {
           dueDate: { month: Month.March, year: 2023 },
-          rent: rent,
+          rent,
           isPaid: false,
         },
-        { dueDate: end, rent: rent, isPaid: false },
+        { dueDate: end, rent, isPaid: false },
       ];
 
       // Act
@@ -43,7 +43,7 @@ describe('RentInformationUtils', () => {
       };
       const rent = 500;
       const expected: RentInformation[] = [
-        { dueDate: start, rent: rent, isPaid: false },
+        { dueDate: start, rent, isPaid: false },
       ];
 
       // Act
@@ -65,7 +65,7 @@ describe('RentInformationUtils', () => {
       };
       const rent = 500;
       const expected: RentInformation[] = [
-        { dueDate: start, rent: rent, isPaid: false },
+        { dueDate: start, rent, isPaid: false },
       ];
 
       // Act

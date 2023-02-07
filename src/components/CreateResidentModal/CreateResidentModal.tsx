@@ -1,7 +1,11 @@
-import { Button, Grid, InputAdornment, TextField } from '@mui/material';
+import {
+  Button, Grid, InputAdornment, TextField,
+} from '@mui/material';
 import React, { useState } from 'react';
 import GenericModal from '../GenericComponents/GenericModal/GenericModal';
+import MonthYearInput from '../GenericComponents/MonthYearInput/MonthYearInput';
 import { addResident } from '_/states/saveStates/resident_state';
+import { MonthYear, MonthYearUtils } from '_/types/date';
 import {
   createResident,
   CreateResidentArguments,
@@ -9,8 +13,6 @@ import {
   validateResidentArgs,
 } from '_/types/resident';
 import { convertCurrencyEurosToCents } from '_/utils/currency';
-import MonthYearInput from '../GenericComponents/MonthYearInput/MonthYearInput';
-import { MonthYear, MonthYearUtils } from '_/types/date';
 
 export interface CreateResidentModalProps {
   /**
@@ -48,14 +50,17 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
     field: string,
   ):
     | ((event: React.ChangeEvent<HTMLInputElement>) => void)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     | ((value: any) => void) {
     /**
      * Updates the value of the specified field of the resident
      * @param value value that should be applied
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function updateResident(value: any): void {
       const newResident = {
         ...resident,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         [field]: value,
       };
       setResident(newResident);

@@ -40,8 +40,9 @@ function CreateIncidentalsModal(
       let value: number | string = event.target.value;
       if (['currentPrice', 'invoiceInterval'].includes(field)) {
         value = Number(value);
-        if (field === 'currentPrice')
+        if (field === 'currentPrice') {
           value = convertCurrencyEurosToCents(value);
+        }
       }
 
       const newIncidentals = {

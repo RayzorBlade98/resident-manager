@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import ResidentList from '_/components/ResidentList/ResidentList';
-import ResidentInformation from '_/components/ResidentInformation/ResidentInformation';
-import styles from './styles';
 import { useRecoilValue } from 'recoil';
+import styles from './styles';
+// eslint-disable-next-line max-len
+import ResidentInformation from '_/components/ResidentInformation/ResidentInformation';
+import ResidentList from '_/components/ResidentList/ResidentList';
 import residentState, {
   ResidentState,
 } from '_/states/saveStates/resident_state';
@@ -14,6 +15,7 @@ function ResidentView(): JSX.Element {
     residents[0].id,
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const selectedResident: Resident = residents.find(
     (resident: Resident) => resident.id === selectedResidentId,
   )!;

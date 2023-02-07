@@ -40,14 +40,14 @@ export function createIncidentals(
   };
 }
 
-export const validateIncidentalsArgs =
-  createValidationFunction<CreateIncidentalsArguments>({
-    name: [ValidationError.EmptyString],
-    currentPrice: [ValidationError.Null, ValidationError.LessEqualZero],
-    deductionType: [],
-    invoiceInterval: [
-      ValidationError.Null,
-      ValidationError.NotInteger,
-      ValidationError.NotMonth,
-    ],
-  });
+// eslint-disable-next-line max-len
+export const validateIncidentalsArgs = createValidationFunction<CreateIncidentalsArguments>({
+  name: [ValidationError.EmptyString],
+  currentPrice: [ValidationError.Null, ValidationError.LessEqualZero],
+  deductionType: [],
+  invoiceInterval: [
+    ValidationError.Null,
+    ValidationError.NotInteger,
+    ValidationError.NotMonth,
+  ],
+});

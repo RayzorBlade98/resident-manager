@@ -1,4 +1,8 @@
-import { Month, MonthYear, MonthYearString, MonthYearUtils } from '_types/date';
+/* eslint-disable max-len */
+
+import {
+  Month, MonthYear, MonthYearString, MonthYearUtils,
+} from '_types/date';
 
 describe('MonthYearUtils', () => {
   afterEach(() => {
@@ -6,7 +10,7 @@ describe('MonthYearUtils', () => {
   });
   describe('addMonths', () => {
     test('should add the right amount of months', () => {
-      //Arrange
+      // Arrange
       const before: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -25,7 +29,7 @@ describe('MonthYearUtils', () => {
     });
 
     test('should add the right amount of months when year changes', () => {
-      //Arrange
+      // Arrange
       const before: MonthYear = {
         month: Month.August,
         year: 2023,
@@ -44,7 +48,7 @@ describe('MonthYearUtils', () => {
     });
 
     test('should return same month if adding 0 months', () => {
-      //Arrange
+      // Arrange
       const before: MonthYear = {
         month: Month.September,
         year: 2023,
@@ -59,7 +63,7 @@ describe('MonthYearUtils', () => {
     });
 
     test('should call subtractMonth when adding negative months', () => {
-      //Arrange
+      // Arrange
       const before: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -67,18 +71,18 @@ describe('MonthYearUtils', () => {
       const addedMonths = -6;
       const spy = jest
         .spyOn(MonthYearUtils, 'subtractMonths')
-        .mockImplementation((_, __) => before);
+        .mockReturnValue(before);
 
       // Act
-      const _ = MonthYearUtils.addMonths(before, addedMonths);
+      MonthYearUtils.addMonths(before, addedMonths);
 
       // Assert
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).lastCalledWith(before, addedMonths * -1);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenLastCalledWith(before, addedMonths * -1);
     });
 
     test('should add 1 month if no amount is provided', () => {
-      //Arrange
+      // Arrange
       const before: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -98,7 +102,7 @@ describe('MonthYearUtils', () => {
 
   describe('areEqual', () => {
     test('should be equal if month and year are the same', () => {
-      //Arrange
+      // Arrange
       const a: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -116,7 +120,7 @@ describe('MonthYearUtils', () => {
     });
 
     test("shouldn't be equal if the months aren't the same", () => {
-      //Arrange
+      // Arrange
       const a: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -134,7 +138,7 @@ describe('MonthYearUtils', () => {
     });
 
     test("shouldn't be equal if the years aren't the same", () => {
-      //Arrange
+      // Arrange
       const a: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -154,7 +158,7 @@ describe('MonthYearUtils', () => {
 
   describe('compare', () => {
     test('should return 0 if both object are equal', () => {
-      //Arrange
+      // Arrange
       const a: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -172,7 +176,7 @@ describe('MonthYearUtils', () => {
     });
 
     test('should return <0 if first year is smaller than second year', () => {
-      //Arrange
+      // Arrange
       const a: MonthYear = {
         month: Month.Febuary,
         year: 2020,
@@ -190,7 +194,7 @@ describe('MonthYearUtils', () => {
     });
 
     test('should return >0 if first year is bigger than second year', () => {
-      //Arrange
+      // Arrange
       const a: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -208,7 +212,7 @@ describe('MonthYearUtils', () => {
     });
 
     test('should return <0 if years are same and first month is smaller than second month', () => {
-      //Arrange
+      // Arrange
       const a: MonthYear = {
         month: Month.January,
         year: 2023,
@@ -226,7 +230,7 @@ describe('MonthYearUtils', () => {
     });
 
     test('should return >0 if years are same and first month is bigger than second month', () => {
-      //Arrange
+      // Arrange
       const a: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -281,7 +285,7 @@ describe('MonthYearUtils', () => {
 
   describe('subtractMonths', () => {
     test('should subtract the right amount of months', () => {
-      //Arrange
+      // Arrange
       const before: MonthYear = {
         month: Month.August,
         year: 2023,
@@ -300,7 +304,7 @@ describe('MonthYearUtils', () => {
     });
 
     test('should subtract the right amount of months when year changes', () => {
-      //Arrange
+      // Arrange
       const before: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -319,7 +323,7 @@ describe('MonthYearUtils', () => {
     });
 
     test('should return same month if subtracting 0 months', () => {
-      //Arrange
+      // Arrange
       const before: MonthYear = {
         month: Month.September,
         year: 2023,
@@ -334,7 +338,7 @@ describe('MonthYearUtils', () => {
     });
 
     test('should call addMonths when subtracting negative months', () => {
-      //Arrange
+      // Arrange
       const before: MonthYear = {
         month: Month.Febuary,
         year: 2023,
@@ -342,18 +346,18 @@ describe('MonthYearUtils', () => {
       const subtractedMonths = -6;
       const spy = jest
         .spyOn(MonthYearUtils, 'addMonths')
-        .mockImplementation((_, __) => before);
+        .mockReturnValue(before);
 
       // Act
-      const _ = MonthYearUtils.subtractMonths(before, subtractedMonths);
+      MonthYearUtils.subtractMonths(before, subtractedMonths);
 
       // Assert
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).lastCalledWith(before, subtractedMonths * -1);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenLastCalledWith(before, subtractedMonths * -1);
     });
 
     test('should subtract 1 month if no amount is provided', () => {
-      //Arrange
+      // Arrange
       const before: MonthYear = {
         month: Month.Febuary,
         year: 2023,

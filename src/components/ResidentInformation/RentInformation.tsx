@@ -1,5 +1,5 @@
-import { Resident } from '_/types/resident';
 import React from 'react';
+import { Resident } from '_/types/resident';
 
 interface RentInformationProps {
   /**
@@ -16,7 +16,17 @@ function RentInformation(props: RentInformationProps): JSX.Element {
     <>
       {props.resident.rent.map((rent) => (
         <p>
-          {rent.dueDate.month} {rent.dueDate.year} - {rent.rent} - {String(rent.isPaid)}
+          {rent.dueDate.month}
+          {' '}
+          {rent.dueDate.year}
+          {' '}
+          -
+          {' '}
+          {rent.rent}
+          {' '}
+          -
+          {' '}
+          {String(rent.isPaid)}
         </p>
       ))}
     </>
