@@ -93,8 +93,6 @@ export abstract class MonthYearUtils {
    * - 0 if both object have the same month and year
    * - <0 if the first object contains a date that's earlier than the second object
    * - \>0 if the first object contains a date that's later than the second object
-   *
-   * The absolute value of the return equals the months between both object
    */
   public static compare(a: MonthYear, b: MonthYear): number {
     if (a.year !== b.year) return a.year - b.year;

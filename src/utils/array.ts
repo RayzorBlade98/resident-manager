@@ -9,6 +9,7 @@
  * Examples:
  * - `range(0, 4) := [0, 1, 2, 3, 4]`
  * - `range (0, 4, 2) := [0, 2, 4]`
+ * - `range (0, 5, 2) := [0, 2, 4]`
  *
  * @param start start value of the sequence
  * @param stop end value of the sequence
@@ -23,11 +24,11 @@ export function range(start: number, stop: number, step: number = 1): number[] {
 
 /**
  * Creates the cartesian product for any number of given array.
- * 
+ *
  * Examples:
  * - `cartesianProduct([1, 2], [3, 4]) := [[1, 3], [1, 4], [2, 3], [2, 4]]`
  * - `cartesianProduct([1, 2], [3, 4], [5, 6]) := [[1, 3, 5], [1, 3, 6], [1, 4, 5], [1, 4, 6], [2, 3, 5], [2, 3, 6], [2, 4, 5], [2, 4, 6]]`
- * 
+ *
  * @param allEntries any number of array that should be combined
  * @returns array containing the cartesian product over all given arrays
  */
