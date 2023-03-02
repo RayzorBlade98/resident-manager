@@ -26,6 +26,32 @@ export interface RentInformation {
  */
 export abstract class RentInformationUtils {
   /**
+   * Creates rent information for all months between the due date of the last provided rent information
+   * and the current month and adds them to the list of rent information.
+   * If the due date of the last provided rent information is in the future, no new information will be added.
+   * @param rentInformation List of current rent information
+   */
+  public static addMissingMonths(rentInformation: RentInformation[]): void {
+    const lastRentInformation: RentInformation = rentInformation.at(-1)!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    if (
+      MonthYearUtils.compare(
+        lastRentInformation.dueDate,
+        MonthYearUtils.getCurrentMonthYear(),
+      ) >= 0
+    ) {
+      // Last rent information isn't in the past
+      return;
+    }
+
+    const missingRentInformation = RentInformationUtils.timespan(
+      MonthYearUtils.addMonths(lastRentInformation.dueDate, 1),
+      MonthYearUtils.getCurrentMonthYear(),
+      lastRentInformation.rent,
+    );
+    rentInformation.push(...missingRentInformation);
+  }
+
+  /**
    * Creates a list of `RentInformation` objects that contains rent information for each
    * month between the two specified `MonthYear` objects (inclusive these months)
    * @param start Start of the timespan
