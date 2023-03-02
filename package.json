@@ -1,7 +1,7 @@
 {
-  "name": "electron-react-typescript-webpack-boilerplate",
-  "version": "4.1.3",
-  "description": "Pre-configured boilerplate for Electron + React + TypeScript",
+  "name": "resident-manager",
+  "version": "1.0",
+  "description": "TODO",
   "main": "./dist/main.bundle.js",
   "scripts": {
     "start": "electron ./dist/main.bundle.js",
@@ -21,8 +21,8 @@
     "build:mac": "electron-builder build --mac"
   },
   "build": {
-    "appId": "com.devtography.electron_boilerplate",
-    "productName": "Electron+React+TypeScript Boilerplate",
+    "appId": "TODO",
+    "productName": "TODO",
     "directories": {
       "app": "./dist/",
       "output": "./out/"
@@ -48,7 +48,7 @@
     },
     "buildVersion": "1"
   },
-  "author": "Wing Chau @Devtography",
+  "author": "André Schweizer @RayzorBlade98",
   "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -102,12 +102,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Devtography/electron-react-typescript-webpack-boilerplate"
+    "url": "git+https://github.com/RayzorBlade98/resident-manager"
   },
   "bugs": {
-    "url": "https://github.com/Devtography/electron-react-typescript-webpack-boilerplate/issues"
+    "url": "https://github.com/RayzorBlade98/resident-manager/issues"
   },
-  "homepage": "https://github.com/Devtography/electron-react-typescript-webpack-boilerplate#readme",
+  "homepage": "https://github.com/RayzorBlade98/resident-manager#readme",
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all"
