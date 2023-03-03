@@ -2,9 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import createDummyData from '../../utils/dummy_data';
 import saveState, { SaveState } from '_/states/saveStates/save_state';
 import { RentInformation, RentInformationUtils } from '_/types/rent';
 import { Resident } from '_/types/resident';
+import { dev } from '_/utils/node-env';
 
 const OUTPUT_DIRECTORY = path.join(__dirname, 'data');
 const OUTPUT_FILE = path.join(OUTPUT_DIRECTORY, 'save.json');
@@ -20,6 +22,9 @@ export function SaveStateManager(): null {
    */
   function onStart(): void {
     if (!fs.existsSync(OUTPUT_FILE)) {
+      if (dev) {
+        createDummyData();
+      }
       setInitialized(true);
       return;
     }

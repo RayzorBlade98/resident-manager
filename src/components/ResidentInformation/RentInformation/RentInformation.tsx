@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import AddRentPaymentModal from './AddRentPaymentModal';
 import styles from './styles';
-import { updateRentInformation } from '_/states/saveStates/resident_state';
+import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { DateString, MonthYear, MonthYearUtils } from '_/types/date';
 import { PaymentStatus, RentInformationUtils } from '_/types/rent';
 import { Resident } from '_/types/resident';
@@ -39,7 +39,8 @@ function RentInformation(props: RentInformationProps): JSX.Element {
           show={showModal}
           onClose={() => setShowModal(false)}
           onSave={(paymentAmount: CurrencyInCents, paymentDate: DateString) => {
-            updateRentInformation(props.resident.id, modalDueDate, {
+            // eslint-disable-next-line max-len
+            ResidentStateManager.updateRentInformation(props.resident.id, modalDueDate, {
               paymentAmount,
               paymentDate,
             });

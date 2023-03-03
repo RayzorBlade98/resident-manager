@@ -12,12 +12,11 @@
       "_renderer/*": ["src/renderer/*"],
       "_types/*": ["src/types/*"],
       "_utils/*": ["src/utils/*"],
-      "_tests/*": ["tests/*"]
+      "_tests/*": ["tests/*"],
+      "_states/*": ["src/states/*"],
+      "src/'": ["src/*"]
     },
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/types"
-    ],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

@@ -4,7 +4,7 @@ import {
 import React, { useState } from 'react';
 import GenericModal from '../GenericComponents/GenericModal/GenericModal';
 import MonthYearInput from '../GenericComponents/MonthYearInput/MonthYearInput';
-import { addResident } from '_/states/saveStates/resident_state';
+import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { MonthYear, MonthYearUtils } from '_/types/date';
 import {
   createResident,
@@ -111,7 +111,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
     }
 
     // Creates new resident and closes the modal
-    addResident(createResident(resident));
+    ResidentStateManager.addResident(createResident(resident));
     props.onClose();
   }
 
