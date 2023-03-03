@@ -35,6 +35,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
     firstName: '',
     lastName: '',
     rent: null,
+    incidentals: null,
     contractStart: MonthYearUtils.getCurrentMonthYear(),
   });
   // Error messages of the input fields
@@ -81,7 +82,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
       event: React.ChangeEvent<HTMLInputElement>,
     ): void {
       let value: number | string = event.target.value;
-      if (field === 'rent') {
+      if (['rent', 'incidentals'].includes(field)) {
         value = convertCurrencyEurosToCents(Number(value));
       }
       updateResident(value);
@@ -156,6 +157,20 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
             }}
             error={!!errors.rent}
             helperText={errors.rent || ''}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="incidentals"
+            label="Nebenkosten"
+            type="number"
+            required
+            onChange={residentUpdater('incidentals')}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">€</InputAdornment>,
+            }}
+            error={!!errors.incidentals}
+            helperText={errors.incidentals || ''}
           />
         </Grid>
         <Grid item xs={6}>

@@ -44,6 +44,7 @@ export default {
     '<rootDir>/node_modules',
     '<rootDir>/out',
   ],
+  coveragePathIgnorePatterns: ['<rootDir>/tests/__test_utils__'],
   transform: {
     '^.+\\.(ts|tsx)$': [
       'ts-jest',

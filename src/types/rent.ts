@@ -16,6 +16,11 @@ export interface RentInformation {
   rent: CurrencyInCents;
 
   /**
+   * Incidentals that have to be paid in this month
+   */
+  incidentals: CurrencyInCents;
+
+  /**
    * Whether the rent was already paid or not
    */
   isPaid: boolean;
@@ -47,6 +52,7 @@ export abstract class RentInformationUtils {
       MonthYearUtils.addMonths(lastRentInformation.dueDate, 1),
       MonthYearUtils.getCurrentMonthYear(),
       lastRentInformation.rent,
+      lastRentInformation.incidentals,
     );
     rentInformation.push(...missingRentInformation);
   }
@@ -57,12 +63,14 @@ export abstract class RentInformationUtils {
    * @param start Start of the timespan
    * @param end End of the timespan. If `end` < `start` only the start month will be included into the timespan
    * @param rent Amount of rent each object should have
+   * @param incidentals Amount of incidentals each object should have
    * @returns List of `RentInformation` objects with rent information for all months between `start` and `end`
    */
   public static timespan(
     start: MonthYear,
     end: MonthYear,
     rent: CurrencyInCents,
+    incidentals: CurrencyInCents,
   ): RentInformation[] {
     let timespan = [{ ...start }];
 
@@ -74,6 +82,7 @@ export abstract class RentInformationUtils {
     return timespan.map<RentInformation>((m: MonthYear) => ({
       dueDate: m,
       rent,
+      incidentals,
       isPaid: false,
     }));
   }

@@ -22,6 +22,7 @@ export function defaultResidentsState(): ResidentState {
         {
           dueDate: MonthYearUtils.getCurrentMonthYear(),
           rent: 50000,
+          incidentals: 10000,
           isPaid: false,
         },
       ],

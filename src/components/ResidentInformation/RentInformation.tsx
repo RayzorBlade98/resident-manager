@@ -22,6 +22,7 @@ function RentInformation(props: RentInformationProps): JSX.Element {
         <tr>
           <th scope="col">Monat</th>
           <th scope="col">Miete</th>
+          <th scope="col">Nebenkosten</th>
           <th scope="col">Bezahlt</th>
           <th scope="col">Aktionen</th>
         </tr>
@@ -31,6 +32,7 @@ function RentInformation(props: RentInformationProps): JSX.Element {
           <tr key={uuid()}>
             <td>{`${rent.dueDate.month} ${rent.dueDate.year}`}</td>
             <td>{convertCurrencyCentsToString(rent.rent)}</td>
+            <td>{convertCurrencyCentsToString(rent.incidentals)}</td>
             <td>
               {rent.isPaid ? (
                 <Icon

@@ -58,6 +58,11 @@ export interface CreateResidentArguments {
   rent: CurrencyInCents | null;
 
   /**
+   * Incidentals that the new resident needs to pay
+   */
+  incidentals: CurrencyInCents | null;
+
+  /**
    * First month and year the contract of the new resident starts
    */
   contractStart: MonthYear;
@@ -84,6 +89,7 @@ export function createResident(args: CreateResidentArguments): Resident {
       { ...args.contractStart },
       MonthYearUtils.getCurrentMonthYear(),
       args.rent as CurrencyInCents,
+      args.incidentals as CurrencyInCents,
     ),
     invoiceStart: { ...args.contractStart },
   };
@@ -103,4 +109,5 @@ export const validateResidentArgs = createValidationFunction<CreateResidentArgum
   firstName: [ValidationError.EmptyString],
   lastName: [ValidationError.EmptyString],
   rent: [ValidationError.Null, ValidationError.LessEqualZero],
+  incidentals: [ValidationError.Null, ValidationError.LessEqualZero],
 });

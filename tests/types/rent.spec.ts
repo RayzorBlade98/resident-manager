@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 
-import { Month, MonthYear, MonthYearUtils } from '_types/date';
+import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
+import { MonthYearUtils } from '_types/date';
 import { RentInformation, RentInformationUtils } from '_types/rent';
 
 describe('RentInformationUtils', () => {
@@ -8,12 +9,14 @@ describe('RentInformationUtils', () => {
     test('should add no new information if last month is in future', () => {
       // Arrange
       const rentInformation: RentInformation[] = [
-        { dueDate: { month: Month.May, year: 2023 }, rent: 500, isPaid: false },
+        new RentInformationBuilder().build(),
       ];
       const oldRentInformation: RentInformation[] = [...rentInformation];
       MonthYearUtils.getCurrentMonthYear = jest
         .fn()
-        .mockReturnValue({ month: Month.March, year: 2023 });
+        .mockReturnValue(
+          MonthYearUtils.subtractMonths(rentInformation[0].dueDate, 1),
+        );
 
       // Act
       RentInformationUtils.addMissingMonths(rentInformation);
@@ -24,14 +27,13 @@ describe('RentInformationUtils', () => {
 
     test('should add no new information if last month === current month', () => {
       // Arrange
-      const currentMonth: MonthYear = { month: Month.March, year: 2023 };
       const rentInformation: RentInformation[] = [
-        { dueDate: currentMonth, rent: 500, isPaid: false },
+        new RentInformationBuilder().build(),
       ];
       const oldRentInformation: RentInformation[] = [...rentInformation];
       MonthYearUtils.getCurrentMonthYear = jest
         .fn()
-        .mockReturnValue(currentMonth);
+        .mockReturnValue(rentInformation[0].dueDate);
 
       // Act
       RentInformationUtils.addMissingMonths(rentInformation);
@@ -43,28 +45,24 @@ describe('RentInformationUtils', () => {
     test('should add new rent information', () => {
       // Arrange
       const rentInformation: RentInformation[] = [
-        {
-          dueDate: { month: Month.January, year: 2023 },
-          rent: 500,
-          isPaid: false,
-        },
+        new RentInformationBuilder().build(),
       ];
       const expectedRentInformation: RentInformation[] = [
         ...rentInformation,
         {
-          dueDate: { month: Month.Febuary, year: 2023 },
-          rent: 500,
-          isPaid: false,
+          ...rentInformation[0],
+          dueDate: MonthYearUtils.addMonths(rentInformation[0].dueDate, 1),
         },
         {
-          dueDate: { month: Month.March, year: 2023 },
-          rent: 500,
-          isPaid: false,
+          ...rentInformation[0],
+          dueDate: MonthYearUtils.addMonths(rentInformation[0].dueDate, 2),
         },
       ];
       MonthYearUtils.getCurrentMonthYear = jest
         .fn()
-        .mockReturnValue({ month: Month.March, year: 2023 });
+        .mockReturnValue(
+          MonthYearUtils.addMonths(rentInformation[0].dueDate, 2),
+        );
 
       // Act
       RentInformationUtils.addMissingMonths(rentInformation);
@@ -77,27 +75,26 @@ describe('RentInformationUtils', () => {
   describe('timespan', () => {
     test('should return right information if start < end', () => {
       // Arrange
-      const start: MonthYear = {
-        month: Month.Febuary,
-        year: 2023,
-      };
-      const end: MonthYear = {
-        month: Month.April,
-        year: 2023,
-      };
-      const rent = 500;
+      const baseRentInformation = new RentInformationBuilder().build();
       const expected: RentInformation[] = [
-        { dueDate: start, rent, isPaid: false },
+        baseRentInformation,
         {
-          dueDate: { month: Month.March, year: 2023 },
-          rent,
-          isPaid: false,
+          ...baseRentInformation,
+          dueDate: MonthYearUtils.addMonths(baseRentInformation.dueDate, 1),
         },
-        { dueDate: end, rent, isPaid: false },
+        {
+          ...baseRentInformation,
+          dueDate: MonthYearUtils.addMonths(baseRentInformation.dueDate, 2),
+        },
       ];
 
       // Act
-      const timespan = RentInformationUtils.timespan(start, end, rent);
+      const timespan = RentInformationUtils.timespan(
+        baseRentInformation.dueDate,
+        MonthYearUtils.addMonths(baseRentInformation.dueDate, 2),
+        baseRentInformation.rent,
+        baseRentInformation.incidentals,
+      );
 
       // Assert
       expect(timespan).toEqual(expected);
@@ -105,21 +102,16 @@ describe('RentInformationUtils', () => {
 
     test('should return right information if start > end', () => {
       // Arrange
-      const start: MonthYear = {
-        month: Month.April,
-        year: 2023,
-      };
-      const end: MonthYear = {
-        month: Month.Febuary,
-        year: 2023,
-      };
-      const rent = 500;
-      const expected: RentInformation[] = [
-        { dueDate: start, rent, isPaid: false },
-      ];
+      const baseRentInformation = new RentInformationBuilder().build();
+      const expected: RentInformation[] = [baseRentInformation];
 
       // Act
-      const timespan = RentInformationUtils.timespan(start, end, rent);
+      const timespan = RentInformationUtils.timespan(
+        baseRentInformation.dueDate,
+        MonthYearUtils.subtractMonths(baseRentInformation.dueDate, 2),
+        baseRentInformation.rent,
+        baseRentInformation.incidentals,
+      );
 
       // Assert
       expect(timespan).toEqual(expected);
@@ -127,21 +119,16 @@ describe('RentInformationUtils', () => {
 
     test('should return right information if start === end', () => {
       // Arrange
-      const start: MonthYear = {
-        month: Month.Febuary,
-        year: 2023,
-      };
-      const end: MonthYear = {
-        month: Month.Febuary,
-        year: 2023,
-      };
-      const rent = 500;
-      const expected: RentInformation[] = [
-        { dueDate: start, rent, isPaid: false },
-      ];
+      const baseRentInformation = new RentInformationBuilder().build();
+      const expected: RentInformation[] = [baseRentInformation];
 
       // Act
-      const timespan = RentInformationUtils.timespan(start, end, rent);
+      const timespan = RentInformationUtils.timespan(
+        baseRentInformation.dueDate,
+        baseRentInformation.dueDate,
+        baseRentInformation.rent,
+        baseRentInformation.incidentals,
+      );
 
       // Assert
       expect(timespan).toEqual(expected);
