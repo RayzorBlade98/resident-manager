@@ -8,7 +8,7 @@ import {
 } from 'mdb-react-ui-kit';
 import React, { useState } from 'react';
 import GeneralResidentInformation from './GeneralResidentInformation';
-import RentInformation from './RentInformation';
+import RentInformation from './RentInformation/RentInformation';
 import { Resident } from '_/types/resident';
 
 /**

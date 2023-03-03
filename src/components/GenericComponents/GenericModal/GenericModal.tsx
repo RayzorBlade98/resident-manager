@@ -15,6 +15,7 @@ export interface GenericModalProps {
   show: boolean;
   onClose: () => void;
   title: string;
+  size?: 'sm' | 'lg' | 'xl';
 }
 
 export function GenericModal(
@@ -30,7 +31,7 @@ export function GenericModal(
     <>
       {props.show && (
         <MDBModal show tabIndex="-1" staticBackdrop>
-          <MDBModalDialog>
+          <MDBModalDialog size={props.size}>
             <MDBModalContent>
               <MDBModalHeader>
                 <MDBModalTitle>{props.title}</MDBModalTitle>

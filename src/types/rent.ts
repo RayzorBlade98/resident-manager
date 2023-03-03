@@ -1,4 +1,4 @@
-import { MonthYear, MonthYearUtils } from './date';
+import { DateString, MonthYear, MonthYearUtils } from './date';
 import { CurrencyInCents } from '_/utils/currency';
 
 /**
@@ -21,9 +21,34 @@ export interface RentInformation {
   incidentals: CurrencyInCents;
 
   /**
-   * Whether the rent was already paid or not
+   * Date on which the payment was received
    */
-  isPaid: boolean;
+  paymentDate?: DateString;
+
+  /**
+   * Amount that was paid for this month
+   */
+  paymentAmount?: CurrencyInCents;
+}
+
+/**
+ * Enum containg status about the rent payment
+ */
+export enum PaymentStatus {
+  /**
+   * All costs where paid
+   */
+  Paid,
+
+  /**
+   * Not enough was paid
+   */
+  PaidPartially,
+
+  /**
+   * Nothing was paid
+   */
+  Unpaid,
 }
 
 /**
@@ -58,6 +83,39 @@ export abstract class RentInformationUtils {
   }
 
   /**
+   * Returns how much the resident must pay for the specified rent information
+   * @param rentInformation `RentInformation` object containing information about all needed payments
+   * @returns `amountToPay = rent + incidentals`
+   */
+  public static getAmountToPay(
+    rentInformation: RentInformation,
+  ): CurrencyInCents {
+    return rentInformation.rent + rentInformation.incidentals;
+  }
+
+  /**
+   * Returns the status about the payment of the specified rent information
+   * @param rentInformation `RentInformation` object containing information about all payments
+   * @returns
+   *
+   * - PaymentStatus.Unpaid: No payment was done
+   * - PaymentStatus.Paid: `amountPaid >= amountToPay`
+   * - PaymentStatus.PaidPartially: `amountPaid < amountToPay`
+   */
+  public static getPaymentStatus(
+    rentInformation: RentInformation,
+  ): PaymentStatus {
+    if (!rentInformation.paymentAmount) return PaymentStatus.Unpaid;
+
+    if (
+      rentInformation.paymentAmount
+      >= RentInformationUtils.getAmountToPay(rentInformation)
+    ) return PaymentStatus.Paid;
+
+    return PaymentStatus.PaidPartially;
+  }
+
+  /**
    * Creates a list of `RentInformation` objects that contains rent information for each
    * month between the two specified `MonthYear` objects (inclusive these months)
    * @param start Start of the timespan
@@ -83,7 +141,6 @@ export abstract class RentInformationUtils {
       dueDate: m,
       rent,
       incidentals,
-      isPaid: false,
     }));
   }
 }

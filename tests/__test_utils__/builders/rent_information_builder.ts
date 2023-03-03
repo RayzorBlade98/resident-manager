@@ -1,4 +1,4 @@
-import { Year, Month } from '_/types/date';
+import { Year, Month, DateString } from '_/types/date';
 
 import { CurrencyInCents } from '_/utils/currency';
 import { RentInformation } from '_types/rent';
@@ -14,7 +14,6 @@ class RentInformationBuilder {
       },
       rent: 50000,
       incidentals: 10000,
-      isPaid: false,
     };
   }
 
@@ -38,8 +37,12 @@ class RentInformationBuilder {
     return this;
   }
 
-  public withIsPaid(isPaid: boolean): RentInformationBuilder {
-    this.rentInformation.isPaid = isPaid;
+  public withPayment(
+    paymentAmount: CurrencyInCents,
+    paymentDate: DateString,
+  ): RentInformationBuilder {
+    this.rentInformation.paymentAmount = paymentAmount;
+    this.rentInformation.paymentDate = paymentDate;
     return this;
   }
 

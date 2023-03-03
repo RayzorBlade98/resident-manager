@@ -2,7 +2,11 @@
 
 import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
 import { MonthYearUtils } from '_types/date';
-import { RentInformation, RentInformationUtils } from '_types/rent';
+import {
+  PaymentStatus,
+  RentInformation,
+  RentInformationUtils,
+} from '_types/rent';
 
 describe('RentInformationUtils', () => {
   describe('addMissingMonths', () => {
@@ -69,6 +73,66 @@ describe('RentInformationUtils', () => {
 
       // Assert
       expect(rentInformation).toEqual(expectedRentInformation);
+    });
+  });
+
+  describe('getAmountToPay', () => {
+    test('should return right amount', () => {
+      // Arrange
+      const rentInformation = new RentInformationBuilder().build();
+      const expectedAmount = rentInformation.rent + rentInformation.incidentals;
+
+      // Act
+      const outputAmount = RentInformationUtils.getAmountToPay(rentInformation);
+
+      // Assert
+      expect(outputAmount).toBe(expectedAmount);
+    });
+  });
+
+  describe('getPaymentStatus', () => {
+    test('should return unpaid status for unpaid rent', () => {
+      // Arrange
+      const rentInformation = new RentInformationBuilder().build();
+      const expectedStatus = PaymentStatus.Unpaid;
+
+      // Act
+      const outputStatus = RentInformationUtils.getPaymentStatus(rentInformation);
+
+      // Assert
+      expect(outputStatus).toEqual(expectedStatus);
+    });
+
+    test('should return paid status for paid rent', () => {
+      // Arrange
+      const rentInformation = new RentInformationBuilder()
+        .withRent(500)
+        .withIncidentals(100)
+        .withPayment(600, '03.03.2023')
+        .build();
+      const expectedStatus = PaymentStatus.Paid;
+
+      // Act
+      const outputStatus = RentInformationUtils.getPaymentStatus(rentInformation);
+
+      // Assert
+      expect(outputStatus).toEqual(expectedStatus);
+    });
+
+    test('should return partially paid status for not enough paid rent', () => {
+      // Arrange
+      const rentInformation = new RentInformationBuilder()
+        .withRent(500)
+        .withIncidentals(100)
+        .withPayment(500, '03.03.2023')
+        .build();
+      const expectedStatus = PaymentStatus.PaidPartially;
+
+      // Act
+      const outputStatus = RentInformationUtils.getPaymentStatus(rentInformation);
+
+      // Assert
+      expect(outputStatus).toEqual(expectedStatus);
     });
   });
 

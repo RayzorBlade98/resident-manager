@@ -27,6 +27,7 @@ const baseConfig = {
     'react/require-default-props': 'off',
     'react/jsx-props-no-spreading': 'off',
     'no-continue': 'off',
+    'max-classes-per-file': 'off',
   },
 };
 
