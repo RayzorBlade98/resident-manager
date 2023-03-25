@@ -1,5 +1,4 @@
-import { selector } from 'recoil';
-import saveState from './save_state';
+import { atom } from 'recoil';
 import { Invoice } from '_/types/invoice';
 
 /**
@@ -8,12 +7,9 @@ import { Invoice } from '_/types/invoice';
 export type InvoiceState = Invoice[];
 
 /**
- * Selector for the invoice state
+ * Invoice state
  */
-export const residentState = selector<InvoiceState>({
+export const invoiceState = atom<InvoiceState>({
   key: 'invoiceState',
-  get: ({ get }) => {
-    const state = get(saveState);
-    return state.invoices;
-  },
+  default: [],
 });

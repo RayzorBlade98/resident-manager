@@ -1,31 +1,35 @@
-import { selector } from 'recoil';
+import { atom } from 'recoil';
 import { setRecoil } from 'recoil-nexus';
-import saveState, { SaveState } from './save_state';
 import { Incidentals } from 'src/types/incidentals';
 
+/**
+ * List of all incidentals
+ */
 export interface IncidentalsState {
   mandatoryIncidentals: Incidentals[];
 }
 
-export const incidentalsState = selector<IncidentalsState>({
+/**
+ * Incidentals recoil state
+ */
+export const incidentalsState = atom<IncidentalsState>({
   key: 'incidentalsState',
-  get: ({ get }) => {
-    const state = get(saveState);
-    return state.incidentals;
+  default: {
+    mandatoryIncidentals: [],
   },
 });
 
-export function addIncidentals(incidentals: Incidentals): void {
-  setRecoil(saveState, (state: SaveState) => ({
-    ...state,
-    incidentals: {
-      ...state.incidentals,
-      mandatoryIncidentals: [
-        ...state.incidentals.mandatoryIncidentals,
-        incidentals,
-      ],
-    },
-  }));
+export abstract class IncidentalsStateManager {
+  /**
+   * Adds new incidentals to the incidentals state
+   * @param incidentals new incidentals that should be added
+   */
+  public static addIncidentals(incidentals: Incidentals): void {
+    setRecoil(incidentalsState, (state: IncidentalsState) => ({
+      ...state,
+      mandatoryIncidentals: [...state.mandatoryIncidentals, incidentals],
+    }));
+  }
 }
 
 export default IncidentalsState;

@@ -1,10 +1,10 @@
 import { v4 as uuid } from 'uuid';
+import { CurrencyInCents } from '_/utils/currency';
 import {
   createValidationFunction,
   ValidationError,
   ValidationErrorMessages,
-} from '../utils/validation';
-import { CurrencyInCents } from '_/utils/currency';
+} from '_/utils/validation';
 
 export enum DeductionType {
   PerResident = 'Pro Bewohner',

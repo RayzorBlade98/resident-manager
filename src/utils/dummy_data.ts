@@ -1,8 +1,9 @@
+/* istanbul ignore file */
 import { v4 as uuid } from 'uuid';
-import { addIncidentals } from '_/states/saveStates/incidentals_state';
+import { DeductionType } from '../types/incidentals';
+import { IncidentalsStateManager } from '_/states/saveStates/incidentals_state';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { MonthYearUtils } from '_/types/date';
-import { DeductionType } from '_/types/incidentals';
 
 function createDummyData(): void {
   // Dummy residents
@@ -24,7 +25,7 @@ function createDummyData(): void {
 
   // Dummy incidentals
   for (let i = 0; i < 8; i += 1) {
-    addIncidentals({
+    IncidentalsStateManager.addIncidentals({
       id: uuid(),
       name: 'Nebenkosten',
       deductionType: DeductionType.PerResident,

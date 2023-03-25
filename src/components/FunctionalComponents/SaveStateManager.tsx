@@ -1,66 +1,46 @@
-import fs from 'fs';
-import path from 'path';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import createDummyData from '../../utils/dummy_data';
-import saveState, { SaveState } from '_/states/saveStates/save_state';
-import { RentInformation, RentInformationUtils } from '_/types/rent';
-import { Resident } from '_/types/resident';
+import { useRecoilValue } from 'recoil';
+import { incidentalsState } from '_/states/saveStates/incidentals_state';
+import { invoiceState } from '_/states/saveStates/invoice_state';
+import SaveStatePersistenceManager from '_/states/saveStates/persistence';
+import residentState from '_/states/saveStates/resident_state';
+import createDummyData from '_/utils/dummy_data';
 import { dev } from '_/utils/node-env';
 
-const OUTPUT_DIRECTORY = path.join(__dirname, 'data');
-const OUTPUT_FILE = path.join(OUTPUT_DIRECTORY, 'save.json');
-
+/**
+ * Functional component that handles save state management like import and export
+ */
 export function SaveStateManager(): null {
   const [isInitialized, setInitialized] = useState<boolean>(false);
-  const [save, setSave] = useRecoilState(saveState);
+  const incidentals = useRecoilValue(incidentalsState);
+  const invoices = useRecoilValue(invoiceState);
+  const residents = useRecoilValue(residentState);
 
   /**
    * Handles the save state when starting the program
    * - Loads the save file
-   * - Adds missing months to the rent information of each resident
+   * - Creates dummy data when in dev mode
    */
   function onStart(): void {
-    if (!fs.existsSync(OUTPUT_FILE)) {
-      if (dev) {
-        createDummyData();
-      }
-      setInitialized(true);
-      return;
+    /* istanbul ignore next */
+    if (dev) {
+      createDummyData();
     }
-
-    // Load save file
-    const json = fs.readFileSync(OUTPUT_FILE).toString();
-    const loadedSave = JSON.parse(json) as SaveState;
-
-    // Add missing months to the rent information
-    loadedSave.residents
-      .map<RentInformation[]>((r: Resident) => r.rent)
-      .forEach((r: RentInformation[]) => {
-        RentInformationUtils.addMissingMonths(r);
-      });
-
-    // Adjust state
-    setSave(loadedSave);
+    SaveStatePersistenceManager.importSaveStates();
     setInitialized(true);
   }
 
   /**
    * Handles save state changes
-   * - saves the new state to the save file
+   * - saves the states to the save files
    */
   function onSaveChange(): void {
     if (!isInitialized) return;
-    // Write save file
-    if (!fs.existsSync(OUTPUT_DIRECTORY)) {
-      fs.mkdirSync(OUTPUT_DIRECTORY);
-    }
-    const json = JSON.stringify(save, null, 4);
-    fs.writeFileSync(OUTPUT_FILE, json);
+    SaveStatePersistenceManager.exportSaveStates();
   }
 
   useEffect(onStart, []); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(onSaveChange, [save]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(onSaveChange, [incidentals, invoices, residents]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return null;
 }

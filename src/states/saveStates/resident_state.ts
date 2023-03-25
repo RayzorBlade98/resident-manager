@@ -1,6 +1,5 @@
-import { selector } from 'recoil';
+import { atom } from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import saveState, { SaveState } from './save_state';
 import { MonthYear, MonthYearUtils } from '_/types/date';
 import { RentInformation } from '_/types/rent';
 import { Resident } from '_/types/resident';
@@ -11,14 +10,11 @@ import { Resident } from '_/types/resident';
 export type ResidentState = Resident[];
 
 /**
- * Selector for the resident state
+ * Resident recoil state
  */
-export const residentState = selector<ResidentState>({
+export const residentState = atom<ResidentState>({
   key: 'residentState',
-  get: ({ get }) => {
-    const state = get(saveState);
-    return state.residents;
-  },
+  default: [],
 });
 
 /**
@@ -30,10 +26,7 @@ export abstract class ResidentStateManager {
    * @param resident new resident that should be added
    */
   public static addResident(resident: Resident): void {
-    setRecoil(saveState, (state: SaveState) => ({
-      ...state,
-      residents: [...state.residents, resident],
-    }));
+    setRecoil(residentState, (state: ResidentState) => [...state, resident]);
   }
 
   /**
@@ -45,8 +38,8 @@ export abstract class ResidentStateManager {
     residentId: string,
     update: Partial<Resident>,
   ): void {
-    setRecoil(saveState, (state: SaveState) => {
-      const newResidentState = [...state.residents];
+    setRecoil(residentState, (state: ResidentState) => {
+      const newResidentState = [...state];
       const residentIndex = newResidentState.findIndex(
         (r: Resident) => residentId === r.id,
       );
@@ -54,10 +47,7 @@ export abstract class ResidentStateManager {
         ...newResidentState[residentIndex],
         ...update,
       };
-      return {
-        ...state,
-        residents: newResidentState,
-      };
+      return newResidentState;
     });
   }
 

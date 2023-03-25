@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import GenericModal from '../GenericComponents/GenericModal/GenericModal';
-import { addIncidentals } from '_/states/saveStates/incidentals_state';
+import { IncidentalsStateManager } from '_/states/saveStates/incidentals_state';
 import {
   createIncidentals,
   CreateIncidentalsArguments,
@@ -72,7 +72,7 @@ function CreateIncidentalsModal(
       setErrors(newErrors);
       return;
     }
-    addIncidentals(createIncidentals(incidentals));
+    IncidentalsStateManager.addIncidentals(createIncidentals(incidentals));
     props.onClose();
   }
 
