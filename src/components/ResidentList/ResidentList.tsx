@@ -2,17 +2,37 @@
 import { StyleAttribute } from 'glamor';
 import React, { useState } from 'react';
 import CreateResidentModal from '../CreateResidentModal/CreateResidentModal';
-import ResidentListElement from './ResidentListElement';
+import GenericList from '../GenericComponents/GenericList/GenericList';
+// eslint-disable-next-line max-len
+import GenericListElement from '../GenericComponents/GenericList/GenericListElement';
 import styles from './styles';
 import { Resident } from '_/types/resident';
 
 interface ResidentListProps {
+  /**
+   * List of included residents
+   */
   residents: Resident[];
-  selectedResident: Resident;
+
+  /**
+   * Currently selected resident
+   */
+  selectedResident?: Resident;
+
+  /**
+   * Callback when selecting a resident
+   */
   onSelectResident: (resident: Resident) => void;
-  containerStyle?: StyleAttribute;
+
+  /**
+   * Additional stlye of the list container
+   */
+  style?: StyleAttribute;
 }
 
+/**
+ * Component that displays a list of provided residents
+ */
 function ResidentList(props: ResidentListProps): JSX.Element {
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -28,26 +48,25 @@ function ResidentList(props: ResidentListProps): JSX.Element {
           onClose={() => setShowModal(false)}
         />
       )}
-
-      <div {...{ ...styles.residentListContainer, ...props.containerStyle }}>
-        <div {...styles.newResidentDiv} onClick={onNewResident}>
+      <GenericList style={props.style} className="residentList">
+        <GenericListElement
+          onClick={() => { onNewResident(); }}
+          style={styles.newResidentElement}
+        >
           Neuer Mieter
-        </div>
-        <hr className="hr" />
+        </GenericListElement>
         {props.residents.map((resident: Resident) => (
-          <>
-            <ResidentListElement
-              resident={resident}
-              selected={resident.id === props.selectedResident.id}
-              onSelectResident={props.onSelectResident}
-              key={resident.id}
-            />
-            {resident.id !== props.residents.slice(-1)[0].id && (
-              <hr className="hr" />
-            )}
-          </>
+          <GenericListElement
+            onClick={() => {
+              props.onSelectResident(resident);
+            }}
+            selected={resident.id === props.selectedResident?.id}
+            key={resident.id}
+          >
+            {`${resident.firstName} ${resident.lastName}`}
+          </GenericListElement>
         ))}
-      </div>
+      </GenericList>
     </>
   );
 }

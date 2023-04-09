@@ -28,7 +28,7 @@ function ResidentView(): JSX.Element {
         onSelectResident={(resident: Resident) => {
           setSelectedResidentId(resident.id);
         }}
-        containerStyle={styles.residentListContainer}
+        style={styles.residentListContainer}
       />
       <ResidentInformation
         resident={selectedResident}

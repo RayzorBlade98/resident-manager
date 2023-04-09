@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 import { createRequire } from 'module';
 import { pathsToModuleNameMapper } from 'ts-jest';
 
@@ -11,10 +13,9 @@ const { compilerOptions } = require('./tsconfig.json');
  * @returns Jest path mappings map.
  */
 function pathsToESModuleNameMapper() {
-  const map = pathsToModuleNameMapper(
-    compilerOptions.paths,
-    { prefix: '<rootDir>' },
-  );
+  const map = pathsToModuleNameMapper(compilerOptions.paths, {
+    prefix: '<rootDir>',
+  });
   const esmMap = {};
 
   Object.entries(map).forEach((entry) => {
@@ -22,8 +23,7 @@ function pathsToESModuleNameMapper() {
 
     if (/.*\(\.\*\)\$$/.test(key)) {
       // eslint-disable-next-line prefer-template
-      const convertedKey = key.substring(0, key.length - 2)
-        + '[^\\.js])(\\.js)?$';
+      const convertedKey = key.substring(0, key.length - 2) + '[^\\.js])(\\.js)?$';
       esmMap[convertedKey] = val;
     }
   });
@@ -53,9 +53,8 @@ export default {
       },
     ],
   },
-  testMatch: [
-    '**/tests/**/*.(spec|test).([jt]s?(x))',
-  ],
+  testMatch: ['**/tests/**/*.(spec|test).([jt]s?(x))'],
+  snapshotSerializers: ['jest-glamor-react'],
   collectCoverage: true,
   verbose: true,
 };
