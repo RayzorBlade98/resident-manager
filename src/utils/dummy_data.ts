@@ -36,14 +36,16 @@ function createDummyData(): void {
   }
 
   // Dummy invoices
-  InvoiceStateManager.addInvoice({
-    start: {
-      month: Month.January,
-      year: 2023,
-    },
-    end: { month: Month.May, year: 2023 },
-    residentInformation: {},
-  });
+  for (let i = 0; i < 4; i += 1) {
+    InvoiceStateManager.addInvoice({
+      start: MonthYearUtils.addMonths(
+        { month: Month.January, year: 2023 },
+        2 * i + 1,
+      ),
+      end: MonthYearUtils.addMonths({ month: Month.March, year: 2023 }, 2 * i),
+      residentInformation: {},
+    });
+  }
 }
 
 export default createDummyData;

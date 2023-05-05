@@ -42,7 +42,8 @@ function InvoiceList(props: InvoiceListProps): JSX.Element {
           selected={invoice === props.selectedInvoice}
           key={`$invoice-${invoice.start.month}-${invoice.start.year}`}
         >
-          {`${invoice.start.month} ${invoice.start.year}`}
+          {`${invoice.start.month} ${invoice.start.year} - `}
+          {`${invoice.end.month} ${invoice.end.year}`}
         </GenericListElement>
       ))}
     </GenericList>

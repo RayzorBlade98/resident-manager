@@ -65,15 +65,7 @@ exports[`ResidentList should match snapshot 1`] = `
       class="listElement selectedListElement"
       data-css-2=""
     >
-      Januar 2023
-    </div>
-    <hr
-      class="hr"
-    />
-    <div
-      class="listElement"
-      data-css-0=""
-    >
+      Januar 2023 - 
       Februar 2023
     </div>
     <hr
@@ -83,6 +75,7 @@ exports[`ResidentList should match snapshot 1`] = `
       class="listElement"
       data-css-0=""
     >
+      Februar 2023 - 
       März 2023
     </div>
     <hr
@@ -92,6 +85,7 @@ exports[`ResidentList should match snapshot 1`] = `
       class="listElement"
       data-css-0=""
     >
+      März 2023 - 
       April 2023
     </div>
     <hr
@@ -101,7 +95,18 @@ exports[`ResidentList should match snapshot 1`] = `
       class="listElement"
       data-css-0=""
     >
+      April 2023 - 
       Mai 2023
+    </div>
+    <hr
+      class="hr"
+    />
+    <div
+      class="listElement"
+      data-css-0=""
+    >
+      Mai 2023 - 
+      Juni 2023
     </div>
   </div>
 </div>
