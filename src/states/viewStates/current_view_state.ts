@@ -4,6 +4,7 @@ export enum View {
   Main,
   Resident,
   Incidentals,
+  Invoice,
 }
 
 export const currentViewState = atom<View>({

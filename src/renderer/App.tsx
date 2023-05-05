@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import currentViewState, { View } from '_/states/viewStates/current_view_state';
 import { defaultColors } from '_/types/styles';
 import IncidentalsView from '_/views/IncidentalsView/IncidentalsView';
+import InvoiceView from '_/views/InvoiceView/InvoiceView';
 import MainView from '_/views/MainView/MainView';
 import ResidentView from '_/views/ResidentView/ResidentView';
 
@@ -18,6 +19,7 @@ function App(): JSX.Element {
       {view === View.Main && <MainView />}
       {view === View.Resident && <ResidentView />}
       {view === View.Incidentals && <IncidentalsView />}
+      {view === View.Invoice && <InvoiceView />}
     </div>
   );
 }

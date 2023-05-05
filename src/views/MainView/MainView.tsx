@@ -16,6 +16,9 @@ function MainView(): JSX.Element {
       >
         Nebenkosten
       </Button>
+      <Button variant="contained" onClick={() => setCurrentView(View.Invoice)}>
+        Nebenkostenabrechnung
+      </Button>
     </>
   );
 }
