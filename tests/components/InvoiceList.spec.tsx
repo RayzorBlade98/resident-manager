@@ -42,7 +42,7 @@ describe('ResidentList', () => {
 
   test('should have the right amount of children', () => {
     // Assert
-    const expectedChildren = 2 * invoices.length - 1;
+    const expectedChildren = 2 * invoices.length + 1;
     const actualChildren = renderResult.container.firstElementChild!.children.length;
     expect(actualChildren).toEqual(expectedChildren);
   });
@@ -51,7 +51,7 @@ describe('ResidentList', () => {
     // Act
     const selectedIndex = 1;
     const listElement = renderResult.container.firstElementChild!.children.item(
-      2 * selectedIndex,
+      1 + 2 * selectedIndex + 1,
     )!;
     fireEvent.click(listElement);
 
