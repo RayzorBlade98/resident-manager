@@ -5,18 +5,14 @@ import { Incidentals } from 'src/types/incidentals';
 /**
  * List of all incidentals
  */
-export interface IncidentalsState {
-  mandatoryIncidentals: Incidentals[];
-}
+export type IncidentalsState = Incidentals[];
 
 /**
  * Incidentals recoil state
  */
 export const incidentalsState = atom<IncidentalsState>({
   key: 'incidentalsState',
-  default: {
-    mandatoryIncidentals: [],
-  },
+  default: [],
 });
 
 export abstract class IncidentalsStateManager {
@@ -25,10 +21,10 @@ export abstract class IncidentalsStateManager {
    * @param incidentals new incidentals that should be added
    */
   public static addIncidentals(incidentals: Incidentals): void {
-    setRecoil(incidentalsState, (state: IncidentalsState) => ({
+    setRecoil(incidentalsState, (state: IncidentalsState) => [
       ...state,
-      mandatoryIncidentals: [...state.mandatoryIncidentals, incidentals],
-    }));
+      incidentals,
+    ]);
   }
 }
 

@@ -8,9 +8,7 @@ import IncidentalsState, {
 function IncidentalsView(): JSX.Element {
   const incidentals = useRecoilValue<IncidentalsState>(incidentalsState);
 
-  return (
-    <IncidentalsTable incidentals={incidentals.mandatoryIncidentals} />
-  );
+  return <IncidentalsTable incidentals={incidentals} />;
 }
 
 export default IncidentalsView;

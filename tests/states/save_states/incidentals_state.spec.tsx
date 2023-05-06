@@ -16,15 +16,11 @@ describe('IncidentalsStateManager', () => {
       render(<RecoilTestWrapper />);
       const newIncidentals1 = new IncidentalsBuilder().build();
       const newIncidentals2 = new IncidentalsBuilder().build();
-      const expectedState = {
+      const expectedState = [
         ...getRecoil(incidentalsState),
-        mandatoryIncidentals: [
-          ...getRecoil(incidentalsState).mandatoryIncidentals,
-          newIncidentals1,
-          newIncidentals2,
-        ],
-      };
-
+        newIncidentals1,
+        newIncidentals2,
+      ];
       // Act
       act(() => {
         IncidentalsStateManager.addIncidentals(newIncidentals1);

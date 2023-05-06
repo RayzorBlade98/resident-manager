@@ -47,9 +47,9 @@ describe('SaveStatePersistenceManager', () => {
   describe('importSaveStates', () => {
     test('should import save state if files exist', () => {
       // Arrange
-      const expectedIncidentalsState: IncidentalsState = {
-        mandatoryIncidentals: [new IncidentalsBuilder().build()],
-      };
+      const expectedIncidentalsState: IncidentalsState = [
+        new IncidentalsBuilder().build(),
+      ];
       const expectedInvoiceState: InvoiceState = [new InvoiceBuilder().build()];
       const expectedResidentState: ResidentState = [
         new ResidentBuilder().build(),
@@ -176,9 +176,9 @@ describe('SaveStatePersistenceManager', () => {
 
     test('should export states', () => {
       // Arrange
-      const expectedIncidentalsState: IncidentalsState = {
-        mandatoryIncidentals: [new IncidentalsBuilder().build()],
-      };
+      const expectedIncidentalsState: IncidentalsState = [
+        new IncidentalsBuilder().build(),
+      ];
       const expectedInvoiceState: InvoiceState = [new InvoiceBuilder().build()];
       const expectedResidentState: ResidentState = [
         new ResidentBuilder().build(),

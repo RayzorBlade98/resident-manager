@@ -47,9 +47,7 @@ describe('SaveStateManager', () => {
     // Arrange
     const updates = [
       () => {
-        setRecoil(incidentalsState, {
-          mandatoryIncidentals: [new IncidentalsBuilder().build()],
-        });
+        setRecoil(incidentalsState, [new IncidentalsBuilder().build()]);
       },
       () => {
         setRecoil(invoiceState, [new InvoiceBuilder().build()]);
