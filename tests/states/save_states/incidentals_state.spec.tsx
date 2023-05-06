@@ -10,10 +10,13 @@ import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
 
 describe('IncidentalsStateManager', () => {
+  beforeEach(() => {
+    render(<RecoilTestWrapper />);
+  });
+
   describe('addIncidentals', () => {
     test('should add new incidentals to state', () => {
       // Arrange
-      render(<RecoilTestWrapper />);
       const newIncidentals1 = new IncidentalsBuilder().build();
       const newIncidentals2 = new IncidentalsBuilder().build();
       const expectedState = [
@@ -21,6 +24,7 @@ describe('IncidentalsStateManager', () => {
         newIncidentals1,
         newIncidentals2,
       ];
+
       // Act
       act(() => {
         IncidentalsStateManager.addIncidentals(newIncidentals1);

@@ -12,10 +12,13 @@ import RentInformationBuilder from '_tests/__test_utils__/builders/rent_informat
 import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
 
 describe('ResidentStateManager', () => {
+  beforeEach(() => {
+    render(<RecoilTestWrapper />);
+  });
+
   describe('addResident', () => {
     test('should add new resident to state', () => {
       // Arrange
-      render(<RecoilTestWrapper />);
       const newResident1 = new ResidentBuilder().build();
       const newResident2 = new ResidentBuilder().build();
       const expectedState = [
@@ -39,7 +42,6 @@ describe('ResidentStateManager', () => {
   describe('updateResident', () => {
     test('should update resident in state correctly', () => {
       // Arrange
-      render(<RecoilTestWrapper />);
       const resident = new ResidentBuilder()
         .withFirstName('Old First')
         .withLastName('Old Last')
@@ -73,7 +75,6 @@ describe('ResidentStateManager', () => {
   describe('updateRentInformation', () => {
     test('should update resident in state correctly', () => {
       // Arrange
-      render(<RecoilTestWrapper />);
       const rentInformation = new RentInformationBuilder()
         .withRent(500)
         .withIncidentals(100)
