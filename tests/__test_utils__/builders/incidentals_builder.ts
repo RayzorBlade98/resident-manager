@@ -14,6 +14,16 @@ class IncidentalsBuilder {
     };
   }
 
+  public withId(id: string): IncidentalsBuilder {
+    this.incidentals.id = id;
+    return this;
+  }
+
+  public withName(name: string): IncidentalsBuilder {
+    this.incidentals.name = name;
+    return this;
+  }
+
   public build(): Incidentals {
     return this.incidentals;
   }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 // eslint-disable-next-line max-len
 import GenericStepper from '_/components/GenericComponents/GenericStepper/GenericStepper';
+// eslint-disable-next-line max-len
+import IncidentalsSelection from '_/components/IncidentalsSelection/IncidentalsSelection';
 
 function InvoiceGenerationView() {
   const [stepsFinished, setStepsFinished] = useState<boolean>(false);
@@ -15,7 +17,9 @@ function InvoiceGenerationView() {
           }}
         >
           <div>Schritt 1</div>
-          <div>Schritt 2</div>
+          <div>
+            <IncidentalsSelection />
+          </div>
           <div>Schritt 3</div>
         </GenericStepper>
       )}
