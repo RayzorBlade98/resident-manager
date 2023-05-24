@@ -32,24 +32,33 @@ abstract class SaveStatePersistenceManager {
    * Imports all save states
    */
   public static importSaveStates(): void {
+    const dateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function reviver(_key: string, value: any): any {
+      if (typeof value === 'string' && dateFormat.test(value)) {
+        return new Date(value);
+      }
+      return value;
+    }
+
     // Incidentals
     if (fs.existsSync(this.INCIDENTALS_FILE)) {
       const json = fs.readFileSync(this.INCIDENTALS_FILE).toString();
-      const loadedIncidentals = JSON.parse(json) as IncidentalsState;
+      const loadedIncidentals = JSON.parse(json, reviver) as IncidentalsState;
       setRecoil(incidentalsState, loadedIncidentals);
     }
 
     // Invoices
     if (fs.existsSync(this.INVOICES_FILE)) {
       const json = fs.readFileSync(this.INVOICES_FILE).toString();
-      const loadedInvoices = JSON.parse(json) as InvoiceState;
+      const loadedInvoices = JSON.parse(json, reviver) as InvoiceState;
       setRecoil(invoiceState, loadedInvoices);
     }
 
     // Residents
     if (fs.existsSync(this.RESIDENTS_FILE)) {
       const json = fs.readFileSync(this.RESIDENTS_FILE).toString();
-      const loadedResidents = JSON.parse(json) as ResidentState;
+      const loadedResidents = JSON.parse(json, reviver) as ResidentState;
 
       // Add missing months to the rent information
       loadedResidents
