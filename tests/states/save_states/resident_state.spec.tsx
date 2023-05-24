@@ -6,7 +6,7 @@ import { getRecoil } from 'recoil-nexus';
 import residentState, {
   ResidentStateManager,
 } from '_/states/saveStates/resident_state';
-import { DateString, Month } from '_/types/date';
+import { Month } from '_/types/date';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
 import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
@@ -99,7 +99,7 @@ describe('ResidentStateManager', () => {
       const update = {
         rent: 600,
         incidentals: 200,
-        paymentDate: '03.03.2023' as DateString,
+        paymentDate: new Date(3, 2, 2023),
         paymentAmount: 1000,
       };
       const expectedState = [...getRecoil(residentState)];

@@ -1,4 +1,4 @@
-import { DateString, MonthYear, MonthYearUtils } from './date';
+import { MonthYear, MonthYearUtils } from './date';
 import { CurrencyInCents } from '_/utils/currency';
 
 /**
@@ -23,7 +23,7 @@ export interface RentInformation {
   /**
    * Date on which the payment was received
    */
-  paymentDate?: DateString;
+  paymentDate?: Date;
 
   /**
    * Amount that was paid for this month

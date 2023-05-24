@@ -3,7 +3,8 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import GenericModal from '../../GenericComponents/GenericModal/GenericModal';
-import { DateInputString, DateString, DateUtils } from '_/types/date';
+// eslint-disable-next-line max-len
+import GenericDatePicker from '_/components/GenericComponents/GenericDatePicker/GenericDatePicker';
 import { CurrencyInCents, convertCurrencyEurosToCents } from '_/utils/currency';
 import {
   ValidationError,
@@ -24,12 +25,12 @@ export interface AddRentPaymentModalProps {
    * @param paymentAmount Amount that was paid
    * @param paymentDate Date on which the payment was received
    */
-  onSave: (paymentAmount: CurrencyInCents, paymentDate: DateString) => void;
+  onSave: (paymentAmount: CurrencyInCents, paymentDate: Date) => void;
 }
 
 interface RentPaymentInput {
   paymentAmount: CurrencyInCents | null;
-  paymentDate: DateString;
+  paymentDate: Date;
 }
 
 /**
@@ -38,7 +39,7 @@ interface RentPaymentInput {
 function AddRentPaymentModal(props: AddRentPaymentModalProps): JSX.Element {
   const [payment, setPayment] = useState<RentPaymentInput>({
     paymentAmount: null,
-    paymentDate: DateUtils.getCurrentDate(),
+    paymentDate: new Date(),
   });
   const [errors, setErrors] = useState<
   ValidationErrorMessages<RentPaymentInput>
@@ -48,27 +49,31 @@ function AddRentPaymentModal(props: AddRentPaymentModalProps): JSX.Element {
     paymentAmount: [ValidationError.Null, ValidationError.LessEqualZero],
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function setPaymentField(field: string, value: any): void {
+    const newPayment = {
+      ...payment,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      [field]: value,
+    };
+    setPayment(newPayment);
+    setErrors({
+      ...errors,
+      [field]: validatePayment(
+        newPayment,
+        field as keyof ValidationErrorMessages<RentPaymentInput>,
+      ),
+    });
+  }
+
   function paymentUpdater(field: string) {
     function updatePayment(event: React.ChangeEvent<HTMLInputElement>): void {
       let value: number | string = event.target.value;
       if (field === 'paymentAmount') {
         value = Number(value);
         value = convertCurrencyEurosToCents(value);
-      } else if (field === 'paymentDate') {
-        value = DateUtils.convertDateInputString(value as DateInputString);
       }
-      const newPayment = {
-        ...payment,
-        [field]: value,
-      };
-      setPayment(newPayment);
-      setErrors({
-        ...errors,
-        [field]: validatePayment(
-          newPayment,
-          field as keyof ValidationErrorMessages<RentPaymentInput>,
-        ),
-      });
+      setPaymentField(field, value);
     }
     return updatePayment;
   }
@@ -112,20 +117,11 @@ function AddRentPaymentModal(props: AddRentPaymentModalProps): JSX.Element {
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
+            <GenericDatePicker
               id="paymentDate"
               label="Zahlungsempfang"
-              type="date"
-              required
-              defaultValue={DateUtils.convertToDateInputString(
-                payment.paymentDate,
-              )}
-              onChange={paymentUpdater('paymentDate')}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              error={!!errors.paymentDate}
-              helperText={errors.paymentDate || ''}
+              onChange={(date: Date) => setPaymentField('paymentDate', date)}
+              errorMessage={errors.paymentDate}
             />
           </Grid>
         </Grid>

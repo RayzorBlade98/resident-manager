@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 
 import {
-  DateUtils,
   Month,
   MonthYear,
   MonthYearString,
@@ -452,64 +451,6 @@ describe('MonthYearUtils', () => {
 
       // Assert
       expect(timespan).toEqual(expected);
-    });
-  });
-});
-
-describe('DateUtils', () => {
-  describe('convertDateInputString', () => {
-    test('should return right date string', () => {
-      // Arrange
-      const inputDate = '2023-03-13';
-      const expectedDate = '13.03.2023';
-
-      // Act
-      const outputDate = DateUtils.convertDateInputString(inputDate);
-
-      // Assert
-      expect(outputDate).toEqual(expectedDate);
-    });
-  });
-
-  describe('convertToDateInputString', () => {
-    test('should return right date string', () => {
-      // Arrange
-      const inputDate = '13.03.2023';
-      const expectedDate = '2023-03-13';
-
-      // Act
-      const outputDate = DateUtils.convertToDateInputString(inputDate);
-
-      // Assert
-      expect(outputDate).toEqual(expectedDate);
-    });
-  });
-
-  describe('getCurrentDate', () => {
-    test('should return right date string', () => {
-      // Arrange
-      jest.useFakeTimers();
-      jest.setSystemTime(new Date(2023, 9, 13, 12));
-      const expectedDate = '13.10.2023';
-
-      // Act
-      const outputDate = DateUtils.getCurrentDate();
-
-      // Assert
-      expect(outputDate).toEqual(expectedDate);
-    });
-
-    test('should add zeroes to day and month', () => {
-      // Arrange
-      jest.useFakeTimers();
-      jest.setSystemTime(new Date(2023, 2, 3, 12));
-      const expectedDate = '03.03.2023';
-
-      // Act
-      const outputDate = DateUtils.getCurrentDate();
-
-      // Assert
-      expect(outputDate).toEqual(expectedDate);
     });
   });
 });

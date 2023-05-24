@@ -108,7 +108,7 @@ describe('RentInformationUtils', () => {
       const rentInformation = new RentInformationBuilder()
         .withRent(500)
         .withIncidentals(100)
-        .withPayment(600, '03.03.2023')
+        .withPayment(600, new Date(3, 2, 2023))
         .build();
       const expectedStatus = PaymentStatus.Paid;
 
@@ -124,7 +124,7 @@ describe('RentInformationUtils', () => {
       const rentInformation = new RentInformationBuilder()
         .withRent(500)
         .withIncidentals(100)
-        .withPayment(500, '03.03.2023')
+        .withPayment(500, new Date(3, 2, 2023))
         .build();
       const expectedStatus = PaymentStatus.PaidPartially;
 

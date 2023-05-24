@@ -37,20 +37,6 @@ export interface MonthYear {
 export type MonthYearString = `${Month} ${Year}`;
 
 /**
- * Type of the string representation of a date including day, month and year
- *
- * Format: `dd.mm.yyyy`
- */
-export type DateString = `${string}.${string}.${string}`;
-
-/**
- * Type of the date string representation returned by the date input field
- *
- * Format: `yyyy-mm-dd`
- */
-export type DateInputString = `${string}-${string}-${string}`;
-
-/**
  * Class that provides utility functions for `MonthYear` objects
  */
 export abstract class MonthYearUtils {
@@ -216,46 +202,5 @@ export abstract class MonthYearUtils {
     }
     timespan.push({ ...end });
     return timespan;
-  }
-}
-
-/**
- * Class that provides utility functions for dates containing day, month and year.
- */
-export abstract class DateUtils {
-  /**
-   * Converts a date string from `yyyy-mm-dd` to `dd.mm.yyyy` format
-   * @param date Date in `yyyy-mm-dd` format
-   * @returns Converted date in `dd.mm.yyyy` format
-   */
-  public static convertDateInputString(date: DateInputString): DateString {
-    const splits = date.split('-');
-    return `${splits[2]}.${splits[1]}.${splits[0]}`;
-  }
-
-  /**
-   * Converts a date string from `dd.mm.yyyy` to `yyyy-mm-dd` format
-   * @param date Date in `dd.mm.yyyy` format
-   * @returns Converted date in `yyyy-mm-dd` format
-   */
-  public static convertToDateInputString(date: DateString): DateInputString {
-    const splits = date.split('.');
-    return `${splits[2]}-${splits[1]}-${splits[0]}`;
-  }
-
-  /**
-   * Returns a date string containing the current date
-   * @returns Date string containing the current date in `dd.mm.yyyy` format
-   */
-  public static getCurrentDate(): DateString {
-    const date: Date = new Date();
-    const day: number = date.getUTCDate();
-    const month: number = date.getUTCMonth() + 1;
-    const year = String(date.getUTCFullYear());
-
-    const dayPrefix: string = day < 10 ? '0' : '';
-    const monthPrefix: string = month < 10 ? '0' : '';
-
-    return `${dayPrefix}${String(day)}.${monthPrefix}${String(month)}.${year}`;
   }
 }

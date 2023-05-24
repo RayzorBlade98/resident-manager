@@ -8,13 +8,14 @@ import { v4 as uuid } from 'uuid';
 import AddRentPaymentModal from './AddRentPaymentModal';
 import styles from './styles';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
-import { DateString, MonthYear, MonthYearUtils } from '_/types/date';
+import { MonthYear, MonthYearUtils } from '_/types/date';
 import { PaymentStatus, RentInformationUtils } from '_/types/rent';
 import { Resident } from '_/types/resident';
 import {
   CurrencyInCents,
   convertCurrencyCentsToString,
 } from '_/utils/currency';
+import { dateToString } from '_/utils/date';
 
 interface RentInformationProps {
   /**
@@ -38,12 +39,16 @@ function RentInformation(props: RentInformationProps): JSX.Element {
         <AddRentPaymentModal
           show={showModal}
           onClose={() => setShowModal(false)}
-          onSave={(paymentAmount: CurrencyInCents, paymentDate: DateString) => {
+          onSave={(paymentAmount: CurrencyInCents, paymentDate: Date) => {
             // eslint-disable-next-line max-len
-            ResidentStateManager.updateRentInformation(props.resident.id, modalDueDate, {
-              paymentAmount,
-              paymentDate,
-            });
+            ResidentStateManager.updateRentInformation(
+              props.resident.id,
+              modalDueDate,
+              {
+                paymentAmount,
+                paymentDate,
+              },
+            );
             setShowModal(false);
           }}
         />
@@ -68,7 +73,8 @@ function RentInformation(props: RentInformationProps): JSX.Element {
                 {RentInformationUtils.getPaymentStatus(rent)
                   === PaymentStatus.Paid && (
                   <Tooltip
-                    title={`Bezahlt am ${rent.paymentDate as DateString}`}
+                    // eslint-disable-next-line max-len
+                    title={`Bezahlt am ${dateToString(rent.paymentDate as Date)}`}
                     arrow
                   >
                     <CheckCircleOutlineIcon color="success" />
@@ -84,9 +90,9 @@ function RentInformation(props: RentInformationProps): JSX.Element {
                   === PaymentStatus.PaidPartially && (
                   <Tooltip
                     // eslint-disable-next-line max-len
-                    title={`Teilweise bezahlt am ${
-                      rent.paymentDate as DateString
-                    } (${convertCurrencyCentsToString(
+                    title={`Teilweise bezahlt am ${dateToString(
+                      rent.paymentDate as Date,
+                    )} (${convertCurrencyCentsToString(
                       rent.paymentAmount as CurrencyInCents,
                     )} von ${convertCurrencyCentsToString(
                       RentInformationUtils.getAmountToPay(rent),

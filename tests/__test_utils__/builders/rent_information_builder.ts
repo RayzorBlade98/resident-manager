@@ -1,5 +1,4 @@
-import { Year, Month, DateString } from '_/types/date';
-
+import { Year, Month } from '_/types/date';
 import { CurrencyInCents } from '_/utils/currency';
 import { RentInformation } from '_types/rent';
 
@@ -39,7 +38,7 @@ class RentInformationBuilder {
 
   public withPayment(
     paymentAmount: CurrencyInCents,
-    paymentDate: DateString,
+    paymentDate: Date,
   ): RentInformationBuilder {
     this.rentInformation.paymentAmount = paymentAmount;
     this.rentInformation.paymentDate = paymentDate;
