@@ -1,39 +1,29 @@
-import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import styles from './styles';
+import React, { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import ResidentInformation from './ResidentInformation/ResidentInformation';
+import ResidentList from './ResidentList/ResidentList';
 // eslint-disable-next-line max-len
-import ResidentInformation from '_/components/ResidentInformation/ResidentInformation';
-import ResidentList from '_/components/ResidentList/ResidentList';
-import residentState, {
-  ResidentState,
-} from '_/states/saveStates/resident_state';
-import { Resident } from '_/types/resident';
+import { residentViewSelectedResidentState } from './states/resident_view_state';
+import styles from './styles';
+import residentState from '_/states/saveStates/resident_state';
 
 function ResidentView(): JSX.Element {
-  const residents = useRecoilValue<ResidentState>(residentState);
-  const [selectedResidentId, setSelectedResidentId] = useState<string>(
-    residents[0].id,
+  const residents = useRecoilValue(residentState);
+  const [selectedResident, setSelectedResident] = useRecoilState(
+    residentViewSelectedResidentState,
   );
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const selectedResident: Resident = residents.find(
-    (resident: Resident) => resident.id === selectedResidentId,
-  )!;
+  useEffect(() => {
+    // Select first resident on start
+    if (residents.length > 0) {
+      setSelectedResident(residents[0]);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div {...styles.residentView}>
-      <ResidentList
-        residents={residents}
-        selectedResident={selectedResident}
-        onSelectResident={(resident: Resident) => {
-          setSelectedResidentId(resident.id);
-        }}
-        style={styles.residentListContainer}
-      />
-      <ResidentInformation
-        resident={selectedResident}
-        containerStyle={styles.residentInformationContainer}
-      />
+      <ResidentList />
+      {selectedResident && <ResidentInformation />}
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { RenderResult, fireEvent, render } from '@testing-library/react';
 import React from 'react';
-import CreateResidentModal from '_/components/CreateResidentModal/CreateResidentModal';
+import CreateResidentModal from './CreateResidentModal';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { Month } from '_/types/date';
 import { convertCurrencyEurosToCents } from '_/utils/currency';

@@ -53,7 +53,7 @@ export default {
       },
     ],
   },
-  testMatch: ['**/tests/**/*.(spec|test).([jt]s?(x))'],
+  testMatch: ['**/*.(spec|test).([jt]s?(x))'],
   snapshotSerializers: ['jest-glamor-react'],
   collectCoverage: true,
   verbose: true,

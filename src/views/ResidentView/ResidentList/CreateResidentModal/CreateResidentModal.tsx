@@ -2,8 +2,10 @@ import {
   Button, Grid, InputAdornment, TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
-import GenericModal from '../GenericComponents/GenericModal/GenericModal';
-import MonthYearInput from '../GenericComponents/MonthYearInput/MonthYearInput';
+// eslint-disable-next-line max-len
+import GenericModal from '../../../../components/GenericComponents/GenericModal/GenericModal';
+// eslint-disable-next-line max-len
+import MonthYearInput from '../../../../components/GenericComponents/MonthYearInput/MonthYearInput';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { MonthYear, MonthYearUtils } from '_/types/date';
 import {
@@ -47,12 +49,10 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
    * @param field field of the resident that should be updated
    * @returns function that handles the input of the specified field.
    */
-  function residentUpdater(
-    field: string,
-  ):
-    | ((event: React.ChangeEvent<HTMLInputElement>) => void)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    | ((value: any) => void) {
+  function residentUpdater(field: string):
+  | ((event: React.ChangeEvent<HTMLInputElement>) => void)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | ((value: any) => void) {
     /**
      * Updates the value of the specified field of the resident
      * @param value value that should be applied

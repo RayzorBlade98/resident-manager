@@ -8,16 +8,19 @@ import {
   act,
   prettyDOM,
 } from '@testing-library/react';
-import { css } from 'glamor';
 import React from 'react';
-import ResidentList from '_/components/ResidentList/ResidentList';
+import { getRecoil, setRecoil } from 'recoil-nexus';
+import residentViewState from '../states/resident_view_state';
+import ResidentList from './ResidentList';
+import residentState from '_/states/saveStates/resident_state';
 import { Resident } from '_/types/resident';
 import { range } from '_/utils/array';
+import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
 
 const createResidentModalPropsMock = jest.fn();
 jest.mock(
-  '_/components/CreateResidentModal/CreateResidentModal',
+  '_/views/ResidentView/ResidentList/CreateResidentModal/CreateResidentModal',
   () => function (props: any) {
     createResidentModalPropsMock(props);
     return <div className="modalMock" />;
@@ -28,7 +31,6 @@ describe('ResidentList', () => {
   let renderResult: RenderResult;
   let residents: Resident[];
   let selectedResident: Resident;
-  let onSelectResidentMock: jest.Mock;
 
   beforeEach(() => {
     residents = range(0, 4).map((i) => new ResidentBuilder()
@@ -36,21 +38,37 @@ describe('ResidentList', () => {
       .withLastName(`Mustermann${i}`)
       .build());
     selectedResident = residents[0];
-    onSelectResidentMock = jest.fn();
 
     renderResult = render(
-      <ResidentList
-        residents={residents}
-        selectedResident={selectedResident}
-        onSelectResident={onSelectResidentMock}
-        style={css({ backgroundColor: 'red' })}
-      />,
+      <RecoilTestWrapper>
+        <ResidentList />
+      </RecoilTestWrapper>,
     );
+
+    act(() => {
+      setRecoil(residentState, residents);
+      setRecoil(residentViewState, (state) => ({
+        ...state,
+        selectedResident: selectedResident.id,
+      }));
+    });
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
   });
+
+  function selectResident(index: number): void {
+    const listElement = renderResult.container.firstElementChild!.children.item(
+      1 + 2 * index + 1,
+    )!;
+    fireEvent.click(listElement);
+  }
+
+  function clickNewResident(): void {
+    const newResidentElement = renderResult.container.firstElementChild!.children.item(0)!;
+    fireEvent.click(newResidentElement);
+  }
 
   test('should have the right amount of children', () => {
     // Assert
@@ -59,17 +77,14 @@ describe('ResidentList', () => {
     expect(actualChildren).toEqual(expectedChildren);
   });
 
-  test('should call onSelectResident callback', () => {
+  test('should set selected resident in state when clicking list element', () => {
     // Act
     const selectedIndex = 1;
-    const listElement = renderResult.container.firstElementChild!.children.item(
-      1 + 2 * selectedIndex + 1,
-    )!;
-    fireEvent.click(listElement);
+    selectResident(selectedIndex);
 
     // Assert
-    expect(onSelectResidentMock).toHaveBeenCalledTimes(1);
-    expect(onSelectResidentMock).toHaveBeenCalledWith(residents[selectedIndex]);
+    const newSelectedResident = getRecoil(residentViewState).selectedResident;
+    expect(newSelectedResident).toEqual(residents[selectedIndex].id);
   });
 
   test('should close modal on callback', () => {
@@ -77,9 +92,7 @@ describe('ResidentList', () => {
     const oldDOM = prettyDOM(renderResult.container);
 
     // Act
-    const newResidentElement = renderResult.container.firstElementChild!.children.item(0)!;
-    fireEvent.click(newResidentElement);
-
+    clickNewResident();
     const onCloseCallback = createResidentModalPropsMock.mock.calls[0][0].onClose;
     act(() => {
       onCloseCallback();
@@ -96,8 +109,15 @@ describe('ResidentList', () => {
 
   test('should match snapshot (opened modal)', () => {
     // Act
-    const newResidentElement = renderResult.container.firstElementChild!.children.item(0)!;
-    fireEvent.click(newResidentElement);
+    clickNewResident();
+
+    // Assert
+    expect(renderResult.container).toMatchSnapshot();
+  });
+
+  test('should match snapshot (new selection)', () => {
+    // Act
+    selectResident(2);
 
     // Assert
     expect(renderResult.container).toMatchSnapshot();

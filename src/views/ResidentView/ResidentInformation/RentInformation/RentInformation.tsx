@@ -3,12 +3,14 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import { Tooltip } from '@mui/material';
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdb-react-ui-kit';
-import React, { useState } from 'react';
+import React from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
-import AddRentPaymentModal from './AddRentPaymentModal';
-import styles from './styles';
-import { ResidentStateManager } from '_/states/saveStates/resident_state';
-import { MonthYear, MonthYearUtils } from '_/types/date';
+// eslint-disable-next-line max-len
+import { residentViewSelectedResidentState } from '../../states/resident_view_state';
+import styles from '../../styles';
+import AddRentPaymentModal from './AddRentPaymentModal/AddRentPaymentModal';
+import addRentPaymentState from './states/add_rent_payment_state';
 import { PaymentStatus, RentInformationUtils } from '_/types/rent';
 import { Resident } from '_/types/resident';
 import {
@@ -17,42 +19,18 @@ import {
 } from '_/utils/currency';
 import { dateToString } from '_/utils/date';
 
-interface RentInformationProps {
-  /**
-   * Resident for which the information should be displayed
-   */
-  resident: Resident;
-}
-
 /**
  * Component that displays rent information about a resident
  */
-function RentInformation(props: RentInformationProps): JSX.Element {
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [modalDueDate, setModalDueDate] = useState<MonthYear>(
-    MonthYearUtils.getCurrentMonthYear(),
-  );
+function RentInformation(): JSX.Element {
+  const selectedResident = useRecoilValue(
+    residentViewSelectedResidentState,
+  ) as Resident;
+  const setRentPaymentState = useSetRecoilState(addRentPaymentState);
 
   return (
     <>
-      {showModal && (
-        <AddRentPaymentModal
-          show={showModal}
-          onClose={() => setShowModal(false)}
-          onSave={(paymentAmount: CurrencyInCents, paymentDate: Date) => {
-            // eslint-disable-next-line max-len
-            ResidentStateManager.updateRentInformation(
-              props.resident.id,
-              modalDueDate,
-              {
-                paymentAmount,
-                paymentDate,
-              },
-            );
-            setShowModal(false);
-          }}
-        />
-      )}
+      <AddRentPaymentModal />
       <MDBTable hover>
         <MDBTableHead>
           <tr>
@@ -64,7 +42,7 @@ function RentInformation(props: RentInformationProps): JSX.Element {
           </tr>
         </MDBTableHead>
         <MDBTableBody>
-          {[...props.resident.rent].reverse().map((rent) => (
+          {[...selectedResident.rent].reverse().map((rent) => (
             <tr key={uuid()}>
               <td>{`${rent.dueDate.month} ${rent.dueDate.year}`}</td>
               <td>{convertCurrencyCentsToString(rent.rent)}</td>
@@ -74,7 +52,9 @@ function RentInformation(props: RentInformationProps): JSX.Element {
                   === PaymentStatus.Paid && (
                   <Tooltip
                     // eslint-disable-next-line max-len
-                    title={`Bezahlt am ${dateToString(rent.paymentDate as Date)}`}
+                    title={`Bezahlt am ${dateToString(
+                      rent.paymentDate as Date,
+                    )}`}
                     arrow
                   >
                     <CheckCircleOutlineIcon color="success" />
@@ -108,10 +88,13 @@ function RentInformation(props: RentInformationProps): JSX.Element {
                   === PaymentStatus.Unpaid && (
                   <Tooltip title="Zahlung hinzufügen" arrow>
                     <PaymentsOutlinedIcon
-                      {...styles.actionIcon}
+                      {...styles.residentInformation.actionIcon}
                       onClick={() => {
-                        setModalDueDate(rent.dueDate);
-                        setShowModal(true);
+                        setRentPaymentState((state) => ({
+                          ...state,
+                          selectedRentMonth: rent.dueDate,
+                          showModal: true,
+                        }));
                       }}
                     />
                   </Tooltip>

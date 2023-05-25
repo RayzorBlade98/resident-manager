@@ -1,4 +1,3 @@
-import { StyleAttribute } from 'glamor';
 import {
   MDBTabs,
   MDBTabsContent,
@@ -7,9 +6,10 @@ import {
   MDBTabsPane,
 } from 'mdb-react-ui-kit';
 import React, { useState } from 'react';
-import GeneralResidentInformation from './GeneralResidentInformation';
+import styles from '../styles';
+// eslint-disable-next-line max-len
+import GeneralResidentInformation from './GeneralResidentInformation/GeneralResidentInformation';
 import RentInformation from './RentInformation/RentInformation';
-import { Resident } from '_/types/resident';
 
 /**
  * Enum containing all tabs of this component
@@ -19,23 +19,10 @@ enum ResidentTab {
   Rent = 'Miete',
 }
 
-interface ResidentInformationProps {
-  /**
-   * Resident for which the information should be displayed
-   */
-  resident: Resident;
-
-  /**
-   * Style that should be applied to the container of the component. (Optional)
-   */
-  containerStyle: StyleAttribute;
-}
-
 /**
  * Component that displays information of the resident in different tabs.
  */
-function ResidentInformation(props: ResidentInformationProps): JSX.Element {
-  // Currently selected tab
+function ResidentInformation(): JSX.Element {
   const [activeTab, setActiveTab] = useState<ResidentTab>(ResidentTab.General);
 
   /**
@@ -53,9 +40,9 @@ function ResidentInformation(props: ResidentInformationProps): JSX.Element {
   function getTabContent(): JSX.Element {
     switch (activeTab) {
       case ResidentTab.General:
-        return <GeneralResidentInformation resident={props.resident} />;
+        return <GeneralResidentInformation />;
       case ResidentTab.Rent:
-        return <RentInformation resident={props.resident} />;
+        return <RentInformation />;
       default:
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw new Error(`Tab ${activeTab} is not implemented`);
@@ -63,7 +50,7 @@ function ResidentInformation(props: ResidentInformationProps): JSX.Element {
   }
 
   return (
-    <div {...props.containerStyle}>
+    <div {...styles.residentInformation.container}>
       <MDBTabs fill className="mb-3">
         {Object.values(ResidentTab).map((tab: ResidentTab) => (
           <MDBTabsItem>
