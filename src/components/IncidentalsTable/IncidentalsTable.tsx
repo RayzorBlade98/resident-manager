@@ -1,6 +1,6 @@
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdb-react-ui-kit';
 import React, { useState } from 'react';
-import CreateIncidentalsModal from '../CreateIncidentalsModal/CreateIncidentalsModal'; // eslint-disable-line max-len
+import CreateIncidentalsModal from '../CreateIncidentalsModal/CreateIncidentalsModal';
 import IncidentalsTableRow from './IncidentalsTableRow';
 import { Incidentals } from '_/types/incidentals';
 

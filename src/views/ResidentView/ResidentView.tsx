@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import ResidentInformation from './ResidentInformation/ResidentInformation';
 import ResidentList from './ResidentList/ResidentList';
-// eslint-disable-next-line max-len
 import { residentViewSelectedResidentState } from './states/resident_view_state';
 import styles from './styles';
 import residentState from '_/states/saveStates/resident_state';

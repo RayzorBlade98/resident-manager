@@ -8,7 +8,7 @@ import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
 import RecoilNexus from 'recoil-nexus';
-import SaveStateManager from '_/components/FunctionalComponents/SaveStateManager'; // eslint-disable-line max-len
+import SaveStateManager from '_/components/FunctionalComponents/SaveStateManager';
 import App from '_renderer/App';
 
 const container = document.getElementById('app');

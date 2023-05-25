@@ -13,6 +13,7 @@ const baseConfig = {
         code: 80,
         tabWidth: 2,
         ignoreComments: true,
+        ignorePattern: '^import .*',
       },
     ],
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],

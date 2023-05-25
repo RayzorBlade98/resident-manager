@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-// eslint-disable-next-line max-len
 import GenericModal from '../../../../../components/GenericComponents/GenericModal/GenericModal';
 import addRentPaymentState from '../states/add_rent_payment_state';
 import AddRentPaymentButton from './AddRentPaymentButton/AddRentPaymentButton';

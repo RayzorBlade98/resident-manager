@@ -10,7 +10,6 @@ import { MonthYear } from '_/types/date';
 import { Resident } from '_/types/resident';
 import { CurrencyInCents } from '_/utils/currency';
 import { ValidationErrorMessages } from '_/utils/validation';
-// eslint-disable-next-line max-len
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 
 function AddRentPaymentButton(): JSX.Element {

@@ -5,7 +5,6 @@ import {
   addRentPaymentFormErrorSelector,
   addRentPaymentFormInputSelector,
 } from '../../states/add_rent_payment_state';
-// eslint-disable-next-line max-len
 import GenericDatePicker from '_/components/GenericComponents/GenericDatePicker/GenericDatePicker';
 import { convertCurrencyEurosToCents } from '_/utils/currency';
 

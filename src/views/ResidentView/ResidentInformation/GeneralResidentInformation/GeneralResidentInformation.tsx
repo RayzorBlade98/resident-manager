@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-// eslint-disable-next-line max-len
 import { residentViewSelectedResidentState } from '../../states/resident_view_state';
 import { MonthYearUtils } from '_/types/date';
 import { Resident } from '_/types/resident';

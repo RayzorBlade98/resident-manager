@@ -2,9 +2,7 @@ import {
   Button, Grid, InputAdornment, TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
-// eslint-disable-next-line max-len
 import GenericModal from '../../../../components/GenericComponents/GenericModal/GenericModal';
-// eslint-disable-next-line max-len
 import MonthYearInput from '../../../../components/GenericComponents/MonthYearInput/MonthYearInput';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { MonthYear, MonthYearUtils } from '_/types/date';

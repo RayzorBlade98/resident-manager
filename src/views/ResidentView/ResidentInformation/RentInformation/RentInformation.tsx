@@ -6,7 +6,6 @@ import { MDBTable, MDBTableBody, MDBTableHead } from 'mdb-react-ui-kit';
 import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
-// eslint-disable-next-line max-len
 import { residentViewSelectedResidentState } from '../../states/resident_view_state';
 import styles from '../../styles';
 import AddRentPaymentModal from './AddRentPaymentModal/AddRentPaymentModal';

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styles from './styles';
-// eslint-disable-next-line max-len
 import InvoiceInformation from '_/components/InvoiceInformation/InvoiceInformation';
 import InvoiceList from '_/components/InvoiceList/InvoiceList';
 import { invoiceState } from '_/states/saveStates/invoice_state';

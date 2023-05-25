@@ -3,7 +3,6 @@ import { StyleAttribute } from 'glamor';
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import GenericList from '../GenericComponents/GenericList/GenericList';
-// eslint-disable-next-line max-len
 import GenericListElement from '../GenericComponents/GenericList/GenericListElement';
 import styles from './styles';
 import currentViewState, { View } from '_/states/viewStates/current_view_state';

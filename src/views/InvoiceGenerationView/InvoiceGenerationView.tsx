@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-// eslint-disable-next-line max-len
 import GenericStepper from '_/components/GenericComponents/GenericStepper/GenericStepper';
-// eslint-disable-next-line max-len
 import IncidentalsSelection from '_/components/IncidentalsSelection/IncidentalsSelection';
 
 function InvoiceGenerationView() {

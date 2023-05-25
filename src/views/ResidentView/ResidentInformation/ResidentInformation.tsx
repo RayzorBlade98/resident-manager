@@ -7,7 +7,6 @@ import {
 } from 'mdb-react-ui-kit';
 import React, { useState } from 'react';
 import styles from '../styles';
-// eslint-disable-next-line max-len
 import GeneralResidentInformation from './GeneralResidentInformation/GeneralResidentInformation';
 import RentInformation from './RentInformation/RentInformation';
 
