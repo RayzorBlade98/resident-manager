@@ -61,10 +61,7 @@ const addRentPaymentState = atom<AddRentPaymentState>({
  *
  */
 export const paymentValidator = new Validator<RentPaymentInput>({
-  paymentAmount: [
-    ValidationConstraint.NotNull,
-    ValidationConstraint.GreaterThanZero,
-  ],
+  paymentAmount: ValidationConstraint.Currency,
 });
 
 /**

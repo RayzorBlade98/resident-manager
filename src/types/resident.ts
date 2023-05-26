@@ -106,11 +106,8 @@ export function createResident(args: CreateResidentArguments): Resident {
  */
 // eslint-disable-next-line max-len
 export const validateResidentArgs = createValidationFunction<CreateResidentArguments>({
-  firstName: [ValidationConstraint.NotEmptyString],
-  lastName: [ValidationConstraint.NotEmptyString],
-  rent: [ValidationConstraint.NotNull, ValidationConstraint.GreaterThanZero],
-  incidentals: [
-    ValidationConstraint.NotNull,
-    ValidationConstraint.GreaterThanZero,
-  ],
+  firstName: [ValidationConstraint.NoEmptyString],
+  lastName: [ValidationConstraint.NoEmptyString],
+  rent: [ValidationConstraint.Currency],
+  incidentals: [ValidationConstraint.Currency],
 });

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-use-before-define */
 
 import _ from 'lodash';
 
@@ -14,52 +14,20 @@ export type ValidationErrorMessages<T> = {
  */
 export enum ValidationConstraint {
   /**
-   * ValidationConstraint that checks if the tested value is not an empty string.
+   * ValidationConstraint that checks if the tested string is not empty.
    */
-  NotEmptyString = 'NotEmptyString',
-  /**
-   * ValidationConstraint that checks if the tested value is not `null`.
-   */
-  NotNull = 'NotNull',
-  /**
-   * ValidationConstraint that checks if the tested value is greater than `0`.
-   */
-  GreaterThanZero = 'GreaterThanZero',
-  /**
-   * ValidationConstraint that checks if the tested value is an integer.
-   */
-  Integer = 'Integer',
+  NoEmptyString,
+
   /**
    * ValidationConstraint that checks if the tested value is between `1` and `12`.
    */
-  Month = 'Month',
+  Month,
+
+  /**
+   * ValidationConstraint that checks if the tested number is a valid currency value.
+   */
+  Currency,
 }
-
-/**
- * Object containing an error message for each `ValidationError`
- */
-const ERROR_MESSAGES: { [k in ValidationConstraint]: string } = {
-  [ValidationConstraint.NotEmptyString]: 'Darf nicht leer sein!',
-  [ValidationConstraint.NotNull]: 'Darf nicht leer sein!',
-  [ValidationConstraint.GreaterThanZero]: 'Muss größer als 0 sein!',
-  [ValidationConstraint.Integer]: 'Muss eine ganze Zahl sein!',
-  [ValidationConstraint.Month]: 'Muss zwischen 1 und 12 sein!',
-};
-
-/**
- * Object containing a function that checks if a given values is invalid for each `ValidationError`
- */
-const CONSTRAINT_FUNCTIONS: {
-  [k in ValidationConstraint]: (value: any) => boolean;
-} = {
-  [ValidationConstraint.NotEmptyString]: (value: any) => value !== '',
-  [ValidationConstraint.NotNull](value: any): boolean {
-    return value !== null && value !== undefined;
-  },
-  [ValidationConstraint.GreaterThanZero]: (value: any) => value > 0,
-  [ValidationConstraint.Integer]: (value: any) => value % 1 === 0,
-  [ValidationConstraint.Month]: (value: any) => value >= 1 && value <= 12,
-};
 
 /**
  * Creates a function that validates an object of type `T`.
@@ -89,8 +57,9 @@ export function createValidationFunction<T>(errors: {
       if (value === undefined) continue;
       // eslint-disable-next-line no-restricted-syntax
       for (const error of value as ValidationConstraint[]) {
-        if (!CONSTRAINT_FUNCTIONS[error](object[k as keyof T])) {
-          errorMessages[k as keyof T] = ERROR_MESSAGES[error];
+        const errorMessage = CONSTRAINT_FUNCTIONS[error](object[k as keyof T]);
+        if (errorMessage) {
+          errorMessages[k as keyof T] = errorMessage;
           break;
         }
       }
@@ -107,7 +76,7 @@ export function createValidationFunction<T>(errors: {
  * The contraints that each key of `T` must fulfill
  */
 type ValidationConstraints<T> = {
-  [k in keyof T]?: ValidationConstraint[];
+  [k in keyof T]?: ValidationConstraint;
 };
 
 /**
@@ -134,22 +103,11 @@ export class Validator<T extends object> {
     invalidOnly = true,
   ): ValidationErrorMessages<T> {
     const errorMessages: ValidationErrorMessages<T> = {};
-    Object.entries(this.constraints).forEach(([_key, constraints]) => {
+    Object.entries(this.constraints).forEach(([_key, _constraint]) => {
       const key = _key as unknown as keyof T;
-      errorMessages[key] = undefined;
-      if (constraints === undefined) return;
-      (constraints as unknown as ValidationConstraint[]).forEach(
-        (constraint) => {
-          if (errorMessages[key]) {
-            // An error has already been found
-            return;
-          }
-
-          if (!CONSTRAINT_FUNCTIONS[constraint](toValidate[key])) {
-            errorMessages[key] = ERROR_MESSAGES[constraint];
-          }
-        },
-      );
+      const constraint = _constraint as ValidationConstraint;
+      if (constraint === undefined) return;
+      errorMessages[key] = CONSTRAINT_FUNCTIONS[constraint](toValidate[key]);
     });
 
     if (!invalidOnly) {
@@ -178,4 +136,101 @@ export class Validator<T extends object> {
     );
     return this.validate(difference, false);
   }
+}
+
+/**
+ * Object containing a function that checks if a given values is invalid for each `ValidationError`
+ */
+const CONSTRAINT_FUNCTIONS: {
+  [k in ValidationConstraint]: (value: any) => string | undefined;
+} = {
+  [ValidationConstraint.Month]: monthConstraint,
+  [ValidationConstraint.NoEmptyString]: noEmptyStringConstraint,
+  [ValidationConstraint.Currency]: currencyConstraint,
+};
+
+/**
+ * Object containing all error messages
+ */
+const ERROR_MESSAGES = {
+  EMPTY: 'Darf nicht leer sein!',
+  LT_ZERO: 'Muss größer als 0 sein!',
+  NO_INTEGER: 'Muss eine ganze Zahl sein!',
+  NO_MONTH: 'Muss zwischen 1 und 12 sein!',
+  NO_NUMBER: 'Muss eine Zahl sein!',
+};
+
+/**
+ * GENERIC CONSTRAINT FUNCTIONS
+ */
+
+/**
+ * Checks if the value is a number
+ */
+function isNumberConstraint(
+  value: string | number | undefined,
+): string | undefined {
+  if (!value || value === '') {
+    return ERROR_MESSAGES.EMPTY;
+  }
+  if (Number.isNaN(Number(value))) {
+    return ERROR_MESSAGES.NO_NUMBER;
+  }
+  return undefined;
+}
+
+/**
+ * Checks if the value is an integer
+ */
+function isIntegerConstraint(
+  value: string | number | undefined,
+): string | undefined {
+  if (isNumberConstraint(value) || Number(value) % 1 !== 0) {
+    return ERROR_MESSAGES.NO_INTEGER;
+  }
+  return undefined;
+}
+
+/**
+ * SPECIFIC CONSTRAINT FUNCTIONS
+ */
+
+/**
+ * Constraint function for the `Currency` constraint
+ */
+function currencyConstraint(value: number | undefined): string | undefined {
+  if (!value) {
+    return ERROR_MESSAGES.EMPTY;
+  }
+  if (value <= 0) {
+    return ERROR_MESSAGES.LT_ZERO;
+  }
+  return undefined;
+}
+
+/**
+ * Constraint function for the `NoEmptyString` constraint
+ */
+function noEmptyStringConstraint(value: string): string | undefined {
+  if (value === '') {
+    return ERROR_MESSAGES.EMPTY;
+  }
+  return undefined;
+}
+
+/**
+ * Constraint function for the `Month` constraint
+ */
+function monthConstraint(
+  value: string | number | undefined,
+): string | undefined {
+  const isNoInteger = isIntegerConstraint(value);
+  if (isNoInteger) {
+    return isNoInteger;
+  }
+  const number = Number(value);
+  if (number < 1 || number > 12) {
+    return ERROR_MESSAGES.NO_MONTH;
+  }
+  return undefined;
 }

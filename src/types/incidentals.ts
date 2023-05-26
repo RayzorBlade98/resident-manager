@@ -42,15 +42,8 @@ export function createIncidentals(
 
 // eslint-disable-next-line max-len
 export const validateIncidentalsArgs = createValidationFunction<CreateIncidentalsArguments>({
-  name: [ValidationConstraint.NotEmptyString],
-  currentPrice: [
-    ValidationConstraint.NotNull,
-    ValidationConstraint.GreaterThanZero,
-  ],
+  name: [ValidationConstraint.NoEmptyString],
+  currentPrice: [ValidationConstraint.Currency],
   deductionType: [],
-  invoiceInterval: [
-    ValidationConstraint.NotNull,
-    ValidationConstraint.Integer,
-    ValidationConstraint.Month,
-  ],
+  invoiceInterval: [ValidationConstraint.Month],
 });
