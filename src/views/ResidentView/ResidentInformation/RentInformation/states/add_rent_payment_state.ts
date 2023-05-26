@@ -19,7 +19,7 @@ interface RentPaymentInput {
   /**
    *
    */
-  paymentDate: Date;
+  paymentDate: Date | undefined;
 }
 
 interface AddRentPaymentState {
@@ -51,7 +51,7 @@ const addRentPaymentState = atom<AddRentPaymentState>({
     showModal: false,
     formInput: {
       paymentAmount: undefined,
-      paymentDate: new Date(),
+      paymentDate: undefined,
     },
     formErrors: {},
   },
@@ -62,6 +62,7 @@ const addRentPaymentState = atom<AddRentPaymentState>({
  */
 export const paymentValidator = new Validator<RentPaymentInput>({
   paymentAmount: ValidationConstraint.Currency,
+  paymentDate: ValidationConstraint.Defined,
 });
 
 /**

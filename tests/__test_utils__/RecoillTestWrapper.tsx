@@ -3,6 +3,7 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 import RecoilNexus from 'recoil-nexus';
+import StandardLocalizationProvider from '_/components/StandardLocalizationProvider/StandardLocalizationProvider';
 
 interface RecoilTestWrapperProps {}
 
@@ -15,7 +16,9 @@ function RecoilTestWrapper(
   return (
     <RecoilRoot>
       <RecoilNexus />
-      {props.children}
+      <StandardLocalizationProvider>
+        {props.children}
+      </StandardLocalizationProvider>
     </RecoilRoot>
   );
 }

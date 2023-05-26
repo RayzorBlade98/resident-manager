@@ -6,10 +6,10 @@ import {
   addRentPaymentFormInputSelector,
 } from '../../states/add_rent_payment_state';
 import CurrencyInputField from '_/components/GenericComponents/CurrencyInputField/CurrencyInputField';
-import GenericDatePicker from '_/components/GenericComponents/GenericDatePicker/GenericDatePicker';
+import StandardDateField from '_/components/StandardDateField/StandardDateField';
 
 /**
- *
+ * Form to submit payment information
  */
 function AddRentPaymentForm(): JSX.Element {
   const setFormInput = useSetRecoilState(addRentPaymentFormInputSelector);
@@ -35,11 +35,10 @@ function AddRentPaymentForm(): JSX.Element {
           />
         </Grid>
         <Grid item xs={12}>
-          <GenericDatePicker
-            id="paymentDate"
+          <StandardDateField
             label="Zahlungsempfang"
             onChange={onChangePaymentDate}
-            errorMessage={errors.paymentDate}
+            error={!!errors.paymentDate}
           />
         </Grid>
       </Grid>

@@ -9,6 +9,7 @@ import { createRoot } from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
 import RecoilNexus from 'recoil-nexus';
 import SaveStateManager from '_/components/FunctionalComponents/SaveStateManager';
+import StandardLocalizationProvider from '_/components/StandardLocalizationProvider/StandardLocalizationProvider';
 import App from '_renderer/App';
 
 const container = document.getElementById('app');
@@ -18,6 +19,8 @@ root.render(
   <RecoilRoot>
     <RecoilNexus />
     <SaveStateManager />
-    <App />
+    <StandardLocalizationProvider>
+      <App />
+    </StandardLocalizationProvider>
   </RecoilRoot>,
 );

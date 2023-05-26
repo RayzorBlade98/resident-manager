@@ -27,6 +27,11 @@ export enum ValidationConstraint {
    * ValidationConstraint that checks if the tested number is a valid currency value.
    */
   Currency,
+
+  /**
+   * ValidationConstraint that checks if the tested is defined
+   */
+  Defined,
 }
 
 /**
@@ -147,6 +152,7 @@ const CONSTRAINT_FUNCTIONS: {
   [ValidationConstraint.Month]: monthConstraint,
   [ValidationConstraint.NoEmptyString]: noEmptyStringConstraint,
   [ValidationConstraint.Currency]: currencyConstraint,
+  [ValidationConstraint.Defined]: definedConstraint,
 };
 
 /**
@@ -231,6 +237,16 @@ function monthConstraint(
   const number = Number(value);
   if (number < 1 || number > 12) {
     return ERROR_MESSAGES.NO_MONTH;
+  }
+  return undefined;
+}
+
+/**
+ * Constraint function for the `Defined` constraint
+ */
+function definedConstraint(value: any): string | undefined {
+  if (value === null || value === undefined) {
+    return ERROR_MESSAGES.EMPTY;
   }
   return undefined;
 }
