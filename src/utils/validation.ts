@@ -53,7 +53,9 @@ const CONSTRAINT_FUNCTIONS: {
   [k in ValidationConstraint]: (value: any) => boolean;
 } = {
   [ValidationConstraint.NotEmptyString]: (value: any) => value !== '',
-  [ValidationConstraint.NotNull]: (value: any) => value !== null,
+  [ValidationConstraint.NotNull](value: any): boolean {
+    return value !== null && value !== undefined;
+  },
   [ValidationConstraint.GreaterThanZero]: (value: any) => value > 0,
   [ValidationConstraint.Integer]: (value: any) => value % 1 === 0,
   [ValidationConstraint.Month]: (value: any) => value >= 1 && value <= 12,
@@ -129,10 +131,10 @@ export class Validator<T extends object> {
    */
   public validate(
     toValidate: Partial<T>,
-    invalidOnly = false,
+    invalidOnly = true,
   ): ValidationErrorMessages<T> {
     const errorMessages: ValidationErrorMessages<T> = {};
-    Object.entries(this.constraints).forEach((_key, constraints) => {
+    Object.entries(this.constraints).forEach(([_key, constraints]) => {
       const key = _key as unknown as keyof T;
       errorMessages[key] = undefined;
       if (constraints === undefined) return;
@@ -174,6 +176,6 @@ export class Validator<T extends object> {
       newValues,
       (v, k) => oldValues[k as keyof T] !== v,
     );
-    return this.validate(difference, true);
+    return this.validate(difference, false);
   }
 }

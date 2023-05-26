@@ -14,7 +14,7 @@ interface RentPaymentInput {
   /**
    *
    */
-  paymentAmount: CurrencyInCents | null;
+  paymentAmount: CurrencyInCents | undefined;
 
   /**
    *
@@ -50,7 +50,7 @@ const addRentPaymentState = atom<AddRentPaymentState>({
     selectedRentMonth: undefined,
     showModal: false,
     formInput: {
-      paymentAmount: null,
+      paymentAmount: undefined,
       paymentDate: new Date(),
     },
     formErrors: {},
