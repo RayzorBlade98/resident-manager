@@ -10,6 +10,9 @@ import { Resident } from '_/types/resident';
 import { CurrencyInCents } from '_/utils/currency';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 
+/**
+ * Button that submits the input payment infos if they are valid
+ */
 function AddRentPaymentButton(): JSX.Element {
   // eslint-disable-next-line max-len
   const [rentPaymentState, setRentPaymentState] = useRecoilState(addRentPaymentState);
