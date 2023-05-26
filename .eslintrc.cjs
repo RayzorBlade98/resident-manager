@@ -29,6 +29,7 @@ const baseConfig = {
     'react/jsx-props-no-spreading': 'off',
     'no-continue': 'off',
     'max-classes-per-file': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
 };
 

@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import {
   createValidationFunction,
-  ValidationError,
+  ValidationConstraint,
   ValidationErrorMessages,
 } from '../utils/validation';
 import { MonthYear, MonthYearUtils } from './date';
@@ -106,8 +106,11 @@ export function createResident(args: CreateResidentArguments): Resident {
  */
 // eslint-disable-next-line max-len
 export const validateResidentArgs = createValidationFunction<CreateResidentArguments>({
-  firstName: [ValidationError.EmptyString],
-  lastName: [ValidationError.EmptyString],
-  rent: [ValidationError.Null, ValidationError.LessEqualZero],
-  incidentals: [ValidationError.Null, ValidationError.LessEqualZero],
+  firstName: [ValidationConstraint.NotEmptyString],
+  lastName: [ValidationConstraint.NotEmptyString],
+  rent: [ValidationConstraint.NotNull, ValidationConstraint.GreaterThanZero],
+  incidentals: [
+    ValidationConstraint.NotNull,
+    ValidationConstraint.GreaterThanZero,
+  ],
 });

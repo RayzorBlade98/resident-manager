@@ -1,17 +1,16 @@
-import _ from 'lodash';
 import { atom, selector } from 'recoil';
 import { MonthYear } from '_/types/date';
 import { CurrencyInCents } from '_/utils/currency';
 import {
-  ValidationError,
+  ValidationConstraint,
   ValidationErrorMessages,
-  createValidationFunction,
+  Validator,
 } from '_/utils/validation';
 
 /**
  *
  */
-export interface RentPaymentInput {
+interface RentPaymentInput {
   /**
    *
    */
@@ -61,8 +60,11 @@ const addRentPaymentState = atom<AddRentPaymentState>({
 /**
  *
  */
-export const validatePayment = createValidationFunction<RentPaymentInput>({
-  paymentAmount: [ValidationError.Null, ValidationError.LessEqualZero],
+export const paymentValidator = new Validator<RentPaymentInput>({
+  paymentAmount: [
+    ValidationConstraint.NotNull,
+    ValidationConstraint.GreaterThanZero,
+  ],
 });
 
 /**
@@ -82,24 +84,17 @@ export const addRentPaymentFormInputSelector = selector<RentPaymentInput>({
   key: 'addRentPaymentState-formInput',
   get: ({ get }) => get(addRentPaymentState).formInput,
   set: ({ set }, input) => {
-    set(addRentPaymentState, (state) => {
-      const difference = _.pickBy(
-        input,
-        (v, k) => state.formInput[k as keyof RentPaymentInput] !== v,
-      );
-      const errors = validatePayment(
-        input as RentPaymentInput,
-      ) as ValidationErrorMessages<RentPaymentInput>;
-      const includedErrors = _.pick(errors, Object.keys(difference));
-      return {
-        ...state,
-        formInput: input as RentPaymentInput,
-        formErrors: {
-          ...state.formErrors,
-          ...includedErrors,
-        },
-      };
-    });
+    set(addRentPaymentState, (state) => ({
+      ...state,
+      formInput: input as RentPaymentInput,
+      formErrors: {
+        ...state.formErrors,
+        ...paymentValidator.validateDifference(
+          state.formInput,
+          input as RentPaymentInput,
+        ),
+      },
+    }));
   },
 });
 

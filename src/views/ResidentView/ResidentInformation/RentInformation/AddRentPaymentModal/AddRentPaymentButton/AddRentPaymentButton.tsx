@@ -2,14 +2,12 @@ import { Button } from '@mui/material';
 import React from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import addRentPaymentState, {
-  RentPaymentInput,
-  validatePayment,
+  paymentValidator,
 } from '../../states/add_rent_payment_state';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { MonthYear } from '_/types/date';
 import { Resident } from '_/types/resident';
 import { CurrencyInCents } from '_/utils/currency';
-import { ValidationErrorMessages } from '_/utils/validation';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 
 function AddRentPaymentButton(): JSX.Element {
@@ -22,15 +20,10 @@ function AddRentPaymentButton(): JSX.Element {
   ) as Resident;
 
   function onSave(): void {
-    const newErrors = validatePayment(
-      rentPaymentState.formInput,
-    ) as ValidationErrorMessages<RentPaymentInput>;
+    const errors = paymentValidator.validate(rentPaymentState.formInput);
 
-    const numberOfErrors = Object.keys(newErrors).filter(
-      (k) => !!newErrors[k as keyof ValidationErrorMessages<RentPaymentInput>],
-    ).length;
-    if (numberOfErrors > 0) {
-      setRentPaymentState((state) => ({ ...state, formErrors: newErrors }));
+    if (Object.keys(errors).length > 0) {
+      setRentPaymentState((state) => ({ ...state, formErrors: errors }));
       return;
     }
 

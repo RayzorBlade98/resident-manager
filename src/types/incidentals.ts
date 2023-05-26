@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { CurrencyInCents } from '_/utils/currency';
 import {
   createValidationFunction,
-  ValidationError,
+  ValidationConstraint,
   ValidationErrorMessages,
 } from '_/utils/validation';
 
@@ -42,12 +42,15 @@ export function createIncidentals(
 
 // eslint-disable-next-line max-len
 export const validateIncidentalsArgs = createValidationFunction<CreateIncidentalsArguments>({
-  name: [ValidationError.EmptyString],
-  currentPrice: [ValidationError.Null, ValidationError.LessEqualZero],
+  name: [ValidationConstraint.NotEmptyString],
+  currentPrice: [
+    ValidationConstraint.NotNull,
+    ValidationConstraint.GreaterThanZero,
+  ],
   deductionType: [],
   invoiceInterval: [
-    ValidationError.Null,
-    ValidationError.NotInteger,
-    ValidationError.NotMonth,
+    ValidationConstraint.NotNull,
+    ValidationConstraint.Integer,
+    ValidationConstraint.Month,
   ],
 });
