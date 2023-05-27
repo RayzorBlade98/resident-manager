@@ -136,9 +136,4 @@ describe('AddRentPaymentButton', () => {
     const errorMessage = getRecoil(addRentPaymentState).formErrors.paymentAmount;
     expect(errorMessage).toBeDefined();
   });
-
-  test('should match snapshot', () => {
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
 });

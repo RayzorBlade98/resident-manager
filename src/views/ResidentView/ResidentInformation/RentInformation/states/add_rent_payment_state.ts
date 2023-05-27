@@ -10,7 +10,7 @@ import {
 /**
  *
  */
-interface RentPaymentInput {
+export interface RentPaymentInput {
   /**
    *
    */
@@ -42,6 +42,11 @@ interface AddRentPaymentState {
    *
    */
   formErrors: ValidationErrorMessages<RentPaymentInput>;
+
+  /**
+   *
+   */
+  formValidator: Validator<RentPaymentInput>;
 }
 
 const addRentPaymentState = atom<AddRentPaymentState>({
@@ -54,15 +59,11 @@ const addRentPaymentState = atom<AddRentPaymentState>({
       paymentDate: new Date(),
     },
     formErrors: {},
+    formValidator: new Validator<RentPaymentInput>({
+      paymentAmount: ValidationConstraint.Currency,
+      paymentDate: ValidationConstraint.Defined,
+    }),
   },
-});
-
-/**
- *
- */
-export const paymentValidator = new Validator<RentPaymentInput>({
-  paymentAmount: ValidationConstraint.Currency,
-  paymentDate: ValidationConstraint.Defined,
 });
 
 /**
@@ -87,7 +88,7 @@ export const addRentPaymentFormInputSelector = selector<RentPaymentInput>({
       formInput: input as RentPaymentInput,
       formErrors: {
         ...state.formErrors,
-        ...paymentValidator.validateDifference(
+        ...state.formValidator.validateDifference(
           state.formInput,
           input as RentPaymentInput,
         ),
