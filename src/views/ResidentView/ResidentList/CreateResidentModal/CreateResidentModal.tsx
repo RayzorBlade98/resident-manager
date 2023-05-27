@@ -12,7 +12,7 @@ import {
   CreateResidentErrors,
   validateResidentArgs,
 } from '_/types/resident';
-import { convertCurrencyEurosToCents } from '_/utils/currency';
+import { convertCurrencyEurosToCents } from '_/utils/currency/currency';
 
 export interface CreateResidentModalProps {
   /**

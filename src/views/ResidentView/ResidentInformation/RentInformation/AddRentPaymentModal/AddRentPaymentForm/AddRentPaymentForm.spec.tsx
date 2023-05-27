@@ -5,7 +5,7 @@ import React from 'react';
 import { getRecoil, resetRecoil } from 'recoil-nexus';
 import addRentPaymentState from '../../states/add_rent_payment_state';
 import AddRentPaymentForm from './AddRentPaymentForm';
-import { convertCurrencyEurosToCents } from '_/utils/currency';
+import { convertCurrencyEurosToCents } from '_/utils/currency/currency';
 import { dateToUTC } from '_/utils/date';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 

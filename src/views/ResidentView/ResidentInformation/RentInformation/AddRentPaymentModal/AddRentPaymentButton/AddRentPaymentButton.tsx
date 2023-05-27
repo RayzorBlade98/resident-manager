@@ -7,7 +7,7 @@ import addRentPaymentState, {
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { MonthYear } from '_/types/date';
 import { Resident } from '_/types/resident';
-import { CurrencyInCents } from '_/utils/currency';
+import { CurrencyInCents } from '_/utils/currency/currency';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 
 /**

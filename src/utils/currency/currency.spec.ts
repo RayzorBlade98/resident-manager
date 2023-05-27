@@ -1,7 +1,8 @@
 import {
+  convertCurrencyCentsToEuros,
   convertCurrencyCentsToString,
   convertCurrencyEurosToCents,
-} from '_utils/currency';
+} from '_/utils/currency/currency';
 
 describe('convertCurrencyCentsToString', () => {
   test('should covert to right string', () => {
@@ -28,5 +29,19 @@ describe('convertCurrencyEurosToCents', () => {
 
     // Assert
     expect(currencyCents).toBe(expected);
+  });
+});
+
+describe('convertCurrencyCentsToEuros', () => {
+  test('should convert to right amount', () => {
+    // Arrange
+    const currencyCents = 12345;
+    const expected = 123.45;
+
+    // Act
+    const currencyEuros = convertCurrencyCentsToEuros(currencyCents);
+
+    // Assert
+    expect(currencyEuros).toBe(expected);
   });
 });

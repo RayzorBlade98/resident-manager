@@ -1,5 +1,5 @@
 import { Year, Month } from '_/types/date';
-import { CurrencyInCents } from '_/utils/currency';
+import { CurrencyInCents } from '_/utils/currency/currency';
 import { RentInformation } from '_types/rent';
 
 class RentInformationBuilder {

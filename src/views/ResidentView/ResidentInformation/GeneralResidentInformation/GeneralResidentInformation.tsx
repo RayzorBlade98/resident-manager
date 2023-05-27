@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { residentViewSelectedResidentState } from '../../states/resident_view_state';
 import { MonthYearUtils } from '_/types/date';
 import { Resident } from '_/types/resident';
-import { convertCurrencyCentsToString } from '_/utils/currency';
+import { convertCurrencyCentsToString } from '_/utils/currency/currency';
 
 /**
  * Component that displays general information about a resident

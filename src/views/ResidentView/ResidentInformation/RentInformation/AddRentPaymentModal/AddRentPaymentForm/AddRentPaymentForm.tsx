@@ -5,7 +5,7 @@ import {
   addRentPaymentFormErrorSelector,
   addRentPaymentFormInputSelector,
 } from '../../states/add_rent_payment_state';
-import CurrencyInputField from '_/components/GenericComponents/CurrencyInputField/CurrencyInputField';
+import CurrencyInputField from '_/components/CurrencyInputField/CurrencyInputField';
 import StandardDateField from '_/components/StandardDateField/StandardDateField';
 
 /**
@@ -32,6 +32,7 @@ function AddRentPaymentForm(): JSX.Element {
           <CurrencyInputField
             id="paymentAmount"
             label="Zahlungssumme"
+            value={formInput.paymentAmount}
             onChange={onChangePaymentAmount}
             errorMessage={errors.paymentAmount}
           />

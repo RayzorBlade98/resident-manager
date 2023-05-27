@@ -5,7 +5,7 @@ import React from 'react';
 import CreateResidentModal from './CreateResidentModal';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { Month } from '_/types/date';
-import { convertCurrencyEurosToCents } from '_/utils/currency';
+import { convertCurrencyEurosToCents } from '_/utils/currency/currency';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import * as ResidentModule from '_types/resident';
 

@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { CurrencyInCents } from '_/utils/currency';
+import { CurrencyInCents } from '_/utils/currency/currency';
 import {
   createValidationFunction,
   ValidationConstraint,

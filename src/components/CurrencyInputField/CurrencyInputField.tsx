@@ -1,12 +1,21 @@
 import { InputAdornment, TextField } from '@mui/material';
 import React from 'react';
-import { CurrencyInCents, convertCurrencyEurosToCents } from '_/utils/currency';
+import {
+  CurrencyInCents,
+  convertCurrencyCentsToEuros,
+  convertCurrencyEurosToCents,
+} from '_/utils/currency/currency';
 
 interface CurrencyInputFieldProps {
   /**
    * Label of the input field
    */
   label: string;
+
+  /**
+   * Current currency value of the field
+   */
+  value: CurrencyInCents | undefined;
 
   /**
    * Callback when the input changes
@@ -22,6 +31,11 @@ interface CurrencyInputFieldProps {
    * Id of the input field
    */
   id?: string;
+
+  /**
+   * Whether the field is required or not
+   */
+  required?: boolean;
 }
 
 /**
@@ -34,24 +48,21 @@ function CurrencyInputField(props: CurrencyInputFieldProps): JSX.Element {
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ): void => {
-    let value: number | undefined;
-    if (event.target.value === '') {
-      value = undefined;
-    } else {
-      value = Number(event.target.value);
-      value = Number.isNaN(value)
-        ? undefined
-        : convertCurrencyEurosToCents(value);
-    }
+    const value = event.target.value !== ''
+      ? convertCurrencyEurosToCents(Number(event.target.value))
+      : undefined;
     props.onChange(value);
   };
 
   return (
     <TextField
+      required={props.required}
       id={props.id}
       label={props.label}
       type="number"
-      required
+      value={
+        props.value ? convertCurrencyCentsToEuros(props.value).toString() : ''
+      }
       onChange={onChange}
       InputProps={{
         endAdornment: <InputAdornment position="end">€</InputAdornment>,

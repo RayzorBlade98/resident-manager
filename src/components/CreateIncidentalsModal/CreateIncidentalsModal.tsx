@@ -15,7 +15,7 @@ import {
   DeductionType,
   validateIncidentalsArgs,
 } from '_/types/incidentals';
-import { convertCurrencyEurosToCents } from '_/utils/currency';
+import { convertCurrencyEurosToCents } from '_/utils/currency/currency';
 
 export interface CreateIncidentalsModalProps {
   show: boolean;

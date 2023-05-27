@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 import { MonthYear } from '_/types/date';
-import { CurrencyInCents } from '_/utils/currency';
+import { CurrencyInCents } from '_/utils/currency/currency';
 import {
   ValidationConstraint,
   ValidationErrorMessages,

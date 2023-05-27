@@ -6,7 +6,7 @@ import {
 } from '../utils/validation';
 import { MonthYear, MonthYearUtils } from './date';
 import { RentInformation, RentInformationUtils } from './rent';
-import { CurrencyInCents } from '_/utils/currency';
+import { CurrencyInCents } from '_/utils/currency/currency';
 
 /**
  * Object containing information about a specific resident

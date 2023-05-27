@@ -15,7 +15,7 @@ import { Resident } from '_/types/resident';
 import {
   CurrencyInCents,
   convertCurrencyCentsToString,
-} from '_/utils/currency';
+} from '_/utils/currency/currency';
 import { dateToString } from '_/utils/date';
 
 /**

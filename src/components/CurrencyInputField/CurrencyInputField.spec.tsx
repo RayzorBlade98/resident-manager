@@ -1,34 +1,50 @@
 import { RenderResult, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
-import StandardDateField from './StandardDateField';
+import React, { useState } from 'react';
+import CurrencyInputField from './CurrencyInputField';
+import {
+  CurrencyInCents,
+  convertCurrencyCentsToEuros,
+} from '_/utils/currency/currency';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import { dateToUTC } from '_utils/date';
 
-describe('StandardDateField', () => {
+describe('CurrencyInputField', () => {
   const onChangeMock = jest.fn();
   const labelText = 'Testlabel';
-  let value: Date | undefined;
+  let value: CurrencyInCents | undefined;
   let errorMessage: string | undefined;
   let renderResult: RenderResult;
+
+  function CurrencyInputFieldWrapper(): JSX.Element {
+    const [input, setInput] = useState<number | undefined>(value);
+
+    const onChange = (_value: number | undefined) => {
+      onChangeMock(_value);
+      setInput(_value);
+    };
+
+    return (
+      <CurrencyInputField
+        id="testField"
+        label={labelText}
+        value={input}
+        onChange={onChange}
+        errorMessage={errorMessage}
+      />
+    );
+  }
 
   function renderComponent(): void {
     renderResult = render(
       <RecoilTestWrapper>
-        <StandardDateField
-          id="testField"
-          label={labelText}
-          value={value}
-          onChange={onChangeMock}
-          errorMessage={errorMessage}
-        />
+        <CurrencyInputFieldWrapper />
       </RecoilTestWrapper>,
     );
   }
 
   beforeEach(() => {
     errorMessage = 'Testerror';
-    value = dateToUTC(new Date(2023, 4, 27));
+    value = 12345;
     renderComponent();
   });
 
@@ -44,7 +60,7 @@ describe('StandardDateField', () => {
 
   test('should display error message', () => {
     // Assert
-    const error = renderResult.container.querySelector('p');
+    const error = renderResult.container.querySelector('p.Mui-error');
     expect(error?.textContent).toEqual(errorMessage);
   });
 
@@ -53,29 +69,33 @@ describe('StandardDateField', () => {
     const field = renderResult.container.querySelector(
       'input',
     ) as HTMLInputElement;
-    expect(field.value).toBe('27.05.2023');
+    expect(field.value).toBe(convertCurrencyCentsToEuros(value!).toString());
   });
 
   test('should call onChange for valid input', async () => {
     // Arrange
+    value = undefined;
+    renderComponent();
     const user = userEvent.setup();
+
     // Act
-    const field = renderResult.getByRole('textbox');
-    await user.type(field, '25121998');
+    const field = renderResult.container.querySelector('input')!;
+    await user.type(field, '13.37');
 
     // Assert
-    expect(onChangeMock).toHaveBeenLastCalledWith(
-      dateToUTC(new Date(1998, 11, 25)),
-    );
+    expect(onChangeMock).toHaveBeenLastCalledWith(1337);
   });
 
-  test('should call onChange for invalid input', async () => {
+  test('should call onChange for empty input', async () => {
     // Arrange
+    value = undefined;
+    renderComponent();
     const user = userEvent.setup();
+
     // Act
-    const field = renderResult.getByRole('textbox');
+    const field = renderResult.container.querySelector('input')!;
     await user.click(field);
-    await user.keyboard('{Backspace}');
+    await user.keyboard('1{Backspace}');
 
     // Assert
     expect(onChangeMock).toHaveBeenLastCalledWith(undefined);
@@ -84,6 +104,7 @@ describe('StandardDateField', () => {
   test('should match snapshot', () => {
     // Arrange
     errorMessage = undefined;
+    value = 12345;
     renderComponent();
 
     // Assert
@@ -92,7 +113,6 @@ describe('StandardDateField', () => {
 
   test('should match snapshot (with error)', () => {
     // Arrange
-    value = undefined;
     renderComponent();
 
     // Assert

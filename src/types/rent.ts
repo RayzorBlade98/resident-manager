@@ -1,5 +1,5 @@
 import { MonthYear, MonthYearUtils } from './date';
-import { CurrencyInCents } from '_/utils/currency';
+import { CurrencyInCents } from '_/utils/currency/currency';
 
 /**
  * Object containing information about the rent of a single month

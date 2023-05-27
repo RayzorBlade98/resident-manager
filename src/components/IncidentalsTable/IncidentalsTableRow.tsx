@@ -1,6 +1,6 @@
 import React from 'react';
 import { Incidentals } from '_/types/incidentals';
-import { convertCurrencyCentsToString } from '_/utils/currency';
+import { convertCurrencyCentsToString } from '_/utils/currency/currency';
 
 interface IncidentalsTableRowProps {
   incidentals: Incidentals;
