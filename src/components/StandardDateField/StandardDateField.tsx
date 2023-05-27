@@ -1,6 +1,7 @@
 import { DateField } from '@mui/x-date-pickers';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import React from 'react';
+import { dateToUTC } from '_/utils/date';
 
 interface StandardDateFieldProps {
   /**
@@ -9,28 +10,62 @@ interface StandardDateFieldProps {
   label: string;
 
   /**
+   * Current date value of the field
+   */
+  value: Date | undefined;
+
+  /**
    * Callback when selecting a date
    * @param date selected date
    */
-  onChange: (date: Date) => void;
+  onChange: (date: Date | undefined) => void;
 
   /**
-   * Whether the date field should be shown in error state
+   * Error message displayed below the field
    */
-  error?: boolean;
+  errorMessage?: string;
+
+  /**
+   * Id of the date field
+   */
+  id?: string;
+
+  /**
+   * Whether the field is required or not
+   */
+  required?: boolean;
 }
 
 /**
  * Generic date field component
  */
 function StandardDateField(props: StandardDateFieldProps): JSX.Element {
+  const onChange = (date: Dayjs | null) => {
+    let parsedDate: Date | undefined = date?.toDate();
+    if (parsedDate) {
+      if (Number.isNaN(parsedDate.valueOf())) {
+        parsedDate = undefined;
+      } else {
+        parsedDate = dateToUTC(parsedDate);
+      }
+    }
+    props.onChange(parsedDate);
+  };
+
   return (
     <DateField
-      required
+      required={props.required}
       label={props.label}
       format="DD.MM.YYYY"
-      onChange={(date) => props.onChange((date as Dayjs).toDate())}
-      color={props.error ? 'error' : 'primary'}
+      value={props.value ? dayjs(props.value) : undefined}
+      onChange={onChange}
+      slotProps={{
+        textField: {
+          helperText: props.errorMessage,
+          error: !!props.errorMessage,
+          id: props.id,
+        },
+      }}
     />
   );
 }

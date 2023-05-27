@@ -1,12 +1,12 @@
 import {
   RenderResult, act, fireEvent, render,
 } from '@testing-library/react';
-import dayjs from 'dayjs';
 import React from 'react';
 import { getRecoil, resetRecoil } from 'recoil-nexus';
 import addRentPaymentState from '../../states/add_rent_payment_state';
 import AddRentPaymentForm from './AddRentPaymentForm';
 import { convertCurrencyEurosToCents } from '_/utils/currency';
+import { dateToUTC } from '_/utils/date';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('AddRentPaymentForm', () => {
@@ -43,7 +43,7 @@ describe('AddRentPaymentForm', () => {
     const formInput = getRecoil(addRentPaymentState).formInput;
     expect(formInput).toEqual({
       paymentAmount: convertCurrencyEurosToCents(paymentAmount),
-      paymentDate: dayjs('1998-12-25').toDate(),
+      paymentDate: dateToUTC(new Date(1998, 11, 25)),
     });
   });
 

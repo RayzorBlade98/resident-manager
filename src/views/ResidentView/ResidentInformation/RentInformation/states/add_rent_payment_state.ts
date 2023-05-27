@@ -51,7 +51,7 @@ const addRentPaymentState = atom<AddRentPaymentState>({
     showModal: false,
     formInput: {
       paymentAmount: undefined,
-      paymentDate: undefined,
+      paymentDate: new Date(),
     },
     formErrors: {},
   },

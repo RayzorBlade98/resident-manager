@@ -4,11 +4,6 @@ import { CurrencyInCents, convertCurrencyEurosToCents } from '_/utils/currency';
 
 interface CurrencyInputFieldProps {
   /**
-   * Id of the input field
-   */
-  id: string;
-
-  /**
    * Label of the input field
    */
   label: string;
@@ -22,6 +17,11 @@ interface CurrencyInputFieldProps {
    * Error message that is getting displayed
    */
   errorMessage?: string;
+
+  /**
+   * Id of the input field
+   */
+  id?: string;
 }
 
 /**

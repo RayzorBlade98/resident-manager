@@ -1,6 +1,3 @@
-// Remove after adding another export:
-/* eslint-disable import/prefer-default-export */
-
 /**
  * Converts the given date to its string representaion (format: DD.MM.YYYY)
  * @param date date that should be converted
@@ -15,4 +12,15 @@ export function dateToString(date: Date): string {
   const monthPrefix: string = month < 10 ? '0' : '';
 
   return `${dayPrefix}${String(day)}.${monthPrefix}${String(month)}.${year}`;
+}
+
+/**
+ * Converts the date to UTC
+ * @param date date that should be converted
+ * @returns converted date
+ */
+export function dateToUTC(date: Date): Date {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
+  );
 }
