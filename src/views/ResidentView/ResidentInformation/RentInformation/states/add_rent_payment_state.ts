@@ -44,7 +44,7 @@ interface AddRentPaymentState {
   formErrors: ValidationErrorMessages<RentPaymentInput>;
 
   /**
-   * Validation that is handling the form validation
+   * Validator that is handling the form validation
    */
   formValidator: Validator<RentPaymentInput>;
 }

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { residentViewSelectedResidentState } from '../states/resident_view_state';
 import styles from '../styles';
+import createResidentState from './states/create_resident_state';
 import GenericList from '_/components/GenericComponents/GenericList/GenericList';
 import GenericListElement from '_/components/GenericComponents/GenericList/GenericListElement';
 import residentState from '_/states/saveStates/resident_state';
@@ -12,23 +13,22 @@ import CreateResidentModal from '_/views/ResidentView/ResidentList/CreateResiden
  * Component that displays a list of provided residents
  */
 function ResidentList(): JSX.Element {
+  const setCreateResidentState = useSetRecoilState(createResidentState);
   const residents = useRecoilValue(residentState);
   const [selectedResident, setSelectedResident] = useRecoilState(
     residentViewSelectedResidentState,
   );
-  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const onCreateResident = () => {
+    setCreateResidentState((state) => ({ ...state, showModal: true }));
+  };
 
   return (
     <>
-      {showModal && (
-        <CreateResidentModal
-          show={showModal}
-          onClose={() => setShowModal(false)}
-        />
-      )}
+      <CreateResidentModal />
       <GenericList style={styles.residentList.container}>
         <GenericListElement
-          onClick={() => setShowModal(true)}
+          onClick={onCreateResident}
           style={styles.residentList.newResident}
         >
           Neuer Mieter

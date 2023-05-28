@@ -30,6 +30,7 @@ function AddRentPaymentForm(): JSX.Element {
       <Grid container columnSpacing={2} rowSpacing={2}>
         <Grid item xs={12}>
           <CurrencyInputField
+            required
             id="paymentAmount"
             label="Zahlungssumme"
             value={formInput.paymentAmount}

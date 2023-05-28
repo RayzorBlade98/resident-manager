@@ -29,7 +29,7 @@ export enum ValidationConstraint {
   Currency,
 
   /**
-   * ValidationConstraint that checks if the tested is defined
+   * ValidationConstraint that checks if the tested value is defined
    */
   Defined,
 }
