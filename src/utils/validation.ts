@@ -103,7 +103,10 @@ export class Validator<T extends object> {
    * @param invalidOnly whether only the invalid keys should be included into the returned object or not
    * @returns object containing the error messages for invalid keys of the validated object and undefined for the valid keys.
    */
-  public validate(toValidate: Partial<T>): ValidationErrorMessages<T> {
+  public validate(
+    toValidate: Partial<T>,
+    invalidOnly = true,
+  ): ValidationErrorMessages<T> {
     const errorMessages: ValidationErrorMessages<T> = {};
     Object.entries(this.constraints).forEach(([_key, _constraint]) => {
       const key = _key as unknown as keyof T;
@@ -111,6 +114,10 @@ export class Validator<T extends object> {
       if (constraint === undefined) return;
       errorMessages[key] = CONSTRAINT_FUNCTIONS[constraint](toValidate[key]);
     });
+
+    if (!invalidOnly) {
+      return errorMessages;
+    }
 
     return _.pickBy(
       errorMessages,
@@ -128,7 +135,7 @@ export class Validator<T extends object> {
     oldValues: T,
     newValues: T,
   ): ValidationErrorMessages<T> {
-    const errors = this.validate(newValues);
+    const errors = this.validate(newValues, false);
     return _.pickBy(
       errors,
       (_v, k) => oldValues[k as keyof T] !== newValues[k as keyof T],
