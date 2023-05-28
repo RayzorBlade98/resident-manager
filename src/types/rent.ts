@@ -38,17 +38,17 @@ export enum PaymentStatus {
   /**
    * All costs where paid
    */
-  Paid,
+  Paid = 'Paid',
 
   /**
    * Not enough was paid
    */
-  PaidPartially,
+  PaidPartially = 'PaidPartially',
 
   /**
    * Nothing was paid
    */
-  Unpaid,
+  Unpaid = 'Unpaid',
 }
 
 /**

@@ -53,7 +53,6 @@ function InvoiceInformation(props: InvoiceInformationProps): JSX.Element {
       case InvoiceTab.General:
         return <GeneralInvoiceInformation invoice={props.invoice} />;
       default:
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw new Error(`Tab ${activeTab} is not implemented`);
     }
   }

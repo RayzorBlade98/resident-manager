@@ -43,7 +43,6 @@ function ResidentInformation(): JSX.Element {
       case ResidentTab.Rent:
         return <RentInformation />;
       default:
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw new Error(`Tab ${activeTab} is not implemented`);
     }
   }

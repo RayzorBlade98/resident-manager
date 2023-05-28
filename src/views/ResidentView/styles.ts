@@ -18,12 +18,6 @@ const residentInformationContainerStyle: Rule = {
   height: '100%',
 };
 
-const rentInformationActionIcon: Rule = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-};
-
 const styles = {
   residentView: css(residentViewStyle),
   residentList: {
@@ -32,7 +26,6 @@ const styles = {
   },
   residentInformation: {
     container: css(residentInformationContainerStyle),
-    actionIcon: css(rentInformationActionIcon),
   },
 };
 
