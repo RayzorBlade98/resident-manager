@@ -12,6 +12,17 @@ import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 describe('AddRentPaymentForm', () => {
   let renderResult: RenderResult;
 
+  function inputToForm(paymentAmount: number, paymentDate: string) {
+    const inputFields = renderResult.container.querySelectorAll('input');
+    fireEvent.change(inputFields.item(0), {
+      target: { value: `${paymentAmount}` },
+    });
+
+    fireEvent.change(inputFields.item(1), {
+      target: { value: paymentDate },
+    });
+  }
+
   beforeEach(() => {
     renderResult = render(
       <RecoilTestWrapper>
@@ -29,15 +40,7 @@ describe('AddRentPaymentForm', () => {
     const paymentAmount = 100;
 
     // Act
-    const inputFields = renderResult.container.querySelectorAll('input');
-
-    fireEvent.change(inputFields.item(0), {
-      target: { value: `${paymentAmount}` },
-    });
-
-    fireEvent.change(inputFields.item(1), {
-      target: { value: '25.12.1998' },
-    });
+    inputToForm(paymentAmount, '25.12.1998');
 
     // Assert
     const formInput = getRecoil(addRentPaymentState).formInput;
@@ -47,5 +50,19 @@ describe('AddRentPaymentForm', () => {
     });
   });
 
-  test.todo('Snapshot tests');
+  test('should match snapshot (valid input)', () => {
+    // Act
+    inputToForm(123, '28.05.2023');
+
+    // Assert
+    expect(renderResult.container).toMatchSnapshot();
+  });
+
+  test('should match snapshot (invalid input)', () => {
+    // Act
+    inputToForm(-1, '');
+
+    // Assert
+    expect(renderResult.container).toMatchSnapshot();
+  });
 });
