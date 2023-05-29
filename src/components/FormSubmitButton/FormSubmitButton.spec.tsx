@@ -1,79 +1,132 @@
-/* eslint-disable max-len */
+/* eslint-disable max-len, @typescript-eslint/ban-types, class-methods-use-this */
 
 import { RenderResult, fireEvent, render } from '@testing-library/react';
 import React from 'react';
+import { act } from 'react-dom/test-utils';
+import { atom } from 'recoil';
+import { getRecoil, resetRecoil, setRecoil } from 'recoil-nexus';
 import FormSubmitButton from './FormSubmitButton';
-import { Validator } from '_/utils/validation';
+import {
+  CompleteFormValidationState,
+  ValidationErrorMessages,
+  Validator,
+  createFormValidationStateSelector,
+} from '_/utils/validation';
+import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('FormSubmitButton', () => {
-  type Test = { success: boolean };
-  const validator = new Validator<Test>({});
-  const onSuccessMock = jest.fn();
-  const onErrorMock = jest.fn();
-  let validateSpy: jest.SpyInstance;
+  interface TestValidationClass {
+    success: boolean;
+  }
 
-  function renderComponent(success: boolean): RenderResult {
-    return render(
-      <FormSubmitButton<Test>
-        buttonText="Testbutton"
-        formInput={{ success }}
-        validator={validator}
-        onSuccess={onSuccessMock}
-        onError={onErrorMock}
-      />,
-    );
+  class TestValidator extends Validator<TestValidationClass> {
+    public static VALIDATION_SUCCESS = {};
+
+    public static VALIDATION_ERROR = { success: 'Fail' };
+
+    public validate(
+      toValidate: Partial<TestValidationClass>,
+      _invalidOnly = true,
+    ): ValidationErrorMessages<TestValidationClass> {
+      return toValidate.success
+        ? TestValidator.VALIDATION_SUCCESS
+        : TestValidator.VALIDATION_ERROR;
+    }
+  }
+
+  const testState = atom<CompleteFormValidationState<{}, TestValidationClass>>({
+    key: 'FormSubmitButton-teststate',
+    default: {
+      formValidation: {
+        formInput: {
+          success: true,
+        },
+        formErrors: {},
+        formValidator: new TestValidator({}),
+      },
+    },
+  });
+  const testStateValidationSelector = createFormValidationStateSelector<
+  {},
+  TestValidationClass
+  >(testState);
+
+  const onSuccessMock = jest.fn();
+  let renderResult: RenderResult;
+
+  function invalidInput(): void {
+    act(() => {
+      setRecoil(testState, (state) => ({
+        ...state,
+        formValidation: {
+          ...state.formValidation,
+          formInput: { success: false },
+        },
+      }));
+    });
   }
 
   beforeEach(() => {
-    validateSpy = jest
-      .spyOn(validator, 'validate')
-      .mockImplementation((toValidate: Partial<Test>) => (toValidate.success ? {} : { success: 'fail' }));
+    renderResult = render(
+      <RecoilTestWrapper>
+        <FormSubmitButton<TestValidationClass>
+          buttonText="Testbutton"
+          formState={testStateValidationSelector}
+          onSuccess={onSuccessMock}
+        />
+      </RecoilTestWrapper>,
+    );
   });
 
   afterEach(() => {
     jest.resetAllMocks();
+    act(() => {
+      resetRecoil(testState);
+    });
   });
 
   test('should call onSuccess for valid input', () => {
     // Arrange
-    const renderResult = renderComponent(true);
+    const oldState = getRecoil(testState);
 
     // Act
     const button = renderResult.getByRole('button');
     fireEvent.click(button);
 
     // Assert
-    expect(validateSpy).toHaveBeenCalledTimes(1);
     expect(onSuccessMock).toHaveBeenCalledTimes(1);
-    expect(onErrorMock).toHaveBeenCalledTimes(0);
+    expect(getRecoil(testState)).toEqual(oldState);
   });
 
-  test('should call onError for invalid input', () => {
+  test('should call add errors to state for invalid input', () => {
     // Arrange
-    const renderResult = renderComponent(false);
+    invalidInput();
+    const oldState = getRecoil(testState);
+    const expectedState: CompleteFormValidationState<{}, TestValidationClass> = {
+      ...oldState,
+      formValidation: {
+        ...oldState.formValidation,
+        formErrors: TestValidator.VALIDATION_ERROR,
+      },
+    };
 
     // Act
     const button = renderResult.getByRole('button');
     fireEvent.click(button);
 
     // Assert
-    expect(validateSpy).toHaveBeenCalledTimes(1);
     expect(onSuccessMock).toHaveBeenCalledTimes(0);
-    expect(onErrorMock).toHaveBeenCalledTimes(1);
-    expect(onErrorMock).toHaveBeenCalledWith({ success: 'fail' });
+    expect(getRecoil(testState)).toEqual(expectedState);
   });
 
   test('should match snapshot (valid input)', () => {
-    // Arrange
-    const renderResult = renderComponent(true);
-
     // Assert
     expect(renderResult.container).toMatchSnapshot();
   });
 
   test('should match snapshot (invalid input)', () => {
     // Arrange
-    const renderResult = renderComponent(false);
+    invalidInput();
 
     // Assert
     expect(renderResult.container).toMatchSnapshot();

@@ -1,23 +1,26 @@
 import { Grid, TextField } from '@mui/material';
 import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   CreateResidentInput,
-  createResidentFormErrorSelector,
-  createResidentFormInputSelector,
+  createResidentFormValidationSelector,
 } from '../../states/create_resident_state';
 import CurrencyInputField from '_/components/CurrencyInputField/CurrencyInputField';
 import MonthYearInput from '_/components/GenericComponents/MonthYearInput/MonthYearInput';
 import { MonthYear } from '_/types/date';
 
 function CreateResidentForm(): JSX.Element {
-  const [formInput, setFormInput] = useRecoilState(
-    createResidentFormInputSelector,
+  const [formValidationState, setFormValidationState] = useRecoilState(
+    createResidentFormValidationSelector,
   );
-  const errors = useRecoilValue(createResidentFormErrorSelector);
+  const formInput = formValidationState.formInput;
+  const errors = formValidationState.formErrors;
 
   function onChange<T>(field: keyof CreateResidentInput, value: T): void {
-    setFormInput((state) => ({ ...state, [field]: value }));
+    setFormValidationState((state) => ({
+      ...state,
+      formInput: { ...state.formInput, [field]: value },
+    }));
   }
 
   return (

@@ -6,7 +6,9 @@ import {
 import React from 'react';
 import * as RecoilModule from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import addRentPaymentState from '../../states/add_rent_payment_state';
+import addRentPaymentState, {
+  addRentPaymentFormValidationSelector,
+} from '../../states/add_rent_payment_state';
 import AddRentPaymentButton from './AddRentPaymentButton';
 import residentState, {
   ResidentStateManager,
@@ -35,7 +37,10 @@ describe('AddRentPaymentButton', () => {
     act(() => {
       setRecoil(addRentPaymentState, (state) => ({
         ...state,
-        formInput: { ...validInputValues },
+        formValidation: {
+          ...state.formValidation,
+          formInput: { ...validInputValues },
+        },
       }));
     });
   }
@@ -44,7 +49,13 @@ describe('AddRentPaymentButton', () => {
     act(() => {
       setRecoil(addRentPaymentState, (state) => ({
         ...state,
-        formInput: { ...state.formInput, paymentAmount: undefined },
+        formValidation: {
+          ...state.formValidation,
+          formInput: {
+            ...state.formValidation.formInput,
+            paymentAmount: undefined,
+          },
+        },
       }));
     });
   }
@@ -133,7 +144,8 @@ describe('AddRentPaymentButton', () => {
     pressButton();
 
     // Assert
-    const errorMessage = getRecoil(addRentPaymentState).formErrors.paymentAmount;
+    const errorMessage = getRecoil(addRentPaymentFormValidationSelector)
+      .formErrors.paymentAmount;
     expect(errorMessage).toBeDefined();
   });
 });

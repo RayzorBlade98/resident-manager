@@ -1,9 +1,9 @@
 import { Grid } from '@mui/material';
 import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
-  addRentPaymentFormErrorSelector,
-  addRentPaymentFormInputSelector,
+  RentPaymentInput,
+  addRentPaymentFormValidationSelector,
 } from '../../states/add_rent_payment_state';
 import CurrencyInputField from '_/components/CurrencyInputField/CurrencyInputField';
 import StandardDateField from '_/components/StandardDateField/StandardDateField';
@@ -12,18 +12,21 @@ import StandardDateField from '_/components/StandardDateField/StandardDateField'
  * Form to submit payment information
  */
 function AddRentPaymentForm(): JSX.Element {
-  const [formInput, setFormInput] = useRecoilState(
-    addRentPaymentFormInputSelector,
+  const [formValidationState, setFormValidationState] = useRecoilState(
+    addRentPaymentFormValidationSelector,
   );
-  const errors = useRecoilValue(addRentPaymentFormErrorSelector);
+  const formInput = formValidationState.formInput;
+  const errors = formValidationState.formErrors;
 
-  const onChangePaymentAmount = (value: number | undefined) => {
-    setFormInput((input) => ({ ...input, paymentAmount: value }));
-  };
-
-  const onChangePaymentDate = (date: Date | undefined) => {
-    setFormInput((input) => ({ ...input, paymentDate: date }));
-  };
+  function onChange<T>(field: keyof RentPaymentInput, value: T): void {
+    setFormValidationState((state) => ({
+      ...state,
+      formInput: {
+        ...state.formInput,
+        [field]: value,
+      },
+    }));
+  }
 
   return (
     <form>
@@ -34,7 +37,9 @@ function AddRentPaymentForm(): JSX.Element {
             id="paymentAmount"
             label="Zahlungssumme"
             value={formInput.paymentAmount}
-            onChange={onChangePaymentAmount}
+            onChange={(value) => {
+              onChange<number | undefined>('paymentAmount', value);
+            }}
             errorMessage={errors.paymentAmount}
           />
         </Grid>
@@ -44,7 +49,9 @@ function AddRentPaymentForm(): JSX.Element {
             id="paymentDate"
             label="Zahlungsempfang"
             value={formInput.paymentDate}
-            onChange={onChangePaymentDate}
+            onChange={(value) => {
+              onChange<Date | undefined>('paymentDate', value);
+            }}
             errorMessage={errors.paymentDate}
           />
         </Grid>

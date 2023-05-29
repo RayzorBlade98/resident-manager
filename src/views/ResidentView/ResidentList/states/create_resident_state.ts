@@ -1,10 +1,11 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import { MonthYear, MonthYearUtils } from '_/types/date';
 import { CurrencyInCents } from '_/utils/currency/currency';
 import {
+  CompleteFormValidationState,
   ValidationConstraint,
-  ValidationErrorMessages,
   Validator,
+  createFormValidationStateSelector,
 } from '_/utils/validation';
 
 /**
@@ -42,76 +43,42 @@ interface CreateResidentState {
    *
    */
   showModal: boolean;
-
-  /**
-   * Current form input
-   */
-  formInput: CreateResidentInput;
-
-  /**
-   * Current form error messages
-   */
-  formErrors: ValidationErrorMessages<CreateResidentInput>;
-
-  /**
-   * Validator that is handling the form validation
-   */
-  formValidator: Validator<CreateResidentInput>;
 }
 
 /**
  *
  */
-const createResidentState = atom<CreateResidentState>({
+const createResidentState = atom<
+CompleteFormValidationState<CreateResidentState, CreateResidentInput>
+>({
   key: 'createResidentState',
   default: {
     showModal: false,
-    formInput: {
-      firstName: '',
-      lastName: '',
-      rent: undefined,
-      incidentals: undefined,
-      contractStart: MonthYearUtils.getCurrentMonthYear(),
-    },
-    formErrors: {},
-    formValidator: new Validator<CreateResidentInput>({
-      firstName: ValidationConstraint.NoEmptyString,
-      lastName: ValidationConstraint.NoEmptyString,
-      rent: ValidationConstraint.Currency,
-      incidentals: ValidationConstraint.Currency,
-    }),
-  },
-});
-
-/**
- *
- */
-export const createResidentFormInputSelector = selector<CreateResidentInput>({
-  key: 'createResidentState-formInput',
-  get: ({ get }) => get(createResidentState).formInput,
-  set: ({ set }, input) => {
-    set(createResidentState, (state) => ({
-      ...state,
-      formInput: input as CreateResidentInput,
-      formErrors: {
-        ...state.formErrors,
-        ...state.formValidator.validateDifference(
-          state.formInput,
-          input as CreateResidentInput,
-        ),
+    formValidation: {
+      formInput: {
+        firstName: '',
+        lastName: '',
+        rent: undefined,
+        incidentals: undefined,
+        contractStart: MonthYearUtils.getCurrentMonthYear(),
       },
-    }));
+      formErrors: {},
+      formValidator: new Validator<CreateResidentInput>({
+        firstName: ValidationConstraint.NoEmptyString,
+        lastName: ValidationConstraint.NoEmptyString,
+        rent: ValidationConstraint.Currency,
+        incidentals: ValidationConstraint.Currency,
+      }),
+    },
   },
 });
 
 /**
  *
  */
-export const createResidentFormErrorSelector = selector<
-ValidationErrorMessages<CreateResidentInput>
->({
-  key: 'createResidentState-formError',
-  get: ({ get }) => get(createResidentState).formErrors,
-});
+// eslint-disable-next-line max-len
+export const createResidentFormValidationSelector = createFormValidationStateSelector<CreateResidentState, CreateResidentInput>(
+  createResidentState,
+);
 
 export default createResidentState;

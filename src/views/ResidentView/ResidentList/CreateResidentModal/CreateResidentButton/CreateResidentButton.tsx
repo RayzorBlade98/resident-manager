@@ -1,50 +1,44 @@
 import React from 'react';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
 import createResidentState, {
   CreateResidentInput,
+  createResidentFormValidationSelector,
 } from '../../states/create_resident_state';
 import FormSubmitButton from '_/components/FormSubmitButton/FormSubmitButton';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { MonthYearUtils } from '_/types/date';
 import { RentInformationUtils } from '_/types/rent';
 import { CurrencyInCents } from '_/utils/currency/currency';
-import { ValidationErrorMessages } from '_/utils/validation';
 
 function CreateResidentButton(): JSX.Element {
   // eslint-disable-next-line max-len
-  const [residentCreationState, setResidentCreationState] = useRecoilState(createResidentState);
+  const formValidationState = useRecoilValue(
+    createResidentFormValidationSelector,
+  );
   const resetCreateResidentState = useResetRecoilState(createResidentState);
 
   const onSuccess = (): void => {
     ResidentStateManager.addResident({
       id: uuid(),
-      firstName: residentCreationState.formInput.firstName,
-      lastName: residentCreationState.formInput.lastName,
+      firstName: formValidationState.formInput.firstName,
+      lastName: formValidationState.formInput.lastName,
       rent: RentInformationUtils.timespan(
-        { ...residentCreationState.formInput.contractStart },
+        { ...formValidationState.formInput.contractStart },
         MonthYearUtils.getCurrentMonthYear(),
-        residentCreationState.formInput.rent as CurrencyInCents,
-        residentCreationState.formInput.incidentals as CurrencyInCents,
+        formValidationState.formInput.rent as CurrencyInCents,
+        formValidationState.formInput.incidentals as CurrencyInCents,
       ),
-      invoiceStart: { ...residentCreationState.formInput.contractStart },
+      invoiceStart: { ...formValidationState.formInput.contractStart },
     });
     resetCreateResidentState();
-  };
-
-  const onError = (
-    errors: ValidationErrorMessages<CreateResidentInput>,
-  ): void => {
-    setResidentCreationState((state) => ({ ...state, formErrors: errors }));
   };
 
   return (
     <FormSubmitButton<CreateResidentInput>
       buttonText="Erstellen"
-      formInput={residentCreationState.formInput}
-      validator={residentCreationState.formValidator}
+      formState={createResidentFormValidationSelector}
       onSuccess={onSuccess}
-      onError={onError}
     />
   );
 }

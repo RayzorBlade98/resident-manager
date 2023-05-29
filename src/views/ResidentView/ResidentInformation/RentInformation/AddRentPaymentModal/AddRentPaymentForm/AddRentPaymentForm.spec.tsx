@@ -3,7 +3,9 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, resetRecoil } from 'recoil-nexus';
-import addRentPaymentState from '../../states/add_rent_payment_state';
+import addRentPaymentState, {
+  addRentPaymentFormValidationSelector,
+} from '../../states/add_rent_payment_state';
 import AddRentPaymentForm from './AddRentPaymentForm';
 import { convertCurrencyEurosToCents } from '_/utils/currency/currency';
 import { dateToUTC } from '_/utils/date';
@@ -43,7 +45,7 @@ describe('AddRentPaymentForm', () => {
     inputToForm(paymentAmount, '25.12.1998');
 
     // Assert
-    const formInput = getRecoil(addRentPaymentState).formInput;
+    const formInput = getRecoil(addRentPaymentFormValidationSelector).formInput;
     expect(formInput).toEqual({
       paymentAmount: convertCurrencyEurosToCents(paymentAmount),
       paymentDate: dateToUTC(new Date(1998, 11, 25)),
