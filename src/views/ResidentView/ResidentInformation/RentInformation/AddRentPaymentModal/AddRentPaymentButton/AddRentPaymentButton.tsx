@@ -8,8 +8,8 @@ import FormSubmitButton from '_/components/FormSubmitButton/FormSubmitButton';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { MonthYear } from '_/types/date';
 import { Resident } from '_/types/resident';
-import { CurrencyInCents } from '_/utils/currency/currency';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
+import '_/extensions/date/date.extension';
 
 /**
  * Button that submits the input payment infos if they are valid
@@ -27,9 +27,9 @@ function AddRentPaymentButton(): JSX.Element {
       selectedResident.id,
       rentPaymentState.selectedRentMonth as MonthYear,
       {
-        paymentAmount: rentPaymentState.formValidation.formInput
-          .paymentAmount as CurrencyInCents,
-        paymentDate: rentPaymentState.formValidation.formInput.paymentDate,
+        paymentAmount: rentPaymentState.formValidation.formInput.paymentAmount,
+        paymentDate:
+          rentPaymentState.formValidation.formInput.paymentDate?.toUTC(),
       },
     );
     resetRentPaymentState();

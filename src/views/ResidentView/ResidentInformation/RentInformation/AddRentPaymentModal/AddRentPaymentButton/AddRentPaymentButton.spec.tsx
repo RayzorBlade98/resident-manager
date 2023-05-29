@@ -17,6 +17,7 @@ import { Month, MonthYear } from '_/types/date';
 import residentViewState from '_/views/ResidentView/states/resident_view_state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
+import '_/extensions/date/date.extension';
 
 describe('AddRentPaymentButton', () => {
   const selectedResident = new ResidentBuilder().build();
@@ -26,7 +27,7 @@ describe('AddRentPaymentButton', () => {
   };
   const validInputValues = {
     paymentAmount: 100,
-    paymentDate: new Date(26, 4, 2023),
+    paymentDate: new Date(26, 4, 2023).toUTC(),
   };
 
   let renderResult: RenderResult;

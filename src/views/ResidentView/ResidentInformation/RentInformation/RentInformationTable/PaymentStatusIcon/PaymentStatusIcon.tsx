@@ -11,7 +11,7 @@ import {
   CurrencyInCents,
   convertCurrencyCentsToString,
 } from '_/utils/currency/currency';
-import { dateToString } from '_/utils/date';
+import '_/extensions/date/date.extension';
 
 interface PaymentStatusIconProps {
   /**
@@ -31,15 +31,15 @@ function PaymentStatusIcon(props: PaymentStatusIconProps): JSX.Element {
   const tooltip = (): string => {
     switch (paymentStatus) {
       case PaymentStatus.Paid:
-        return `Bezahlt am ${dateToString(
-          props.rentInformation.paymentDate as Date,
-        )}`;
+        return `Bezahlt am ${(
+          props.rentInformation.paymentDate as Date
+        ).toPreferredString()}`;
       case PaymentStatus.Unpaid:
         return 'Unbezahlt';
       case PaymentStatus.PaidPartially:
-        return `Teilweise bezahlt am ${dateToString(
-          props.rentInformation.paymentDate as Date,
-        )} (${convertCurrencyCentsToString(
+        return `Teilweise bezahlt am ${(
+          props.rentInformation.paymentDate as Date
+        ).toPreferredString()} (${convertCurrencyCentsToString(
           props.rentInformation.paymentAmount as CurrencyInCents,
         )} von ${convertCurrencyCentsToString(
           RentInformationUtils.getAmountToPay(props.rentInformation),

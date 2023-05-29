@@ -8,8 +8,8 @@ import addRentPaymentState, {
 } from '../../states/add_rent_payment_state';
 import AddRentPaymentForm from './AddRentPaymentForm';
 import { convertCurrencyEurosToCents } from '_/utils/currency/currency';
-import { dateToUTC } from '_/utils/date';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import '_/extensions/date/date.extension';
 
 describe('AddRentPaymentForm', () => {
   let renderResult: RenderResult;
@@ -48,7 +48,7 @@ describe('AddRentPaymentForm', () => {
     const formInput = getRecoil(addRentPaymentFormValidationSelector).formInput;
     expect(formInput).toEqual({
       paymentAmount: convertCurrencyEurosToCents(paymentAmount),
-      paymentDate: dateToUTC(new Date(1998, 11, 25)),
+      paymentDate: new Date(1998, 11, 25).toUTC(),
     });
   });
 

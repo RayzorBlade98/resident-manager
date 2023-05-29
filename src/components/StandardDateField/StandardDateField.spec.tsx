@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import StandardDateField from './StandardDateField';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import { dateToUTC } from '_utils/date';
+import '_/extensions/date/date.extension';
 
 describe('StandardDateField', () => {
   const onChangeMock = jest.fn();
@@ -28,7 +28,7 @@ describe('StandardDateField', () => {
 
   beforeEach(() => {
     errorMessage = 'Testerror';
-    value = dateToUTC(new Date(2023, 4, 27));
+    value = new Date(2023, 4, 27).toUTC();
     renderComponent();
   });
 
@@ -65,7 +65,7 @@ describe('StandardDateField', () => {
 
     // Assert
     expect(onChangeMock).toHaveBeenLastCalledWith(
-      dateToUTC(new Date(1998, 11, 25)),
+      new Date(1998, 11, 25).toUTC(),
     );
   });
 

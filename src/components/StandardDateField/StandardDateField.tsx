@@ -1,7 +1,7 @@
 import { DateField } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import React from 'react';
-import { dateToUTC } from '_/utils/date';
+import '_/extensions/date/date.extension';
 
 interface StandardDateFieldProps {
   /**
@@ -46,7 +46,7 @@ function StandardDateField(props: StandardDateFieldProps): JSX.Element {
       if (Number.isNaN(parsedDate.valueOf())) {
         parsedDate = undefined;
       } else {
-        parsedDate = dateToUTC(parsedDate);
+        parsedDate = parsedDate.toUTC();
       }
     }
     props.onChange(parsedDate);
