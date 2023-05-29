@@ -1,4 +1,5 @@
 import { MenuItem, TextField } from '@mui/material';
+import { range } from 'lodash';
 import React, { useState } from 'react';
 import {
   Month,
@@ -6,7 +7,7 @@ import {
   MonthYearString,
   MonthYearUtils,
 } from '_/types/date';
-import { cartesianProduct, range } from '_/utils/array';
+import { cartesianProduct } from '_/utils/array';
 
 interface MonthYearInputProps {
   /**
@@ -64,9 +65,9 @@ function createInputChoices(
 
   const years: number[] = range(
     currentMonthYear.year - numPriorYears,
-    currentMonthYear.year + numFutureYears,
+    currentMonthYear.year + numFutureYears + 1,
   );
-  const months: number[] = range(0, 11);
+  const months: number[] = range(0, 12);
 
   // Create the cartesian product of all possible months and years and map them to their respective `MonthYearString`
   const monthYears = cartesianProduct(years, months).map<MonthYearString>(

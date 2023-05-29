@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 
 import { RenderResult, fireEvent, render } from '@testing-library/react';
+import { range } from 'lodash';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { getRecoil, setRecoil } from 'recoil-nexus';
@@ -10,7 +11,6 @@ import invoiceGenerationState, {
   selectedInvoiceIncidentalsState,
 } from '_/states/viewStates/invoice_generation_state';
 import * as InvoiceGenerationStateModule from '_/states/viewStates/invoice_generation_state';
-import { range } from '_/utils/array';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
 
@@ -23,7 +23,7 @@ describe('IncidentalsSelection', () => {
     InvoiceGenerationStateModule,
     'removeSelectedIncidentals',
   );
-  const incidentals = range(0, 4).map((i) => new IncidentalsBuilder()
+  const incidentals = range(0, 5).map((i) => new IncidentalsBuilder()
     .withName(`Incidentals ${i}`)
     .withId(`Incidentals ${i}`)
     .build());

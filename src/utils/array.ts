@@ -3,25 +3,7 @@
  * like creating the cartesian product of multiple arrays.
  */
 
-/**
- * Creates an array containing a sequence of numbers for a given range.
- *
- * Examples:
- * - `range(0, 4) := [0, 1, 2, 3, 4]`
- * - `range (0, 4, 2) := [0, 2, 4]`
- * - `range (0, 5, 2) := [0, 2, 4]`
- *
- * @param start start value of the sequence
- * @param stop end value of the sequence
- * @param step space between each element of the sequence (default: 1)
- * @returns sequence of numbers for the given range
- */
-export function range(start: number, stop: number, step = 1): number[] {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  return [...Array(Math.floor((stop - start) / step) + 1)].map(
-    (_, i) => start + i * step,
-  );
-}
+/* eslint-disable import/prefer-default-export */
 
 /**
  * Creates the cartesian product for any number of given array.

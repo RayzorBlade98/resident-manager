@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 
 import { RenderResult, fireEvent, render } from '@testing-library/react';
+import { range } from 'lodash';
 import React from 'react';
 import GenericStepper from '_/components/GenericComponents/GenericStepper/GenericStepper';
-import { range } from '_/utils/array';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('GenericStepper', () => {
@@ -19,7 +19,7 @@ describe('GenericStepper', () => {
           steps={['Step 1', 'Step 2', 'Step 3']}
           onFinished={onFinishedCallback}
         >
-          {range(0, children - 1).map((step) => (
+          {range(0, children).map((step) => (
             <div className={`content-step${step}`}>Content</div>
           ))}
         </GenericStepper>

@@ -4,11 +4,11 @@
 
 import { RenderResult, render, fireEvent } from '@testing-library/react';
 import { css } from 'glamor';
+import { range } from 'lodash';
 import React from 'react';
 import InvoiceList from '_/components/InvoiceList/InvoiceList';
 import { Month } from '_/types/date';
 import { Invoice } from '_/types/invoice';
-import { range } from '_/utils/array';
 import InvoiceBuilder from '_tests/__test_utils__/builders/invoice_builder';
 
 describe('ResidentList', () => {
@@ -22,7 +22,7 @@ describe('ResidentList', () => {
       month: Month.January,
       year: 2023,
     });
-    invoices = range(0, 4).map((_) => new InvoiceBuilder().build());
+    invoices = range(0, 5).map((_) => new InvoiceBuilder().build());
     selectedInvoice = invoices[0];
     onSelectInvoiceMock = jest.fn();
 
