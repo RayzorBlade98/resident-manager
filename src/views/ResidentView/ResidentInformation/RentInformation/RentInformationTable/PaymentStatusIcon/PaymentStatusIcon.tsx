@@ -44,6 +44,7 @@ function PaymentStatusIcon(props: PaymentStatusIconProps): JSX.Element {
         )} von ${convertCurrencyCentsToString(
           RentInformationUtils.getAmountToPay(props.rentInformation),
         )})`;
+      /* istanbul ignore next */
       default:
         throw new Error(`Tooltip for status ${paymentStatus} not implemted`);
     }
@@ -57,6 +58,7 @@ function PaymentStatusIcon(props: PaymentStatusIconProps): JSX.Element {
         return <HighlightOffIcon color="error" />;
       case PaymentStatus.PaidPartially:
         return <CheckCircleOutlineIcon color="warning" />;
+      /* istanbul ignore next */
       default:
         throw new Error(`Icon for status ${paymentStatus} not implemted`);
     }

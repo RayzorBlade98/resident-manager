@@ -60,21 +60,6 @@ export const ERROR_MESSAGES = {
  */
 
 /**
- * Checks if the value is a number
- */
-function isNumberConstraint(
-  value: string | number | undefined,
-): string | undefined {
-  if (!value || value === '') {
-    return ERROR_MESSAGES.EMPTY;
-  }
-  if (Number.isNaN(Number(value))) {
-    return ERROR_MESSAGES.NO_NUMBER;
-  }
-  return undefined;
-}
-
-/**
  * Checks if the value is an integer
  */
 function isIntegerConstraint(
@@ -83,7 +68,8 @@ function isIntegerConstraint(
   if (!value || value === '') {
     return ERROR_MESSAGES.EMPTY;
   }
-  if (isNumberConstraint(value) || Number(value) % 1 !== 0) {
+  const number = Number(value);
+  if (Number.isNaN(number) || number % 1 !== 0) {
     return ERROR_MESSAGES.NO_INTEGER;
   }
   return undefined;

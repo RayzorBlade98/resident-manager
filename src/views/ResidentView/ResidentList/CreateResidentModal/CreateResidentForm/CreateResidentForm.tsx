@@ -9,6 +9,9 @@ import CurrencyInputField from '_/components/CurrencyInputField/CurrencyInputFie
 import MonthYearInput from '_/components/GenericComponents/MonthYearInput/MonthYearInput';
 import { MonthYear } from '_/types/date';
 
+/**
+ * Form to submit new resident
+ */
 function CreateResidentForm(): JSX.Element {
   const [formValidationState, setFormValidationState] = useRecoilState(
     createResidentFormValidationSelector,

@@ -11,6 +11,9 @@ import { MonthYearUtils } from '_/types/date';
 import { RentInformationUtils } from '_/types/rent';
 import { CurrencyInCents } from '_/utils/currency/currency';
 
+/**
+ * Button that submits the input resident data if they are valid
+ */
 function CreateResidentButton(): JSX.Element {
   // eslint-disable-next-line max-len
   const formValidationState = useRecoilValue(
