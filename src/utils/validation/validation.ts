@@ -2,6 +2,7 @@
 
 import _ from 'lodash';
 import { RecoilState, selector } from 'recoil';
+import { ValidationConstraint, ValidationConstraints, CONSTRAINT_FUNCTIONS } from './validation_constraints';
 
 /**
  * Object containing an error message for each key of `T` that had an invalid value or `undefined` if it had a valid value.
@@ -74,31 +75,6 @@ export function createFormValidationStateSelector<
 }
 
 /**
- * Enum containing all available validation errors.
- */
-export enum ValidationConstraint {
-  /**
-   * ValidationConstraint that checks if the tested string is not empty.
-   */
-  NoEmptyString,
-
-  /**
-   * ValidationConstraint that checks if the tested value is between `1` and `12`.
-   */
-  Month,
-
-  /**
-   * ValidationConstraint that checks if the tested number is a valid currency value.
-   */
-  Currency,
-
-  /**
-   * ValidationConstraint that checks if the tested value is defined
-   */
-  Defined,
-}
-
-/**
  * Creates a function that validates an object of type `T`.
  * @param errors `ValidationErrors` that should be tested for each key of `T`
  * @returns validation function
@@ -140,13 +116,6 @@ export function createValidationFunction<T>(errors: {
   }
   return validationFunction;
 }
-
-/**
- * The contraints that each key of `T` must fulfill
- */
-type ValidationConstraints<T> = {
-  [k in keyof T]?: ValidationConstraint;
-};
 
 /**
  * Class that provide functionalities to validate objects of type `T`
@@ -205,112 +174,4 @@ export class Validator<T extends object> {
       (_v, k) => oldValues[k as keyof T] !== newValues[k as keyof T],
     ) as ValidationErrorMessages<T>;
   }
-}
-
-/**
- * Object containing a function that checks if a given values is invalid for each `ValidationError`
- */
-const CONSTRAINT_FUNCTIONS: {
-  [k in ValidationConstraint]: (value: any) => string | undefined;
-} = {
-  [ValidationConstraint.Month]: monthConstraint,
-  [ValidationConstraint.NoEmptyString]: noEmptyStringConstraint,
-  [ValidationConstraint.Currency]: currencyConstraint,
-  [ValidationConstraint.Defined]: definedConstraint,
-};
-
-/**
- * Object containing all error messages
- */
-const ERROR_MESSAGES = {
-  EMPTY: 'Darf nicht leer sein!',
-  LT_ZERO: 'Muss größer als 0 sein!',
-  NO_INTEGER: 'Muss eine ganze Zahl sein!',
-  NO_MONTH: 'Muss zwischen 1 und 12 sein!',
-  NO_NUMBER: 'Muss eine Zahl sein!',
-};
-
-/**
- * GENERIC CONSTRAINT FUNCTIONS
- */
-
-/**
- * Checks if the value is a number
- */
-function isNumberConstraint(
-  value: string | number | undefined,
-): string | undefined {
-  if (!value || value === '') {
-    return ERROR_MESSAGES.EMPTY;
-  }
-  if (Number.isNaN(Number(value))) {
-    return ERROR_MESSAGES.NO_NUMBER;
-  }
-  return undefined;
-}
-
-/**
- * Checks if the value is an integer
- */
-function isIntegerConstraint(
-  value: string | number | undefined,
-): string | undefined {
-  if (isNumberConstraint(value) || Number(value) % 1 !== 0) {
-    return ERROR_MESSAGES.NO_INTEGER;
-  }
-  return undefined;
-}
-
-/**
- * SPECIFIC CONSTRAINT FUNCTIONS
- */
-
-/**
- * Constraint function for the `Currency` constraint
- */
-function currencyConstraint(value: number | undefined): string | undefined {
-  if (!value) {
-    return ERROR_MESSAGES.EMPTY;
-  }
-  if (value <= 0) {
-    return ERROR_MESSAGES.LT_ZERO;
-  }
-  return undefined;
-}
-
-/**
- * Constraint function for the `NoEmptyString` constraint
- */
-function noEmptyStringConstraint(value: string): string | undefined {
-  if (value === '') {
-    return ERROR_MESSAGES.EMPTY;
-  }
-  return undefined;
-}
-
-/**
- * Constraint function for the `Month` constraint
- */
-function monthConstraint(
-  value: string | number | undefined,
-): string | undefined {
-  const isNoInteger = isIntegerConstraint(value);
-  if (isNoInteger) {
-    return isNoInteger;
-  }
-  const number = Number(value);
-  if (number < 1 || number > 12) {
-    return ERROR_MESSAGES.NO_MONTH;
-  }
-  return undefined;
-}
-
-/**
- * Constraint function for the `Defined` constraint
- */
-function definedConstraint(value: any): string | undefined {
-  if (value === null || value === undefined) {
-    return ERROR_MESSAGES.EMPTY;
-  }
-  return undefined;
 }

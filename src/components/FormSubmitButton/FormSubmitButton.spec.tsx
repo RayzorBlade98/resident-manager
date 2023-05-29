@@ -11,7 +11,7 @@ import {
   ValidationErrorMessages,
   Validator,
   createFormValidationStateSelector,
-} from '_/utils/validation';
+} from '_/utils/validation/validation';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('FormSubmitButton', () => {

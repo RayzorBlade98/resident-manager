@@ -1,12 +1,12 @@
 import { atom } from 'recoil';
+import { ValidationConstraint } from '../../../../../utils/validation/validation_constraints';
 import { MonthYear } from '_/types/date';
 import { CurrencyInCents } from '_/utils/currency/currency';
 import {
   CompleteFormValidationState,
-  ValidationConstraint,
   Validator,
   createFormValidationStateSelector,
-} from '_/utils/validation';
+} from '_/utils/validation/validation';
 
 /**
  * Inout values of the `AddRentPaymentModal`

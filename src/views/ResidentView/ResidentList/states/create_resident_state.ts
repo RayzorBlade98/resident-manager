@@ -3,10 +3,10 @@ import { MonthYear, MonthYearUtils } from '_/types/date';
 import { CurrencyInCents } from '_/utils/currency/currency';
 import {
   CompleteFormValidationState,
-  ValidationConstraint,
   Validator,
   createFormValidationStateSelector,
-} from '_/utils/validation';
+} from '_/utils/validation/validation';
+import { ValidationConstraint } from '_/utils/validation/validation_constraints';
 
 /**
  *

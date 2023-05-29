@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 import { RecoilState, useRecoilState } from 'recoil';
-import { FormValidationState } from '_/utils/validation';
+import { FormValidationState } from '_/utils/validation/validation';
 
 interface FormSubmitButtonProps<T extends object> {
   /**
