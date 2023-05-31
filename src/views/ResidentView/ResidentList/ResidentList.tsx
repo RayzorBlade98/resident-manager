@@ -1,13 +1,35 @@
+import PersonIcon from '@mui/icons-material/Person';
+import PersonAddIcon from '@mui/icons-material/PersonAddAlt1';
+import {
+  Box,
+  Divider,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import React from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { residentViewSelectedResidentState } from '../states/resident_view_state';
-import styles from '../styles';
 import createResidentState from './states/create_resident_state';
-import GenericList from '_/components/GenericComponents/GenericList/GenericList';
-import GenericListElement from '_/components/GenericComponents/GenericList/GenericListElement';
 import residentState from '_/states/saveStates/resident_state';
 import { Resident } from '_/types/resident';
 import CreateResidentModal from '_/views/ResidentView/ResidentList/CreateResidentModal/CreateResidentModal';
+
+const styles = {
+  box: {
+    height: '100%',
+  },
+  list: {
+    height: '100%',
+    overflowY: 'auto',
+    padding: '0',
+    borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+  },
+  listItemButton: {
+    height: '11.03%',
+  },
+};
 
 /**
  * Component that displays a list of provided residents
@@ -26,23 +48,34 @@ function ResidentList(): JSX.Element {
   return (
     <>
       <CreateResidentModal />
-      <GenericList style={styles.residentList.container}>
-        <GenericListElement
-          onClick={onCreateResident}
-          style={styles.residentList.newResident}
-        >
-          Neuer Mieter
-        </GenericListElement>
-        {residents.map((resident: Resident) => (
-          <GenericListElement
-            onClick={() => setSelectedResident(resident)}
-            selected={resident === selectedResident}
-            key={resident.id}
-          >
-            {`${resident.firstName} ${resident.lastName}`}
-          </GenericListElement>
-        ))}
-      </GenericList>
+      <Box sx={styles.box}>
+        <List sx={styles.list}>
+          <ListItemButton onClick={onCreateResident} sx={styles.listItemButton}>
+            <ListItemIcon>
+              <PersonAddIcon />
+            </ListItemIcon>
+            <ListItemText primary="Neuer Mieter" />
+          </ListItemButton>
+          <Divider />
+          {residents.map((resident: Resident, i) => (
+            <>
+              <ListItemButton
+                selected={resident === selectedResident}
+                onClick={() => setSelectedResident(resident)}
+                sx={styles.listItemButton}
+              >
+                <ListItemIcon>
+                  <PersonIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={`${resident.firstName} ${resident.lastName}`}
+                />
+              </ListItemButton>
+              {i !== residents.length - 1 && <Divider />}
+            </>
+          ))}
+        </List>
+      </Box>
     </>
   );
 }

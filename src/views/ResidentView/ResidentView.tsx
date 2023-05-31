@@ -1,10 +1,16 @@
+import { Grid } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import ResidentInformation from './ResidentInformation/ResidentInformation';
 import ResidentList from './ResidentList/ResidentList';
 import { residentViewSelectedResidentState } from './states/resident_view_state';
-import styles from './styles';
 import residentState from '_/states/saveStates/resident_state';
+
+const styles = {
+  grid: {
+    height: '100%',
+  },
+};
 
 function ResidentView(): JSX.Element {
   const residents = useRecoilValue(residentState);
@@ -20,10 +26,14 @@ function ResidentView(): JSX.Element {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div {...styles.residentView}>
-      <ResidentList />
-      {selectedResident && <ResidentInformation />}
-    </div>
+    <Grid container sx={styles.grid}>
+      <Grid item xs={2} sx={styles.grid}>
+        <ResidentList />
+      </Grid>
+      <Grid item xs={10} sx={styles.grid}>
+        {selectedResident && <ResidentInformation />}
+      </Grid>
+    </Grid>
   );
 }
 
