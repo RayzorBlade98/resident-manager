@@ -5,8 +5,8 @@ import {
   RentPaymentInput,
   addRentPaymentFormValidationSelector,
 } from '../../states/add_rent_payment_state';
-import CurrencyInputField from '_/components/CurrencyInputField/CurrencyInputField';
-import StandardDateField from '_/components/StandardDateField/StandardDateField';
+import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
+import StandardDateField from '_/components/form/StandardDateField/StandardDateField';
 
 /**
  * Form to submit payment information

@@ -5,7 +5,7 @@ import createResidentState, {
   CreateResidentInput,
   createResidentFormValidationSelector,
 } from '../../states/create_resident_state';
-import FormSubmitButton from '_/components/FormSubmitButton/FormSubmitButton';
+import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { MonthYearUtils } from '_/types/date';
 import { RentInformationUtils } from '_/types/rent';

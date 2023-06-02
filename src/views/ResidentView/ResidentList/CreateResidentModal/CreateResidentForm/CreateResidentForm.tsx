@@ -5,8 +5,8 @@ import {
   CreateResidentInput,
   createResidentFormValidationSelector,
 } from '../../states/create_resident_state';
-import CurrencyInputField from '_/components/CurrencyInputField/CurrencyInputField';
 import MonthYearInput from '_/components/GenericComponents/MonthYearInput/MonthYearInput';
+import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
 import { MonthYear } from '_/types/date';
 
 /**

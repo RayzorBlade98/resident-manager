@@ -4,7 +4,7 @@ import addRentPaymentState, {
   RentPaymentInput,
   addRentPaymentFormValidationSelector,
 } from '../../states/add_rent_payment_state';
-import FormSubmitButton from '_/components/FormSubmitButton/FormSubmitButton';
+import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
 import { MonthYear } from '_/types/date';
 import { Resident } from '_/types/resident';
