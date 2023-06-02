@@ -1,12 +1,7 @@
-import {
-  MDBTabs,
-  MDBTabsContent,
-  MDBTabsItem,
-  MDBTabsLink,
-  MDBTabsPane,
-} from 'mdb-react-ui-kit';
+import HomeIcon from '@mui/icons-material/Home';
+import InfoIcon from '@mui/icons-material/Info';
+import { Box, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
-import styles from '../styles';
 import GeneralResidentInformation from './GeneralResidentInformation/GeneralResidentInformation';
 import RentInformation from './RentInformation/RentInformation';
 
@@ -14,8 +9,8 @@ import RentInformation from './RentInformation/RentInformation';
  * Enum containing all tabs of this component
  */
 enum ResidentTab {
-  General = 'Information',
-  Rent = 'Miete',
+  General = 0,
+  Rent = 1,
 }
 
 /**
@@ -24,50 +19,25 @@ enum ResidentTab {
 function ResidentInformation(): JSX.Element {
   const [activeTab, setActiveTab] = useState<ResidentTab>(ResidentTab.General);
 
-  /**
-   * Handles the tab selection
-   * @param tab selected tab
-   */
-  function onClickTab(tab: ResidentTab): void {
-    if (tab === activeTab) return;
-    setActiveTab(tab);
-  }
-
-  /**
-   * Returns the content of the currently active tab
-   */
-  function getTabContent(): JSX.Element {
-    switch (activeTab) {
-      case ResidentTab.General:
-        return <GeneralResidentInformation />;
-      case ResidentTab.Rent:
-        return <RentInformation />;
-      default:
-        throw new Error(`Tab ${activeTab} is not implemented`);
-    }
-  }
-
   return (
-    <div {...styles.residentInformation.container}>
-      <MDBTabs fill className="mb-3">
-        {Object.values(ResidentTab).map((tab: ResidentTab) => (
-          <MDBTabsItem>
-            <MDBTabsLink
-              onClick={() => onClickTab(tab)}
-              active={activeTab === tab}
-            >
-              {tab}
-            </MDBTabsLink>
-          </MDBTabsItem>
-        ))}
-      </MDBTabs>
-
-      <MDBTabsContent>
-        <MDBTabsPane show>
-          <div>{getTabContent()}</div>
-        </MDBTabsPane>
-      </MDBTabsContent>
-    </div>
+    <>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs
+          variant="fullWidth"
+          value={activeTab}
+          onChange={(_, tab: ResidentTab) => setActiveTab(tab)}
+        >
+          <Tab icon={<InfoIcon />} iconPosition="start" label="Informationen" />
+          <Tab icon={<HomeIcon />} iconPosition="start" label="Miete" />
+        </Tabs>
+      </Box>
+      <div hidden={activeTab !== ResidentTab.General}>
+        <GeneralResidentInformation />
+      </div>
+      <div hidden={activeTab !== ResidentTab.Rent}>
+        <RentInformation />
+      </div>
+    </>
   );
 }
 

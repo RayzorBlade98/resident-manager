@@ -6,7 +6,7 @@ exports[`ResidentList should match snapshot 1`] = `
     class="MuiBox-root css-10klw3m"
   >
     <ul
-      class="MuiList-root MuiList-padding css-y1hsu0-MuiList-root"
+      class="MuiList-root MuiList-padding css-1whj2so-MuiList-root"
     >
       <div
         class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1m5psy8-MuiButtonBase-root-MuiListItemButton-root"

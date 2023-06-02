@@ -23,8 +23,9 @@ const styles = {
   list: {
     height: '100%',
     overflowY: 'auto',
-    padding: '0',
-    borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+    padding: 0,
+    borderRight: 1,
+    borderColor: 'divider',
   },
   listItemButton: {
     height: '11.03%',

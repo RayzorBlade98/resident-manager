@@ -6,6 +6,11 @@ import CreateResidentModal from './CreateResidentModal';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('CreateResidentModal', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date(2023, 4, 31));
+  });
+
   test('should match snapshot', () => {
     // Arrange
     const renderResult = render(

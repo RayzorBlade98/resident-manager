@@ -2,7 +2,7 @@ import {
   RenderResult, act, fireEvent, render,
 } from '@testing-library/react';
 import React from 'react';
-import { getRecoil, resetRecoil } from 'recoil-nexus';
+import { getRecoil, setRecoil } from 'recoil-nexus';
 import createResidentState, {
   createResidentFormValidationSelector,
 } from '../../states/create_resident_state';
@@ -51,7 +51,16 @@ describe('CreateResidentForm', () => {
     );
 
     act(() => {
-      resetRecoil(createResidentState);
+      setRecoil(createResidentState, (state) => ({
+        ...state,
+        formValidation: {
+          ...state.formValidation,
+          formInput: {
+            ...state.formValidation.formInput,
+            contractStart: MonthYearUtils.getCurrentMonthYear(),
+          },
+        },
+      }));
     });
   });
 
