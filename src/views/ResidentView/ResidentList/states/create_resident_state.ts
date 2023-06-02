@@ -9,7 +9,7 @@ import {
 } from '_/utils/validation/validation';
 
 /**
- *
+ * All values that can be submitted in the form
  */
 export interface CreateResidentInput {
   /**
@@ -40,13 +40,13 @@ export interface CreateResidentInput {
 
 interface CreateResidentState {
   /**
-   *
+   * Whether to show the `CreateResidentModal`
    */
   showModal: boolean;
 }
 
 /**
- *
+ * State for the resident creation
  */
 const createResidentState = atom<
 CompleteFormValidationState<CreateResidentState, CreateResidentInput>
@@ -74,7 +74,7 @@ CompleteFormValidationState<CreateResidentState, CreateResidentInput>
 });
 
 /**
- *
+ * Selector for the resident creation form validation
  */
 // eslint-disable-next-line max-len
 export const createResidentFormValidationSelector = createFormValidationStateSelector<CreateResidentState, CreateResidentInput>(
