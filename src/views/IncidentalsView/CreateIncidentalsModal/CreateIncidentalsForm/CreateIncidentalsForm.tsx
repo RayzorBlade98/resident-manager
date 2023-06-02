@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { DeductionType } from '../../../../../types/incidentals';
+import { DeductionType } from '../../../../types/incidentals';
 import {
   CreateIncidentalsInput,
   createIncidentalsFormValidationSelector,

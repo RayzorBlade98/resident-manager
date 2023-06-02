@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import GenericModal from '../../../../components/GenericComponents/GenericModal/GenericModal';
+import GenericModal from '../../../components/GenericComponents/GenericModal/GenericModal';
 import createIncidentalsState from '../states/create_incidentals_state';
 import CreateIncidentalsButton from './CreateIncidentalsButton/CreateIncidentalsButton';
 import CreateIncidentalsForm from './CreateIncidentalsForm/CreateIncidentalsForm';

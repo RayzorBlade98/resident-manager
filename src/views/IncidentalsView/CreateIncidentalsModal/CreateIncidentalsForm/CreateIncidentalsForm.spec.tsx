@@ -3,7 +3,7 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, resetRecoil } from 'recoil-nexus';
-import { DeductionType } from '../../../../../types/incidentals';
+import { DeductionType } from '../../../../types/incidentals';
 import createIncidentalsState, {
   createIncidentalsFormValidationSelector,
 } from '../../states/create_incidentals_state';
