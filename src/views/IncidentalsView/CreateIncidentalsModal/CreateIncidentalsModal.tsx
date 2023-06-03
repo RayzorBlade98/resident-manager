@@ -6,7 +6,7 @@ import CreateIncidentalsButton from './CreateIncidentalsButton/CreateIncidentals
 import CreateIncidentalsForm from './CreateIncidentalsForm/CreateIncidentalsForm';
 
 /**
- *
+ * Modal that contains an input form to create new incidentals.
  */
 function CreateIncidentalsModal(): JSX.Element {
   const incidentalsCreationState = useRecoilValue(createIncidentalsState);

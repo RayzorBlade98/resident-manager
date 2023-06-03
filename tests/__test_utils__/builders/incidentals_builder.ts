@@ -24,6 +24,11 @@ class IncidentalsBuilder {
     return this;
   }
 
+  public withInvoiceInterval(invoiceInterval: number): IncidentalsBuilder {
+    this.incidentals.invoiceInterval = invoiceInterval;
+    return this;
+  }
+
   public build(): Incidentals {
     return this.incidentals;
   }

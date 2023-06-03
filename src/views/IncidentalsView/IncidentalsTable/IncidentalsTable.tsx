@@ -1,11 +1,28 @@
-import { MDBTable, MDBTableBody, MDBTableHead } from 'mdb-react-ui-kit';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
 import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import createIncidentalsState from '../states/create_incidentals_state';
-import IncidentalsTableRow from './IncidentalsTableRow';
 import { incidentalsState } from '_/states/saveStates/incidentals_state';
-import { Incidentals } from '_/types/incidentals';
+import { convertCurrencyCentsToString } from '_/utils/currency/currency';
 
+const styles = {
+  createIncidentalsCell: {
+    ':hover': {
+      cursor: 'pointer',
+    },
+  },
+};
+
+/**
+ * Table that displays all incidentals
+ */
 function IncidentalsTable(): JSX.Element {
   const setCreateIncidentalsState = useSetRecoilState(createIncidentalsState);
   const incidentals = useRecoilValue(incidentalsState);
@@ -15,27 +32,49 @@ function IncidentalsTable(): JSX.Element {
   };
 
   return (
-    <MDBTable hover>
-      <MDBTableHead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Abrechnungsart</th>
-          <th scope="col">Preis</th>
-          <th scope="col">Abrechnungszeitraum</th>
-          <th scope="col">Aktionen</th>
-        </tr>
-      </MDBTableHead>
-      <MDBTableBody>
-        <tr>
-          <td colSpan={5} onClick={onCreateIncidentals}>
-            Neue Nebenkosten
-          </td>
-        </tr>
-        {incidentals.map((_incidentals: Incidentals) => (
-          <IncidentalsTableRow incidentals={_incidentals} />
-        ))}
-      </MDBTableBody>
-    </MDBTable>
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>Abrechnungsart</TableCell>
+            <TableCell>Preis</TableCell>
+            <TableCell>Abrechnungszeitraum</TableCell>
+            <TableCell>Aktionen</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableCell
+              colSpan={5}
+              onClick={onCreateIncidentals}
+              align="center"
+              sx={styles.createIncidentalsCell}
+            >
+              Neue Nebenkosten
+            </TableCell>
+          </TableRow>
+          {incidentals.map((_incidentals) => (
+            <TableRow
+              key={_incidentals.id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell>{_incidentals.name}</TableCell>
+              <TableCell>{_incidentals.deductionType}</TableCell>
+              <TableCell>
+                {convertCurrencyCentsToString(_incidentals.currentPrice)}
+              </TableCell>
+              <TableCell>
+                {`${_incidentals.invoiceInterval} Monat${
+                  _incidentals.invoiceInterval === 1 ? '' : 'e'
+                }`}
+              </TableCell>
+              <TableCell />
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 
