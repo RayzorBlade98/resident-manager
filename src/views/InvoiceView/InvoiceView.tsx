@@ -1,30 +1,39 @@
-import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import styles from './styles';
-import InvoiceInformation from '_/components/InvoiceInformation/InvoiceInformation';
-import InvoiceList from '_/components/InvoiceList/InvoiceList';
+import { Grid } from '@mui/material';
+import React, { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { invoiceViewSelectedInvoiceSelector } from './states/invoice_view_state';
 import { invoiceState } from '_/states/saveStates/invoice_state';
-import { Invoice } from '_/types/invoice';
+import InvoiceInformation from '_/views/InvoiceView/InvoiceInformation/InvoiceInformation';
+import InvoiceList from '_/views/InvoiceView/InvoiceList/InvoiceList';
+
+const styles = {
+  grid: {
+    height: '100%',
+  },
+};
 
 function InvoiceView(): JSX.Element {
   const invoices = useRecoilValue(invoiceState);
-  const [selectedInvoice, setSelectedInvoice] = useState<Invoice>(invoices[0]);
+  const [selectedInvoice, setSelectedInvoice] = useRecoilState(
+    invoiceViewSelectedInvoiceSelector,
+  );
+
+  useEffect(() => {
+    // Select first resident on start
+    if (invoices.length > 0) {
+      setSelectedInvoice(invoices[0]);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div {...styles.invoiceView}>
-      <InvoiceList
-        invoices={invoices}
-        selectedInvoice={selectedInvoice}
-        onSelectInvoice={(invoice: Invoice) => {
-          setSelectedInvoice(invoice);
-        }}
-        style={styles.invoiceListContainer}
-      />
-      <InvoiceInformation
-        invoice={selectedInvoice}
-        containerStyle={styles.invoiceInformationContainer}
-      />
-    </div>
+    <Grid container sx={styles.grid}>
+      <Grid item xs={2} sx={styles.grid}>
+        <InvoiceList />
+      </Grid>
+      <Grid item xs={10} sx={styles.grid}>
+        {selectedInvoice && <InvoiceInformation />}
+      </Grid>
+    </Grid>
   );
 }
 

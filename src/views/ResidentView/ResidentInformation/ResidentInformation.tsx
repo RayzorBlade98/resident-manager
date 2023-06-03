@@ -13,6 +13,10 @@ enum ResidentTab {
   Rent = 1,
 }
 
+const styles = {
+  tabsBox: { borderBottom: 1, borderColor: 'divider' },
+};
+
 /**
  * Component that displays information of the resident in different tabs.
  */
@@ -21,7 +25,7 @@ function ResidentInformation(): JSX.Element {
 
   return (
     <>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={styles.tabsBox}>
         <Tabs
           variant="fullWidth"
           value={activeTab}

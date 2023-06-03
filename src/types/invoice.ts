@@ -5,6 +5,11 @@ import { MonthYear } from './date';
  */
 export interface Invoice {
   /**
+   * Unique id of the invoice
+   */
+  id: string;
+
+  /**
    * First month of the invoice
    */
   start: MonthYear;

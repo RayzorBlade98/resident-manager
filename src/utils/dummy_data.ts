@@ -38,6 +38,7 @@ function createDummyData(): void {
   // Dummy invoices
   for (let i = 0; i < 4; i += 1) {
     InvoiceStateManager.addInvoice({
+      id: uuid(),
       start: MonthYearUtils.addMonths(
         { month: Month.January, year: 2023 },
         2 * i + 1,
