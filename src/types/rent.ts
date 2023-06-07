@@ -1,4 +1,4 @@
-import { MonthYear, MonthYearUtils } from './date';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { CurrencyInCents } from '_/utils/currency/currency';
 
 /**
@@ -63,19 +63,16 @@ export abstract class RentInformationUtils {
    */
   public static addMissingMonths(rentInformation: RentInformation[]): void {
     const lastRentInformation: RentInformation = rentInformation.at(-1)!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
-    if (
-      MonthYearUtils.compare(
-        lastRentInformation.dueDate,
-        MonthYearUtils.getCurrentMonthYear(),
-      ) >= 0
-    ) {
+    if (lastRentInformation.dueDate >= new MonthYear()) {
       // Last rent information isn't in the past
       return;
     }
 
+    const firstMissingMonth = lastRentInformation.dueDate.clone();
+    firstMissingMonth.addMonths();
     const missingRentInformation = RentInformationUtils.timespan(
-      MonthYearUtils.addMonths(lastRentInformation.dueDate, 1),
-      MonthYearUtils.getCurrentMonthYear(),
+      firstMissingMonth,
+      new MonthYear(),
       lastRentInformation.rent,
       lastRentInformation.incidentals,
     );
@@ -130,11 +127,11 @@ export abstract class RentInformationUtils {
     rent: CurrencyInCents,
     incidentals: CurrencyInCents,
   ): RentInformation[] {
-    let timespan = [{ ...start }];
+    let timespan = [start.clone()];
 
-    if (MonthYearUtils.compare(start, end) < 0) {
+    if (start < end) {
       // Only create timespan if start is before end
-      timespan = MonthYearUtils.timespan(start, end);
+      timespan = MonthYear.timespan(start, end);
     }
 
     return timespan.map<RentInformation>((m: MonthYear) => ({

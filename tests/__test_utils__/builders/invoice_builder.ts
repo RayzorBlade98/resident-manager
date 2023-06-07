@@ -1,12 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import { Month, MonthYear, MonthYearUtils } from '_/types/date';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { Invoice } from '_/types/invoice';
 
 class InvoiceBuilder {
-  private static nextStart: MonthYear = {
-    month: Month.January,
-    year: 2023,
-  };
+  private static nextStart = new MonthYear(1, 2023);
 
   private invoice: Invoice;
 
@@ -14,7 +11,7 @@ class InvoiceBuilder {
     this.invoice = {
       id: uuid(),
       start: InvoiceBuilder.nextStart,
-      end: MonthYearUtils.addMonths(InvoiceBuilder.nextStart, 1),
+      end: InvoiceBuilder.nextStart.clone(),
       residentInformation: {},
     };
     InvoiceBuilder.nextStart = this.invoice.end;
@@ -26,6 +23,7 @@ class InvoiceBuilder {
   }
 
   public build(): Invoice {
+    InvoiceBuilder.nextStart.addMonths(1);
     return this.invoice;
   }
 

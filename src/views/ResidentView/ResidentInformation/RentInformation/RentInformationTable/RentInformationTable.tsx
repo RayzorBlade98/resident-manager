@@ -10,7 +10,6 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import AddPaymentIcon from './AddPaymentIcon/AddPaymentIcon';
 import PaymentStatusIcon from './PaymentStatusIcon/PaymentStatusIcon';
-import { MonthYearUtils } from '_/types/date';
 import { convertCurrencyCentsToString } from '_/utils/currency/currency';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 
@@ -37,10 +36,10 @@ function RentInformationTable(): JSX.Element {
         <TableBody>
           {rentInformation?.map((rent) => (
             <TableRow
-              key={MonthYearUtils.toString(rent.dueDate)}
+              key={rent.dueDate.toString()}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell>{MonthYearUtils.toString(rent.dueDate)}</TableCell>
+              <TableCell>{rent.dueDate.toString()}</TableCell>
               <TableCell>{convertCurrencyCentsToString(rent.rent)}</TableCell>
               <TableCell>
                 {convertCurrencyCentsToString(rent.incidentals)}

@@ -5,9 +5,9 @@ import {
   CreateResidentInput,
   createResidentFormValidationSelector,
 } from '../../states/create_resident_state';
-import MonthYearInput from '_/components/GenericComponents/MonthYearInput/MonthYearInput';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
-import { MonthYear } from '_/types/date';
+import MonthYearDateField from '_/components/form/MonthYearDateField/MonthYearDateField';
+import MonthYear from '_/extensions/date/month_year.extension';
 
 /**
  * Form to submit new resident
@@ -64,6 +64,7 @@ function CreateResidentForm(): JSX.Element {
       </Grid>
       <Grid item xs={6}>
         <CurrencyInputField
+          required
           id="incidentals"
           label="Nebenkosten"
           value={formInput.incidentals}
@@ -72,12 +73,15 @@ function CreateResidentForm(): JSX.Element {
         />
       </Grid>
       <Grid item xs={6}>
-        <MonthYearInput
+        <MonthYearDateField
+          required
           id="contractStart"
           label="Vertragsbeginn"
-          priorMonthChoices={6}
-          futureMonthChoices={6}
-          onChange={(month) => onChange<MonthYear>('contractStart', month)}
+          value={formInput.contractStart}
+          onChange={(month) => {
+            onChange<MonthYear | undefined>('contractStart', month);
+          }}
+          errorMessage={errors.contractStart}
         />
       </Grid>
     </Grid>

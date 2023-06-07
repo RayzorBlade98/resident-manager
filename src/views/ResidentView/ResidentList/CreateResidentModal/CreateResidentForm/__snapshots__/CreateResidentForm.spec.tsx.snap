@@ -175,12 +175,19 @@ exports[`CreateResidentForm should match snapshot (invalid input) 1`] = `
         class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
           data-shrink="true"
           for="incidentals"
           id="incidentals-label"
         >
           Nebenkosten
+          <span
+            aria-hidden="true"
+            class="MuiFormLabel-asterisk MuiInputLabel-asterisk Mui-error css-wgai2y-MuiFormLabel-asterisk"
+          >
+             
+            *
+          </span>
         </label>
         <div
           class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
@@ -190,6 +197,7 @@ exports[`CreateResidentForm should match snapshot (invalid input) 1`] = `
             aria-invalid="true"
             class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
             id="incidentals"
+            required=""
             type="number"
             value="-1"
           />
@@ -211,12 +219,14 @@ exports[`CreateResidentForm should match snapshot (invalid input) 1`] = `
             >
               <span>
                 Nebenkosten
+                 
+                *
               </span>
             </legend>
           </fieldset>
         </div>
         <p
-          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled css-1wc848c-MuiFormHelperText-root"
+          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled Mui-required css-1wc848c-MuiFormHelperText-root"
           id="incidentals-helper-text"
         >
           Muss größer als 0 sein!
@@ -247,35 +257,17 @@ exports[`CreateResidentForm should match snapshot (invalid input) 1`] = `
         <div
           class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
         >
-          <div
-            aria-expanded="false"
-            aria-haspopup="listbox"
-            aria-labelledby="contractStart-label contractStart"
-            class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-            id="contractStart"
-            role="button"
-            tabindex="0"
-          >
-            Mai 2023
-          </div>
           <input
-            aria-hidden="true"
-            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            aria-invalid="false"
+            autocomplete="off"
+            class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+            id="contractStart"
+            inputmode="text"
+            placeholder="MM.JJJJ"
             required=""
-            tabindex="-1"
-            value="Mai 2023"
+            type="text"
+            value="05.2023"
           />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
-            data-testid="ArrowDropDownIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M7 10l5 5 5-5z"
-            />
-          </svg>
           <fieldset
             aria-hidden="true"
             class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
@@ -465,12 +457,19 @@ exports[`CreateResidentForm should match snapshot (valid input) 1`] = `
         class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
           data-shrink="true"
           for="incidentals"
           id="incidentals-label"
         >
           Nebenkosten
+          <span
+            aria-hidden="true"
+            class="MuiFormLabel-asterisk MuiInputLabel-asterisk css-wgai2y-MuiFormLabel-asterisk"
+          >
+             
+            *
+          </span>
         </label>
         <div
           class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
@@ -479,6 +478,7 @@ exports[`CreateResidentForm should match snapshot (valid input) 1`] = `
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
             id="incidentals"
+            required=""
             type="number"
             value="100"
           />
@@ -500,6 +500,8 @@ exports[`CreateResidentForm should match snapshot (valid input) 1`] = `
             >
               <span>
                 Nebenkosten
+                 
+                *
               </span>
             </legend>
           </fieldset>
@@ -530,35 +532,17 @@ exports[`CreateResidentForm should match snapshot (valid input) 1`] = `
         <div
           class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
         >
-          <div
-            aria-expanded="false"
-            aria-haspopup="listbox"
-            aria-labelledby="contractStart-label contractStart"
-            class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-            id="contractStart"
-            role="button"
-            tabindex="0"
-          >
-            Mai 2023
-          </div>
           <input
-            aria-hidden="true"
-            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            aria-invalid="false"
+            autocomplete="off"
+            class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+            id="contractStart"
+            inputmode="text"
+            placeholder="MM.JJJJ"
             required=""
-            tabindex="-1"
-            value="Mai 2023"
+            type="text"
+            value="05.2023"
           />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
-            data-testid="ArrowDropDownIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M7 10l5 5 5-5z"
-            />
-          </svg>
           <fieldset
             aria-hidden="true"
             class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"

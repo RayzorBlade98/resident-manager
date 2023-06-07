@@ -3,10 +3,10 @@
 import { act, render } from '@testing-library/react';
 import React from 'react';
 import { getRecoil } from 'recoil-nexus';
+import MonthYear from '_/extensions/date/month_year.extension';
 import residentState, {
   ResidentStateManager,
 } from '_/states/saveStates/resident_state';
-import { Month } from '_/types/date';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
 import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
@@ -78,17 +78,21 @@ describe('ResidentStateManager', () => {
       const rentInformation = new RentInformationBuilder()
         .withRent(500)
         .withIncidentals(100)
-        .withMonth(Month.Febuary)
+        .withDueDate(new MonthYear(1, 2023))
         .build();
       const resident = new ResidentBuilder()
         .withFirstName('Old First')
         .withLastName('Old Last')
         .addRentInformation(
-          new RentInformationBuilder().withMonth(Month.January).build(),
+          new RentInformationBuilder()
+            .withDueDate(new MonthYear(0, 2023))
+            .build(),
         )
         .addRentInformation(rentInformation)
         .addRentInformation(
-          new RentInformationBuilder().withMonth(Month.March).build(),
+          new RentInformationBuilder()
+            .withDueDate(new MonthYear(2, 2023))
+            .build(),
         )
         .build();
       act(() => {

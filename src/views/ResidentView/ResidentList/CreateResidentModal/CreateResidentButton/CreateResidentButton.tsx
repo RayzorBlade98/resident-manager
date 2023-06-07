@@ -6,8 +6,8 @@ import createResidentState, {
   createResidentFormValidationSelector,
 } from '../../states/create_resident_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
-import { MonthYearUtils } from '_/types/date';
 import { RentInformationUtils } from '_/types/rent';
 import { CurrencyInCents } from '_/utils/currency/currency';
 
@@ -27,12 +27,12 @@ function CreateResidentButton(): JSX.Element {
       firstName: formValidationState.formInput.firstName,
       lastName: formValidationState.formInput.lastName,
       rent: RentInformationUtils.timespan(
-        { ...formValidationState.formInput.contractStart },
-        MonthYearUtils.getCurrentMonthYear(),
+        formValidationState.formInput.contractStart as MonthYear,
+        new MonthYear(),
         formValidationState.formInput.rent as CurrencyInCents,
         formValidationState.formInput.incidentals as CurrencyInCents,
       ),
-      invoiceStart: { ...formValidationState.formInput.contractStart },
+      invoiceStart: formValidationState.formInput.contractStart as MonthYear,
     });
     resetCreateResidentState();
   };

@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import { MonthYear, MonthYearUtils } from '_/types/date';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { RentInformation } from '_/types/rent';
 import { Resident } from '_/types/resident';
 
@@ -68,7 +68,7 @@ export abstract class ResidentStateManager {
         .rent,
     ];
     // eslint-disable-next-line max-len
-    const rentIndex = rentInformation.findIndex((r: RentInformation) => MonthYearUtils.areEqual(r.dueDate, dueDate));
+    const rentIndex = rentInformation.findIndex((r: RentInformation) => dueDate.equals(r.dueDate));
     rentInformation[rentIndex] = {
       ...rentInformation[rentIndex],
       ...update,

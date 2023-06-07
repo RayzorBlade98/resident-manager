@@ -10,10 +10,10 @@ import addRentPaymentState, {
   addRentPaymentFormValidationSelector,
 } from '../../states/add_rent_payment_state';
 import AddRentPaymentButton from './AddRentPaymentButton';
+import MonthYear from '_/extensions/date/month_year.extension';
 import residentState, {
   ResidentStateManager,
 } from '_/states/saveStates/resident_state';
-import { Month, MonthYear } from '_/types/date';
 import residentViewState from '_/views/ResidentView/states/resident_view_state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
@@ -21,10 +21,7 @@ import '_/extensions/date/date.extension';
 
 describe('AddRentPaymentButton', () => {
   const selectedResident = new ResidentBuilder().build();
-  const selectedRentMonth: MonthYear = {
-    month: Month.May,
-    year: 2023,
-  };
+  const selectedRentMonth = new MonthYear(4, 2023);
   const validInputValues = {
     paymentAmount: 100,
     paymentDate: new Date(26, 4, 2023).toUTC(),

@@ -3,8 +3,8 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { setRecoil } from 'recoil-nexus';
 import RentInformationTable from './RentInformationTable';
+import MonthYear from '_/extensions/date/month_year.extension';
 import residentState from '_/states/saveStates/resident_state';
-import { Month } from '_/types/date';
 import residentViewState from '_/views/ResidentView/states/resident_view_state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
@@ -18,14 +18,14 @@ describe('RentInformationTable', () => {
         new RentInformationBuilder()
           .withRent(10)
           .withIncidentals(5)
-          .withMonth(Month.May)
+          .withDueDate(new MonthYear(4, 2023))
           .build(),
       )
       .addRentInformation(
         new RentInformationBuilder()
           .withRent(20)
           .withIncidentals(15)
-          .withMonth(Month.April)
+          .withDueDate(new MonthYear(3, 2023))
           .withPayment(20, new Date(2023, 3, 1))
           .build(),
       )
@@ -33,7 +33,7 @@ describe('RentInformationTable', () => {
         new RentInformationBuilder()
           .withRent(30)
           .withIncidentals(25)
-          .withMonth(Month.March)
+          .withDueDate(new MonthYear(2, 2023))
           .withPayment(55, new Date(2023, 2, 1))
           .build(),
       )

@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { Month } from '_/types/date';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { RentInformation } from '_/types/rent';
 import { Resident } from '_/types/resident';
 
@@ -12,10 +12,7 @@ class ResidentBuilder {
       firstName: 'Max',
       lastName: 'Mustermann',
       rent: [],
-      invoiceStart: {
-        month: Month.March,
-        year: 2023,
-      },
+      invoiceStart: new MonthYear(2, 2023),
     };
   }
 

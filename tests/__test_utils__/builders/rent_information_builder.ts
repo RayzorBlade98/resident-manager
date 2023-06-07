@@ -1,4 +1,4 @@
-import { Year, Month } from '_/types/date';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { CurrencyInCents } from '_/utils/currency/currency';
 import { RentInformation } from '_types/rent';
 
@@ -7,22 +7,14 @@ class RentInformationBuilder {
 
   constructor() {
     this.rentInformation = {
-      dueDate: {
-        month: Month.March,
-        year: 2023,
-      },
+      dueDate: new MonthYear(2, 2023),
       rent: 50000,
       incidentals: 10000,
     };
   }
 
-  public withMonth(month: Month): RentInformationBuilder {
-    this.rentInformation.dueDate.month = month;
-    return this;
-  }
-
-  public withYear(year: Year): RentInformationBuilder {
-    this.rentInformation.dueDate.year = year;
+  public withDueDate(dueDate: MonthYear): RentInformationBuilder {
+    this.rentInformation.dueDate = dueDate;
     return this;
   }
 

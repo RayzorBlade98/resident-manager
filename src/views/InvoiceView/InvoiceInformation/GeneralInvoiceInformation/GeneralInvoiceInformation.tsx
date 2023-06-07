@@ -13,7 +13,7 @@ function GeneralInvoiceInformation(): JSX.Element {
 
   return (
     // eslint-disable-next-line max-len
-    <p>{`${selectedInvoice.start.month} ${selectedInvoice.start.year} - ${selectedInvoice.end.month} ${selectedInvoice.end.year}`}</p>
+    <p>{`${selectedInvoice.start.toString()} - ${selectedInvoice.end.toString()}`}</p>
   );
 }
 

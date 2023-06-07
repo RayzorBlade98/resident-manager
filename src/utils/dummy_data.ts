@@ -1,10 +1,10 @@
 /* istanbul ignore file */
 import { v4 as uuid } from 'uuid';
 import { DeductionType } from '../types/incidentals';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { IncidentalsStateManager } from '_/states/saveStates/incidentals_state';
 import { InvoiceStateManager } from '_/states/saveStates/invoice_state';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
-import { Month, MonthYearUtils } from '_/types/date';
 
 function createDummyData(): void {
   // Dummy residents
@@ -15,12 +15,12 @@ function createDummyData(): void {
       lastName: 'Mustermann',
       rent: [
         {
-          dueDate: MonthYearUtils.getCurrentMonthYear(),
+          dueDate: new MonthYear(),
           rent: 50000,
           incidentals: 10000,
         },
       ],
-      invoiceStart: MonthYearUtils.getCurrentMonthYear(),
+      invoiceStart: new MonthYear(),
     });
   }
 
@@ -36,16 +36,17 @@ function createDummyData(): void {
   }
 
   // Dummy invoices
+  const startMonth = new MonthYear(0, 2023);
+  const endMonth = new MonthYear(2, 2023);
   for (let i = 0; i < 4; i += 1) {
     InvoiceStateManager.addInvoice({
       id: uuid(),
-      start: MonthYearUtils.addMonths(
-        { month: Month.January, year: 2023 },
-        2 * i + 1,
-      ),
-      end: MonthYearUtils.addMonths({ month: Month.March, year: 2023 }, 2 * i),
+      start: startMonth.clone(),
+      end: endMonth.clone(),
       residentInformation: {},
     });
+    startMonth.addMonths(2);
+    endMonth.addMonths(2);
   }
 }
 

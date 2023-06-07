@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { residentViewSelectedResidentState } from '../../states/resident_view_state';
-import { MonthYearUtils } from '_/types/date';
 import { Resident } from '_/types/resident';
 import { convertCurrencyCentsToString } from '_/utils/currency/currency';
 
@@ -16,7 +15,7 @@ function GeneralResidentInformation(): JSX.Element {
     <>
       <p>{`${selectedResident.firstName} ${selectedResident.lastName}`}</p>
       <p>{`${convertCurrencyCentsToString(selectedResident.rent[0].rent)}`}</p>
-      <p>{`${MonthYearUtils.toString(selectedResident.invoiceStart)}`}</p>
+      <p>{selectedResident.invoiceStart.toString()}</p>
     </>
   );
 }

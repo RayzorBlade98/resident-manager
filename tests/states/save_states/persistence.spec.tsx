@@ -4,6 +4,7 @@ import { act, render } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, setRecoil } from 'recoil-nexus';
 import * as recoil_nexus from 'recoil-nexus';
+import MonthYear from '_/extensions/date/month_year.extension';
 import IncidentalsState, {
   incidentalsState,
 } from '_/states/saveStates/incidentals_state';
@@ -121,10 +122,10 @@ describe('SaveStatePersistenceManager', () => {
         .mockReturnValueOnce(true);
 
       const rentInformation1 = new RentInformationBuilder()
-        .withYear(2023)
+        .withDueDate(new MonthYear(5, 2023))
         .build();
       const rentInformation2 = new RentInformationBuilder()
-        .withYear(2024)
+        .withDueDate(new MonthYear(5, 2023))
         .build();
       const expectedResidentState: ResidentState = [
         new ResidentBuilder().addRentInformation(rentInformation1).build(),

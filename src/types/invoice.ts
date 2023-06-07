@@ -1,4 +1,4 @@
-import { MonthYear } from './date';
+import MonthYear from '_/extensions/date/month_year.extension';
 
 /**
  * Object containing information about an invoice

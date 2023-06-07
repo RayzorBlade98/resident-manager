@@ -1,17 +1,17 @@
 import { act, render } from '@testing-library/react';
 import React from 'react';
 import { getRecoil } from 'recoil-nexus';
+import MonthYear from '_/extensions/date/month_year.extension';
 import {
   InvoiceStateManager,
   invoiceState,
 } from '_/states/saveStates/invoice_state';
-import { Month } from '_/types/date';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import InvoiceBuilder from '_tests/__test_utils__/builders/invoice_builder';
 
 describe('InvoiceStateManager', () => {
   beforeEach(() => {
-    InvoiceBuilder.setStart({ month: Month.January, year: 2022 });
+    InvoiceBuilder.setStart(new MonthYear(0, 2022));
     render(<RecoilTestWrapper />);
   });
 

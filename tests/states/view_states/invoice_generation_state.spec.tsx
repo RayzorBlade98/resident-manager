@@ -25,10 +25,12 @@ describe('invoiceGenerationState', () => {
         new IncidentalsBuilder().build(),
         new IncidentalsBuilder().build(),
       ];
-      setRecoil(invoiceGenerationState, (state) => ({
-        ...state,
-        selectedIncidentals: expectedState,
-      }));
+      act(() => {
+        setRecoil(invoiceGenerationState, (state) => ({
+          ...state,
+          selectedIncidentals: expectedState,
+        }));
+      });
 
       // Act
       const selectedState = getRecoil(selectedInvoiceIncidentalsState);

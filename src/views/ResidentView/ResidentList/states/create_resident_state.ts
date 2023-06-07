@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { ValidationConstraint } from '../../../../utils/validation/validation_constraints';
-import { MonthYear, MonthYearUtils } from '_/types/date';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { CurrencyInCents } from '_/utils/currency/currency';
 import {
   CompleteFormValidationState,
@@ -35,7 +35,7 @@ export interface CreateResidentInput {
   /**
    * First month and year the contract of the new resident starts
    */
-  contractStart: MonthYear;
+  contractStart: MonthYear | undefined;
 }
 
 interface CreateResidentState {
@@ -60,7 +60,7 @@ CompleteFormValidationState<CreateResidentState, CreateResidentInput>
         lastName: '',
         rent: undefined,
         incidentals: undefined,
-        contractStart: MonthYearUtils.getCurrentMonthYear(),
+        contractStart: new MonthYear(),
       },
       formErrors: {},
       formValidator: new Validator<CreateResidentInput>({
@@ -68,6 +68,7 @@ CompleteFormValidationState<CreateResidentState, CreateResidentInput>
         lastName: ValidationConstraint.NoEmptyString,
         rent: ValidationConstraint.Currency,
         incidentals: ValidationConstraint.Currency,
+        contractStart: ValidationConstraint.Defined,
       }),
     },
   },

@@ -7,7 +7,7 @@ import createResidentState, {
   createResidentFormValidationSelector,
 } from '../../states/create_resident_state';
 import CreateResidentForm from './CreateResidentForm';
-import { MonthYearUtils } from '_/types/date';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { convertCurrencyEurosToCents } from '_/utils/currency/currency';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
@@ -57,7 +57,7 @@ describe('CreateResidentForm', () => {
           ...state.formValidation,
           formInput: {
             ...state.formValidation.formInput,
-            contractStart: MonthYearUtils.getCurrentMonthYear(),
+            contractStart: new MonthYear(),
           },
         },
       }));
@@ -81,7 +81,7 @@ describe('CreateResidentForm', () => {
       lastName,
       rent: convertCurrencyEurosToCents(rent),
       incidentals: convertCurrencyEurosToCents(incidentals),
-      contractStart: MonthYearUtils.getCurrentMonthYear(),
+      contractStart: new MonthYear(),
     });
   });
 

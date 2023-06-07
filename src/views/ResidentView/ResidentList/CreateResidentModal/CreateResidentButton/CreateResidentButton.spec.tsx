@@ -8,8 +8,8 @@ import createResidentState, {
   createResidentFormValidationSelector,
 } from '../../states/create_resident_state';
 import CreateResidentButton from './CreateResidentButton';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { ResidentStateManager } from '_/states/saveStates/resident_state';
-import { Month, MonthYearUtils } from '_/types/date';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('CreateResidentButton', () => {
@@ -18,10 +18,7 @@ describe('CreateResidentButton', () => {
     lastName: 'Mustermann',
     rent: 500,
     incidentals: 100,
-    contractStart: {
-      month: Month.April,
-      year: 2023,
-    },
+    contractStart: new MonthYear(3, 2023),
   };
 
   let renderResult: RenderResult;
@@ -106,7 +103,7 @@ describe('CreateResidentButton', () => {
             incidentals: validInputValues.incidentals,
           },
           {
-            dueDate: MonthYearUtils.getCurrentMonthYear(),
+            dueDate: new MonthYear(),
             rent: validInputValues.rent,
             incidentals: validInputValues.incidentals,
           },
