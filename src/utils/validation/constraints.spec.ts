@@ -5,7 +5,7 @@ import {
   CONSTRAINT_FUNCTIONS,
   ERROR_MESSAGES,
   ValidationConstraint,
-} from './validation_constraints';
+} from './constraints';
 
 function testValidationConstraint(
   constraint: ValidationConstraint,

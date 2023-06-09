@@ -1,12 +1,12 @@
 import { atom } from 'recoil';
-import { ValidationConstraint } from '../../../../utils/validation/validation_constraints';
+import { ValidationConstraint } from '../../../../utils/validation/constraints';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 import {
   CompleteFormValidationState,
-  Validator,
   createFormValidationStateSelector,
 } from '_/utils/validation/validation';
+import Validator from '_/utils/validation/validator';
 
 /**
  * All values that can be submitted in the form

@@ -1,12 +1,12 @@
 import { atom } from 'recoil';
 import { DeductionType } from '../../../types/incidentals';
-import { ValidationConstraint } from '../../../utils/validation/validation_constraints';
+import { ValidationConstraint } from '../../../utils/validation/constraints';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 import {
   CompleteFormValidationState,
-  Validator,
   createFormValidationStateSelector,
 } from '_/utils/validation/validation';
+import Validator from '_/utils/validation/validator';
 
 /**
  * All values that can be submitted in the form

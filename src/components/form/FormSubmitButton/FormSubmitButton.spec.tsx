@@ -10,30 +10,34 @@ import ReactTestWrapper from '_/test/ReactTestWrapper';
 import {
   CompleteFormValidationState,
   ValidationErrorMessages,
-  Validator,
   createFormValidationStateSelector,
 } from '_/utils/validation/validation';
+import Validator from '_/utils/validation/validator';
+
+interface TestValidationClass {
+  success: boolean;
+}
+
+class TestValidator extends Validator<TestValidationClass> {
+  public static VALIDATION_SUCCESS = {};
+
+  public static VALIDATION_ERROR = { success: 'Fail' };
+
+  constructor() {
+    super({});
+  }
+
+  public validate(
+    toValidate: Partial<TestValidationClass>,
+    _invalidOnly = true,
+  ): ValidationErrorMessages<TestValidationClass> {
+    return toValidate.success
+      ? TestValidator.VALIDATION_SUCCESS
+      : TestValidator.VALIDATION_ERROR;
+  }
+}
 
 describe('FormSubmitButton', () => {
-  interface TestValidationClass {
-    success: boolean;
-  }
-
-  class TestValidator extends Validator<TestValidationClass> {
-    public static VALIDATION_SUCCESS = {};
-
-    public static VALIDATION_ERROR = { success: 'Fail' };
-
-    public validate(
-      toValidate: Partial<TestValidationClass>,
-      _invalidOnly = true,
-    ): ValidationErrorMessages<TestValidationClass> {
-      return toValidate.success
-        ? TestValidator.VALIDATION_SUCCESS
-        : TestValidator.VALIDATION_ERROR;
-    }
-  }
-
   const testState = atom<CompleteFormValidationState<{}, TestValidationClass>>({
     key: 'FormSubmitButton-teststate',
     default: {
@@ -42,7 +46,7 @@ describe('FormSubmitButton', () => {
           success: true,
         },
         formErrors: {},
-        formValidator: new TestValidator({}),
+        formValidator: new TestValidator(),
       },
     },
   });

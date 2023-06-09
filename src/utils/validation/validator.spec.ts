@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Validator } from './validation';
-import { ERROR_MESSAGES, ValidationConstraint } from './validation_constraints';
-
-describe('createFormValidationStateSelector', () => {
-  test.todo('move mock validator to own file and add missing tests here');
-});
+import { ValidationConstraint, ERROR_MESSAGES } from './constraints';
+import Validator from './validator';
 
 describe('Validator', () => {
   type TestType = {
@@ -16,6 +12,7 @@ describe('Validator', () => {
     value4: any;
   };
   const validator = new Validator<TestType>({
+    notValidated: undefined,
     value1: ValidationConstraint.Defined,
     value2: ValidationConstraint.Defined,
     value3: ValidationConstraint.Defined,

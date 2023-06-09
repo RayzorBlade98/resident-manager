@@ -2,12 +2,15 @@ import './date.extension';
 
 describe('Date extensions', () => {
   describe('toPreferredString', () => {
-    test('should return right string', () => {
+    test.each([
+      [new Date(2023, 4, 29), '29.05.2023'],
+      [new Date(2023, 11, 6), '06.12.2023'],
+    ])('should return right string for date %s', (date, expectedString) => {
       // Act
-      const dateString = new Date(2023, 4, 29).toPreferredString();
+      const dateString = date.toPreferredString();
 
       // Assert
-      expect(dateString).toBe('29.05.2023');
+      expect(dateString).toBe(expectedString);
     });
   });
 

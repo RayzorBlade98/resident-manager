@@ -19,6 +19,7 @@ describe('CreateResidentForm', () => {
     lastName: string,
     rent: number,
     incidentals: number,
+    contractStart: string,
   ) {
     const inputFields = renderResult.container.querySelectorAll('input');
     fireEvent.change(inputFields.item(0), {
@@ -35,6 +36,10 @@ describe('CreateResidentForm', () => {
 
     fireEvent.change(inputFields.item(3), {
       target: { value: incidentals.toString() },
+    });
+
+    fireEvent.change(inputFields.item(4), {
+      target: { value: contractStart },
     });
   }
 
@@ -70,9 +75,10 @@ describe('CreateResidentForm', () => {
     const lastName = 'Mustermann';
     const rent = 500;
     const incidentals = 100;
+    const contractStart = '06.2023';
 
     // Act
-    inputToForm(firstName, lastName, rent, incidentals);
+    inputToForm(firstName, lastName, rent, incidentals, contractStart);
 
     // Assert
     const formInput = getRecoil(createResidentFormValidationSelector).formInput;
@@ -81,13 +87,13 @@ describe('CreateResidentForm', () => {
       lastName,
       rent: convertCurrencyEurosToCents(rent),
       incidentals: convertCurrencyEurosToCents(incidentals),
-      contractStart: new MonthYear(),
+      contractStart: new MonthYear(5, 2023),
     });
   });
 
   test('should match snapshot (valid input)', () => {
     // Act
-    inputToForm('Max', 'Mustermann', 500, 100);
+    inputToForm('Max', 'Mustermann', 500, 100, '05.2023');
 
     // Assert
     expect(renderResult.container).toMatchSnapshot();
@@ -95,7 +101,7 @@ describe('CreateResidentForm', () => {
 
   test('should match snapshot (invalid input)', () => {
     // Act
-    inputToForm('', '', -1, -1);
+    inputToForm('', '', -1, -1, '');
 
     // Assert
     expect(renderResult.container).toMatchSnapshot();
