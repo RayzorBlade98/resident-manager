@@ -17,7 +17,6 @@ function AddRentPaymentModal(): JSX.Element {
       title="Neue Zahlung"
       show={rentPaymentState.showModal}
       onClose={resetRentPaymentState}
-      size="sm"
     >
       {/* Body */}
       <AddRentPaymentForm />

@@ -21,6 +21,6 @@ describe('CreateIncidentalsModal', () => {
     });
 
     // Assert
-    expect(renderResult.container).toMatchSnapshot();
+    expect(renderResult.baseElement).toMatchSnapshot();
   });
 });

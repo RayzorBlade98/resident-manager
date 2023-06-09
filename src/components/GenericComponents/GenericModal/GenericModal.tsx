@@ -1,23 +1,27 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import {
-  MDBBtn,
-  MDBModal,
-  MDBModalDialog,
-  MDBModalContent,
-  MDBModalHeader,
-  MDBModalTitle,
-  MDBModalBody,
-  MDBModalFooter,
-} from 'mdb-react-ui-kit';
+import { Dialog, DialogActions, DialogContent } from '@mui/material';
 import React from 'react';
+import DialogTitleWithCloseButton from './DialogTitleWithCloseButton/DialogTitleWithCloseButton';
+
+const styles = {
+  content: {
+    paddingTop: '20px !important',
+  },
+};
 
 export interface GenericModalProps {
   show: boolean;
   onClose: () => void;
   title: string;
-  size?: 'sm' | 'lg' | 'xl';
 }
 
+/**
+ * Generic modal component.
+ *
+ * It needs extactly two childs:
+ * - The modal content
+ * - The modal footer
+ */
 export function GenericModal(
   props: React.PropsWithChildren<GenericModalProps>,
 ): JSX.Element {
@@ -28,26 +32,13 @@ export function GenericModal(
     );
   }
   return (
-    <>
-      {props.show && (
-        <MDBModal show tabIndex="-1" staticBackdrop>
-          <MDBModalDialog size={props.size}>
-            <MDBModalContent>
-              <MDBModalHeader>
-                <MDBModalTitle>{props.title}</MDBModalTitle>
-                <MDBBtn
-                  className="btn-close"
-                  color="none"
-                  onClick={props.onClose}
-                />
-              </MDBModalHeader>
-              <MDBModalBody>{children[0]}</MDBModalBody>
-              <MDBModalFooter>{children[1]}</MDBModalFooter>
-            </MDBModalContent>
-          </MDBModalDialog>
-        </MDBModal>
-      )}
-    </>
+    <Dialog open={props.show}>
+      <DialogTitleWithCloseButton onClose={props.onClose}>
+        {props.title}
+      </DialogTitleWithCloseButton>
+      <DialogContent sx={styles.content}>{children[0]}</DialogContent>
+      <DialogActions>{children[1]}</DialogActions>
+    </Dialog>
   );
 }
 
