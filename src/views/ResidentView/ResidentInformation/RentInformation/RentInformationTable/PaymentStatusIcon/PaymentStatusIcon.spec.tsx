@@ -1,7 +1,8 @@
 import { render } from '@testing-library/react';
 import React from 'react';
+import RentInformationUtils from '../../../../../../utils/rent/rent.utils';
 import PaymentStatusIcon from './PaymentStatusIcon';
-import { PaymentStatus, RentInformationUtils } from '_/types/rent';
+import { PaymentStatus } from '_/types/rent';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
 

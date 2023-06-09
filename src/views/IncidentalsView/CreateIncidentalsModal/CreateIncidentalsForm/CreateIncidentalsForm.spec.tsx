@@ -4,11 +4,11 @@ import {
 import React from 'react';
 import { getRecoil, resetRecoil } from 'recoil-nexus';
 import { DeductionType } from '../../../../types/incidentals';
+import { convertCurrencyEurosToCents } from '../../../../utils/currency/currency.utils';
 import createIncidentalsState, {
   createIncidentalsFormValidationSelector,
 } from '../../states/create_incidentals_state';
 import CreateIncidentalsForm from './CreateIncidentalsForm';
-import { convertCurrencyEurosToCents } from '_/utils/currency/currency';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('CreateIncidentalsForm', () => {

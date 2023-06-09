@@ -3,14 +3,11 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { Tooltip } from '@mui/material';
 import React from 'react';
 import {
-  PaymentStatus,
-  RentInformation,
-  RentInformationUtils,
-} from '_/types/rent';
-import {
   CurrencyInCents,
   convertCurrencyCentsToString,
-} from '_/utils/currency/currency';
+} from '../../../../../../utils/currency/currency.utils';
+import RentInformationUtils from '../../../../../../utils/rent/rent.utils';
+import { PaymentStatus, RentInformation } from '_/types/rent';
 import '_/extensions/date/date.extension';
 
 interface PaymentStatusIconProps {

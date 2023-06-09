@@ -3,12 +3,12 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, setRecoil } from 'recoil-nexus';
+import { convertCurrencyEurosToCents } from '../../../../../utils/currency/currency.utils';
 import createResidentState, {
   createResidentFormValidationSelector,
 } from '../../states/create_resident_state';
 import CreateResidentForm from './CreateResidentForm';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { convertCurrencyEurosToCents } from '_/utils/currency/currency';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('CreateResidentForm', () => {

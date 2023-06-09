@@ -2,7 +2,7 @@ import {
   convertCurrencyCentsToEuros,
   convertCurrencyCentsToString,
   convertCurrencyEurosToCents,
-} from '_/utils/currency/currency';
+} from './currency.utils';
 
 describe('convertCurrencyCentsToString', () => {
   test('should covert to right string', () => {

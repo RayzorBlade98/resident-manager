@@ -4,7 +4,7 @@ import {
   CurrencyInCents,
   convertCurrencyCentsToEuros,
   convertCurrencyEurosToCents,
-} from '_/utils/currency/currency';
+} from '../../../utils/currency/currency.utils';
 
 interface CurrencyInputFieldProps {
   /**

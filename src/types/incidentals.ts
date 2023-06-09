@@ -1,4 +1,4 @@
-import { CurrencyInCents } from '_/utils/currency/currency';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 export enum DeductionType {
   PerResident = 'Pro Bewohner',

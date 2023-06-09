@@ -4,11 +4,11 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { setRecoil } from 'recoil-nexus';
+import PersistenceUtils from '../../../utils/persistence/persistence.utils';
 import SaveStateManager from './SaveStateHandler';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import invoiceState from '_/states/invoice/invoice.state';
 import residentState from '_/states/resident/resident.state';
-import PersistenceManager from '_/utils/persistence/persistence.manager';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
 import InvoiceBuilder from '_tests/__test_utils__/builders/invoice_builder';
@@ -20,10 +20,10 @@ describe('SaveStateManager', () => {
 
   beforeEach(() => {
     importSaveStatesSpy = jest
-      .spyOn(PersistenceManager, 'importSaveStates')
+      .spyOn(PersistenceUtils, 'importSaveStates')
       .mockReturnValue();
     exportSaveStatesSpy = jest
-      .spyOn(PersistenceManager, 'exportSaveStates')
+      .spyOn(PersistenceUtils, 'exportSaveStates')
       .mockReturnValue();
 
     render(

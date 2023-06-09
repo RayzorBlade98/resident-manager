@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { ValidationConstraint } from '../../../../utils/validation/validation_constraints';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { CurrencyInCents } from '_/utils/currency/currency';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 import {
   CompleteFormValidationState,
   Validator,

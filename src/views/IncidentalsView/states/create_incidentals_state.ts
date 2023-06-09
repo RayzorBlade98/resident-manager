@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { DeductionType } from '../../../types/incidentals';
 import { ValidationConstraint } from '../../../utils/validation/validation_constraints';
-import { CurrencyInCents } from '_/utils/currency/currency';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 import {
   CompleteFormValidationState,
   Validator,

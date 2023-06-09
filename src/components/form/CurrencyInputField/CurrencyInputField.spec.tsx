@@ -1,11 +1,11 @@
 import { RenderResult, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
-import CurrencyInputField from './CurrencyInputField';
 import {
   CurrencyInCents,
   convertCurrencyCentsToEuros,
-} from '_/utils/currency/currency';
+} from '../../../utils/currency/currency.utils';
+import CurrencyInputField from './CurrencyInputField';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('CurrencyInputField', () => {

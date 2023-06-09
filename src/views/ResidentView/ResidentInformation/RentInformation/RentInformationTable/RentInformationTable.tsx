@@ -8,9 +8,9 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
+import { convertCurrencyCentsToString } from '../../../../../utils/currency/currency.utils';
 import AddPaymentIcon from './AddPaymentIcon/AddPaymentIcon';
 import PaymentStatusIcon from './PaymentStatusIcon/PaymentStatusIcon';
-import { convertCurrencyCentsToString } from '_/utils/currency/currency';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 
 /**

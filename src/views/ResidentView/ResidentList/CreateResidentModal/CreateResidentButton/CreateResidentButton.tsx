@@ -1,6 +1,8 @@
 import React from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
+import { CurrencyInCents } from '../../../../../utils/currency/currency.utils';
+import RentInformationUtils from '../../../../../utils/rent/rent.utils';
 import createResidentState, {
   CreateResidentInput,
   createResidentFormValidationSelector,
@@ -8,8 +10,6 @@ import createResidentState, {
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import MonthYear from '_/extensions/date/month_year.extension';
 import ResidentStateManager from '_/states/resident/resident.state.manager';
-import { RentInformationUtils } from '_/types/rent';
-import { CurrencyInCents } from '_/utils/currency/currency';
 
 /**
  * Button that submits the input resident data if they are valid
