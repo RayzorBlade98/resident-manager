@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import ResidentInformation from './ResidentInformation/ResidentInformation';
 import ResidentList from './ResidentList/ResidentList';
 import { residentViewSelectedResidentState } from './states/resident_view_state';
-import residentState from '_/states/saveStates/resident_state';
+import residentState from '_/states/resident/resident.state';
 
 const styles = {
   grid: {

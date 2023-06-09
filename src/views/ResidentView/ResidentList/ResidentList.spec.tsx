@@ -11,7 +11,7 @@ import residentViewState, {
 } from '../states/resident_view_state';
 import ResidentList from './ResidentList';
 import createResidentState from './states/create_resident_state';
-import residentState from '_/states/saveStates/resident_state';
+import residentState from '_/states/resident/resident.state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
 

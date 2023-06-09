@@ -2,7 +2,7 @@ import { Grid } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { invoiceViewSelectedInvoiceSelector } from './states/invoice_view_state';
-import { invoiceState } from '_/states/saveStates/invoice_state';
+import invoiceState from '_/states/invoice/invoice.state';
 import InvoiceInformation from '_/views/InvoiceView/InvoiceInformation/InvoiceInformation';
 import InvoiceList from '_/views/InvoiceView/InvoiceList/InvoiceList';
 

@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { incidentalsState } from '_/states/saveStates/incidentals_state';
+import incidentalsState from '_/states/incidentals/incidentals.state';
 import { Incidentals } from '_/types/incidentals';
 import {
   addSelectedIncidentals,

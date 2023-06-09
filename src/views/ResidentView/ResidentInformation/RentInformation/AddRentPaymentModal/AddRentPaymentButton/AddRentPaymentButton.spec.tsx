@@ -11,9 +11,8 @@ import addRentPaymentState, {
 } from '../../states/add_rent_payment_state';
 import AddRentPaymentButton from './AddRentPaymentButton';
 import MonthYear from '_/extensions/date/month_year.extension';
-import residentState, {
-  ResidentStateManager,
-} from '_/states/saveStates/resident_state';
+import residentState from '_/states/resident/resident.state';
+import ResidentStateManager from '_/states/resident/resident.state.manager';
 import residentViewState from '_/views/ResidentView/states/resident_view_state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';

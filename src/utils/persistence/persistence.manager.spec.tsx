@@ -4,23 +4,22 @@ import { act, render } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, setRecoil } from 'recoil-nexus';
 import * as recoil_nexus from 'recoil-nexus';
+import incidentalsState from '../../states/incidentals/incidentals.state';
 import MonthYear from '_/extensions/date/month_year.extension';
-import IncidentalsState, {
-  incidentalsState,
-} from '_/states/saveStates/incidentals_state';
-import { InvoiceState, invoiceState } from '_/states/saveStates/invoice_state';
-import SaveStatePersistenceManager from '_/states/saveStates/persistence';
-import residentState, {
-  ResidentState,
-} from '_/states/saveStates/resident_state';
+import invoiceState from '_/states/invoice/invoice.state';
+import residentState from '_/states/resident/resident.state';
+import { Incidentals } from '_/types/incidentals';
+import { Invoice } from '_/types/invoice';
 import { RentInformationUtils } from '_/types/rent';
+import { Resident } from '_/types/resident';
+import PersistenceManager from '_/utils/persistence/persistence.manager';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
 import InvoiceBuilder from '_tests/__test_utils__/builders/invoice_builder';
 import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
 import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
 
-describe('SaveStatePersistenceManager', () => {
+describe('PersistenceManager', () => {
   let existsSyncSpy: jest.SpyInstance;
   let readFileSyncSpy: jest.SpyInstance;
   let mkdirSyncSpy: jest.SpyInstance;
@@ -48,11 +47,11 @@ describe('SaveStatePersistenceManager', () => {
   describe('importSaveStates', () => {
     test('should import save state if files exist', () => {
       // Arrange
-      const expectedIncidentalsState: IncidentalsState = [
+      const expectedIncidentalsState: Incidentals[] = [
         new IncidentalsBuilder().build(),
       ];
-      const expectedInvoiceState: InvoiceState = [new InvoiceBuilder().build()];
-      const expectedResidentState: ResidentState = [
+      const expectedInvoiceState: Invoice[] = [new InvoiceBuilder().build()];
+      const expectedResidentState: Resident[] = [
         new ResidentBuilder().build(),
       ];
 
@@ -73,7 +72,7 @@ describe('SaveStatePersistenceManager', () => {
 
       // Act
       act(() => {
-        SaveStatePersistenceManager.importSaveStates();
+        PersistenceManager.importSaveStates();
       });
 
       // Assert
@@ -98,7 +97,7 @@ describe('SaveStatePersistenceManager', () => {
 
       // Act
       act(() => {
-        SaveStatePersistenceManager.importSaveStates();
+        PersistenceManager.importSaveStates();
       });
 
       // Assert
@@ -127,7 +126,7 @@ describe('SaveStatePersistenceManager', () => {
       const rentInformation2 = new RentInformationBuilder()
         .withDueDate(new MonthYear(5, 2023))
         .build();
-      const expectedResidentState: ResidentState = [
+      const expectedResidentState: Resident[] = [
         new ResidentBuilder().addRentInformation(rentInformation1).build(),
         new ResidentBuilder().addRentInformation(rentInformation2).build(),
       ];
@@ -138,7 +137,7 @@ describe('SaveStatePersistenceManager', () => {
 
       // Act
       act(() => {
-        SaveStatePersistenceManager.importSaveStates();
+        PersistenceManager.importSaveStates();
       });
 
       // Assert
@@ -156,7 +155,7 @@ describe('SaveStatePersistenceManager', () => {
       existsSyncSpy.mockReturnValue(false);
 
       // Act
-      SaveStatePersistenceManager.exportSaveStates();
+      PersistenceManager.exportSaveStates();
 
       // Assert
       expect(existsSyncSpy).toHaveBeenCalledTimes(1);
@@ -168,7 +167,7 @@ describe('SaveStatePersistenceManager', () => {
       existsSyncSpy.mockReturnValue(true);
 
       // Act
-      SaveStatePersistenceManager.exportSaveStates();
+      PersistenceManager.exportSaveStates();
 
       // Assert
       expect(existsSyncSpy).toHaveBeenCalledTimes(1);
@@ -177,11 +176,11 @@ describe('SaveStatePersistenceManager', () => {
 
     test('should export states', () => {
       // Arrange
-      const expectedIncidentalsState: IncidentalsState = [
+      const expectedIncidentalsState: Incidentals[] = [
         new IncidentalsBuilder().build(),
       ];
-      const expectedInvoiceState: InvoiceState = [new InvoiceBuilder().build()];
-      const expectedResidentState: ResidentState = [
+      const expectedInvoiceState: Invoice[] = [new InvoiceBuilder().build()];
+      const expectedResidentState: Resident[] = [
         new ResidentBuilder().build(),
       ];
 
@@ -192,20 +191,20 @@ describe('SaveStatePersistenceManager', () => {
       });
 
       // Act
-      SaveStatePersistenceManager.exportSaveStates();
+      PersistenceManager.exportSaveStates();
 
       // Assert
       expect(writeFileSyncSpy.mock.calls).toEqual([
         [
-          SaveStatePersistenceManager.INCIDENTALS_FILE,
+          PersistenceManager.INCIDENTALS_FILE,
           JSON.stringify(expectedIncidentalsState, null, 4),
         ],
         [
-          SaveStatePersistenceManager.INVOICES_FILE,
+          PersistenceManager.INVOICES_FILE,
           JSON.stringify(expectedInvoiceState, null, 4),
         ],
         [
-          SaveStatePersistenceManager.RESIDENTS_FILE,
+          PersistenceManager.RESIDENTS_FILE,
           JSON.stringify(expectedResidentState, null, 4),
         ],
       ]);

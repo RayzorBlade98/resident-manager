@@ -12,7 +12,7 @@ import React from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { residentViewSelectedResidentState } from '../states/resident_view_state';
 import createResidentState from './states/create_resident_state';
-import residentState from '_/states/saveStates/resident_state';
+import residentState from '_/states/resident/resident.state';
 import { Resident } from '_/types/resident';
 import CreateResidentModal from '_/views/ResidentView/ResidentList/CreateResidentModal/CreateResidentModal';
 

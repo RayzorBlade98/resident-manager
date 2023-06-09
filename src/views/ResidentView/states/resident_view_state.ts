@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import residentState from '_/states/saveStates/resident_state';
+import residentState from '_/states/resident/resident.state';
 import { Resident } from '_/types/resident';
 
 /**

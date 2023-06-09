@@ -9,7 +9,7 @@ import createResidentState, {
 } from '../../states/create_resident_state';
 import CreateResidentButton from './CreateResidentButton';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { ResidentStateManager } from '_/states/saveStates/resident_state';
+import ResidentStateManager from '_/states/resident/resident.state.manager';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('CreateResidentButton', () => {

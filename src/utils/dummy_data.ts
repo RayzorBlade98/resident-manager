@@ -2,9 +2,9 @@
 import { v4 as uuid } from 'uuid';
 import { DeductionType } from '../types/incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { IncidentalsStateManager } from '_/states/saveStates/incidentals_state';
-import { InvoiceStateManager } from '_/states/saveStates/invoice_state';
-import { ResidentStateManager } from '_/states/saveStates/resident_state';
+import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
+import InvoiceStateManager from '_/states/invoice/Invoice.state.manager';
+import ResidentStateManager from '_/states/resident/resident.state.manager';
 
 function createDummyData(): void {
   // Dummy residents

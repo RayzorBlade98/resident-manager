@@ -2,10 +2,8 @@
 import { act, render } from '@testing-library/react';
 import React from 'react';
 import { getRecoil } from 'recoil-nexus';
-import {
-  IncidentalsStateManager,
-  incidentalsState,
-} from '_/states/saveStates/incidentals_state';
+import incidentalsState from './incidentals.state';
+import IncidentalsStateManager from './incidentals.state.manager';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
 

@@ -3,10 +3,9 @@
 import { act, render } from '@testing-library/react';
 import React from 'react';
 import { getRecoil } from 'recoil-nexus';
+import ResidentStateManager from './resident.state.manager';
 import MonthYear from '_/extensions/date/month_year.extension';
-import residentState, {
-  ResidentStateManager,
-} from '_/states/saveStates/resident_state';
+import residentState from '_/states/resident/resident.state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
 import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';

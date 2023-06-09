@@ -1,32 +1,20 @@
-import { atom } from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
+import residentState from './resident.state';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { RentInformation } from '_/types/rent';
 import { Resident } from '_/types/resident';
 
 /**
- * The resident state is a list of all residents
- */
-export type ResidentState = Resident[];
-
-/**
- * Resident recoil state
- */
-export const residentState = atom<ResidentState>({
-  key: 'residentState',
-  default: [],
-});
-
-/**
  * Class that provides utility functions to manage the resident state
  */
-export abstract class ResidentStateManager {
+
+export default abstract class ResidentStateManager {
   /**
    * Adds a new resident to the resident state
    * @param resident new resident that should be added
    */
   public static addResident(resident: Resident): void {
-    setRecoil(residentState, (state: ResidentState) => [...state, resident]);
+    setRecoil(residentState, (state) => [...state, resident]);
   }
 
   /**
@@ -38,7 +26,7 @@ export abstract class ResidentStateManager {
     residentId: string,
     update: Partial<Resident>,
   ): void {
-    setRecoil(residentState, (state: ResidentState) => {
+    setRecoil(residentState, (state) => {
       const newResidentState = [...state];
       const residentIndex = newResidentState.findIndex(
         (r: Resident) => residentId === r.id,
@@ -77,5 +65,3 @@ export abstract class ResidentStateManager {
     ResidentStateManager.updateResident(residentId, { rent: rentInformation });
   }
 }
-
-export default residentState;

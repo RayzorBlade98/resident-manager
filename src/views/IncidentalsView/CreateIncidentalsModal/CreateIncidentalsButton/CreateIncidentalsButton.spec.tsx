@@ -9,7 +9,7 @@ import createIncidentalsState, {
   createIncidentalsFormValidationSelector,
 } from '../../states/create_incidentals_state';
 import CreateIncidentalsButton from './CreateIncidentalsButton';
-import { IncidentalsStateManager } from '_/states/saveStates/incidentals_state';
+import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('CreateIncidentalsButton', () => {

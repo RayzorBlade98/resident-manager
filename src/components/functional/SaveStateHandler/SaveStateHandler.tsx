@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { incidentalsState } from '_/states/saveStates/incidentals_state';
-import { invoiceState } from '_/states/saveStates/invoice_state';
-import SaveStatePersistenceManager from '_/states/saveStates/persistence';
-import residentState from '_/states/saveStates/resident_state';
+import incidentalsState from '_/states/incidentals/incidentals.state';
+import invoiceState from '_/states/invoice/invoice.state';
+import residentState from '_/states/resident/resident.state';
 import createDummyData from '_/utils/dummy_data';
 import { dev } from '_/utils/node-env';
+import PersistenceManager from '_/utils/persistence/persistence.manager';
 
 /**
  * Functional component that handles save state management like import and export
@@ -26,7 +26,7 @@ export function SaveStateManager(): null {
     if (dev) {
       createDummyData();
     }
-    SaveStatePersistenceManager.importSaveStates();
+    PersistenceManager.importSaveStates();
     setInitialized(true);
   }
 
@@ -36,7 +36,7 @@ export function SaveStateManager(): null {
    */
   function onSaveChange(): void {
     if (!isInitialized) return;
-    SaveStatePersistenceManager.exportSaveStates();
+    PersistenceManager.exportSaveStates();
   }
 
   useEffect(onStart, []); // eslint-disable-line react-hooks/exhaustive-deps

@@ -7,7 +7,7 @@ import createResidentState, {
 } from '../../states/create_resident_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { ResidentStateManager } from '_/states/saveStates/resident_state';
+import ResidentStateManager from '_/states/resident/resident.state.manager';
 import { RentInformationUtils } from '_/types/rent';
 import { CurrencyInCents } from '_/utils/currency/currency';
 

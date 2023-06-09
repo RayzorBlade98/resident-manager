@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
-import currentViewState, { View } from '_/states/viewStates/current_view_state';
+import currentViewState, { View } from '_/states/current_view.state';
 
 function MainView(): JSX.Element {
   const setCurrentView = useSetRecoilState(currentViewState);

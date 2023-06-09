@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { invoiceState } from '_/states/saveStates/invoice_state';
+import invoiceState from '_/states/invoice/invoice.state';
 import { Invoice } from '_/types/invoice';
 
 /**

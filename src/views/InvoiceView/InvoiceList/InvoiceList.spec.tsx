@@ -11,8 +11,8 @@ import invoiceViewState, {
   invoiceViewSelectedInvoiceSelector,
 } from '../states/invoice_view_state';
 import InvoiceList from './InvoiceList';
-import { invoiceState } from '_/states/saveStates/invoice_state';
-import currentViewState, { View } from '_/states/viewStates/current_view_state';
+import currentViewState, { View } from '_/states/current_view.state';
+import invoiceState from '_/states/invoice/invoice.state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('InvoiceList', () => {

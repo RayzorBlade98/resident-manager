@@ -1,30 +1,32 @@
 import fs from 'fs';
 import path from 'path';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import IncidentalsState, { incidentalsState } from './incidentals_state';
-import { InvoiceState, invoiceState } from './invoice_state';
-import residentState, { ResidentState } from './resident_state';
+import incidentalsState, { IncidentalsState } from '../../states/incidentals/incidentals.state';
+import invoiceState, { InvoiceState } from '../../states/invoice/invoice.state';
+import residentState, {
+  ResidentState,
+} from '../../states/resident/resident.state';
 import { RentInformation, RentInformationUtils } from '_/types/rent';
 import { Resident } from '_/types/resident';
 
 /**
  * Class that provides functionality to handle save state persistence
  */
-abstract class SaveStatePersistenceManager {
+abstract class PersistenceManager {
   public static OUTPUT_DIRECTORY = path.join(__dirname, 'data');
 
   public static INCIDENTALS_FILE = path.join(
-    SaveStatePersistenceManager.OUTPUT_DIRECTORY,
+    PersistenceManager.OUTPUT_DIRECTORY,
     'incidentals.json',
   );
 
   public static INVOICES_FILE = path.join(
-    SaveStatePersistenceManager.OUTPUT_DIRECTORY,
+    PersistenceManager.OUTPUT_DIRECTORY,
     'invoices.json',
   );
 
   public static RESIDENTS_FILE = path.join(
-    SaveStatePersistenceManager.OUTPUT_DIRECTORY,
+    PersistenceManager.OUTPUT_DIRECTORY,
     'residents.json',
   );
 
@@ -96,4 +98,4 @@ abstract class SaveStatePersistenceManager {
   }
 }
 
-export default SaveStatePersistenceManager;
+export default PersistenceManager;

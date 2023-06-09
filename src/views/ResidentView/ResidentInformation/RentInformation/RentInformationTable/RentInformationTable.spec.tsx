@@ -4,7 +4,7 @@ import { act } from 'react-dom/test-utils';
 import { setRecoil } from 'recoil-nexus';
 import RentInformationTable from './RentInformationTable';
 import MonthYear from '_/extensions/date/month_year.extension';
-import residentState from '_/states/saveStates/resident_state';
+import residentState from '_/states/resident/resident.state';
 import residentViewState from '_/views/ResidentView/states/resident_view_state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';

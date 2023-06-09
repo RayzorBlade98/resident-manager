@@ -6,7 +6,7 @@ import createIncidentalsState, {
   createIncidentalsFormValidationSelector,
 } from '../../states/create_incidentals_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
-import { IncidentalsStateManager } from '_/states/saveStates/incidentals_state';
+import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import { CurrencyInCents } from '_/utils/currency/currency';
 
 /**

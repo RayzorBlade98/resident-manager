@@ -10,7 +10,7 @@ import invoiceGenerationState, {
 } from '../states/invoice_generation_view_state';
 import * as InvoiceGenerationStateModule from '../states/invoice_generation_view_state';
 import IncidentalsSelection from './IncidentalsSelection';
-import { incidentalsState } from '_/states/saveStates/incidentals_state';
+import incidentalsState from '_/states/incidentals/incidentals.state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
 

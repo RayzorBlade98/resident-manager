@@ -6,7 +6,7 @@ import { getRecoil, resetRecoil, setRecoil } from 'recoil-nexus';
 import IncidentalsBuilder from '../../../../tests/__test_utils__/builders/incidentals_builder';
 import createIncidentalsState from '../states/create_incidentals_state';
 import IncidentalsTable from './IncidentalsTable';
-import { incidentalsState } from '_/states/saveStates/incidentals_state';
+import incidentalsState from '_/states/incidentals/incidentals.state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('IncidentalsTable', () => {

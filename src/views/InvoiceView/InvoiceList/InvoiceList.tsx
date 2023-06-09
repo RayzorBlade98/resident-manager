@@ -8,8 +8,8 @@ import {
 import React from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { invoiceViewSelectedInvoiceSelector } from '../states/invoice_view_state';
-import { invoiceState } from '_/states/saveStates/invoice_state';
-import currentViewState, { View } from '_/states/viewStates/current_view_state';
+import currentViewState, { View } from '_/states/current_view.state';
+import invoiceState from '_/states/invoice/invoice.state';
 import { Invoice } from '_/types/invoice';
 
 const styles = {
