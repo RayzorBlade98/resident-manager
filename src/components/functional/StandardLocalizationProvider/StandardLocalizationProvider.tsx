@@ -9,6 +9,9 @@ import React, { PropsWithChildren } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface StandardLocalizationProviderProps {}
 
+/**
+ * Functional component that provides localization for mui
+ */
 function StandardLocalizationProvider(
   props: PropsWithChildren<StandardLocalizationProviderProps>,
 ): JSX.Element {

@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { setRecoil } from 'recoil-nexus';
-import SaveStateManager from '_/components/FunctionalComponents/SaveStateManager';
+import SaveStateManager from './SaveStateHandler';
 import { incidentalsState } from '_/states/saveStates/incidentals_state';
 import { invoiceState } from '_/states/saveStates/invoice_state';
 import SaveStatePersistenceManager from '_/states/saveStates/persistence';

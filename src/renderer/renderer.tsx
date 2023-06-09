@@ -8,8 +8,8 @@ import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
 import RecoilNexus from 'recoil-nexus';
-import SaveStateManager from '_/components/FunctionalComponents/SaveStateManager';
-import StandardLocalizationProvider from '_/components/StandardLocalizationProvider/StandardLocalizationProvider';
+import SaveStateManager from '_/components/functional/SaveStateHandler/SaveStateHandler';
+import StandardLocalizationProvider from '_/components/functional/StandardLocalizationProvider/StandardLocalizationProvider';
 import App from '_renderer/App';
 
 const container = document.getElementById('app');
