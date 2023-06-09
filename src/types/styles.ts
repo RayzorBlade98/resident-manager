@@ -7,3 +7,13 @@ export const defaultColors = {
   mainDark1: '#1e56a0',
   mainDark2: '#163172',
 };
+
+/**
+ * Height of the window content (in px)
+ */
+export const CONTENT_HEIGHT = 1051;
+
+/**
+ * Width of the window content (in px)
+ */
+export const CONTENT_WIDTH = 1914;

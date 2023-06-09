@@ -4,6 +4,26 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import React from 'react';
+import { CONTENT_HEIGHT } from '../../../types/styles';
+
+const styles = {
+  component: {
+    height: '100%',
+  },
+  stepper: {
+    height: '80px',
+    paddingTop: '20px',
+  },
+  content: {
+    height: `${CONTENT_HEIGHT - 140}px`,
+  },
+  footer: {
+    height: '60px',
+    display: 'flex',
+    flexDirection: 'row',
+    pt: 2,
+  },
+};
 
 interface GenericStepperProps {
   /**
@@ -43,8 +63,8 @@ function GenericStepper(props: React.PropsWithChildren<GenericStepperProps>) {
   }
 
   return (
-    <>
-      <Stepper activeStep={activeStep} alternativeLabel>
+    <Box sx={styles.component}>
+      <Stepper sx={styles.stepper} activeStep={activeStep} alternativeLabel>
         {props.steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
@@ -52,8 +72,8 @@ function GenericStepper(props: React.PropsWithChildren<GenericStepperProps>) {
         ))}
       </Stepper>
       <>
-        {children[activeStep]}
-        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+        <Box sx={styles.content}>{children[activeStep]}</Box>
+        <Box sx={styles.footer}>
           <Button
             color="inherit"
             disabled={activeStep === 0}
@@ -68,7 +88,7 @@ function GenericStepper(props: React.PropsWithChildren<GenericStepperProps>) {
           </Button>
         </Box>
       </>
-    </>
+    </Box>
   );
 }
 

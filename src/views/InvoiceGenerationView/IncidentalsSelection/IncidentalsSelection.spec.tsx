@@ -5,12 +5,12 @@ import { range } from 'lodash';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import IncidentalsSelection from '_/components/IncidentalsSelection/IncidentalsSelection';
-import { incidentalsState } from '_/states/saveStates/incidentals_state';
 import invoiceGenerationState, {
   selectedInvoiceIncidentalsState,
-} from '_/states/viewStates/invoice_generation_state';
-import * as InvoiceGenerationStateModule from '_/states/viewStates/invoice_generation_state';
+} from '../states/invoice_generation_view_state';
+import * as InvoiceGenerationStateModule from '../states/invoice_generation_view_state';
+import IncidentalsSelection from './IncidentalsSelection';
+import { incidentalsState } from '_/states/saveStates/incidentals_state';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
 

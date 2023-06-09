@@ -3,7 +3,7 @@
 import { RenderResult, fireEvent, render } from '@testing-library/react';
 import { range } from 'lodash';
 import React from 'react';
-import GenericStepper from '_/components/GenericComponents/GenericStepper/GenericStepper';
+import GenericStepper from '_/components/generic/GenericStepper/GenericStepper';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('GenericStepper', () => {

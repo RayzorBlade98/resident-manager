@@ -5,7 +5,7 @@ import { Incidentals } from '_/types/incidentals';
 /**
  * Invoice generation state
  */
-export interface InvoiceGenerationState {
+export interface InvoiceGenerationViewState {
   /**
    * List of all selected incidentals
    */
@@ -15,8 +15,8 @@ export interface InvoiceGenerationState {
 /**
  * Invoice generation recoil state
  */
-export const invoiceGenerationState = atom<InvoiceGenerationState>({
-  key: 'invoiceGenerationState',
+export const invoiceGenerationViewState = atom<InvoiceGenerationViewState>({
+  key: 'invoiceGenerationViewState',
   default: {
     selectedIncidentals: [],
   },
@@ -27,7 +27,7 @@ export const invoiceGenerationState = atom<InvoiceGenerationState>({
  */
 export const selectedInvoiceIncidentalsState = selector<Incidentals[]>({
   key: 'invoiceGenerationState-selectedIncidentals',
-  get: ({ get }) => get(invoiceGenerationState).selectedIncidentals,
+  get: ({ get }) => get(invoiceGenerationViewState).selectedIncidentals,
 });
 
 /**
@@ -35,7 +35,7 @@ export const selectedInvoiceIncidentalsState = selector<Incidentals[]>({
  * @param incidentals incidentals that should be added
  */
 export function addSelectedIncidentals(incidentals: Incidentals): void {
-  setRecoil(invoiceGenerationState, (state) => ({
+  setRecoil(invoiceGenerationViewState, (state) => ({
     ...state,
     selectedIncidentals: [...state.selectedIncidentals, incidentals],
   }));
@@ -46,7 +46,7 @@ export function addSelectedIncidentals(incidentals: Incidentals): void {
  * @param incidentals incidentals that should be removed
  */
 export function removeSelectedIncidentals(incidentals: Incidentals): void {
-  setRecoil(invoiceGenerationState, (state) => ({
+  setRecoil(invoiceGenerationViewState, (state) => ({
     ...state,
     selectedIncidentals: state.selectedIncidentals.filter(
       (i) => i.id !== incidentals.id,
@@ -54,4 +54,4 @@ export function removeSelectedIncidentals(incidentals: Incidentals): void {
   }));
 }
 
-export default invoiceGenerationState;
+export default invoiceGenerationViewState;

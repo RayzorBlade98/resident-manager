@@ -8,14 +8,13 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import styles from './styles';
 import { incidentalsState } from '_/states/saveStates/incidentals_state';
+import { Incidentals } from '_/types/incidentals';
 import {
   addSelectedIncidentals,
   removeSelectedIncidentals,
   selectedInvoiceIncidentalsState,
-} from '_/states/viewStates/invoice_generation_state';
-import { Incidentals } from '_/types/incidentals';
+} from '_/views/InvoiceGenerationView/states/invoice_generation_view_state';
 
 /**
  * Component so select incidentals that should be included to the invoice
@@ -33,7 +32,7 @@ function IncidentalsSelection(): JSX.Element {
   };
 
   return (
-    <List sx={styles.list}>
+    <List>
       {incidentals.map((_incidentals) => {
         const labelId = `checkbox-list-label-${_incidentals.id}`;
 

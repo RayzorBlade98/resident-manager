@@ -3,7 +3,7 @@
 exports[`IncidentalsSelection should match snapshot (with selected elements) 1`] = `
 <div>
   <ul
-    class="MuiList-root MuiList-padding css-mu5x1o-MuiList-root"
+    class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
   >
     <li
       class="MuiListItem-root MuiListItem-gutters css-1nxmd3h-MuiListItem-root"
@@ -252,7 +252,7 @@ exports[`IncidentalsSelection should match snapshot (with selected elements) 1`]
 exports[`IncidentalsSelection should match snapshot 1`] = `
 <div>
   <ul
-    class="MuiList-root MuiList-padding css-mu5x1o-MuiList-root"
+    class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
   >
     <li
       class="MuiListItem-root MuiListItem-gutters css-1nxmd3h-MuiListItem-root"

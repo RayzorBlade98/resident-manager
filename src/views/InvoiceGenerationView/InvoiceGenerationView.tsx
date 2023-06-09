@@ -1,12 +1,19 @@
+import { Box } from '@mui/material';
 import React, { useState } from 'react';
-import GenericStepper from '_/components/GenericComponents/GenericStepper/GenericStepper';
-import IncidentalsSelection from '_/components/IncidentalsSelection/IncidentalsSelection';
+import GenericStepper from '_/components/generic/GenericStepper/GenericStepper';
+import IncidentalsSelection from '_/views/InvoiceGenerationView/IncidentalsSelection/IncidentalsSelection';
+
+const styles = {
+  view: {
+    height: '100%',
+  },
+};
 
 function InvoiceGenerationView() {
   const [stepsFinished, setStepsFinished] = useState<boolean>(false);
 
   return (
-    <div>
+    <Box sx={styles.view}>
       {!stepsFinished && (
         <GenericStepper
           steps={['Schritt 1', 'Schritt 2', 'Schritt 3']}
@@ -15,14 +22,12 @@ function InvoiceGenerationView() {
           }}
         >
           <div>Schritt 1</div>
-          <div>
-            <IncidentalsSelection />
-          </div>
+          <IncidentalsSelection />
           <div>Schritt 3</div>
         </GenericStepper>
       )}
       {stepsFinished && <p>Fertig</p>}
-    </div>
+    </Box>
   );
 }
 
