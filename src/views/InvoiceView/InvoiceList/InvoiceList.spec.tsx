@@ -6,14 +6,14 @@ import {
 import { range } from 'lodash';
 import React from 'react';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import InvoiceBuilder from '../../../../tests/__test_utils__/builders/invoice_builder';
 import invoiceViewState, {
   invoiceViewSelectedInvoiceSelector,
 } from '../states/invoice_view_state';
 import InvoiceList from './InvoiceList';
 import currentViewState, { View } from '_/states/current_view.state';
 import invoiceState from '_/states/invoice/invoice.state';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
+import InvoiceBuilder from '_/test/builders/invoice.builder';
 
 describe('InvoiceList', () => {
   const invoices = range(0, 5).map((i) => new InvoiceBuilder().withId(`invoice${i}`).build());
@@ -21,9 +21,9 @@ describe('InvoiceList', () => {
 
   beforeEach(() => {
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <InvoiceList />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
 
     act(() => {

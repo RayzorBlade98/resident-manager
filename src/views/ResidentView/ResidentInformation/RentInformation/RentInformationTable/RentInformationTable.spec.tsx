@@ -5,10 +5,10 @@ import { setRecoil } from 'recoil-nexus';
 import RentInformationTable from './RentInformationTable';
 import MonthYear from '_/extensions/date/month_year.extension';
 import residentState from '_/states/resident/resident.state';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
+import RentInformationBuilder from '_/test/builders/rent_information.builder';
+import ResidentBuilder from '_/test/builders/resident.builder';
 import residentViewState from '_/views/ResidentView/states/resident_view_state';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
-import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
 
 describe('RentInformationTable', () => {
   test('should match snapshot', () => {
@@ -40,9 +40,9 @@ describe('RentInformationTable', () => {
       .build();
 
     const renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <RentInformationTable />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
 
     act(() => {

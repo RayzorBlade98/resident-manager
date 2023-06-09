@@ -10,7 +10,7 @@ import createIncidentalsState, {
 } from '../../states/create_incidentals_state';
 import CreateIncidentalsButton from './CreateIncidentalsButton';
 import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateIncidentalsButton', () => {
   const validInputValues = {
@@ -67,9 +67,9 @@ describe('CreateIncidentalsButton', () => {
       .mockReturnValue(resetCreateIncidentalsStateSpy);
 
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <CreateIncidentalsButton />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
   });
 

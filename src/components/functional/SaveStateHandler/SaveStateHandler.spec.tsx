@@ -9,10 +9,10 @@ import SaveStateManager from './SaveStateHandler';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import invoiceState from '_/states/invoice/invoice.state';
 import residentState from '_/states/resident/resident.state';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
-import InvoiceBuilder from '_tests/__test_utils__/builders/invoice_builder';
-import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
+import IncidentalsBuilder from '_/test/builders/incidentals.builder';
+import InvoiceBuilder from '_/test/builders/invoice.builder';
+import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('SaveStateManager', () => {
   let importSaveStatesSpy: jest.SpyInstance;
@@ -27,9 +27,9 @@ describe('SaveStateManager', () => {
       .mockReturnValue();
 
     render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <SaveStateManager />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
   });
 

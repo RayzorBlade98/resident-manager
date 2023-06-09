@@ -6,7 +6,7 @@ import {
   convertCurrencyCentsToEuros,
 } from '../../../utils/currency/currency.utils';
 import CurrencyInputField from './CurrencyInputField';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CurrencyInputField', () => {
   const onChangeMock = jest.fn();
@@ -36,9 +36,9 @@ describe('CurrencyInputField', () => {
 
   function renderComponent(): void {
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <CurrencyInputFieldWrapper />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
   }
 

@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('GenericModal', () => {
   let renderResult: RenderResult;
@@ -17,7 +17,7 @@ describe('GenericModal', () => {
   function setupRendering(show = true, includeContent = true): void {
     onModalCloseCallback = jest.fn();
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <GenericModal
           show={show}
           onClose={onModalCloseCallback}
@@ -26,7 +26,7 @@ describe('GenericModal', () => {
           {includeContent && <div className="test-body" />}
           {includeContent && <div className="test-footer" />}
         </GenericModal>
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
   }
 

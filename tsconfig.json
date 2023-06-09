@@ -12,7 +12,6 @@
       "_renderer/*": ["src/renderer/*"],
       "_types/*": ["src/types/*"],
       "_utils/*": ["src/utils/*"],
-      "_tests/*": ["tests/*"],
       "_states/*": ["src/states/*"],
       "src/'": ["src/*"]
     },

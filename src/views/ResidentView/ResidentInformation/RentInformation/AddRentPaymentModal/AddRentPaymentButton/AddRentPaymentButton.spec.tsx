@@ -13,10 +13,10 @@ import AddRentPaymentButton from './AddRentPaymentButton';
 import MonthYear from '_/extensions/date/month_year.extension';
 import residentState from '_/states/resident/resident.state';
 import ResidentStateManager from '_/states/resident/resident.state.manager';
-import residentViewState from '_/views/ResidentView/states/resident_view_state';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 import '_/extensions/date/date.extension';
+import ResidentBuilder from '_/test/builders/resident.builder';
+import residentViewState from '_/views/ResidentView/states/resident_view_state';
 
 describe('AddRentPaymentButton', () => {
   const selectedResident = new ResidentBuilder().build();
@@ -73,9 +73,9 @@ describe('AddRentPaymentButton', () => {
       .mockReturnValue(resetRentPaymentStateSpy);
 
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <AddRentPaymentButton />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
 
     act(() => {

@@ -5,13 +5,13 @@ import { RecoilRoot } from 'recoil';
 import RecoilNexus from 'recoil-nexus';
 import StandardLocalizationProvider from '_/components/functional/StandardLocalizationProvider/StandardLocalizationProvider';
 
-interface RecoilTestWrapperProps {}
+interface ReactTestWrapperProps {}
 
 /**
  * Component that wraps up all components that are needed to test anything regarding recoil state
  */
-function RecoilTestWrapper(
-  props: React.PropsWithChildren<RecoilTestWrapperProps>,
+function ReactTestWrapper(
+  props: React.PropsWithChildren<ReactTestWrapperProps>,
 ): JSX.Element {
   return (
     <RecoilRoot>
@@ -23,4 +23,4 @@ function RecoilTestWrapper(
   );
 }
 
-export default RecoilTestWrapper;
+export default ReactTestWrapper;

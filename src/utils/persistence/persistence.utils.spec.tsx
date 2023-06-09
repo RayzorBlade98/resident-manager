@@ -10,14 +10,14 @@ import PersistenceUtils from './persistence.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
 import invoiceState from '_/states/invoice/invoice.state';
 import residentState from '_/states/resident/resident.state';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
+import IncidentalsBuilder from '_/test/builders/incidentals.builder';
+import InvoiceBuilder from '_/test/builders/invoice.builder';
+import RentInformationBuilder from '_/test/builders/rent_information.builder';
+import ResidentBuilder from '_/test/builders/resident.builder';
 import { Incidentals } from '_/types/incidentals';
 import { Invoice } from '_/types/invoice';
 import { Resident } from '_/types/resident';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
-import InvoiceBuilder from '_tests/__test_utils__/builders/invoice_builder';
-import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
-import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
 
 describe('PersistenceUtils', () => {
   let existsSyncSpy: jest.SpyInstance;
@@ -37,7 +37,7 @@ describe('PersistenceUtils', () => {
       .mockReturnValue();
     setRecoilSpy = jest.spyOn(recoil_nexus, 'setRecoil');
 
-    render(<RecoilTestWrapper />);
+    render(<ReactTestWrapper />);
   });
 
   afterEach(() => {

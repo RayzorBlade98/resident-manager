@@ -2,7 +2,7 @@ import { RenderResult, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import StandardDateField from './StandardDateField';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 import '_/extensions/date/date.extension';
 
 describe('StandardDateField', () => {
@@ -14,7 +14,7 @@ describe('StandardDateField', () => {
 
   function renderComponent(): void {
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <StandardDateField
           id="testField"
           label={labelText}
@@ -22,7 +22,7 @@ describe('StandardDateField', () => {
           onChange={onChangeMock}
           errorMessage={errorMessage}
         />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
   }
 

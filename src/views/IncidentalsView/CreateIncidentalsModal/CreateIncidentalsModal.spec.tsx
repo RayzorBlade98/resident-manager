@@ -3,15 +3,15 @@ import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import createIncidentalsState from '../states/create_incidentals_state';
 import CreateIncidentalsModal from './CreateIncidentalsModal';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateIncidentalsModal', () => {
   test('should match snapshot', () => {
     // Arrange
     const renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <CreateIncidentalsModal />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
     act(() => {
       setRecoil(createIncidentalsState, (state) => ({

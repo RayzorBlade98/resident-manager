@@ -9,7 +9,7 @@ import createResidentState, {
 } from '../../states/create_resident_state';
 import CreateResidentForm from './CreateResidentForm';
 import MonthYear from '_/extensions/date/month_year.extension';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateResidentForm', () => {
   let renderResult: RenderResult;
@@ -45,9 +45,9 @@ describe('CreateResidentForm', () => {
 
   beforeEach(() => {
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <CreateResidentForm />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
 
     act(() => {

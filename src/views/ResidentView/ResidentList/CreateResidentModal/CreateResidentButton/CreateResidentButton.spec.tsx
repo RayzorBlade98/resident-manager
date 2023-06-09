@@ -10,7 +10,7 @@ import createResidentState, {
 import CreateResidentButton from './CreateResidentButton';
 import MonthYear from '_/extensions/date/month_year.extension';
 import ResidentStateManager from '_/states/resident/resident.state.manager';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateResidentButton', () => {
   const validInputValues = {
@@ -73,9 +73,9 @@ describe('CreateResidentButton', () => {
       .mockReturnValue(resetCreateResidentStateSpy);
 
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <CreateResidentButton />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
   });
 

@@ -4,7 +4,7 @@ import { RenderResult, fireEvent, render } from '@testing-library/react';
 import { range } from 'lodash';
 import React from 'react';
 import GenericStepper from '_/components/generic/GenericStepper/GenericStepper';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('GenericStepper', () => {
   let renderResult: RenderResult;
@@ -14,7 +14,7 @@ describe('GenericStepper', () => {
     onFinishedCallback = jest.fn();
 
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <GenericStepper
           steps={['Step 1', 'Step 2', 'Step 3']}
           onFinished={onFinishedCallback}
@@ -23,7 +23,7 @@ describe('GenericStepper', () => {
             <div className={`content-step${step}`}>Content</div>
           ))}
         </GenericStepper>
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
   }
 

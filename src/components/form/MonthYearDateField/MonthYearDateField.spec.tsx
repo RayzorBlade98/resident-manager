@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import MonthYearDateField from './MonthYearDateField';
 import MonthYear from '_/extensions/date/month_year.extension';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('MonthYearDateField', () => {
   const onChangeMock = jest.fn();
@@ -14,7 +14,7 @@ describe('MonthYearDateField', () => {
 
   function renderComponent(): void {
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <MonthYearDateField
           id="testField"
           label={labelText}
@@ -22,7 +22,7 @@ describe('MonthYearDateField', () => {
           onChange={onChangeMock}
           errorMessage={errorMessage}
         />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
   }
 

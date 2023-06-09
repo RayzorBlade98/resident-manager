@@ -3,20 +3,20 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, resetRecoil, setRecoil } from 'recoil-nexus';
-import IncidentalsBuilder from '../../../../tests/__test_utils__/builders/incidentals_builder';
 import createIncidentalsState from '../states/create_incidentals_state';
 import IncidentalsTable from './IncidentalsTable';
 import incidentalsState from '_/states/incidentals/incidentals.state';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
+import IncidentalsBuilder from '_/test/builders/incidentals.builder';
 
 describe('IncidentalsTable', () => {
   let renderResult: RenderResult;
 
   beforeAll(() => {
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <IncidentalsTable />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
 
     act(() => {

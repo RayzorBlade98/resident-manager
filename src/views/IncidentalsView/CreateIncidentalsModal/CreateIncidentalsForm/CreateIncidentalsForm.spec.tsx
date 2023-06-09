@@ -9,7 +9,7 @@ import createIncidentalsState, {
   createIncidentalsFormValidationSelector,
 } from '../../states/create_incidentals_state';
 import CreateIncidentalsForm from './CreateIncidentalsForm';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateIncidentalsForm', () => {
   let renderResult: RenderResult;
@@ -41,9 +41,9 @@ describe('CreateIncidentalsForm', () => {
 
   beforeEach(() => {
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <CreateIncidentalsForm />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
 
     act(() => {

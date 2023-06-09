@@ -4,12 +4,12 @@ import React from 'react';
 import { getRecoil } from 'recoil-nexus';
 import incidentalsState from './incidentals.state';
 import IncidentalsStateManager from './incidentals.state.manager';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
+import IncidentalsBuilder from '_/test/builders/incidentals.builder';
 
 describe('IncidentalsStateManager', () => {
   beforeEach(() => {
-    render(<RecoilTestWrapper />);
+    render(<ReactTestWrapper />);
   });
 
   describe('addIncidentals', () => {

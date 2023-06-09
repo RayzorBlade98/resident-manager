@@ -6,13 +6,13 @@ import { act } from 'react-dom/test-utils';
 import { atom } from 'recoil';
 import { getRecoil, resetRecoil, setRecoil } from 'recoil-nexus';
 import FormSubmitButton from './FormSubmitButton';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 import {
   CompleteFormValidationState,
   ValidationErrorMessages,
   Validator,
   createFormValidationStateSelector,
 } from '_/utils/validation/validation';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('FormSubmitButton', () => {
   interface TestValidationClass {
@@ -68,13 +68,13 @@ describe('FormSubmitButton', () => {
 
   beforeEach(() => {
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <FormSubmitButton<TestValidationClass>
           buttonText="Testbutton"
           formState={testStateValidationSelector}
           onSuccess={onSuccessMock}
         />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
   });
 

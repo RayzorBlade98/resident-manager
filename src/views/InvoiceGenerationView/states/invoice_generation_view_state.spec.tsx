@@ -9,12 +9,12 @@ import invoiceGenerationState, {
   removeSelectedIncidentals,
   selectedInvoiceIncidentalsState,
 } from './invoice_generation_view_state';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import IncidentalsBuilder from '_tests/__test_utils__/builders/incidentals_builder';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
+import IncidentalsBuilder from '_/test/builders/incidentals.builder';
 
 describe('invoiceGenerationViewState', () => {
   beforeEach(() => {
-    render(<RecoilTestWrapper />);
+    render(<ReactTestWrapper />);
   });
 
   describe('selectedInvoiceIncidentalsState', () => {

@@ -8,7 +8,7 @@ import addRentPaymentState, {
   addRentPaymentFormValidationSelector,
 } from '../../states/add_rent_payment_state';
 import AddRentPaymentForm from './AddRentPaymentForm';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 import '_/extensions/date/date.extension';
 
 describe('AddRentPaymentForm', () => {
@@ -27,9 +27,9 @@ describe('AddRentPaymentForm', () => {
 
   beforeEach(() => {
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <AddRentPaymentForm />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
 
     act(() => {

@@ -2,9 +2,9 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import RentInformationUtils from '../../../../../../utils/rent/rent.utils';
 import PaymentStatusIcon from './PaymentStatusIcon';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
+import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import { PaymentStatus } from '_/types/rent';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import RentInformationBuilder from '_tests/__test_utils__/builders/rent_information_builder';
 
 describe('PaymentStatusIcon', () => {
   test.each([
@@ -20,9 +20,9 @@ describe('PaymentStatusIcon', () => {
       .spyOn(RentInformationUtils, 'getPaymentStatus')
       .mockReturnValue(status);
     const renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <PaymentStatusIcon rentInformation={rentInformation} />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
 
     // Assert

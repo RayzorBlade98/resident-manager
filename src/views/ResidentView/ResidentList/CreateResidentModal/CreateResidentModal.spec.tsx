@@ -3,7 +3,7 @@ import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import createResidentState from '../states/create_resident_state';
 import CreateResidentModal from './CreateResidentModal';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateResidentModal', () => {
   beforeAll(() => {
@@ -14,9 +14,9 @@ describe('CreateResidentModal', () => {
   test('should match snapshot', () => {
     // Arrange
     const renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <CreateResidentModal />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
     act(() => {
       setRecoil(createResidentState, (state) => ({

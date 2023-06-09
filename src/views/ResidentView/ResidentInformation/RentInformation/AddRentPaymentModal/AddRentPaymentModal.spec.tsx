@@ -3,7 +3,7 @@ import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import addRentPaymentState from '../states/add_rent_payment_state';
 import AddRentPaymentModal from './AddRentPaymentModal';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('AddRentPaymentModal', () => {
   beforeAll(() => {
@@ -14,9 +14,9 @@ describe('AddRentPaymentModal', () => {
   test('should match snapshot', () => {
     // Arrange
     const renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <AddRentPaymentModal />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
     act(() => {
       setRecoil(addRentPaymentState, (state) => ({

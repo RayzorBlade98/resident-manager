@@ -4,13 +4,13 @@ import { getRecoil } from 'recoil-nexus';
 import InvoiceStateManager from './Invoice.state.manager';
 import MonthYear from '_/extensions/date/month_year.extension';
 import invoiceState from '_/states/invoice/invoice.state';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import InvoiceBuilder from '_tests/__test_utils__/builders/invoice_builder';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
+import InvoiceBuilder from '_/test/builders/invoice.builder';
 
 describe('InvoiceStateManager', () => {
   beforeEach(() => {
     InvoiceBuilder.setStart(new MonthYear(0, 2022));
-    render(<RecoilTestWrapper />);
+    render(<ReactTestWrapper />);
   });
 
   describe('addInvoice', () => {

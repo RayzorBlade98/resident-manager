@@ -12,8 +12,8 @@ import residentViewState, {
 import ResidentList from './ResidentList';
 import createResidentState from './states/create_resident_state';
 import residentState from '_/states/resident/resident.state';
-import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
-import ResidentBuilder from '_tests/__test_utils__/builders/resident_builder';
+import ReactTestWrapper from '_/test/ReactTestWrapper';
+import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('ResidentList', () => {
   const residents = range(0, 5).map((i) => new ResidentBuilder().withLastName(`Mustermann${i}`).build());
@@ -21,9 +21,9 @@ describe('ResidentList', () => {
 
   beforeEach(() => {
     renderResult = render(
-      <RecoilTestWrapper>
+      <ReactTestWrapper>
         <ResidentList />
-      </RecoilTestWrapper>,
+      </ReactTestWrapper>,
     );
 
     act(() => {
