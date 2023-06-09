@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import GenericModal from '../../../../../components/GenericComponents/GenericModal/GenericModal';
+import GenericModal from '../../../../../components/generic/GenericModal/GenericModal';
 import addRentPaymentState from '../states/add_rent_payment_state';
 import AddRentPaymentButton from './AddRentPaymentButton/AddRentPaymentButton';
 import AddRentPaymentForm from './AddRentPaymentForm/AddRentPaymentForm';

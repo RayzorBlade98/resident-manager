@@ -7,7 +7,7 @@ import {
   render,
 } from '@testing-library/react';
 import React from 'react';
-import GenericModal from '_/components/GenericComponents/GenericModal/GenericModal';
+import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import RecoilTestWrapper from '_tests/__test_utils__/RecoillTestWrapper';
 
 describe('GenericModal', () => {
