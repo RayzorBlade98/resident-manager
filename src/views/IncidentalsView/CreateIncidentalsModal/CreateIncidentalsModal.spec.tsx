@@ -1,4 +1,5 @@
 import { act, render } from '@testing-library/react';
+import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import createIncidentalsState from '../states/create_incidentals_state';
@@ -6,9 +7,9 @@ import CreateIncidentalsModal from './CreateIncidentalsModal';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateIncidentalsModal', () => {
-  test('should match snapshot', () => {
+  test('should match image snapshot', async () => {
     // Arrange
-    const renderResult = render(
+    render(
       <ReactTestWrapper>
         <CreateIncidentalsModal />
       </ReactTestWrapper>,
@@ -21,6 +22,8 @@ describe('CreateIncidentalsModal', () => {
     });
 
     // Assert
-    expect(renderResult.baseElement).toMatchSnapshot();
+    expect(
+      await generateImage({ viewport: { width: 650, height: 400 } }),
+    ).toMatchImageSnapshot();
   });
 });

@@ -28,7 +28,7 @@ const styles = {
     borderColor: 'divider',
   },
   listItemButton: {
-    height: '11.03%',
+    height: '11.028%',
   },
 };
 

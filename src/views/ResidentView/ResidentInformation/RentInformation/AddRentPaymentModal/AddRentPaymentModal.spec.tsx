@@ -1,4 +1,5 @@
 import { act, render } from '@testing-library/react';
+import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import addRentPaymentState from '../states/add_rent_payment_state';
@@ -11,9 +12,9 @@ describe('AddRentPaymentModal', () => {
     jest.setSystemTime(new Date(2023, 4, 28));
   });
 
-  test('should match snapshot', () => {
+  test('should match snapshot', async () => {
     // Arrange
-    const renderResult = render(
+    render(
       <ReactTestWrapper>
         <AddRentPaymentModal />
       </ReactTestWrapper>,
@@ -26,6 +27,8 @@ describe('AddRentPaymentModal', () => {
     });
 
     // Assert
-    expect(renderResult.baseElement).toMatchSnapshot();
+    expect(
+      await generateImage({ viewport: { width: 650, height: 400 } }),
+    ).toMatchImageSnapshot();
   });
 });

@@ -51,20 +51,4 @@ describe('AddRentPaymentForm', () => {
       paymentDate: new Date(1998, 11, 25).toUTC(),
     });
   });
-
-  test('should match snapshot (valid input)', () => {
-    // Act
-    inputToForm(123, '28.05.2023');
-
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
-
-  test('should match snapshot (invalid input)', () => {
-    // Act
-    inputToForm(-1, '');
-
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
 });

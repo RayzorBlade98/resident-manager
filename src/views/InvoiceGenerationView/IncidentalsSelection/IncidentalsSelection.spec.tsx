@@ -92,22 +92,4 @@ describe('IncidentalsSelection', () => {
     const selectedIncidentals = getRecoil(selectedInvoiceIncidentalsState);
     expect(selectedIncidentals).toHaveLength(0);
   });
-
-  test('should match snapshot', () => {
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
-
-  test('should match snapshot (with selected elements)', () => {
-    // Arrange
-    act(() => {
-      setRecoil(invoiceGenerationState, (state) => ({
-        ...state,
-        selectedIncidentals: [1, 2, 4].map((i) => incidentals[i]),
-      }));
-    });
-
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
 });

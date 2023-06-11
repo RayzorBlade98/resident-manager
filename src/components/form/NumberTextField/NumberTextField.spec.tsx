@@ -1,5 +1,8 @@
-import { RenderResult, render } from '@testing-library/react';
+/* eslint-disable max-len */
+
+import { RenderResult, cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { generateImage } from 'jsdom-screenshot';
 import React, { useState } from 'react';
 import NumberTextField from './NumberTextField';
 
@@ -146,22 +149,24 @@ describe('NumberTextField', () => {
     expect(onChangeMock).toHaveBeenLastCalledWith(42);
   });
 
-  test('should match snapshot', () => {
+  test('should match image snapshot', async () => {
     // Arrange
     errorMessage = undefined;
     value = 42;
+    cleanup();
     renderComponent();
 
     // Assert
-    expect(renderResult.container).toMatchSnapshot();
+    expect(await generateImage({ viewport: { width: 300, height: 100 } })).toMatchImageSnapshot();
   });
 
-  test('should match snapshot (with error)', () => {
+  test('should match image snapshot (with error)', async () => {
     // Arrange
     value = undefined;
+    cleanup();
     renderComponent();
 
     // Assert
-    expect(renderResult.container).toMatchSnapshot();
+    expect(await generateImage({ viewport: { width: 300, height: 100 } })).toMatchImageSnapshot();
   });
 });

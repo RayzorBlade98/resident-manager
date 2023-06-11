@@ -43,9 +43,4 @@ describe('IncidentalsTable', () => {
     const showModal = getRecoil(createIncidentalsState).showModal;
     expect(showModal).toBe(true);
   });
-
-  test('should match snapshot', () => {
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
 });

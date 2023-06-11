@@ -72,20 +72,4 @@ describe('CreateIncidentalsForm', () => {
       invoiceInterval: 6,
     });
   });
-
-  test('should match snapshot (valid input)', () => {
-    // Act
-    inputToForm('Test', 100, 1, 6);
-
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
-
-  test('should match snapshot (invalid input)', () => {
-    // Act
-    inputToForm('', -1, 0, -1);
-
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
 });

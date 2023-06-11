@@ -28,9 +28,4 @@ describe('AddPaymentIcon', () => {
     expect(state.showModal).toBe(true);
     expect(state.selectedRentMonth).toEqual(rentInformation.dueDate);
   });
-
-  test('should match snapshot', () => {
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
 });

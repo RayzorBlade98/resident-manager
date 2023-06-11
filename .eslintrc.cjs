@@ -71,7 +71,7 @@ const tsConfig = {
 };
 
 const jestConfig = {
-  files: ['*.spec.ts', '*.spec.tsx', '*.test.ts', '*.test.tsx'],
+  files: ['*.spec.ts', '*.spec.tsx', '*.test.ts', '*.test.tsx', 'src/test/*'],
   env: { node: true, 'jest/globals': true },
   plugins: [...tsConfig.plugins, 'jest'],
   extends: [

@@ -1,5 +1,8 @@
-import { RenderResult, render } from '@testing-library/react';
+/* eslint-disable max-len */
+
+import { RenderResult, cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import StandardDateField from './StandardDateField';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
@@ -81,21 +84,23 @@ describe('StandardDateField', () => {
     expect(onChangeMock).toHaveBeenLastCalledWith(undefined);
   });
 
-  test('should match snapshot', () => {
+  test('should match snapshot', async () => {
     // Arrange
     errorMessage = undefined;
+    cleanup();
     renderComponent();
 
     // Assert
-    expect(renderResult.container).toMatchSnapshot();
+    expect(await generateImage({ viewport: { width: 300, height: 100 } })).toMatchImageSnapshot();
   });
 
-  test('should match snapshot (with error)', () => {
+  test('should match snapshot (with error)', async () => {
     // Arrange
     value = undefined;
+    cleanup();
     renderComponent();
 
     // Assert
-    expect(renderResult.container).toMatchSnapshot();
+    expect(await generateImage({ viewport: { width: 300, height: 100 } })).toMatchImageSnapshot();
   });
 });

@@ -1,11 +1,13 @@
 /* eslint-disable max-len */
 
+import { Box } from '@mui/material';
 import {
   RenderResult,
   cleanup,
   fireEvent,
   render,
 } from '@testing-library/react';
+import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
@@ -23,8 +25,18 @@ describe('GenericModal', () => {
           onClose={onModalCloseCallback}
           title="Test Title"
         >
-          {includeContent && <div className="test-body" />}
-          {includeContent && <div className="test-footer" />}
+          {includeContent && (
+            <Box
+              sx={{ height: '200px', width: '200px', backgroundColor: 'grey' }}
+              className="test-body"
+            />
+          )}
+          {includeContent && (
+            <Box
+              sx={{ height: '50px', width: '100%', backgroundColor: 'black' }}
+              className="test-footer"
+            />
+          )}
         </GenericModal>
       </ReactTestWrapper>,
     );
@@ -66,8 +78,10 @@ describe('GenericModal', () => {
     expect(modal).toBeNull();
   });
 
-  test('should match snapshot', () => {
+  test('should match iamge snapshot', async () => {
     // Assert
-    expect(renderResult.baseElement).toMatchSnapshot();
+    expect(
+      await generateImage({ viewport: { width: 400, height: 400 } }),
+    ).toMatchImageSnapshot();
   });
 });

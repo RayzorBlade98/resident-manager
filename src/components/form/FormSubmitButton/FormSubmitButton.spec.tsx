@@ -1,6 +1,7 @@
 /* eslint-disable max-len, @typescript-eslint/ban-types, class-methods-use-this */
 
 import { RenderResult, fireEvent, render } from '@testing-library/react';
+import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { atom } from 'recoil';
@@ -123,16 +124,20 @@ describe('FormSubmitButton', () => {
     expect(getRecoil(testState)).toEqual(expectedState);
   });
 
-  test('should match snapshot (valid input)', () => {
+  test('should match image snapshot (valid input)', async () => {
     // Assert
-    expect(renderResult.container).toMatchSnapshot();
+    expect(
+      await generateImage({ viewport: { width: 200, height: 50 } }),
+    ).toMatchImageSnapshot();
   });
 
-  test('should match snapshot (invalid input)', () => {
+  test('should match image snapshot (invalid input)', async () => {
     // Arrange
     invalidInput();
 
     // Assert
-    expect(renderResult.container).toMatchSnapshot();
+    expect(
+      await generateImage({ viewport: { width: 200, height: 50 } }),
+    ).toMatchImageSnapshot();
   });
 });

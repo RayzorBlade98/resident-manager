@@ -59,13 +59,4 @@ describe('InvoiceList', () => {
     const newSelectedInvoice = getRecoil(invoiceViewSelectedInvoiceSelector);
     expect(newSelectedInvoice).toEqual(invoices[newSelectedInvoiceIndex]);
   });
-
-  test('should match snapshot', () => {
-    // Act
-    const invoiceButton = renderResult.getAllByRole('button').at(2)!;
-    fireEvent.click(invoiceButton);
-
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
 });

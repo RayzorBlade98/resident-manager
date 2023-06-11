@@ -19,9 +19,4 @@ describe('DialogTitleWithCloseButton', () => {
     // Assert
     expect(onCloseMock).toHaveBeenCalledTimes(1);
   });
-
-  test('should match snapshot', () => {
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
 });

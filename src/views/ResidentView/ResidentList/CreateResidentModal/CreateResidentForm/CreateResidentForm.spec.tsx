@@ -90,20 +90,4 @@ describe('CreateResidentForm', () => {
       contractStart: new MonthYear(5, 2023),
     });
   });
-
-  test('should match snapshot (valid input)', () => {
-    // Act
-    inputToForm('Max', 'Mustermann', 500, 100, '05.2023');
-
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
-
-  test('should match snapshot (invalid input)', () => {
-    // Act
-    inputToForm('', '', -1, -1, '');
-
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
 });

@@ -1,4 +1,5 @@
 import { act, render } from '@testing-library/react';
+import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import createResidentState from '../states/create_resident_state';
@@ -11,9 +12,9 @@ describe('CreateResidentModal', () => {
     jest.setSystemTime(new Date(2023, 4, 31));
   });
 
-  test('should match snapshot', () => {
+  test('should match snapshot', async () => {
     // Arrange
-    const renderResult = render(
+    render(
       <ReactTestWrapper>
         <CreateResidentModal />
       </ReactTestWrapper>,
@@ -26,6 +27,8 @@ describe('CreateResidentModal', () => {
     });
 
     // Assert
-    expect(renderResult.baseElement).toMatchSnapshot();
+    expect(
+      await generateImage({ viewport: { width: 650, height: 400 } }),
+    ).toMatchImageSnapshot();
   });
 });

@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 
+import { Box } from '@mui/material';
 import { RenderResult, fireEvent, render } from '@testing-library/react';
+import { generateImage } from 'jsdom-screenshot';
 import { range } from 'lodash';
 import React from 'react';
 import GenericStepper from '_/components/generic/GenericStepper/GenericStepper';
@@ -20,7 +22,12 @@ describe('GenericStepper', () => {
           onFinished={onFinishedCallback}
         >
           {range(0, children).map((step) => (
-            <div className={`content-step${step}`}>Content</div>
+            <Box
+              sx={{ height: '200px', width: '100%', backgroundColor: 'gray' }}
+              className={`content-step${step}`}
+            >
+              Content
+            </Box>
           ))}
         </GenericStepper>
       </ReactTestWrapper>,
@@ -81,5 +88,18 @@ describe('GenericStepper', () => {
 
     // Assert
     expect(error).toBeTruthy();
+  });
+
+  test('should match image snapshot', async () => {
+    // Arrange
+    clickNextButton();
+
+    // Assert
+    expect(
+      await generateImage({
+        viewport: { height: 350, width: 600 },
+        screenshot: { fullPage: true },
+      }),
+    ).toMatchImageSnapshot();
   });
 });

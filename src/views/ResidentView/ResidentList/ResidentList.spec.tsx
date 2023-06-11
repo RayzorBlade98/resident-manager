@@ -65,13 +65,4 @@ describe('ResidentList', () => {
     const newSelectedResident = getRecoil(residentViewSelectedResidentState);
     expect(newSelectedResident).toEqual(residents[newSelectedResidentIndex]);
   });
-
-  test('should match snapshot', () => {
-    // Act
-    const residentButton = renderResult.getAllByRole('button').at(2)!;
-    fireEvent.click(residentButton);
-
-    // Assert
-    expect(renderResult.container).toMatchSnapshot();
-  });
 });

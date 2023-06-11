@@ -48,13 +48,17 @@ export default {
   transform: {
     '^.+\\.(ts|tsx)$': [
       'ts-jest',
+      'babel-jest',
       {
         tsconfig: 'tsconfig.json',
       },
     ],
+    '^.+\\.css$': 'jest-transform-css',
+    '\\.(jpg|jpeg|png|gif|webp|svg)$': 'jest-transform-file',
   },
   testMatch: ['**/*.(spec|test).([jt]s?(x))'],
   snapshotSerializers: ['jest-glamor-react'],
   collectCoverage: true,
   verbose: true,
+  setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
 };

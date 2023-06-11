@@ -1,5 +1,6 @@
-import { RenderResult, render } from '@testing-library/react';
+import { RenderResult, cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { generateImage } from 'jsdom-screenshot';
 import React, { useState } from 'react';
 import {
   CurrencyInCents,
@@ -101,21 +102,23 @@ describe('CurrencyInputField', () => {
     expect(onChangeMock).toHaveBeenLastCalledWith(undefined);
   });
 
-  test('should match snapshot', () => {
+  test('should match image snapshot', async () => {
     // Arrange
     errorMessage = undefined;
     value = 12345;
+    cleanup();
     renderComponent();
 
     // Assert
-    expect(renderResult.container).toMatchSnapshot();
+    expect(
+      await generateImage({ viewport: { width: 300, height: 100 } }),
+    ).toMatchImageSnapshot();
   });
 
-  test('should match snapshot (with error)', () => {
-    // Arrange
-    renderComponent();
-
+  test('should match image snapshot (with error)', async () => {
     // Assert
-    expect(renderResult.container).toMatchSnapshot();
+    expect(
+      await generateImage({ viewport: { width: 300, height: 100 } }),
+    ).toMatchImageSnapshot();
   });
 });
