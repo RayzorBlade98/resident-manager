@@ -35,6 +35,24 @@ class MonthYear extends Date {
   }
 
   /**
+   *
+   * @param date
+   * @returns
+   */
+  public static fromDate(date: Date): MonthYear {
+    return new MonthYear(date.getMonth(), date.getFullYear());
+  }
+
+  /**
+   *
+   * @param date
+   * @returns
+   */
+  public static fromString(date: string): MonthYear {
+    return MonthYear.fromDate(new Date(date));
+  }
+
+  /**
    * Adds the specified number of months to the given `MonthYear` object
    * @param toAdd Number of months that should be added (can be negative)
    */

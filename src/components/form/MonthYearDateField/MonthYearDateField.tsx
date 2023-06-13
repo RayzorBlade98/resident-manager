@@ -47,11 +47,7 @@ function MonthYearDateField(props: MonthYearDateFieldProps): JSX.Element {
       if (Number.isNaN(parsedDate.valueOf())) {
         parsedDate = undefined;
       } else {
-        parsedDate = parsedDate.toUTC();
-        parsedDate = new MonthYear(
-          parsedDate.getMonth(),
-          parsedDate.getFullYear(),
-        );
+        parsedDate = MonthYear.fromDate(parsedDate.toUTC());
       }
     }
     props.onChange(parsedDate as MonthYear);

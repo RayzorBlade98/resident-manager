@@ -28,6 +28,34 @@ describe('MonthYear', () => {
     });
   });
 
+  describe('fromDate', () => {
+    test('should convert Date to MonthYear correctly', () => {
+      // Arrange
+      const date = new Date(2023, 5, 13);
+      const expected = new MonthYear(5, 2023);
+
+      // Act
+      const result = MonthYear.fromDate(date);
+
+      // Assert
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('fromString', () => {
+    test('should convert string to MonthYear correctly', () => {
+      // Arrange
+      const date = new Date(2023, 5, 13);
+      const expected = new MonthYear(5, 2023);
+
+      // Act
+      const result = MonthYear.fromString(date.toISOString());
+
+      // Assert
+      expect(result).toEqual(expected);
+    });
+  });
+
   describe('addMonths', () => {
     test.each([
       [5, 2023, 1, 6, 2023],
