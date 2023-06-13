@@ -9,8 +9,8 @@ import residentState, {
   ResidentState,
 } from '../../states/resident/resident.state';
 import RentInformationUtils from '../rent/rent.utils';
-import { RentInformation } from '_/types/rent';
-import { Resident } from '_/types/resident';
+import { RentInformation } from '_/models/resident/rent';
+import { Resident } from '_/models/resident/resident';
 
 /**
  * Class that provides functionality to handle save state persistence

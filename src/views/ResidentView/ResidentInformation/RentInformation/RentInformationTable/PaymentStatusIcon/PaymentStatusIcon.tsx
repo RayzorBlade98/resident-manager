@@ -7,7 +7,7 @@ import {
   convertCurrencyCentsToString,
 } from '../../../../../../utils/currency/currency.utils';
 import RentInformationUtils from '../../../../../../utils/rent/rent.utils';
-import { PaymentStatus, RentInformation } from '_/types/rent';
+import { PaymentStatus, RentInformation } from '_/models/resident/rent';
 import '_/extensions/date/date.extension';
 
 interface PaymentStatusIconProps {

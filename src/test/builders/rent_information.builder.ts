@@ -1,6 +1,6 @@
 import MonthYear from '_/extensions/date/month_year.extension';
+import { RentInformation } from '_/models/resident/rent';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
-import { RentInformation } from '_types/rent';
 
 class RentInformationBuilder {
   private rentInformation: RentInformation;

@@ -1,5 +1,8 @@
 import { v4 as uuid } from 'uuid';
-import { DeductionType, Incidentals } from '../../types/incidentals';
+import {
+  DeductionType,
+  Incidentals,
+} from '../../models/incidentals/incidentals';
 
 class IncidentalsBuilder {
   private incidentals: Incidentals;

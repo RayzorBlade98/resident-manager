@@ -1,4 +1,4 @@
-import { RentInformation, PaymentStatus } from '../../types/rent';
+import { RentInformation, PaymentStatus } from '../../models/resident/rent';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 

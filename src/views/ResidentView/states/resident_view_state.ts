@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
+import { Resident } from '_/models/resident/resident';
 import residentState from '_/states/resident/resident.state';
-import { Resident } from '_/types/resident';
 
 /**
  * Resident view state

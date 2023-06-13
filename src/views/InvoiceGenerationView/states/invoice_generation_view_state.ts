@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 import { setRecoil } from 'recoil-nexus';
-import { Incidentals } from '_/types/incidentals';
+import { Incidentals } from '_/models/incidentals/incidentals';
 
 /**
  * Invoice generation state

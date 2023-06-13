@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { Resident } from '_/types/resident';
+import { Resident } from '_/models/resident/resident';
 
 /**
  * The resident state is a list of all residents

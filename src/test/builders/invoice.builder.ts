@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { Invoice } from '_/types/invoice';
+import { Invoice } from '_/models/invoice/invoice';
 
 class InvoiceBuilder {
   private static nextStart = new MonthYear(1, 2023);

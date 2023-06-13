@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { RentInformation } from '_/types/rent';
-import { Resident } from '_/types/resident';
+import { RentInformation } from '_/models/resident/rent';
+import { Resident } from '_/models/resident/resident';
 
 class ResidentBuilder {
   private resident: Resident;

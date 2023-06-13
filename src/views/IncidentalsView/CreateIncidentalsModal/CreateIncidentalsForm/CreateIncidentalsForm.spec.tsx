@@ -3,7 +3,7 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, resetRecoil } from 'recoil-nexus';
-import { DeductionType } from '../../../../types/incidentals';
+import { DeductionType } from '../../../../models/incidentals/incidentals';
 import { convertCurrencyEurosToCents } from '../../../../utils/currency/currency.utils';
 import createIncidentalsState, {
   createIncidentalsFormValidationSelector,

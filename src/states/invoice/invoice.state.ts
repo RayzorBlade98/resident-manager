@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { Invoice } from '_/types/invoice';
+import { Invoice } from '_/models/invoice/invoice';
 
 /**
  * The invoice state is a list of all invoices

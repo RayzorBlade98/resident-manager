@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { Incidentals } from 'src/types/incidentals';
+import { Incidentals } from '_/models/incidentals/incidentals';
 
 /**
  * List of all incidentals

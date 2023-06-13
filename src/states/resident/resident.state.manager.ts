@@ -1,8 +1,8 @@
 import { getRecoil, setRecoil } from 'recoil-nexus';
 import residentState from './resident.state';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { RentInformation } from '_/types/rent';
-import { Resident } from '_/types/resident';
+import { RentInformation } from '_/models/resident/rent';
+import { Resident } from '_/models/resident/resident';
 
 /**
  * Class that provides utility functions to manage the resident state

@@ -3,7 +3,7 @@ import { Tooltip } from '@mui/material';
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import addRentPaymentState from '../../states/add_rent_payment_state';
-import { RentInformation } from '_/types/rent';
+import { RentInformation } from '_/models/resident/rent';
 
 interface AddPaymentIconProps {
   /**

@@ -6,8 +6,8 @@ import addRentPaymentState, {
 } from '../../states/add_rent_payment_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { Resident } from '_/models/resident/resident';
 import ResidentStateManager from '_/states/resident/resident.state.manager';
-import { Resident } from '_/types/resident';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 import '_/extensions/date/date.extension';
 

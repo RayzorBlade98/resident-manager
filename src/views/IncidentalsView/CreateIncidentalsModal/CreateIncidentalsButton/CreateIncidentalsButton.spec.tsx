@@ -4,7 +4,7 @@ import {
 import React from 'react';
 import * as RecoilModule from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import { DeductionType } from '../../../../types/incidentals';
+import { DeductionType } from '../../../../models/incidentals/incidentals';
 import createIncidentalsState, {
   createIncidentalsFormValidationSelector,
 } from '../../states/create_incidentals_state';

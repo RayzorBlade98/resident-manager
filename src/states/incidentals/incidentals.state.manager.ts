@@ -1,7 +1,7 @@
 import { setRecoil } from 'recoil-nexus';
 import incidentalsState from './incidentals.state';
 
-import { Incidentals } from '_/types/incidentals';
+import { Incidentals } from '_/models/incidentals/incidentals';
 
 /**
  * Utility class that provides functionality for the incidentals state

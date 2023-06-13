@@ -7,7 +7,7 @@ import { generateImage } from 'jsdom-screenshot';
 import { range } from 'lodash';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
-import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../types/styles';
+import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../styles';
 import App from '_/renderer/App';
 import currentViewState, { View } from '_/states/current_view.state';
 import invoiceState from '_/states/invoice/invoice.state';

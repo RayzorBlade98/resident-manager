@@ -1,8 +1,8 @@
 import { range } from 'lodash';
 import RentInformationUtils from './rent.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { PaymentStatus } from '_/models/resident/rent';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
-import { PaymentStatus } from '_/types/rent';
 
 describe('RentInformationUtils', () => {
   beforeAll(() => {

@@ -2,7 +2,7 @@ import { act, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
-import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../types/styles';
+import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../styles';
 import App from '_/renderer/App';
 import currentViewState, { View } from '_/states/current_view.state';
 import incidentalsState from '_/states/incidentals/incidentals.state';

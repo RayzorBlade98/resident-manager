@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { defaultColors } from '../types/styles';
+import { defaultColors } from '../styles';
 import currentViewState, { View } from '_/states/current_view.state';
 import IncidentalsView from '_/views/IncidentalsView/IncidentalsView';
 import InvoiceGenerationView from '_/views/InvoiceGenerationView/InvoiceGenerationView';
