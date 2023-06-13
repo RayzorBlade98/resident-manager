@@ -4,6 +4,7 @@ import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import createResidentState from '../states/create_resident_state';
 import CreateResidentModal from './CreateResidentModal';
+import MonthYear from '_/extensions/date/month_year.extension';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateResidentModal', () => {
@@ -23,6 +24,13 @@ describe('CreateResidentModal', () => {
       setRecoil(createResidentState, (state) => ({
         ...state,
         showModal: true,
+        formValidation: {
+          ...state.formValidation,
+          formInput: {
+            ...state.formValidation.formInput,
+            contractStart: new MonthYear(5, 2023),
+          },
+        },
       }));
     });
 

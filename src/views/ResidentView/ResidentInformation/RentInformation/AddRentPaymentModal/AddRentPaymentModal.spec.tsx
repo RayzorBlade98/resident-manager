@@ -7,11 +7,6 @@ import AddRentPaymentModal from './AddRentPaymentModal';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('AddRentPaymentModal', () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date(2023, 4, 28));
-  });
-
   test('should match snapshot', async () => {
     // Arrange
     render(
@@ -23,6 +18,13 @@ describe('AddRentPaymentModal', () => {
       setRecoil(addRentPaymentState, (state) => ({
         ...state,
         showModal: true,
+        formValidation: {
+          ...state.formValidation,
+          formInput: {
+            ...state.formValidation.formInput,
+            paymentDate: new Date(2023, 5, 11),
+          },
+        },
       }));
     });
 
