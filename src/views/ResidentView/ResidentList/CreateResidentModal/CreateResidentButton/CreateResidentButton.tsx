@@ -26,7 +26,7 @@ function CreateResidentButton(): JSX.Element {
       id: uuid(),
       firstName: formValidationState.formInput.firstName,
       lastName: formValidationState.formInput.lastName,
-      rent: RentInformationUtils.timespan(
+      rentInformation: RentInformationUtils.timespan(
         formValidationState.formInput.contractStart as MonthYear,
         new MonthYear(),
         formValidationState.formInput.rent as CurrencyInCents,

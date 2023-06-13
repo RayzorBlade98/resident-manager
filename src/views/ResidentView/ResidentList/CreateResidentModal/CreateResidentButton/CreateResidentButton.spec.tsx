@@ -97,7 +97,7 @@ describe('CreateResidentButton', () => {
       expect.objectContaining({
         firstName: validInputValues.firstName,
         lastName: validInputValues.lastName,
-        rent: [
+        rentInformation: [
           {
             dueDate: validInputValues.contractStart,
             rent: validInputValues.rent,

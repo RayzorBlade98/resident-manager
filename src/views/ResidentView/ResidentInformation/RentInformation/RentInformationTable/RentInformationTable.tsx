@@ -19,7 +19,7 @@ import { residentViewSelectedResidentState } from '_/views/ResidentView/states/r
 function RentInformationTable(): JSX.Element {
   const rentInformation = useRecoilValue(
     residentViewSelectedResidentState,
-  )?.rent;
+  )?.rentInformation;
 
   return (
     <TableContainer>

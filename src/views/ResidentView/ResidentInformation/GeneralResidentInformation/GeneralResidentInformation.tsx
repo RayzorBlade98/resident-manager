@@ -14,7 +14,11 @@ function GeneralResidentInformation(): JSX.Element {
   return (
     <>
       <p>{`${selectedResident.firstName} ${selectedResident.lastName}`}</p>
-      <p>{`${convertCurrencyCentsToString(selectedResident.rent[0].rent)}`}</p>
+      <p>
+        {`${convertCurrencyCentsToString(
+          selectedResident.rentInformation[0].rent,
+        )}`}
+      </p>
       <p>{selectedResident.invoiceStart.toString()}</p>
     </>
   );

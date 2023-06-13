@@ -67,7 +67,7 @@ abstract class PersistenceUtils {
 
       // Add missing months to the rent information
       loadedResidents
-        .map<RentInformation[]>((r: Resident) => r.rent)
+        .map<RentInformation[]>((r: Resident) => r.rentInformation)
         .forEach((r: RentInformation[]) => {
           RentInformationUtils.addMissingMonths(r);
         });

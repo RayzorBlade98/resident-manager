@@ -11,7 +11,7 @@ class ResidentBuilder {
       id: uuid(),
       firstName: 'Max',
       lastName: 'Mustermann',
-      rent: [],
+      rentInformation: [],
       invoiceStart: new MonthYear(2, 2023),
       waterMeterReadings: [],
     };
@@ -28,7 +28,7 @@ class ResidentBuilder {
   }
 
   public addRentInformation(rentInformation: RentInformation): ResidentBuilder {
-    this.resident.rent.push(rentInformation);
+    this.resident.rentInformation.push(rentInformation);
     return this;
   }
 

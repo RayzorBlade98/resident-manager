@@ -53,7 +53,7 @@ export default abstract class ResidentStateManager {
     const rentInformation = [
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ...getRecoil(residentState).find((r: Resident) => residentId === r.id)!
-        .rent,
+        .rentInformation,
     ];
     // eslint-disable-next-line max-len
     const rentIndex = rentInformation.findIndex((r: RentInformation) => dueDate.equals(r.dueDate));
@@ -62,6 +62,8 @@ export default abstract class ResidentStateManager {
       ...update,
     };
 
-    ResidentStateManager.updateResident(residentId, { rent: rentInformation });
+    ResidentStateManager.updateResident(residentId, {
+      rentInformation,
+    });
   }
 }

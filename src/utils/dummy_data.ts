@@ -15,14 +15,16 @@ function createDummyData(): void {
       id: uuid(),
       firstName: 'Max',
       lastName: 'Mustermann',
-      rent: [
+      rentInformation: [
         {
           dueDate: new MonthYear(),
           rent: 50000,
           incidentals: 10000,
         },
       ],
-      waterMeterReadings: [{ waterMeterCount: 1234, readingDate: new Date().toUTC() }],
+      waterMeterReadings: [
+        { waterMeterCount: 1234, readingDate: new Date().toUTC() },
+      ],
       invoiceStart: new MonthYear(),
     });
   }

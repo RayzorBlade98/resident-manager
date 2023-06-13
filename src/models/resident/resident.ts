@@ -24,7 +24,7 @@ export interface Resident {
   /**
    * Information about the rent payments
    */
-  rent: RentInformation[];
+  rentInformation: RentInformation[];
 
   /**
    * List of all water meter readings

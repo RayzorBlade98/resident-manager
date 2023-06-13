@@ -108,9 +108,9 @@ describe('ResidentStateManager', () => {
       const expectedState = [...getRecoil(residentState)];
       expectedState[1] = {
         ...expectedState[1],
-        rent: [...resident.rent],
+        rentInformation: [...resident.rentInformation],
       };
-      expectedState[1].rent[1] = {
+      expectedState[1].rentInformation[1] = {
         ...rentInformation,
         ...update,
       };
