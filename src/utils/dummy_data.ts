@@ -1,4 +1,6 @@
 /* istanbul ignore file */
+/* eslint-disable max-len */
+
 import { v4 as uuid } from 'uuid';
 import { DeductionType } from '../models/incidentals/incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -20,6 +22,7 @@ function createDummyData(): void {
           incidentals: 10000,
         },
       ],
+      waterMeterReadings: [{ waterMeterCount: 1234, readingDate: new Date().toUTC() }],
       invoiceStart: new MonthYear(),
     });
   }

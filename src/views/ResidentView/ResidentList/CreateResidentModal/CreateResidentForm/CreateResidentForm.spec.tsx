@@ -20,6 +20,7 @@ describe('CreateResidentForm', () => {
     rent: number,
     incidentals: number,
     contractStart: string,
+    waterMeter: number,
   ) {
     const inputFields = renderResult.container.querySelectorAll('input');
     fireEvent.change(inputFields.item(0), {
@@ -39,6 +40,10 @@ describe('CreateResidentForm', () => {
     });
 
     fireEvent.change(inputFields.item(4), {
+      target: { value: waterMeter },
+    });
+
+    fireEvent.change(inputFields.item(5), {
       target: { value: contractStart },
     });
   }
@@ -76,9 +81,17 @@ describe('CreateResidentForm', () => {
     const rent = 500;
     const incidentals = 100;
     const contractStart = '06.2023';
+    const waterMeter = 1234;
 
     // Act
-    inputToForm(firstName, lastName, rent, incidentals, contractStart);
+    inputToForm(
+      firstName,
+      lastName,
+      rent,
+      incidentals,
+      contractStart,
+      waterMeter,
+    );
 
     // Assert
     const formInput = getRecoil(createResidentFormValidationSelector).formInput;
@@ -88,6 +101,7 @@ describe('CreateResidentForm', () => {
       rent: convertCurrencyEurosToCents(rent),
       incidentals: convertCurrencyEurosToCents(incidentals),
       contractStart: new MonthYear(5, 2023),
+      waterMeter,
     });
   });
 });

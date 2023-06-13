@@ -13,6 +13,7 @@ class ResidentBuilder {
       lastName: 'Mustermann',
       rent: [],
       invoiceStart: new MonthYear(2, 2023),
+      waterMeterReadings: [],
     };
   }
 

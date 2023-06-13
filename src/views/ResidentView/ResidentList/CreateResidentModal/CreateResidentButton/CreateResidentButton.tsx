@@ -33,6 +33,12 @@ function CreateResidentButton(): JSX.Element {
         formValidationState.formInput.incidentals as CurrencyInCents,
       ),
       invoiceStart: formValidationState.formInput.contractStart as MonthYear,
+      waterMeterReadings: [
+        {
+          waterMeterCount: formValidationState.formInput.waterMeter as number,
+          readingDate: formValidationState.formInput.contractStart as Date,
+        },
+      ],
     });
     resetCreateResidentState();
   };

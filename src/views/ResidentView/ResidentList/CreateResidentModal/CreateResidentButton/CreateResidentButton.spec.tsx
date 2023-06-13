@@ -19,6 +19,7 @@ describe('CreateResidentButton', () => {
     rent: 500,
     incidentals: 100,
     contractStart: new MonthYear(3, 2023),
+    waterMeter: 1234,
   };
 
   let renderResult: RenderResult;
@@ -109,6 +110,12 @@ describe('CreateResidentButton', () => {
           },
         ],
         invoiceStart: validInputValues.contractStart,
+        waterMeterReadings: [
+          {
+            readingDate: validInputValues.contractStart,
+            waterMeterCount: validInputValues.waterMeter,
+          },
+        ],
       }),
     );
   });

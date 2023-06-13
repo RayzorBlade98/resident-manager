@@ -36,6 +36,11 @@ export interface CreateResidentInput {
    * First month and year the contract of the new resident starts
    */
   contractStart: MonthYear | undefined;
+
+  /**
+   * Current water meter count
+   */
+  waterMeter: number | undefined;
 }
 
 interface CreateResidentState {
@@ -61,6 +66,7 @@ CompleteFormValidationState<CreateResidentState, CreateResidentInput>
         rent: undefined,
         incidentals: undefined,
         contractStart: new MonthYear(),
+        waterMeter: undefined,
       },
       formErrors: {},
       formValidator: new Validator<CreateResidentInput>({
@@ -69,6 +75,7 @@ CompleteFormValidationState<CreateResidentState, CreateResidentInput>
         rent: ValidationConstraint.Currency,
         incidentals: ValidationConstraint.Currency,
         contractStart: ValidationConstraint.Defined,
+        waterMeter: ValidationConstraint.Defined,
       }),
     },
   },

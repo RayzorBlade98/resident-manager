@@ -7,6 +7,7 @@ import {
 } from '../../states/create_resident_state';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
 import MonthYearDateField from '_/components/form/MonthYearDateField/MonthYearDateField';
+import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 import MonthYear from '_/extensions/date/month_year.extension';
 
 /**
@@ -70,6 +71,19 @@ function CreateResidentForm(): JSX.Element {
           value={formInput.incidentals}
           onChange={(incidentals) => onChange<number | undefined>('incidentals', incidentals)} // eslint-disable-line max-len
           errorMessage={errors.incidentals}
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <NumberTextField
+          required
+          id="waterMeter"
+          label="Wasserzählerstand"
+          min={1}
+          value={formInput.waterMeter}
+          onChange={(meter) => {
+            onChange<number | undefined>('waterMeter', meter);
+          }}
+          errorMessage={errors.waterMeter}
         />
       </Grid>
       <Grid item xs={6}>
