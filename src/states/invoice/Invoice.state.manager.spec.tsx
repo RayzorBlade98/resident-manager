@@ -18,11 +18,7 @@ describe('InvoiceStateManager', () => {
       // Arrange
       const newInvoice1 = new InvoiceBuilder().build();
       const newInvoice2 = new InvoiceBuilder().build();
-      const expectedState = [
-        ...getRecoil(invoiceState),
-        newInvoice1,
-        newInvoice2,
-      ];
+      const expectedState = [newInvoice2, newInvoice1];
 
       // Act
       act(() => {

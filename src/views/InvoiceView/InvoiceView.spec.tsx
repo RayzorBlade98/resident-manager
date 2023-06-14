@@ -21,7 +21,7 @@ describe('InvoiceView', () => {
       height: CONTENT_HEIGHT,
     },
   };
-  const invoices = range(0, 5).map((i) => new InvoiceBuilder().withId(i.toString()).build());
+  const invoices = range(0, 5).map((i) => new InvoiceBuilder().withId(i.toString()).build()).reverse();
   let renderResult: RenderResult;
 
   beforeEach(() => {

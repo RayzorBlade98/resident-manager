@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { sortInvoicesEffect } from './invoice.state.effects';
 import { Invoice } from '_/models/invoice/invoice';
 
 /**
@@ -12,6 +13,7 @@ export type InvoiceState = Invoice[];
 const invoiceState = atom<InvoiceState>({
   key: 'invoiceState',
   default: [],
+  effects: [sortInvoicesEffect],
 });
 
 export default invoiceState;
