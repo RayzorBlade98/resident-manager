@@ -1,7 +1,10 @@
 import React from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
-import createOngoingIncidentalsState, { CreateOngoingIncidentalsInput, createOngoingIncidentalsFormValidationSelector } from '../../states/create_ongoing_incidentals_state';
+import createOngoingIncidentalsState, {
+  CreateOngoingIncidentalsInput,
+  createOngoingIncidentalsFormValidationSelector,
+} from '../../states/create_ongoing_incidentals_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
@@ -22,8 +25,7 @@ function CreateOngoingIncidentalsButton(): JSX.Element {
     IncidentalsStateManager.addOngoingIncidentals({
       id: uuid(),
       name: formValidationState.formInput.name,
-      currentPrice: formValidationState.formInput
-        .currentPrice as CurrencyInCents,
+      currentCost: formValidationState.formInput.currentCost as CurrencyInCents,
       deductionType: formValidationState.formInput.deductionType,
       invoiceInterval: formValidationState.formInput.invoiceInterval as number,
     });

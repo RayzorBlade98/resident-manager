@@ -20,7 +20,7 @@ export interface CreateOngoingIncidentalsInput {
   /**
    * Cost of the new incidentals
    */
-  currentPrice: CurrencyInCents | undefined;
+  currentCost: CurrencyInCents | undefined;
 
   /**
    * Deduction type of the new incidentals
@@ -55,14 +55,14 @@ CreateOngoingIncidentalsInput
     formValidation: {
       formInput: {
         name: '',
-        currentPrice: undefined,
+        currentCost: undefined,
         deductionType: DeductionType.PerApartment,
         invoiceInterval: undefined,
       },
       formErrors: {},
       formValidator: new Validator<CreateOngoingIncidentalsInput>({
         name: ValidationConstraint.NoEmptyString,
-        currentPrice: ValidationConstraint.Currency,
+        currentCost: ValidationConstraint.Currency,
         invoiceInterval: ValidationConstraint.Defined,
       }),
     },

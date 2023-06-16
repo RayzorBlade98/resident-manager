@@ -9,7 +9,10 @@ import {
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { DeductionType } from '../../../../../models/incidentals/ongoing_incidentals';
-import { CreateOngoingIncidentalsInput, createOngoingIncidentalsFormValidationSelector } from '../../states/create_ongoing_incidentals_state';
+import {
+  CreateOngoingIncidentalsInput,
+  createOngoingIncidentalsFormValidationSelector,
+} from '../../states/create_ongoing_incidentals_state';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 
@@ -55,11 +58,11 @@ function CreateOngoingIncidentalsForm(): JSX.Element {
           required
           id="cost"
           label="Kosten"
-          value={formInput.currentPrice}
+          value={formInput.currentCost}
           onChange={(currentPrice) => {
-            onChange<number | undefined>('currentPrice', currentPrice);
+            onChange<number | undefined>('currentCost', currentPrice);
           }}
-          errorMessage={errors.currentPrice}
+          errorMessage={errors.currentCost}
         />
       </Grid>
       <Grid item xs={6}>

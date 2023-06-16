@@ -11,7 +11,7 @@ class OngoingIncidentalsBuilder {
     this.incidentals = {
       id: uuid(),
       name: 'Test Incidentals',
-      currentPrice: 10000,
+      currentCost: 10000,
       deductionType: DeductionType.PerApartment,
       invoiceInterval: 12,
     };

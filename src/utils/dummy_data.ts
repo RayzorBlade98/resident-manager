@@ -35,7 +35,7 @@ function createDummyData(): void {
       id: uuid(),
       name: 'Nebenkosten',
       deductionType: DeductionType.PerResident,
-      currentPrice: 10000,
+      currentCost: 10000,
       invoiceInterval: 12,
     });
   }

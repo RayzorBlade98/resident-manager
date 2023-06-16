@@ -67,7 +67,7 @@ function OngoingIncidentalsTable(): JSX.Element {
                 <TableCell>{_incidentals.name}</TableCell>
                 <TableCell>{_incidentals.deductionType}</TableCell>
                 <TableCell>
-                  {convertCurrencyCentsToString(_incidentals.currentPrice)}
+                  {convertCurrencyCentsToString(_incidentals.currentCost)}
                 </TableCell>
                 <TableCell>
                   {`${_incidentals.invoiceInterval} Monat${

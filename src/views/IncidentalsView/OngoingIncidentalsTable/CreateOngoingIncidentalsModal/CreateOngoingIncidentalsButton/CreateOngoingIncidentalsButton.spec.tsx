@@ -15,7 +15,7 @@ import ReactTestWrapper from '_/test/ReactTestWrapper';
 describe('CreateOngoingIncidentalsButton', () => {
   const validInputValues = {
     name: 'Testnebenkosten',
-    currentPrice: 100,
+    currentCost: 100,
     deductionType: DeductionType.PerApartment,
     invoiceInterval: 6,
   };

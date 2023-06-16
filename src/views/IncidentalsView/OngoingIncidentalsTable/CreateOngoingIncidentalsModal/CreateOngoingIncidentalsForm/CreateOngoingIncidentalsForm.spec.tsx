@@ -16,7 +16,7 @@ describe('CreateOngoingIncidentalsForm', () => {
 
   function inputToForm(
     name: string,
-    currentPrice: number,
+    currentCost: number,
     deductionTypeIndex: number,
     invoiceInterval: number,
   ) {
@@ -26,7 +26,7 @@ describe('CreateOngoingIncidentalsForm', () => {
     });
 
     fireEvent.change(inputFields.item(1), {
-      target: { value: currentPrice.toString() },
+      target: { value: currentCost.toString() },
     });
 
     const selectField = renderResult.getByRole('button');
@@ -54,12 +54,12 @@ describe('CreateOngoingIncidentalsForm', () => {
   test('should add input to state', () => {
     // Arrange
     const name = 'Testincidentals';
-    const currentPrice = 100;
+    const currentCost = 100;
     const deductionTypeIndex = 1;
     const invoiceInterval = 6;
 
     // Act
-    inputToForm(name, currentPrice, deductionTypeIndex, invoiceInterval);
+    inputToForm(name, currentCost, deductionTypeIndex, invoiceInterval);
 
     // Assert
     const formInput = getRecoil(
@@ -67,7 +67,7 @@ describe('CreateOngoingIncidentalsForm', () => {
     ).formInput;
     expect(formInput).toEqual({
       name,
-      currentPrice: convertCurrencyEurosToCents(currentPrice),
+      currentCost: convertCurrencyEurosToCents(currentCost),
       deductionType: Object.values(DeductionType).at(deductionTypeIndex),
       invoiceInterval: 6,
     });

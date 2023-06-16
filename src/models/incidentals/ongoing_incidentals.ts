@@ -32,7 +32,7 @@ export interface OngoingIncidentals {
   /**
    * Current price of the incidentals
    */
-  currentPrice: CurrencyInCents;
+  currentCost: CurrencyInCents;
 
   /**
    * Deduction type of the incidentals
