@@ -1,3 +1,5 @@
+/* eslint-disable default-case */
+
 import {
   RenderResult, act, fireEvent, render,
 } from '@testing-library/react';
@@ -23,8 +25,28 @@ describe('InvoiceGenerationView', () => {
     .build());
   let renderResult: RenderResult;
 
-  function nextStep(times: number): void {
-    for (let index = 0; index < times; index += 1) {
+  function inputStep1(): void {
+    const inputFields = renderResult.container.querySelectorAll('input');
+    fireEvent.change(inputFields.item(0), {
+      target: { value: '06.2023' },
+    });
+
+    fireEvent.change(inputFields.item(1), {
+      target: { value: '07.2023' },
+    });
+  }
+
+  function requiredStepInput(step: number) {
+    switch (step) {
+      case 1:
+        inputStep1();
+        break;
+    }
+  }
+
+  function moveToStep(step: number) {
+    for (let currentStep = 1; currentStep < step; currentStep += 1) {
+      requiredStepInput(currentStep);
       fireEvent.click(
         renderResult.getAllByRole('button', { hidden: true }).at(-1)!,
       );
@@ -44,11 +66,17 @@ describe('InvoiceGenerationView', () => {
     });
   });
 
-  test.todo('Step 1 image snapshot');
+  test('should match image snapshot (step 1)', async () => {
+    // Act
+    inputStep1();
+
+    // Assert
+    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+  });
 
   test('should match image snapshot (step 2)', async () => {
     // Arrange
-    nextStep(1);
+    moveToStep(2);
 
     // Act
     const selectableIncidentals = renderResult.getAllByRole('listitem');

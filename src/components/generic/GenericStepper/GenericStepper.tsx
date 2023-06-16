@@ -6,6 +6,11 @@ import Stepper from '@mui/material/Stepper';
 import React from 'react';
 import { CONTENT_HEIGHT } from '../../../styles';
 
+/**
+ * Constant that indicates that all steps are finished
+ */
+export const STEPPER_FINISHED = -1;
+
 const styles = {
   component: {
     height: '100%',
@@ -32,9 +37,15 @@ interface GenericStepperProps {
   steps: string[];
 
   /**
-   * Callback when all steps are finished
+   * Callback that's called when the current step changes
+   * @param step new active step
    */
-  onFinished: () => void;
+  onStepChange: (step: number) => void;
+
+  /**
+   * Whether the current step is finished
+   */
+  canFinishStep: boolean;
 }
 
 /**
@@ -46,15 +57,20 @@ function GenericStepper(props: React.PropsWithChildren<GenericStepperProps>) {
 
   const handleNext = () => {
     const nextStep = activeStep + 1;
+
     if (nextStep === props.steps.length) {
-      props.onFinished();
+      props.onStepChange(STEPPER_FINISHED);
       return;
     }
+
     setActiveStep(nextStep);
+    props.onStepChange(nextStep);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    const nextStep = activeStep - 1;
+    setActiveStep(nextStep);
+    props.onStepChange(nextStep);
   };
 
   const children = React.Children.toArray(props.children);
@@ -83,7 +99,7 @@ function GenericStepper(props: React.PropsWithChildren<GenericStepperProps>) {
             {activeStep === 0 ? '' : 'Zurück'}
           </Button>
           <Box sx={{ flex: '1 1 auto' }} />
-          <Button onClick={handleNext}>
+          <Button onClick={handleNext} disabled={!props.canFinishStep}>
             {activeStep === props.steps.length - 1 ? 'Abschließen' : 'Weiter'}
           </Button>
         </Box>

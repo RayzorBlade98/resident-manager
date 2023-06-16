@@ -5,10 +5,14 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { getRecoil, setRecoil } from 'recoil-nexus';
 import invoiceGenerationState, {
+  InvoiceGenerationInput,
   addSelectedIncidentals,
+  invoiceGenerationViewState,
+  isCurrentStepFinished,
   removeSelectedIncidentals,
   selectedInvoiceIncidentalsState,
 } from './invoice_generation_view_state';
+import MonthYear from '_/extensions/date/month_year.extension';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import IncidentalsBuilder from '_/test/builders/incidentals.builder';
 
@@ -84,5 +88,73 @@ describe('invoiceGenerationViewState', () => {
       const newState = getRecoil(selectedInvoiceIncidentalsState);
       expect(newState).toEqual(expectedState);
     });
+  });
+
+  describe('isCurrentStepFinished', () => {
+    test.each([
+      [
+        0,
+        'invoiceStart: undefined, invoiceEnd: undefined',
+        false,
+        {
+          invoiceStart: undefined,
+          invoiceEnd: undefined,
+        },
+      ],
+      [
+        0,
+        'invoiceStart: 06.2023, invoiceEnd: undefined',
+        false,
+        {
+          invoiceStart: new MonthYear(5, 2023),
+          invoiceEnd: undefined,
+        },
+      ],
+      [
+        0,
+        'invoiceStart: undefined, invoiceEnd: 06.2023',
+        false,
+        {
+          invoiceStart: undefined,
+          invoiceEnd: new MonthYear(5, 2023),
+        },
+      ],
+      [
+        0,
+        'invoiceStart: 06.2023, invoiceEnd: 06.2023',
+        true,
+        {
+          invoiceStart: new MonthYear(5, 2023),
+          invoiceEnd: new MonthYear(5, 2023),
+        },
+      ],
+      [1, '<no input required>', true, {}],
+    ])(
+      'step %i with input %s should return %s',
+      (step, _, expected, formInput: Partial<InvoiceGenerationInput>) => {
+        // Arrange
+        act(() => {
+          setRecoil(invoiceGenerationViewState, (state) => ({
+            ...state,
+            currentStep: step,
+            formValidation: {
+              ...state.formValidation,
+              formInput: {
+                ...state.formValidation.formInput,
+                ...formInput,
+              },
+            },
+          }));
+        });
+        // Act
+        let result = !expected;
+        act(() => {
+          result = isCurrentStepFinished();
+        });
+
+        // Assert
+        expect(result).toBe(expected);
+      },
+    );
   });
 });
