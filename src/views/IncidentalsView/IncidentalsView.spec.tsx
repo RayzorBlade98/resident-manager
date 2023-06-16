@@ -7,7 +7,7 @@ import App from '_/renderer/App';
 import currentViewState, { View } from '_/states/current_view.state';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
-import IncidentalsBuilder from '_/test/builders/incidentals.builder';
+import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 
 describe('IncidentalsView', () => {
   test('should match image snapshot', async () => {
@@ -20,9 +20,12 @@ describe('IncidentalsView', () => {
     act(() => {
       setRecoil(currentViewState, View.Incidentals);
       setRecoil(incidentalsState, [
-        new IncidentalsBuilder().withId('id1').withInvoiceInterval(1).build(),
-        new IncidentalsBuilder().withId('id2').build(),
-        new IncidentalsBuilder().withId('id3').build(),
+        new OngoingIncidentalsBuilder()
+          .withId('id1')
+          .withInvoiceInterval(1)
+          .build(),
+        new OngoingIncidentalsBuilder().withId('id2').build(),
+        new OngoingIncidentalsBuilder().withId('id3').build(),
       ]);
     });
 

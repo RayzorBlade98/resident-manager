@@ -12,14 +12,14 @@ import App from '_/renderer/App';
 import currentViewState, { View } from '_/states/current_view.state';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
-import IncidentalsBuilder from '_/test/builders/incidentals.builder';
+import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 
 describe('InvoiceGenerationView', () => {
   const screenshotSettings = {
     viewport: { width: CONTENT_WIDTH, height: CONTENT_HEIGHT },
     screenshot: { fullPage: true },
   };
-  const incidentals = range(0, 10).map((i) => new IncidentalsBuilder()
+  const incidentals = range(0, 10).map((i) => new OngoingIncidentalsBuilder()
     .withId(i.toString())
     .withName(`Incidentals ${i}`)
     .build());

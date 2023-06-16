@@ -2,20 +2,20 @@ import { act, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
-import createIncidentalsState from '../states/create_incidentals_state';
-import CreateIncidentalsModal from './CreateIncidentalsModal';
+import createOngoingIncidentalsState from '../states/create_ongoing_incidentals_state';
+import CreateOngoingIncidentalsModal from './CreateOngoingIncidentalsModal';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
-describe('CreateIncidentalsModal', () => {
+describe('CreateOngoingIncidentalsModal', () => {
   test('should match image snapshot', async () => {
     // Arrange
     render(
       <ReactTestWrapper>
-        <CreateIncidentalsModal />
+        <CreateOngoingIncidentalsModal />
       </ReactTestWrapper>,
     );
     act(() => {
-      setRecoil(createIncidentalsState, (state) => ({
+      setRecoil(createOngoingIncidentalsState, (state) => ({
         ...state,
         showModal: true,
       }));

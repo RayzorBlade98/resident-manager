@@ -8,7 +8,7 @@ import invoiceGenerationViewState, {
 import GenericStepper, {
   STEPPER_FINISHED,
 } from '_/components/generic/GenericStepper/GenericStepper';
-import IncidentalsSelection from '_/views/InvoiceGenerationView/IncidentalsSelection/IncidentalsSelection';
+import OngoingIncidentalsSelection from '_/views/InvoiceGenerationView/OngoingIncidentalsSelection/OngoingIncidentalsSelection';
 
 const styles = {
   view: {
@@ -35,7 +35,7 @@ function InvoiceGenerationView() {
           canFinishStep={isCurrentStepFinished()}
         >
           <MonthSelection />
-          <IncidentalsSelection />
+          <OngoingIncidentalsSelection />
           <div>Schritt 3</div>
         </GenericStepper>
       )}

@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 
 import { v4 as uuid } from 'uuid';
-import { DeductionType } from '../models/incidentals/incidentals';
+import { DeductionType } from '../models/incidentals/ongoing_incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';
 import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import InvoiceStateManager from '_/states/invoice/Invoice.state.manager';
@@ -31,7 +31,7 @@ function createDummyData(): void {
 
   // Dummy incidentals
   for (let i = 0; i < 8; i += 1) {
-    IncidentalsStateManager.addIncidentals({
+    IncidentalsStateManager.addOngoingIncidentals({
       id: uuid(),
       name: 'Nebenkosten',
       deductionType: DeductionType.PerResident,

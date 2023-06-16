@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
 import { ValidationConstraint } from '../../../utils/validation/constraints';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { Incidentals } from '_/models/incidentals/incidentals';
+import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 import {
   CompleteFormValidationState,
   createFormValidationStateSelector,
@@ -35,9 +35,9 @@ export interface InvoiceGenerationViewState {
   currentStep: number;
 
   /**
-   * List of all selected incidentals
+   * List of all selected ongoing incidentals
    */
-  selectedIncidentals: Incidentals[];
+  selectedOngoingIncidentals: OngoingIncidentals[];
 }
 
 /**
@@ -52,7 +52,7 @@ InvoiceGenerationInput
   key: 'invoiceGenerationViewState',
   default: {
     currentStep: 0,
-    selectedIncidentals: [],
+    selectedOngoingIncidentals: [],
     formValidation: {
       formInput: {
         invoiceStart: undefined,
@@ -68,14 +68,6 @@ InvoiceGenerationInput
 });
 
 /**
- * Selector for the selected incidentals
- */
-export const selectedInvoiceIncidentalsState = selector<Incidentals[]>({
-  key: 'invoiceGenerationState-selectedIncidentals',
-  get: ({ get }) => get(invoiceGenerationViewState).selectedIncidentals,
-});
-
-/**
  * Selector for the invoice generation form validation
  */
 // eslint-disable-next-line max-len
@@ -85,24 +77,31 @@ InvoiceGenerationInput
 >(invoiceGenerationViewState);
 
 /**
- * Adds new incidentals to the list of selected incidentals
+ * Adds new incidentals to the list of selected ongoing incidentals
  * @param incidentals incidentals that should be added
  */
-export function addSelectedIncidentals(incidentals: Incidentals): void {
+export function addSelectedOngoingIncidentals(
+  incidentals: OngoingIncidentals,
+): void {
   setRecoil(invoiceGenerationViewState, (state) => ({
     ...state,
-    selectedIncidentals: [...state.selectedIncidentals, incidentals],
+    selectedOngoingIncidentals: [
+      ...state.selectedOngoingIncidentals,
+      incidentals,
+    ],
   }));
 }
 
 /**
- * Removes incidentals from the list of selected incidentals
+ * Removes incidentals from the list of selected ongoing incidentals
  * @param incidentals incidentals that should be removed
  */
-export function removeSelectedIncidentals(incidentals: Incidentals): void {
+export function removeSelectedOngoingIncidentals(
+  incidentals: OngoingIncidentals,
+): void {
   setRecoil(invoiceGenerationViewState, (state) => ({
     ...state,
-    selectedIncidentals: state.selectedIncidentals.filter(
+    selectedOngoingIncidentals: state.selectedOngoingIncidentals.filter(
       (i) => i.id !== incidentals.id,
     ),
   }));

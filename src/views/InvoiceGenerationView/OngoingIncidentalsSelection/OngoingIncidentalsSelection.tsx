@@ -8,26 +8,25 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { Incidentals } from '_/models/incidentals/incidentals';
-import incidentalsState from '_/states/incidentals/incidentals.state';
-import {
-  addSelectedIncidentals,
-  removeSelectedIncidentals,
-  selectedInvoiceIncidentalsState,
+import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
+import { ongoingIncidentalsSelector } from '_/states/incidentals/incidentals.state';
+import invoiceGenerationViewState, {
+  addSelectedOngoingIncidentals,
+  removeSelectedOngoingIncidentals,
 } from '_/views/InvoiceGenerationView/states/invoice_generation_view_state';
 
 /**
- * Component so select incidentals that should be included to the invoice
+ * Component so select ongoing incidentals that should be included to the invoice
  */
-function IncidentalsSelection(): JSX.Element {
-  const incidentals = useRecoilValue(incidentalsState);
-  const selectedIncidentals = useRecoilValue(selectedInvoiceIncidentalsState);
+function OngoingIncidentalsSelection(): JSX.Element {
+  const incidentals = useRecoilValue(ongoingIncidentalsSelector);
+  const selectedIncidentals = useRecoilValue(invoiceGenerationViewState).selectedOngoingIncidentals; // eslint-disable-line max-len
 
-  const handleToggle = (_incidentals: Incidentals) => () => {
+  const handleToggle = (_incidentals: OngoingIncidentals) => () => {
     if (selectedIncidentals.find((i) => i.id === _incidentals.id)) {
-      removeSelectedIncidentals(_incidentals);
+      removeSelectedOngoingIncidentals(_incidentals);
     } else {
-      addSelectedIncidentals(_incidentals);
+      addSelectedOngoingIncidentals(_incidentals);
     }
   };
 
@@ -63,4 +62,4 @@ function IncidentalsSelection(): JSX.Element {
   );
 }
 
-export default IncidentalsSelection;
+export default OngoingIncidentalsSelection;

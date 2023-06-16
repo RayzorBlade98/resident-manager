@@ -8,14 +8,14 @@ import incidentalsState from '../../states/incidentals/incidentals.state';
 import RentInformationUtils from '../rent/rent.utils';
 import PersistenceUtils from './persistence.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { Incidentals } from '_/models/incidentals/incidentals';
+import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 import { Invoice } from '_/models/invoice/invoice';
 import { Resident } from '_/models/resident/resident';
 import invoiceState from '_/states/invoice/invoice.state';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
-import IncidentalsBuilder from '_/test/builders/incidentals.builder';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
+import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
@@ -47,8 +47,8 @@ describe('PersistenceUtils', () => {
   describe('importSaveStates', () => {
     test('should import save state if files exist', () => {
       // Arrange
-      const expectedIncidentalsState: Incidentals[] = [
-        new IncidentalsBuilder().build(),
+      const expectedIncidentalsState: OngoingIncidentals[] = [
+        new OngoingIncidentalsBuilder().build(),
       ];
       const expectedInvoiceState: Invoice[] = [new InvoiceBuilder().build()];
       const expectedResidentState: Resident[] = [new ResidentBuilder().build()];
@@ -174,8 +174,8 @@ describe('PersistenceUtils', () => {
 
     test('should export states', () => {
       // Arrange
-      const expectedIncidentalsState: Incidentals[] = [
-        new IncidentalsBuilder().build(),
+      const expectedIncidentalsState: OngoingIncidentals[] = [
+        new OngoingIncidentalsBuilder().build(),
       ];
       const expectedInvoiceState: Invoice[] = [new InvoiceBuilder().build()];
       const expectedResidentState: Resident[] = [new ResidentBuilder().build()];

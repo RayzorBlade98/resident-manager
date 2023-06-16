@@ -5,25 +5,23 @@ import { range } from 'lodash';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import invoiceGenerationState, {
-  selectedInvoiceIncidentalsState,
-} from '../states/invoice_generation_view_state';
+import invoiceGenerationState from '../states/invoice_generation_view_state';
 import * as InvoiceGenerationStateModule from '../states/invoice_generation_view_state';
-import IncidentalsSelection from './IncidentalsSelection';
+import OngoingIncidentalsSelection from './OngoingIncidentalsSelection';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
-import IncidentalsBuilder from '_/test/builders/incidentals.builder';
+import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 
-describe('IncidentalsSelection', () => {
+describe('OngoingIncidentalsSelection', () => {
   const addSelectedIncidentalsSpy = jest.spyOn(
     InvoiceGenerationStateModule,
-    'addSelectedIncidentals',
+    'addSelectedOngoingIncidentals',
   );
   const removeSelectedIncidentalsSpy = jest.spyOn(
     InvoiceGenerationStateModule,
-    'removeSelectedIncidentals',
+    'removeSelectedOngoingIncidentals',
   );
-  const incidentals = range(0, 5).map((i) => new IncidentalsBuilder()
+  const incidentals = range(0, 5).map((i) => new OngoingIncidentalsBuilder()
     .withName(`Incidentals ${i}`)
     .withId(`Incidentals ${i}`)
     .build());
@@ -32,7 +30,7 @@ describe('IncidentalsSelection', () => {
   beforeEach(() => {
     renderResult = render(
       <ReactTestWrapper>
-        <IncidentalsSelection />
+        <OngoingIncidentalsSelection />
       </ReactTestWrapper>,
     );
 
@@ -40,7 +38,7 @@ describe('IncidentalsSelection', () => {
       setRecoil(incidentalsState, incidentals);
       setRecoil(invoiceGenerationState, (state) => ({
         ...state,
-        selectedIncidentals: [],
+        selectedOngoingIncidentals: [],
       }));
     });
   });
@@ -61,7 +59,9 @@ describe('IncidentalsSelection', () => {
       expectedIncidentals.map((i) => [i]),
     );
 
-    const selectedIncidentals = getRecoil(selectedInvoiceIncidentalsState);
+    const selectedIncidentals = getRecoil(
+      invoiceGenerationState,
+    ).selectedOngoingIncidentals;
     expect(selectedIncidentals).toEqual(expectedIncidentals);
   });
 
@@ -72,7 +72,7 @@ describe('IncidentalsSelection', () => {
     act(() => {
       setRecoil(invoiceGenerationState, (state) => ({
         ...state,
-        selectedIncidentals: oldSelectedIncidentals,
+        selectedOngoingIncidentals: oldSelectedIncidentals,
       }));
     });
 
@@ -89,7 +89,9 @@ describe('IncidentalsSelection', () => {
       oldSelectedIncidentals.map((i) => [i]),
     );
 
-    const selectedIncidentals = getRecoil(selectedInvoiceIncidentalsState);
+    const selectedIncidentals = getRecoil(
+      invoiceGenerationState,
+    ).selectedOngoingIncidentals;
     expect(selectedIncidentals).toHaveLength(0);
   });
 });

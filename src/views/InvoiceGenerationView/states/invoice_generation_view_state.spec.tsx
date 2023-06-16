@@ -4,88 +4,70 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import invoiceGenerationState, {
+import {
   InvoiceGenerationInput,
-  addSelectedIncidentals,
+  addSelectedOngoingIncidentals,
   invoiceGenerationViewState,
   isCurrentStepFinished,
-  removeSelectedIncidentals,
-  selectedInvoiceIncidentalsState,
+  removeSelectedOngoingIncidentals,
 } from './invoice_generation_view_state';
 import MonthYear from '_/extensions/date/month_year.extension';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
-import IncidentalsBuilder from '_/test/builders/incidentals.builder';
+import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 
 describe('invoiceGenerationViewState', () => {
   beforeEach(() => {
     render(<ReactTestWrapper />);
   });
 
-  describe('selectedInvoiceIncidentalsState', () => {
-    test('Should select right values', () => {
-      // Arrange
-      const expectedState = [
-        new IncidentalsBuilder().build(),
-        new IncidentalsBuilder().build(),
-        new IncidentalsBuilder().build(),
-      ];
-      act(() => {
-        setRecoil(invoiceGenerationState, (state) => ({
-          ...state,
-          selectedIncidentals: expectedState,
-        }));
-      });
-
-      // Act
-      const selectedState = getRecoil(selectedInvoiceIncidentalsState);
-
-      // Assert
-      expect(selectedState).toEqual(expectedState);
-    });
-  });
-
-  describe('addSelectedIncidentals', () => {
+  describe('addSelectedOngoingIncidentals', () => {
     test('Should add incidentals to state', () => {
       // Arrange
-      const newIncidentals1 = new IncidentalsBuilder().build();
-      const newIncidentals2 = new IncidentalsBuilder().build();
+      const newIncidentals1 = new OngoingIncidentalsBuilder().build();
+      const newIncidentals2 = new OngoingIncidentalsBuilder().build();
       const expectedState = [
-        ...getRecoil(selectedInvoiceIncidentalsState),
+        ...getRecoil(invoiceGenerationViewState).selectedOngoingIncidentals,
         newIncidentals1,
         newIncidentals2,
       ];
 
       // Act
       act(() => {
-        addSelectedIncidentals(newIncidentals1);
-        addSelectedIncidentals(newIncidentals2);
+        addSelectedOngoingIncidentals(newIncidentals1);
+        addSelectedOngoingIncidentals(newIncidentals2);
       });
 
       // Assert
-      const newState = getRecoil(selectedInvoiceIncidentalsState);
+      const newState = getRecoil(
+        invoiceGenerationViewState,
+      ).selectedOngoingIncidentals;
       expect(newState).toEqual(expectedState);
     });
   });
 
-  describe('removeSelectedIncidentals', () => {
+  describe('removeSelectedOngoingIncidentals', () => {
     test('Should remove incidentals from state', () => {
       // Arrange
-      const newIncidentals1 = new IncidentalsBuilder().build();
-      const newIncidentals2 = new IncidentalsBuilder().build();
-      const expectedState = getRecoil(selectedInvoiceIncidentalsState);
+      const newIncidentals1 = new OngoingIncidentalsBuilder().build();
+      const newIncidentals2 = new OngoingIncidentalsBuilder().build();
+      const expectedState = getRecoil(
+        invoiceGenerationViewState,
+      ).selectedOngoingIncidentals;
       act(() => {
-        addSelectedIncidentals(newIncidentals1);
-        addSelectedIncidentals(newIncidentals2);
+        addSelectedOngoingIncidentals(newIncidentals1);
+        addSelectedOngoingIncidentals(newIncidentals2);
       });
 
       // Act
       act(() => {
-        removeSelectedIncidentals(newIncidentals1);
-        removeSelectedIncidentals(newIncidentals2);
+        removeSelectedOngoingIncidentals(newIncidentals1);
+        removeSelectedOngoingIncidentals(newIncidentals2);
       });
 
       // Assert
-      const newState = getRecoil(selectedInvoiceIncidentalsState);
+      const newState = getRecoil(
+        invoiceGenerationViewState,
+      ).selectedOngoingIncidentals;
       expect(newState).toEqual(expectedState);
     });
   });

@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
-import { DeductionType } from '../../../models/incidentals/incidentals';
-import { ValidationConstraint } from '../../../utils/validation/constraints';
+import { DeductionType } from '../../../../models/incidentals/ongoing_incidentals';
+import { ValidationConstraint } from '../../../../utils/validation/constraints';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 import {
   CompleteFormValidationState,
@@ -11,7 +11,7 @@ import Validator from '_/utils/validation/validator';
 /**
  * All values that can be submitted in the form
  */
-export interface CreateIncidentalsInput {
+export interface CreateOngoingIncidentalsInput {
   /**
    * Name of the new incidentals
    */
@@ -33,7 +33,7 @@ export interface CreateIncidentalsInput {
   invoiceInterval: number | undefined;
 }
 
-interface CreateIncidentalsState {
+interface CreateOngoingIncidentalsState {
   /**
    * Whether to show the `CreateIncidentalsModal`
    */
@@ -43,10 +43,13 @@ interface CreateIncidentalsState {
 /**
  * State for the incidentals creation
  */
-const createIncidentalsState = atom<
-CompleteFormValidationState<CreateIncidentalsState, CreateIncidentalsInput>
+const createOngoingIncidentalsState = atom<
+CompleteFormValidationState<
+CreateOngoingIncidentalsState,
+CreateOngoingIncidentalsInput
+>
 >({
-  key: 'createIncidentalsState',
+  key: 'createOngoingIncidentalsState',
   default: {
     showModal: false,
     formValidation: {
@@ -57,7 +60,7 @@ CompleteFormValidationState<CreateIncidentalsState, CreateIncidentalsInput>
         invoiceInterval: undefined,
       },
       formErrors: {},
-      formValidator: new Validator<CreateIncidentalsInput>({
+      formValidator: new Validator<CreateOngoingIncidentalsInput>({
         name: ValidationConstraint.NoEmptyString,
         currentPrice: ValidationConstraint.Currency,
         invoiceInterval: ValidationConstraint.Defined,
@@ -70,9 +73,9 @@ CompleteFormValidationState<CreateIncidentalsState, CreateIncidentalsInput>
  * Selector for the incidentals creation form validation
  */
 // eslint-disable-next-line max-len
-export const createIncidentalsFormValidationSelector = createFormValidationStateSelector<
-CreateIncidentalsState,
-CreateIncidentalsInput
->(createIncidentalsState);
+export const createOngoingIncidentalsFormValidationSelector = createFormValidationStateSelector<
+CreateOngoingIncidentalsState,
+CreateOngoingIncidentalsInput
+>(createOngoingIncidentalsState);
 
-export default createIncidentalsState;
+export default createOngoingIncidentalsState;

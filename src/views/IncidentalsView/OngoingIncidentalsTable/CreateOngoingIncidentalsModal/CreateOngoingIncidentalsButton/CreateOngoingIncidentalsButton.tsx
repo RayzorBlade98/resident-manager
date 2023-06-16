@@ -1,10 +1,7 @@
 import React from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
-import createIncidentalsState, {
-  CreateIncidentalsInput,
-  createIncidentalsFormValidationSelector,
-} from '../../states/create_incidentals_state';
+import createOngoingIncidentalsState, { CreateOngoingIncidentalsInput, createOngoingIncidentalsFormValidationSelector } from '../../states/create_ongoing_incidentals_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
@@ -12,15 +9,17 @@ import { CurrencyInCents } from '_/utils/currency/currency.utils';
 /**
  * Button that submits the input incidentals data if they are valid
  */
-function CreateIncidentalsButton(): JSX.Element {
+function CreateOngoingIncidentalsButton(): JSX.Element {
   // eslint-disable-next-line max-len
   const formValidationState = useRecoilValue(
-    createIncidentalsFormValidationSelector,
+    createOngoingIncidentalsFormValidationSelector,
   );
-  const resetCreateResidentState = useResetRecoilState(createIncidentalsState);
+  const resetCreateIncidentalsState = useResetRecoilState(
+    createOngoingIncidentalsState,
+  );
 
   const onSuccess = (): void => {
-    IncidentalsStateManager.addIncidentals({
+    IncidentalsStateManager.addOngoingIncidentals({
       id: uuid(),
       name: formValidationState.formInput.name,
       currentPrice: formValidationState.formInput
@@ -28,16 +27,16 @@ function CreateIncidentalsButton(): JSX.Element {
       deductionType: formValidationState.formInput.deductionType,
       invoiceInterval: formValidationState.formInput.invoiceInterval as number,
     });
-    resetCreateResidentState();
+    resetCreateIncidentalsState();
   };
 
   return (
-    <FormSubmitButton<CreateIncidentalsInput>
+    <FormSubmitButton<CreateOngoingIncidentalsInput>
       buttonText="Erstellen"
-      formState={createIncidentalsFormValidationSelector}
+      formState={createOngoingIncidentalsFormValidationSelector}
       onSuccess={onSuccess}
     />
   );
 }
 
-export default CreateIncidentalsButton;
+export default CreateOngoingIncidentalsButton;

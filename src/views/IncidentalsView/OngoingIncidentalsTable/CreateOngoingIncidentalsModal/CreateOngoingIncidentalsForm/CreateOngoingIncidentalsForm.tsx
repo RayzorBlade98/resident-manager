@@ -8,25 +8,25 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { DeductionType } from '../../../../models/incidentals/incidentals';
-import {
-  CreateIncidentalsInput,
-  createIncidentalsFormValidationSelector,
-} from '../../states/create_incidentals_state';
+import { DeductionType } from '../../../../../models/incidentals/ongoing_incidentals';
+import { CreateOngoingIncidentalsInput, createOngoingIncidentalsFormValidationSelector } from '../../states/create_ongoing_incidentals_state';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 
 /**
- * Form to submit new incidentals
+ * Form to submit new ongoing incidentals
  */
-function CreateIncidentalsForm(): JSX.Element {
+function CreateOngoingIncidentalsForm(): JSX.Element {
   const [formValidationState, setFormValidationState] = useRecoilState(
-    createIncidentalsFormValidationSelector,
+    createOngoingIncidentalsFormValidationSelector,
   );
   const formInput = formValidationState.formInput;
   const errors = formValidationState.formErrors;
 
-  function onChange<T>(field: keyof CreateIncidentalsInput, value: T): void {
+  function onChange<T>(
+    field: keyof CreateOngoingIncidentalsInput,
+    value: T,
+  ): void {
     setFormValidationState((state) => ({
       ...state,
       formInput: { ...state.formInput, [field]: value },
@@ -105,4 +105,4 @@ function CreateIncidentalsForm(): JSX.Element {
   );
 }
 
-export default CreateIncidentalsForm;
+export default CreateOngoingIncidentalsForm;

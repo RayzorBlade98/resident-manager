@@ -3,15 +3,15 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, resetRecoil } from 'recoil-nexus';
-import { DeductionType } from '../../../../models/incidentals/incidentals';
-import { convertCurrencyEurosToCents } from '../../../../utils/currency/currency.utils';
-import createIncidentalsState, {
-  createIncidentalsFormValidationSelector,
-} from '../../states/create_incidentals_state';
-import CreateIncidentalsForm from './CreateIncidentalsForm';
+import { DeductionType } from '../../../../../models/incidentals/ongoing_incidentals';
+import { convertCurrencyEurosToCents } from '../../../../../utils/currency/currency.utils';
+import createOngoingIncidentalsState, {
+  createOngoingIncidentalsFormValidationSelector,
+} from '../../states/create_ongoing_incidentals_state';
+import CreateOngoingIncidentalsForm from './CreateOngoingIncidentalsForm';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
-describe('CreateIncidentalsForm', () => {
+describe('CreateOngoingIncidentalsForm', () => {
   let renderResult: RenderResult;
 
   function inputToForm(
@@ -42,12 +42,12 @@ describe('CreateIncidentalsForm', () => {
   beforeEach(() => {
     renderResult = render(
       <ReactTestWrapper>
-        <CreateIncidentalsForm />
+        <CreateOngoingIncidentalsForm />
       </ReactTestWrapper>,
     );
 
     act(() => {
-      resetRecoil(createIncidentalsState);
+      resetRecoil(createOngoingIncidentalsState);
     });
   });
 
@@ -63,7 +63,7 @@ describe('CreateIncidentalsForm', () => {
 
     // Assert
     const formInput = getRecoil(
-      createIncidentalsFormValidationSelector,
+      createOngoingIncidentalsFormValidationSelector,
     ).formInput;
     expect(formInput).toEqual({
       name,

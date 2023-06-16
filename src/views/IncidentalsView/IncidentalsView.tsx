@@ -1,13 +1,9 @@
 import React from 'react';
-import CreateIncidentalsModal from './CreateIncidentalsModal/CreateIncidentalsModal';
-import IncidentalsTable from '_/views/IncidentalsView/IncidentalsTable/IncidentalsTable';
+import OngoingIncidentalsTable from '_/views/IncidentalsView/OngoingIncidentalsTable/OngoingIncidentalsTable';
 
 function IncidentalsView(): JSX.Element {
   return (
-    <>
-      <CreateIncidentalsModal />
-      <IncidentalsTable />
-    </>
+    <OngoingIncidentalsTable />
   );
 }
 

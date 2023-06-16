@@ -3,34 +3,37 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, resetRecoil, setRecoil } from 'recoil-nexus';
-import createIncidentalsState from '../states/create_incidentals_state';
-import IncidentalsTable from './IncidentalsTable';
+import OngoingIncidentalsTable from './OngoingIncidentalsTable';
+import createOngoingIncidentalsState from './states/create_ongoing_incidentals_state';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
-import IncidentalsBuilder from '_/test/builders/incidentals.builder';
+import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 
-describe('IncidentalsTable', () => {
+describe('OngoingIncidentalsTable', () => {
   let renderResult: RenderResult;
 
   beforeAll(() => {
     renderResult = render(
       <ReactTestWrapper>
-        <IncidentalsTable />
+        <OngoingIncidentalsTable />
       </ReactTestWrapper>,
     );
 
     act(() => {
       setRecoil(incidentalsState, [
-        new IncidentalsBuilder().withId('id1').withInvoiceInterval(1).build(),
-        new IncidentalsBuilder().withId('id2').build(),
-        new IncidentalsBuilder().withId('id3').build(),
+        new OngoingIncidentalsBuilder()
+          .withId('id1')
+          .withInvoiceInterval(1)
+          .build(),
+        new OngoingIncidentalsBuilder().withId('id2').build(),
+        new OngoingIncidentalsBuilder().withId('id3').build(),
       ]);
     });
   });
 
   afterEach(() => {
     act(() => {
-      resetRecoil(createIncidentalsState);
+      resetRecoil(createOngoingIncidentalsState);
     });
   });
 
@@ -40,7 +43,7 @@ describe('IncidentalsTable', () => {
     fireEvent.click(button);
 
     // Assert
-    const showModal = getRecoil(createIncidentalsState).showModal;
+    const showModal = getRecoil(createOngoingIncidentalsState).showModal;
     expect(showModal).toBe(true);
   });
 });

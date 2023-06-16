@@ -10,8 +10,8 @@ import incidentalsState from '_/states/incidentals/incidentals.state';
 import invoiceState from '_/states/invoice/invoice.state';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
-import IncidentalsBuilder from '_/test/builders/incidentals.builder';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
+import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('SaveStateManager', () => {
@@ -47,7 +47,7 @@ describe('SaveStateManager', () => {
     // Arrange
     const updates = [
       () => {
-        setRecoil(incidentalsState, [new IncidentalsBuilder().build()]);
+        setRecoil(incidentalsState, [new OngoingIncidentalsBuilder().build()]);
       },
       () => {
         setRecoil(invoiceState, [new InvoiceBuilder().build()]);

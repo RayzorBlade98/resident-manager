@@ -4,15 +4,15 @@ import {
 import React from 'react';
 import * as RecoilModule from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import { DeductionType } from '../../../../models/incidentals/incidentals';
-import createIncidentalsState, {
-  createIncidentalsFormValidationSelector,
-} from '../../states/create_incidentals_state';
-import CreateIncidentalsButton from './CreateIncidentalsButton';
+import { DeductionType } from '../../../../../models/incidentals/ongoing_incidentals';
+import createOngoingIncidentalsState, {
+  createOngoingIncidentalsFormValidationSelector,
+} from '../../states/create_ongoing_incidentals_state';
+import CreateOngoingIncidentalsButton from './CreateOngoingIncidentalsButton';
 import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
-describe('CreateIncidentalsButton', () => {
+describe('CreateOngoingIncidentalsButton', () => {
   const validInputValues = {
     name: 'Testnebenkosten',
     currentPrice: 100,
@@ -26,7 +26,7 @@ describe('CreateIncidentalsButton', () => {
 
   function validInput(): void {
     act(() => {
-      setRecoil(createIncidentalsState, (state) => ({
+      setRecoil(createOngoingIncidentalsState, (state) => ({
         ...state,
         formValidation: {
           ...state.formValidation,
@@ -38,7 +38,7 @@ describe('CreateIncidentalsButton', () => {
 
   function invalidInput(): void {
     act(() => {
-      setRecoil(createIncidentalsState, (state) => ({
+      setRecoil(createOngoingIncidentalsState, (state) => ({
         ...state,
         formValidation: {
           ...state.formValidation,
@@ -58,7 +58,7 @@ describe('CreateIncidentalsButton', () => {
 
   beforeEach(() => {
     addIncidentalsSpy = jest
-      .spyOn(IncidentalsStateManager, 'addIncidentals')
+      .spyOn(IncidentalsStateManager, 'addOngoingIncidentals')
       .mockReturnValue(undefined);
 
     resetCreateIncidentalsStateSpy = jest.fn();
@@ -68,7 +68,7 @@ describe('CreateIncidentalsButton', () => {
 
     renderResult = render(
       <ReactTestWrapper>
-        <CreateIncidentalsButton />
+        <CreateOngoingIncidentalsButton />
       </ReactTestWrapper>,
     );
   });
@@ -121,8 +121,9 @@ describe('CreateIncidentalsButton', () => {
     pressButton();
 
     // Assert
-    const errorMessage = getRecoil(createIncidentalsFormValidationSelector)
-      .formErrors.name;
+    const errorMessage = getRecoil(
+      createOngoingIncidentalsFormValidationSelector,
+    ).formErrors.name;
     expect(errorMessage).toBeDefined();
   });
 });
