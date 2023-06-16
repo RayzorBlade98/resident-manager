@@ -38,6 +38,12 @@ function createDummyData(): void {
       currentCost: 10000,
       invoiceInterval: 12,
     });
+    IncidentalsStateManager.addOneTimeIncidentals({
+      id: uuid(),
+      name: 'Nebenkosten',
+      cost: 10000,
+      billingDate: new Date().toUTC(),
+    });
   }
 
   // Dummy invoices

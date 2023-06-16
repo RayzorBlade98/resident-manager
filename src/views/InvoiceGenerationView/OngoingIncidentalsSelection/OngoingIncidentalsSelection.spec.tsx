@@ -35,7 +35,10 @@ describe('OngoingIncidentalsSelection', () => {
     );
 
     act(() => {
-      setRecoil(incidentalsState, incidentals);
+      setRecoil(incidentalsState, (state) => ({
+        ...state,
+        ongoingIncidentals: incidentals,
+      }));
       setRecoil(invoiceGenerationState, (state) => ({
         ...state,
         selectedOngoingIncidentals: [],

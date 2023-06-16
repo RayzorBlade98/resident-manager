@@ -4,7 +4,9 @@ import { act, render } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, setRecoil } from 'recoil-nexus';
 import * as recoil_nexus from 'recoil-nexus';
-import incidentalsState from '../../states/incidentals/incidentals.state';
+import incidentalsState, {
+  IncidentalsState,
+} from '../../states/incidentals/incidentals.state';
 import RentInformationUtils from '../rent/rent.utils';
 import PersistenceUtils from './persistence.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -15,6 +17,7 @@ import invoiceState from '_/states/invoice/invoice.state';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
+import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
@@ -174,9 +177,10 @@ describe('PersistenceUtils', () => {
 
     test('should export states', () => {
       // Arrange
-      const expectedIncidentalsState: OngoingIncidentals[] = [
-        new OngoingIncidentalsBuilder().build(),
-      ];
+      const expectedIncidentalsState: IncidentalsState = {
+        ongoingIncidentals: [new OngoingIncidentalsBuilder().build()],
+        oneTimeIncidentals: [new OneTimeIncidentalsBuilder().build()],
+      };
       const expectedInvoiceState: Invoice[] = [new InvoiceBuilder().build()];
       const expectedResidentState: Resident[] = [new ResidentBuilder().build()];
 

@@ -12,6 +12,7 @@ import App from '_/renderer/App';
 import currentViewState, { View } from '_/states/current_view.state';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 
 describe('InvoiceGenerationView', () => {
@@ -19,10 +20,16 @@ describe('InvoiceGenerationView', () => {
     viewport: { width: CONTENT_WIDTH, height: CONTENT_HEIGHT },
     screenshot: { fullPage: true },
   };
-  const incidentals = range(0, 10).map((i) => new OngoingIncidentalsBuilder()
-    .withId(i.toString())
-    .withName(`Incidentals ${i}`)
-    .build());
+  const incidentals = {
+    ongoingIncidentals: range(0, 10).map((i) => new OngoingIncidentalsBuilder()
+      .withId(i.toString())
+      .withName(`Incidentals ${i}`)
+      .build()),
+    oneTimeIncidentals: range(0, 10).map((i) => new OneTimeIncidentalsBuilder()
+      .withId(i.toString())
+      .withName(`Incidentals ${i}`)
+      .build()),
+  };
   let renderResult: RenderResult;
 
   function inputStep1(): void {

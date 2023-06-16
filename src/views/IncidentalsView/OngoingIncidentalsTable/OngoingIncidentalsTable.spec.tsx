@@ -20,14 +20,17 @@ describe('OngoingIncidentalsTable', () => {
     );
 
     act(() => {
-      setRecoil(incidentalsState, [
-        new OngoingIncidentalsBuilder()
-          .withId('id1')
-          .withInvoiceInterval(1)
-          .build(),
-        new OngoingIncidentalsBuilder().withId('id2').build(),
-        new OngoingIncidentalsBuilder().withId('id3').build(),
-      ]);
+      setRecoil(incidentalsState, (state) => ({
+        ...state,
+        ongoingIncidentals: [
+          new OngoingIncidentalsBuilder()
+            .withId('id1')
+            .withInvoiceInterval(1)
+            .build(),
+          new OngoingIncidentalsBuilder().withId('id2').build(),
+          new OngoingIncidentalsBuilder().withId('id3').build(),
+        ],
+      }));
     });
   });
 

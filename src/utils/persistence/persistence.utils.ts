@@ -9,8 +9,8 @@ import residentState, {
   ResidentState,
 } from '../../states/resident/resident.state';
 import RentInformationUtils from '../rent/rent.utils';
+import IncidentalsParser from './parsers/incidentals/incidentals.parser';
 import InvoiceParser from './parsers/invoice/invoice.parser';
-import StandardParser from './parsers/parser';
 import ResidentParser from './parsers/resident/resident.parser';
 import { RentInformation } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
@@ -43,21 +43,30 @@ abstract class PersistenceUtils {
     // Incidentals
     if (fs.existsSync(this.INCIDENTALS_FILE)) {
       const json = fs.readFileSync(this.INCIDENTALS_FILE).toString();
-      const loadedIncidentals = JSON.parse(json, StandardParser.reviver) as IncidentalsState; // eslint-disable-line max-len
+      const loadedIncidentals = JSON.parse(
+        json,
+        IncidentalsParser.reviver,
+      ) as IncidentalsState; // eslint-disable-line max-len
       setRecoil(incidentalsState, loadedIncidentals);
     }
 
     // Invoices
     if (fs.existsSync(this.INVOICES_FILE)) {
       const json = fs.readFileSync(this.INVOICES_FILE).toString();
-      const loadedInvoices = JSON.parse(json, InvoiceParser.reviver) as InvoiceState; // eslint-disable-line max-len
+      const loadedInvoices = JSON.parse(
+        json,
+        InvoiceParser.reviver,
+      ) as InvoiceState; // eslint-disable-line max-len
       setRecoil(invoiceState, loadedInvoices);
     }
 
     // Residents
     if (fs.existsSync(this.RESIDENTS_FILE)) {
       const json = fs.readFileSync(this.RESIDENTS_FILE).toString();
-      const loadedResidents = JSON.parse(json, ResidentParser.reviver) as ResidentState; // eslint-disable-line max-len
+      const loadedResidents = JSON.parse(
+        json,
+        ResidentParser.reviver,
+      ) as ResidentState; // eslint-disable-line max-len
 
       // Add missing months to the rent information
       loadedResidents
