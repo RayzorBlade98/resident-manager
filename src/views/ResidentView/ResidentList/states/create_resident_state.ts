@@ -41,6 +41,11 @@ export interface CreateResidentInput {
    * Current water meter count
    */
   waterMeter: number | undefined;
+
+  /**
+   * Number of residents living in the appartment
+   */
+  numberOfResidents: number | undefined;
 }
 
 interface CreateResidentState {
@@ -67,6 +72,7 @@ CompleteFormValidationState<CreateResidentState, CreateResidentInput>
         incidentals: undefined,
         contractStart: new MonthYear(),
         waterMeter: undefined,
+        numberOfResidents: undefined,
       },
       formErrors: {},
       formValidator: new Validator<CreateResidentInput>({
@@ -76,6 +82,7 @@ CompleteFormValidationState<CreateResidentState, CreateResidentInput>
         incidentals: ValidationConstraint.Currency,
         contractStart: ValidationConstraint.Defined,
         waterMeter: ValidationConstraint.Defined,
+        numberOfResidents: ValidationConstraint.Defined,
       }),
     },
   },

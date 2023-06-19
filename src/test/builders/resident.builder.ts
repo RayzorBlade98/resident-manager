@@ -12,6 +12,7 @@ class ResidentBuilder {
       id: uuid(),
       firstName: 'Max',
       lastName: 'Mustermann',
+      numberOfResidents: 2,
       rentInformation: [],
       invoiceStart: new MonthYear(2, 2023),
       waterMeterReadings: [],

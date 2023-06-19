@@ -32,6 +32,8 @@ function CreateResidentButton(): JSX.Element {
         formValidationState.formInput.rent as CurrencyInCents,
         formValidationState.formInput.incidentals as CurrencyInCents,
       ),
+      numberOfResidents: formValidationState.formInput
+        .numberOfResidents as number,
       invoiceStart: formValidationState.formInput.contractStart as MonthYear,
       waterMeterReadings: [
         {

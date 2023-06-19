@@ -22,6 +22,11 @@ export interface Resident {
   lastName: string;
 
   /**
+   * Number of residents living in the appartment
+   */
+  numberOfResidents: number
+
+  /**
    * Information about the rent payments
    */
   rentInformation: RentInformation[];

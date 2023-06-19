@@ -76,6 +76,19 @@ function CreateResidentForm(): JSX.Element {
       <Grid item xs={6}>
         <NumberTextField
           required
+          id="numberOfResidents"
+          label="Anzahl der Mieter"
+          min={1}
+          value={formInput.numberOfResidents}
+          onChange={(residents) => {
+            onChange<number | undefined>('numberOfResidents', residents);
+          }}
+          errorMessage={errors.numberOfResidents}
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <NumberTextField
+          required
           id="waterMeter"
           label="Wasserzählerstand"
           min={1}

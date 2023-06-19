@@ -20,6 +20,7 @@ describe('CreateResidentButton', () => {
     incidentals: 100,
     contractStart: new MonthYear(3, 2023),
     waterMeter: 1234,
+    numberOfResidents: 2,
   };
 
   let renderResult: RenderResult;
@@ -116,6 +117,7 @@ describe('CreateResidentButton', () => {
             waterMeterCount: validInputValues.waterMeter,
           },
         ],
+        numberOfResidents: validInputValues.numberOfResidents,
       }),
     );
   });

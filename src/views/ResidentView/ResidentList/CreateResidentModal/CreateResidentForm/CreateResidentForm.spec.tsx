@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 import {
   RenderResult, act, fireEvent, render,
 } from '@testing-library/react';
@@ -21,31 +23,19 @@ describe('CreateResidentForm', () => {
     incidentals: number,
     contractStart: string,
     waterMeter: number,
+    numberOfResidents: number,
   ) {
+    const inputs = [
+      firstName,
+      lastName,
+      rent.toString(),
+      incidentals.toString(),
+      numberOfResidents,
+      waterMeter,
+      contractStart,
+    ];
     const inputFields = renderResult.container.querySelectorAll('input');
-    fireEvent.change(inputFields.item(0), {
-      target: { value: firstName },
-    });
-
-    fireEvent.change(inputFields.item(1), {
-      target: { value: lastName },
-    });
-
-    fireEvent.change(inputFields.item(2), {
-      target: { value: rent.toString() },
-    });
-
-    fireEvent.change(inputFields.item(3), {
-      target: { value: incidentals.toString() },
-    });
-
-    fireEvent.change(inputFields.item(4), {
-      target: { value: waterMeter },
-    });
-
-    fireEvent.change(inputFields.item(5), {
-      target: { value: contractStart },
-    });
+    inputs.forEach((input, i) => fireEvent.change(inputFields.item(i), { target: { value: input } }));
   }
 
   beforeAll(() => {
@@ -82,6 +72,7 @@ describe('CreateResidentForm', () => {
     const incidentals = 100;
     const contractStart = '06.2023';
     const waterMeter = 1234;
+    const numberOfResidents = 3;
 
     // Act
     inputToForm(
@@ -91,6 +82,7 @@ describe('CreateResidentForm', () => {
       incidentals,
       contractStart,
       waterMeter,
+      numberOfResidents,
     );
 
     // Assert
@@ -102,6 +94,7 @@ describe('CreateResidentForm', () => {
       incidentals: convertCurrencyEurosToCents(incidentals),
       contractStart: new MonthYear(5, 2023),
       waterMeter,
+      numberOfResidents,
     });
   });
 });

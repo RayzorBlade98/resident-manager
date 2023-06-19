@@ -35,8 +35,6 @@ describe('CreateResidentModal', () => {
     });
 
     // Assert
-    expect(
-      await generateImage({ viewport: { width: 650, height: 400 } }),
-    ).toMatchImageSnapshot();
+    expect(await generateImage()).toMatchImageSnapshot();
   });
 });

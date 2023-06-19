@@ -15,6 +15,7 @@ function createDummyData(): void {
       id: uuid(),
       firstName: 'Max',
       lastName: 'Mustermann',
+      numberOfResidents: 2,
       rentInformation: [
         {
           dueDate: new MonthYear(),
