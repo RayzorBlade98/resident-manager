@@ -6,7 +6,7 @@ import createOneTimeIncidentalsState from '../states/create_one_time_incidentals
 import CreateOneTimeIncidentalsModal from './CreateOneTimeIncidentalsModal';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
-describe('CreateOngoingIncidentalsModal', () => {
+describe('CreateOneTimeIncidentalsModal', () => {
   test('should match image snapshot', async () => {
     // Arrange
     render(
@@ -18,6 +18,13 @@ describe('CreateOngoingIncidentalsModal', () => {
       setRecoil(createOneTimeIncidentalsState, (state) => ({
         ...state,
         showModal: true,
+        formValidation: {
+          ...state.formValidation,
+          formInput: {
+            ...state.formValidation.formInput,
+            billingDate: new Date(2023, 5, 16),
+          },
+        },
       }));
     });
 
