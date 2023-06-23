@@ -1,9 +1,22 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/no-empty-interface, react-hooks/exhaustive-deps */
 
-import React from 'react';
-import { RecoilRoot } from 'recoil';
+import React, { useEffect } from 'react';
+import { RecoilRoot, useSetRecoilState } from 'recoil';
 import RecoilNexus from 'recoil-nexus';
+import PropertyBuilder from './builders/property.builder';
 import StandardLocalizationProvider from '_/components/functional/StandardLocalizationProvider/StandardLocalizationProvider';
+import { propertyState } from '_/states/property/property.state';
+
+/**
+ * Initialize property to enable standard app flow
+ */
+function PropertyInitializer(): null {
+  const setProperty = useSetRecoilState(propertyState);
+  useEffect(() => {
+    setProperty(new PropertyBuilder().build());
+  }, []);
+  return null;
+}
 
 interface ReactTestWrapperProps {}
 
@@ -16,6 +29,7 @@ function ReactTestWrapper(
   return (
     <RecoilRoot>
       <RecoilNexus />
+      <PropertyInitializer />
       <StandardLocalizationProvider>
         {props.children}
       </StandardLocalizationProvider>

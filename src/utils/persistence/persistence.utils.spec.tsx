@@ -14,11 +14,13 @@ import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 import { Invoice } from '_/models/invoice/invoice';
 import { Resident } from '_/models/resident/resident';
 import invoiceState from '_/states/invoice/invoice.state';
+import { propertyState } from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
+import PropertyBuilder from '_/test/builders/property.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
@@ -55,6 +57,7 @@ describe('PersistenceUtils', () => {
       ];
       const expectedInvoiceState: Invoice[] = [new InvoiceBuilder().build()];
       const expectedResidentState: Resident[] = [new ResidentBuilder().build()];
+      const expectedPropertyState = new PropertyBuilder().build();
 
       existsSyncSpy.mockReturnValue(true);
       readFileSyncSpy
@@ -69,6 +72,9 @@ describe('PersistenceUtils', () => {
         )
         .mockReturnValueOnce(
           Buffer.from(JSON.stringify(expectedResidentState, null, 4), 'utf-8'),
+        )
+        .mockReturnValueOnce(
+          Buffer.from(JSON.stringify(expectedPropertyState, null, 4), 'utf-8'),
         );
 
       // Act
@@ -77,16 +83,18 @@ describe('PersistenceUtils', () => {
       });
 
       // Assert
-      expect(existsSyncSpy).toHaveBeenCalledTimes(3);
-      expect(readFileSyncSpy).toHaveBeenCalledTimes(3);
-      expect(setRecoilSpy).toHaveBeenCalledTimes(3);
+      expect(existsSyncSpy).toHaveBeenCalledTimes(4);
+      expect(readFileSyncSpy).toHaveBeenCalledTimes(4);
+      expect(setRecoilSpy).toHaveBeenCalledTimes(4);
 
       const newIncidentalsState = getRecoil(incidentalsState);
       const newInvoiceState = getRecoil(invoiceState);
       const newResidentState = getRecoil(residentState);
+      const newPropertyState = getRecoil(propertyState);
       expect(newIncidentalsState).toEqual(expectedIncidentalsState);
       expect(newInvoiceState).toEqual(expectedInvoiceState);
       expect(newResidentState).toEqual(expectedResidentState);
+      expect(newPropertyState).toEqual(expectedPropertyState);
     });
 
     test("shouldn't import save state if files dont exist", () => {
@@ -102,7 +110,7 @@ describe('PersistenceUtils', () => {
       });
 
       // Assert
-      expect(existsSyncSpy).toHaveBeenCalledTimes(3);
+      expect(existsSyncSpy).toHaveBeenCalledTimes(4);
       expect(readFileSyncSpy).toHaveBeenCalledTimes(0);
       expect(setRecoilSpy).toHaveBeenCalledTimes(0);
 
@@ -183,11 +191,13 @@ describe('PersistenceUtils', () => {
       };
       const expectedInvoiceState: Invoice[] = [new InvoiceBuilder().build()];
       const expectedResidentState: Resident[] = [new ResidentBuilder().build()];
+      const expectedPropertyState = new PropertyBuilder().build();
 
       act(() => {
         setRecoil(incidentalsState, expectedIncidentalsState);
         setRecoil(invoiceState, expectedInvoiceState);
         setRecoil(residentState, expectedResidentState);
+        setRecoil(propertyState, expectedPropertyState);
       });
 
       // Act
@@ -206,6 +216,10 @@ describe('PersistenceUtils', () => {
         [
           PersistenceUtils.RESIDENTS_FILE,
           JSON.stringify(expectedResidentState, null, 4),
+        ],
+        [
+          PersistenceUtils.PROPERTY_FILE,
+          JSON.stringify(expectedPropertyState, null, 4),
         ],
       ]);
     });

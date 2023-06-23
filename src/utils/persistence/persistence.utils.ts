@@ -11,9 +11,12 @@ import residentState, {
 import RentInformationUtils from '../rent/rent.utils';
 import IncidentalsParser from './parsers/incidentals/incidentals.parser';
 import InvoiceParser from './parsers/invoice/invoice.parser';
+import StandardParser from './parsers/parser';
 import ResidentParser from './parsers/resident/resident.parser';
+import Property from '_/models/property/property';
 import { RentInformation } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
+import { propertyState } from '_/states/property/property.state';
 
 /**
  * Class that provides functionality to handle save state persistence
@@ -34,6 +37,11 @@ abstract class PersistenceUtils {
   public static RESIDENTS_FILE = path.join(
     PersistenceUtils.OUTPUT_DIRECTORY,
     'residents.json',
+  );
+
+  public static PROPERTY_FILE = path.join(
+    PersistenceUtils.OUTPUT_DIRECTORY,
+    'property.json',
   );
 
   /**
@@ -77,6 +85,16 @@ abstract class PersistenceUtils {
 
       setRecoil(residentState, loadedResidents);
     }
+
+    // Property
+    if (fs.existsSync(this.PROPERTY_FILE)) {
+      const json = fs.readFileSync(this.PROPERTY_FILE).toString();
+      const loadedProperty = JSON.parse(
+        json,
+        StandardParser.reviver,
+      ) as Property; // eslint-disable-line max-len
+      setRecoil(propertyState, loadedProperty);
+    }
   }
 
   /**
@@ -101,6 +119,13 @@ abstract class PersistenceUtils {
     const residents = getRecoil(residentState);
     const residentsJson = JSON.stringify(residents, null, 4);
     fs.writeFileSync(this.RESIDENTS_FILE, residentsJson);
+
+    // Property
+    const property = getRecoil(propertyState);
+    if (property) {
+      const propertyJson = JSON.stringify(property, null, 4);
+      fs.writeFileSync(this.PROPERTY_FILE, propertyJson);
+    }
   }
 }
 

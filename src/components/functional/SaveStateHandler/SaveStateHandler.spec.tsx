@@ -8,11 +8,13 @@ import PersistenceUtils from '../../../utils/persistence/persistence.utils';
 import SaveStateManager from './SaveStateHandler';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import invoiceState from '_/states/invoice/invoice.state';
+import { propertyState } from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
+import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('SaveStateManager', () => {
@@ -29,7 +31,9 @@ describe('SaveStateManager', () => {
 
     render(
       <ReactTestWrapper>
-        <SaveStateManager />
+        <SaveStateManager>
+          <div>Testcontent</div>
+        </SaveStateManager>
       </ReactTestWrapper>,
     );
   });
@@ -58,6 +62,9 @@ describe('SaveStateManager', () => {
       },
       () => {
         setRecoil(residentState, [new ResidentBuilder().build()]);
+      },
+      () => {
+        setRecoil(propertyState, new PropertyBuilder().build());
       },
     ];
 

@@ -16,10 +16,11 @@ function AppWrapper(
   return (
     <RecoilRoot>
       <RecoilNexus />
-      <SaveStateManager />
-      <StandardLocalizationProvider>
-        {props.children}
-      </StandardLocalizationProvider>
+      <SaveStateManager>
+        <StandardLocalizationProvider>
+          {props.children}
+        </StandardLocalizationProvider>
+      </SaveStateManager>
     </RecoilRoot>
   );
 }
