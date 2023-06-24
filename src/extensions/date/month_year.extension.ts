@@ -55,9 +55,11 @@ class MonthYear extends Date {
   /**
    * Adds the specified number of months to the given `MonthYear` object
    * @param toAdd Number of months that should be added (can be negative)
+   * @returns this month year
    */
-  public addMonths(toAdd = 1): void {
+  public addMonths(toAdd = 1): MonthYear {
     this.setMonth(this.getMonth() + toAdd);
+    return this;
   }
 
   /**

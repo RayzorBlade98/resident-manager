@@ -1,6 +1,7 @@
 import {
   RenderResult, act, fireEvent, render,
 } from '@testing-library/react';
+import _ from 'lodash';
 import React from 'react';
 import * as RecoilModule from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
@@ -9,6 +10,7 @@ import createOngoingIncidentalsState, {
   createOngoingIncidentalsFormValidationSelector,
 } from '../../states/create_ongoing_incidentals_state';
 import CreateOngoingIncidentalsButton from './CreateOngoingIncidentalsButton';
+import MonthYear from '_/extensions/date/month_year.extension';
 import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
@@ -56,6 +58,11 @@ describe('CreateOngoingIncidentalsButton', () => {
     fireEvent.click(button);
   }
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date(2023, 5, 24));
+  });
+
   beforeEach(() => {
     addIncidentalsSpy = jest
       .spyOn(IncidentalsStateManager, 'addOngoingIncidentals')
@@ -87,7 +94,20 @@ describe('CreateOngoingIncidentalsButton', () => {
     // Assert
     expect(addIncidentalsSpy).toHaveBeenCalledTimes(1);
     expect(addIncidentalsSpy).toHaveBeenCalledWith(
-      expect.objectContaining(validInputValues),
+      expect.objectContaining(
+        _.omit(
+          {
+            ...validInputValues,
+            costs: [
+              {
+                cost: validInputValues.currentCost,
+                date: new MonthYear(5, 2022),
+              },
+            ],
+          },
+          'currentCost',
+        ),
+      ),
     );
   });
 

@@ -36,7 +36,12 @@ function createDummyData(): void {
       id: uuid(),
       name: 'Nebenkosten',
       deductionType: DeductionType.PerResident,
-      currentCost: 10000,
+      costs: [
+        {
+          cost: 10000,
+          date: new MonthYear(),
+        },
+      ],
       invoiceInterval: 12,
     });
     IncidentalsStateManager.addOneTimeIncidentals({

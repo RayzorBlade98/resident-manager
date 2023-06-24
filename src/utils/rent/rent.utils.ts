@@ -21,9 +21,8 @@ export default abstract class RentInformationUtils {
     }
 
     const firstMissingMonth = lastRentInformation.dueDate.clone();
-    firstMissingMonth.addMonths();
     const missingRentInformation = RentInformationUtils.timespan(
-      firstMissingMonth,
+      firstMissingMonth.addMonths(),
       new MonthYear(),
       lastRentInformation.rent,
       lastRentInformation.incidentals,

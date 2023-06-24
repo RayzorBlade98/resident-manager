@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access */
+
 import StandardParser from '../parser';
+import MonthYear from '_/extensions/date/month_year.extension';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 
@@ -10,12 +14,18 @@ abstract class IncidentalsParser extends StandardParser {
   public static reviver(
     this: void,
     key: string,
-    value: string,
+    value: any,
   ):
     | OneTimeIncidentals[keyof OneTimeIncidentals]
     | OngoingIncidentals[keyof OngoingIncidentals] {
     if (['paymentDate', 'billingDate'].includes(key)) {
       return new Date(value);
+    }
+    if (key === 'costs') {
+      return value.map((v: any) => ({
+        ...v,
+        date: MonthYear.fromString(v.date),
+      }));
     }
     return value;
   }

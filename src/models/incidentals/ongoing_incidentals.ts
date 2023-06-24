@@ -1,3 +1,4 @@
+import MonthYear from '_/extensions/date/month_year.extension';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
@@ -16,6 +17,21 @@ export enum DeductionType {
 }
 
 /**
+ * Cost information of the incidentals
+ */
+interface OngoingIncidentalsCost {
+  /**
+   * Cost of the incidentals
+   */
+  cost: CurrencyInCents
+
+  /**
+   * Month in which the cost first applies
+   */
+  date: MonthYear
+}
+
+/**
  * Object containing information about ongoing incidentals
  */
 export interface OngoingIncidentals {
@@ -30,9 +46,9 @@ export interface OngoingIncidentals {
   name: string;
 
   /**
-   * Current price of the incidentals
+   * History of all costs
    */
-  currentCost: CurrencyInCents;
+  costs: OngoingIncidentalsCost[]
 
   /**
    * Deduction type of the incidentals

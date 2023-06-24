@@ -3,6 +3,7 @@ import {
   DeductionType,
   OngoingIncidentals,
 } from '../../models/incidentals/ongoing_incidentals';
+import MonthYear from '_/extensions/date/month_year.extension';
 
 class OngoingIncidentalsBuilder {
   private incidentals: OngoingIncidentals;
@@ -11,7 +12,12 @@ class OngoingIncidentalsBuilder {
     this.incidentals = {
       id: uuid(),
       name: 'Test Incidentals',
-      currentCost: 10000,
+      costs: [
+        {
+          cost: 10000,
+          date: new MonthYear(5, 2023),
+        },
+      ],
       deductionType: DeductionType.PerApartment,
       invoiceInterval: 12,
     };
