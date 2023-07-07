@@ -94,4 +94,18 @@ describe('InvoiceGenerationView', () => {
     // Assert
     expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
   });
+
+  test('should match image snapshot (step 3)', async () => {
+    // Arrange
+    moveToStep(3);
+
+    // Act
+    const selectableIncidentals = renderResult.getAllByRole('listitem');
+    [2, 3, 5].forEach((i) => act(() => {
+      fireEvent.click(selectableIncidentals[i].firstChild!);
+    }));
+
+    // Assert
+    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+  });
 });

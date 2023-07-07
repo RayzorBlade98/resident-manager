@@ -3,6 +3,7 @@ import { atom } from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
 import { ValidationConstraint } from '../../../utils/validation/constraints';
 import MonthYear from '_/extensions/date/month_year.extension';
+import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 import {
   CompleteFormValidationState,
@@ -38,6 +39,11 @@ export interface InvoiceGenerationViewState {
    * List of all selected ongoing incidentals
    */
   selectedOngoingIncidentals: OngoingIncidentals[];
+
+  /**
+   * List of all selected one time incidentals
+   */
+  selectedOneTimeIncidentals: OneTimeIncidentals[];
 }
 
 /**
@@ -53,6 +59,7 @@ InvoiceGenerationInput
   default: {
     currentStep: 0,
     selectedOngoingIncidentals: [],
+    selectedOneTimeIncidentals: [],
     formValidation: {
       formInput: {
         invoiceStart: undefined,
@@ -102,6 +109,37 @@ export function removeSelectedOngoingIncidentals(
   setRecoil(invoiceGenerationViewState, (state) => ({
     ...state,
     selectedOngoingIncidentals: state.selectedOngoingIncidentals.filter(
+      (i) => i.id !== incidentals.id,
+    ),
+  }));
+}
+
+/**
+ * Adds new incidentals to the list of selected ongoing incidentals
+ * @param incidentals incidentals that should be added
+ */
+export function addSelectedOneTimeIncidentals(
+  incidentals: OneTimeIncidentals,
+): void {
+  setRecoil(invoiceGenerationViewState, (state) => ({
+    ...state,
+    selectedOneTimeIncidentals: [
+      ...state.selectedOneTimeIncidentals,
+      incidentals,
+    ],
+  }));
+}
+
+/**
+ * Removes incidentals from the list of selected ongoing incidentals
+ * @param incidentals incidentals that should be removed
+ */
+export function removeSelectedOneTimeIncidentals(
+  incidentals: OneTimeIncidentals,
+): void {
+  setRecoil(invoiceGenerationViewState, (state) => ({
+    ...state,
+    selectedOneTimeIncidentals: state.selectedOneTimeIncidentals.filter(
       (i) => i.id !== incidentals.id,
     ),
   }));

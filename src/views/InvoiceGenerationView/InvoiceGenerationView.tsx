@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import MonthSelection from './MonthSelection/MonthSelection';
+import OneTimeIncidentalsSelection from './OneTimeIncidentalsSelection/OneTimeIncidentalsSelection';
 import invoiceGenerationViewState, {
   isCurrentStepFinished,
 } from './states/invoice_generation_view_state';
@@ -30,13 +31,17 @@ function InvoiceGenerationView() {
     <Box sx={styles.view}>
       {viewState.currentStep !== STEPPER_FINISHED && (
         <GenericStepper
-          steps={['Schritt 1', 'Schritt 2', 'Schritt 3']}
+          steps={[
+            'Abrechnungszeitraum',
+            'Laufende Nebenkosten',
+            'Einmalige Nebenkosten',
+          ]}
           onStepChange={onStepChange}
           canFinishStep={isCurrentStepFinished()}
         >
           <MonthSelection />
           <OngoingIncidentalsSelection />
-          <div>Schritt 3</div>
+          <OneTimeIncidentalsSelection />
         </GenericStepper>
       )}
       {viewState.currentStep === STEPPER_FINISHED && <p>Fertig</p>}
