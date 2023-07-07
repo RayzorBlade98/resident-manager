@@ -61,6 +61,7 @@ function createDummyData(): void {
       start: startMonth.clone(),
       end: endMonth.clone(),
       residentInformation: {},
+      ongoingIncidentalsInformation: {},
     });
     startMonth.addMonths(2);
     endMonth.addMonths(2);

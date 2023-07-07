@@ -1,7 +1,10 @@
+/* eslint-disable max-len */
+
 import { v4 as uuid } from 'uuid';
 import {
   DeductionType,
   OngoingIncidentals,
+  OngoingIncidentalsCost,
 } from '../../models/incidentals/ongoing_incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';
 
@@ -33,10 +36,20 @@ class OngoingIncidentalsBuilder {
     return this;
   }
 
+  public withDeductionType(deductionType: DeductionType): OngoingIncidentalsBuilder {
+    this.incidentals.deductionType = deductionType;
+    return this;
+  }
+
   public withInvoiceInterval(
     invoiceInterval: number,
   ): OngoingIncidentalsBuilder {
     this.incidentals.invoiceInterval = invoiceInterval;
+    return this;
+  }
+
+  public withCosts(costs: OngoingIncidentalsCost[]): OngoingIncidentalsBuilder {
+    this.incidentals.costs = costs;
     return this;
   }
 

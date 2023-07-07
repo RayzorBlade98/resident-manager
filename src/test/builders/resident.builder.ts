@@ -29,6 +29,16 @@ class ResidentBuilder {
     return this;
   }
 
+  public withInvoiceStart(start: MonthYear): ResidentBuilder {
+    this.resident.invoiceStart = start;
+    return this;
+  }
+
+  public withNumberOfResidents(residents: number): ResidentBuilder {
+    this.resident.numberOfResidents = residents;
+    return this;
+  }
+
   public addRentInformation(rentInformation: RentInformation): ResidentBuilder {
     this.resident.rentInformation.push(rentInformation);
     return this;

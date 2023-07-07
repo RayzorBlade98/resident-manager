@@ -13,6 +13,7 @@ class InvoiceBuilder {
       start: InvoiceBuilder.nextStart,
       end: InvoiceBuilder.nextStart.clone(),
       residentInformation: {},
+      ongoingIncidentalsInformation: {},
     };
     InvoiceBuilder.nextStart = this.invoice.end;
   }

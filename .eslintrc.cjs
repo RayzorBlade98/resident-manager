@@ -32,6 +32,13 @@ const baseConfig = {
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/restrict-template-expressions': 'off',
     'no-extend-native': 'off',
+    'no-restricted-syntax': [
+      'error',
+      'ForInStatement',
+      'LabeledStatement',
+      'WithStatement',
+    ],
+    'no-param-reassign': 'off',
   },
 };
 

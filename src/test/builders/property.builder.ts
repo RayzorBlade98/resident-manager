@@ -9,6 +9,11 @@ class PropertyBuilder {
     };
   }
 
+  public withNumberOfApartments(apartments: number): PropertyBuilder {
+    this.property.numberOfApartments = apartments;
+    return this;
+  }
+
   public build(): Property {
     return this.property;
   }

@@ -19,7 +19,7 @@ export enum DeductionType {
 /**
  * Cost information of the incidentals
  */
-interface OngoingIncidentalsCost {
+export interface OngoingIncidentalsCost {
   /**
    * Cost of the incidentals
    */
