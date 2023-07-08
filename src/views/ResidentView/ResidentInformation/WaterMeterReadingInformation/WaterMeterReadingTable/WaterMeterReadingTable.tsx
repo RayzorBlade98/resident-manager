@@ -7,17 +7,35 @@ import {
   TableRow,
 } from '@mui/material';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import addWaterMeterReadingState from '_/components/shared/AddWaterMeterReadingModal/states/add_water_reading_state';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 import '_/extensions/date/date.extension';
+
+const styles = {
+  addWaterMeterReadingCell: {
+    ':hover': {
+      cursor: 'pointer',
+    },
+  },
+};
 
 /**
  * Table that displays all water reading informations
  */
-function WaterReadingTable(): JSX.Element {
-  const waterReadings = useRecoilValue(
-    residentViewSelectedResidentState,
-  )?.waterMeterReadings;
+function WaterMeterReadingTable(): JSX.Element {
+  const resident = useRecoilValue(residentViewSelectedResidentState);
+  const setAddWaterMeterReadingStateState = useSetRecoilState(
+    addWaterMeterReadingState,
+  );
+
+  const onAddWaterMeterReading = () => {
+    setAddWaterMeterReadingStateState((state) => ({
+      ...state,
+      showModal: true,
+      residentId: resident?.id,
+    }));
+  };
 
   return (
     <TableContainer>
@@ -30,7 +48,17 @@ function WaterReadingTable(): JSX.Element {
           </TableRow>
         </TableHead>
         <TableBody>
-          {waterReadings?.map((reading) => (
+          <TableRow>
+            <TableCell
+              colSpan={5}
+              onClick={onAddWaterMeterReading}
+              align="center"
+              sx={styles.addWaterMeterReadingCell}
+            >
+              Neuer Wasserzählerstand
+            </TableCell>
+          </TableRow>
+          {resident?.waterMeterReadings?.map((reading) => (
             <TableRow
               key={reading.readingDate.toPreferredString()}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -46,4 +74,4 @@ function WaterReadingTable(): JSX.Element {
   );
 }
 
-export default WaterReadingTable;
+export default WaterMeterReadingTable;

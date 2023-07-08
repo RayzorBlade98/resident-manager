@@ -7,9 +7,10 @@ import {
   createFormValidationStateSelector,
 } from '_/utils/validation/validation';
 import Validator from '_/utils/validation/validator';
+import '_/extensions/date/date.extension';
 
 /**
- * Inout values of the `AddRentPaymentModal`
+ * Input values of the `AddRentPaymentModal`
  */
 export interface RentPaymentInput {
   /**
@@ -48,7 +49,7 @@ CompleteFormValidationState<AddRentPaymentState, RentPaymentInput>
     formValidation: {
       formInput: {
         paymentAmount: undefined,
-        paymentDate: new Date(),
+        paymentDate: new Date().toUTC(),
       },
       formErrors: {},
       formValidator: new Validator<RentPaymentInput>({

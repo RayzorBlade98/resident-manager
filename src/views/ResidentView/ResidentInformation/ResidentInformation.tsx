@@ -5,7 +5,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
 import GeneralResidentInformation from './GeneralResidentInformation/GeneralResidentInformation';
 import RentInformation from './RentInformation/RentInformation';
-import WaterReadingInformation from './WaterReadingInformation/WaterReadingInformation';
+import WaterMeterReadingInformation from './WaterMeterReadingInformation/WaterMeterReadingInformation';
 
 /**
  * Enum containing all tabs of this component
@@ -50,7 +50,7 @@ function ResidentInformation(): JSX.Element {
         <RentInformation />
       </div>
       <div hidden={activeTab !== ResidentTab.WaterReading}>
-        <WaterReadingInformation />
+        <WaterMeterReadingInformation />
       </div>
     </>
   );

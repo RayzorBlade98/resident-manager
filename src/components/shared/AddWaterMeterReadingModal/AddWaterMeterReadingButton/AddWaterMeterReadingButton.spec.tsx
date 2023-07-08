@@ -6,33 +6,35 @@ import {
 import React from 'react';
 import * as RecoilModule from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import addRentPaymentState, {
-  addRentPaymentFormValidationSelector,
-} from '../../states/add_rent_payment_state';
-import AddRentPaymentButton from './AddRentPaymentButton';
-import MonthYear from '_/extensions/date/month_year.extension';
+import addWaterMeterReadingState, {
+  addWaterMeterReadingFormValidationSelector,
+} from '../states/add_water_reading_state';
+import AddWaterMeterReadingButton from './AddWaterMeterReadingButton';
 import residentState from '_/states/resident/resident.state';
 import ResidentStateManager from '_/states/resident/resident.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import '_/extensions/date/date.extension';
 import ResidentBuilder from '_/test/builders/resident.builder';
-import residentViewState from '_/views/ResidentView/states/resident_view_state';
 
 describe('AddRentPaymentButton', () => {
-  const selectedResident = new ResidentBuilder().build();
-  const selectedRentMonth = new MonthYear(4, 2023);
+  const selectedResident = new ResidentBuilder()
+    .addWaterMeterReading({
+      waterMeterCount: 100,
+      readingDate: new Date(2023, 6, 8).toUTC(),
+    })
+    .build();
   const validInputValues = {
-    paymentAmount: 100,
-    paymentDate: new Date(2023, 4, 6).toUTC(),
+    waterMeterCount: 123,
+    readingDate: new Date(2023, 6, 10).toUTC(),
   };
 
   let renderResult: RenderResult;
-  let updateRentInformationSpy: jest.SpyInstance;
-  let resetRentPaymentStateSpy: jest.Mock;
+  let updateResidentSpy: jest.SpyInstance;
+  let resetWaterMeterReadingStateSpy: jest.Mock;
 
   function validInput(): void {
     act(() => {
-      setRecoil(addRentPaymentState, (state) => ({
+      setRecoil(addWaterMeterReadingState, (state) => ({
         ...state,
         formValidation: {
           ...state.formValidation,
@@ -44,13 +46,13 @@ describe('AddRentPaymentButton', () => {
 
   function invalidInput(): void {
     act(() => {
-      setRecoil(addRentPaymentState, (state) => ({
+      setRecoil(addWaterMeterReadingState, (state) => ({
         ...state,
         formValidation: {
           ...state.formValidation,
           formInput: {
             ...state.formValidation.formInput,
-            paymentAmount: undefined,
+            waterMeterCount: undefined,
           },
         },
       }));
@@ -63,30 +65,26 @@ describe('AddRentPaymentButton', () => {
   }
 
   beforeEach(() => {
-    updateRentInformationSpy = jest
-      .spyOn(ResidentStateManager, 'updateRentInformation')
+    updateResidentSpy = jest
+      .spyOn(ResidentStateManager, 'updateResident')
       .mockReturnValue(undefined);
 
-    resetRentPaymentStateSpy = jest.fn();
+    resetWaterMeterReadingStateSpy = jest.fn();
     jest
       .spyOn(RecoilModule, 'useResetRecoilState')
-      .mockReturnValue(resetRentPaymentStateSpy);
+      .mockReturnValue(resetWaterMeterReadingStateSpy);
 
     renderResult = render(
       <ReactTestWrapper>
-        <AddRentPaymentButton />
+        <AddWaterMeterReadingButton />
       </ReactTestWrapper>,
     );
 
     act(() => {
       setRecoil(residentState, [selectedResident]);
-      setRecoil(residentViewState, (state) => ({
+      setRecoil(addWaterMeterReadingState, (state) => ({
         ...state,
-        selectedResident: selectedResident.id,
-      }));
-      setRecoil(addRentPaymentState, (state) => ({
-        ...state,
-        selectedRentMonth,
+        residentId: selectedResident.id,
       }));
     });
   });
@@ -95,7 +93,7 @@ describe('AddRentPaymentButton', () => {
     jest.restoreAllMocks();
   });
 
-  test('should update rent information for valid inputs', () => {
+  test('should update resident information for valid inputs', () => {
     // Arrange
     validInput();
 
@@ -103,15 +101,16 @@ describe('AddRentPaymentButton', () => {
     pressButton();
 
     // Assert
-    expect(updateRentInformationSpy).toHaveBeenCalledTimes(1);
-    expect(updateRentInformationSpy).toHaveBeenCalledWith(
-      selectedResident.id,
-      selectedRentMonth,
-      validInputValues,
-    );
+    expect(updateResidentSpy).toHaveBeenCalledTimes(1);
+    expect(updateResidentSpy).toHaveBeenCalledWith(selectedResident.id, {
+      waterMeterReadings: [
+        ...selectedResident.waterMeterReadings,
+        validInputValues,
+      ],
+    });
   });
 
-  test('should reset rent payment state for valid inputs', () => {
+  test('should reset water meter reading state for valid inputs', () => {
     // Arrange
     validInput();
 
@@ -119,10 +118,10 @@ describe('AddRentPaymentButton', () => {
     pressButton();
 
     // Assert
-    expect(resetRentPaymentStateSpy).toHaveBeenCalledTimes(1);
+    expect(resetWaterMeterReadingStateSpy).toHaveBeenCalledTimes(1);
   });
 
-  test('should not update rent information for invalid inputs', () => {
+  test('should not update resident information for invalid inputs', () => {
     // Arrange
     invalidInput();
 
@@ -130,7 +129,7 @@ describe('AddRentPaymentButton', () => {
     pressButton();
 
     // Assert
-    expect(updateRentInformationSpy).toHaveBeenCalledTimes(0);
+    expect(updateResidentSpy).toHaveBeenCalledTimes(0);
   });
 
   test('should write error message to state for invalid inputs', () => {
@@ -141,8 +140,8 @@ describe('AddRentPaymentButton', () => {
     pressButton();
 
     // Assert
-    const errorMessage = getRecoil(addRentPaymentFormValidationSelector)
-      .formErrors.paymentAmount;
+    const errorMessage = getRecoil(addWaterMeterReadingFormValidationSelector)
+      .formErrors.waterMeterCount;
     expect(errorMessage).toBeDefined();
   });
 });
