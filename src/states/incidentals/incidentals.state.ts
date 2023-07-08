@@ -1,4 +1,8 @@
 import { atom, selector } from 'recoil';
+import {
+  sortOneTimeIncidentalsEffect,
+  sortOngoingIncidentalsCostEffect,
+} from './incidentals.state.effects';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 
@@ -19,6 +23,7 @@ const incidentalsState = atom<IncidentalsState>({
     ongoingIncidentals: [],
     oneTimeIncidentals: [],
   },
+  effects: [sortOngoingIncidentalsCostEffect, sortOneTimeIncidentalsEffect],
 });
 
 /**

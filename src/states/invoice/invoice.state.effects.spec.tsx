@@ -14,6 +14,7 @@ describe('sortInvoicesEffect', () => {
   test('should sort invoices on set recoil', () => {
     // Arrange
     const invoices = range(0, 5).map((_) => new InvoiceBuilder().build());
+    const expected = [...invoices].reverse();
 
     // Act
     act(() => {
@@ -21,6 +22,6 @@ describe('sortInvoicesEffect', () => {
     });
 
     // Assert
-    expect(getRecoil(invoiceState)).toStrictEqual(invoices.reverse());
+    expect(getRecoil(invoiceState)).toEqual(expected);
   });
 });

@@ -84,13 +84,13 @@ describe('ResidentStateManager', () => {
         .withLastName('Old Last')
         .addRentInformation(
           new RentInformationBuilder()
-            .withDueDate(new MonthYear(0, 2023))
+            .withDueDate(new MonthYear(2, 2023))
             .build(),
         )
         .addRentInformation(rentInformation)
         .addRentInformation(
           new RentInformationBuilder()
-            .withDueDate(new MonthYear(2, 2023))
+            .withDueDate(new MonthYear(0, 2023))
             .build(),
         )
         .build();

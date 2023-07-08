@@ -4,7 +4,7 @@ import { AtomEffect } from 'recoil';
 import { InvoiceState } from './invoice.state';
 
 /**
- *
+ * Effect that sorts the invoices by start month in descending order
  */
 export const sortInvoicesEffect: AtomEffect<InvoiceState> = ({
   onSet,
@@ -12,7 +12,7 @@ export const sortInvoicesEffect: AtomEffect<InvoiceState> = ({
 }) => {
   onSet((newValue) => {
     setSelf(
-      newValue.sort((a, b) => a.start.getTime() - b.start.getTime()).reverse(),
+      newValue.sort((a, b) => b.start.getTime() - a.start.getTime()),
     );
   });
 };

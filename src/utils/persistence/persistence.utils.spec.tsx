@@ -10,7 +10,6 @@ import incidentalsState, {
 import RentInformationUtils from '../rent/rent.utils';
 import PersistenceUtils from './persistence.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 import { Invoice } from '_/models/invoice/invoice';
 import { Resident } from '_/models/resident/resident';
 import invoiceState from '_/states/invoice/invoice.state';
@@ -52,9 +51,10 @@ describe('PersistenceUtils', () => {
   describe('importSaveStates', () => {
     test('should import save state if files exist', () => {
       // Arrange
-      const expectedIncidentalsState: OngoingIncidentals[] = [
-        new OngoingIncidentalsBuilder().build(),
-      ];
+      const expectedIncidentalsState: IncidentalsState = {
+        ongoingIncidentals: [new OngoingIncidentalsBuilder().build()],
+        oneTimeIncidentals: [new OneTimeIncidentalsBuilder().build()],
+      };
       const expectedInvoiceState: Invoice[] = [new InvoiceBuilder().build()];
       const expectedResidentState: Resident[] = [new ResidentBuilder().build()];
       const expectedPropertyState = new PropertyBuilder().build();
