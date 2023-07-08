@@ -13,6 +13,7 @@ import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
+import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
 describe('ResidentView', () => {
   const screenshotSettings = {
@@ -23,7 +24,11 @@ describe('ResidentView', () => {
   };
   const residents = range(0, 8).map((i) => new ResidentBuilder()
     .withLastName(`Mustermann ${i}`)
-    .addRentInformation(new RentInformationBuilder().build())
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(2, 2023))
+        .build(),
+    )
     .addRentInformation(
       new RentInformationBuilder()
         .withDueDate(new MonthYear(3, 2023))
@@ -34,6 +39,18 @@ describe('ResidentView', () => {
       new RentInformationBuilder()
         .withDueDate(new MonthYear(4, 2023))
         .withPayment(60000, new Date(2023, 5, 11))
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(new Date(2023, 2, 1))
+        .withWaterMeterCount(1337)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(new Date(2023, 4, 13))
+        .withWaterMeterCount(420)
         .build(),
     )
     .build());
@@ -64,6 +81,15 @@ describe('ResidentView', () => {
     // Act
     const tabs = renderResult.getAllByRole('tab');
     fireEvent.click(tabs[1]);
+
+    // Assert
+    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+  });
+
+  test('should match image snapshot (water reading information)', async () => {
+    // Act
+    const tabs = renderResult.getAllByRole('tab');
+    fireEvent.click(tabs[2]);
 
     // Assert
     expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();

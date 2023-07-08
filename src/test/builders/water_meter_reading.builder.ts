@@ -10,6 +10,16 @@ class WaterMeterReadingBuilder {
     };
   }
 
+  public withReadingDate(date: Date): WaterMeterReadingBuilder {
+    this.waterMeterReading.readingDate = date;
+    return this;
+  }
+
+  public withWaterMeterCount(count: number): WaterMeterReadingBuilder {
+    this.waterMeterReading.waterMeterCount = count;
+    return this;
+  }
+
   public build(): WaterMeterReading {
     return this.waterMeterReading;
   }
