@@ -39,6 +39,7 @@ const baseConfig = {
       'WithStatement',
     ],
     'no-param-reassign': 'off',
+    '@typescript-eslint/no-use-before-define': 'off',
   },
 };
 

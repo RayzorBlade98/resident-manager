@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 
+import _ from 'lodash';
 import { DeductionType } from '../../models/incidentals/ongoing_incidentals';
-import InvoiceGenerator from './invoice.generator';
+import generateInvoice from './invoice.generator';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { Invoice } from '_/models/invoice/invoice';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
-describe('InvoiceGenerator', () => {
+describe('generateInvoice', () => {
   const start = new MonthYear(0, 2023);
   const end = new MonthYear(2, 2023);
   const property = new PropertyBuilder().withNumberOfApartments(10).build();
@@ -60,22 +61,7 @@ describe('InvoiceGenerator', () => {
   ];
   const residents = [...includedResidents, ...notIncludedResidents];
 
-  const invoiceGenerator = new InvoiceGenerator({
-    start,
-    end,
-    residents,
-    includedOngoingIncidentals,
-    property,
-  });
-
-  describe('constructor', () => {
-    test('should filter residents outside of timespan', () => {
-      expect(invoiceGenerator['args'].residents).toEqual(includedResidents);
-    });
-  });
-
-  const expectedInvoice: Invoice = {
-    id: invoiceGenerator['invoice'].id,
+  const expectedInvoice: Partial<Invoice> = {
     start,
     end,
     ongoingIncidentalsInformation: {
@@ -110,13 +96,18 @@ describe('InvoiceGenerator', () => {
     },
   };
 
-  describe('generateInvoice', () => {
-    test('should return right invoice', () => {
-      // Act
-      const invoice = invoiceGenerator.generateInvoice();
-
-      // Assert
-      expect(invoice).toEqual(expectedInvoice);
+  test('should return right invoice', () => {
+    // Act
+    const invoice = generateInvoice({
+      start,
+      end,
+      residents,
+      includedOngoingIncidentals,
+      property,
     });
+    _.unset(invoice, 'id');
+
+    // Assert
+    expect(invoice).toEqual(expectedInvoice);
   });
 });
