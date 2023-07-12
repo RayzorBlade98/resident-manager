@@ -8,12 +8,16 @@ import { range } from 'lodash';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../styles';
+import { InvoiceGenerationSteps } from './states/invoice_generation_view_state';
 import App from '_/renderer/App';
 import currentViewState, { View } from '_/states/current_view.state';
 import incidentalsState from '_/states/incidentals/incidentals.state';
+import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
+import ResidentBuilder from '_/test/builders/resident.builder';
+import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
 describe('InvoiceGenerationView', () => {
   const screenshotSettings = {
@@ -30,9 +34,27 @@ describe('InvoiceGenerationView', () => {
       .withName(`Incidentals ${i}`)
       .build()),
   };
+  const residents = range(0, 8).map((i) => new ResidentBuilder()
+    .withId(i.toString())
+    .withFirstName(`Max${i}`)
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(new Date(2023, 6, 9))
+        .withWaterMeterCount(1234)
+        .withWasDeductedInInvoice(true)
+        .build(),
+    )
+    .withConditionalSetup(i !== 0, (b) => b.addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(new Date(2023, 6, 10))
+        .withWaterMeterCount(1337)
+        .withWasDeductedInInvoice(false)
+        .build(),
+    ))
+    .build());
   let renderResult: RenderResult;
 
-  function inputStep1(): void {
+  function inputTimespanStep(): void {
     const inputFields = renderResult.container.querySelectorAll('input');
     fireEvent.change(inputFields.item(0), {
       target: { value: '06.2023' },
@@ -43,16 +65,36 @@ describe('InvoiceGenerationView', () => {
     });
   }
 
-  function requiredStepInput(step: number) {
+  function inputWaterMeterReadingStep(): void {
+    act(() => {
+      setRecoil(residentState, (state) => [
+        ...state.filter((r) => r.id !== '0'),
+        {
+          ...residents[0],
+          waterMeterReadings: [
+            ...residents[0].waterMeterReadings,
+            new WaterMeterReadingBuilder()
+              .withWasDeductedInInvoice(false)
+              .build(),
+          ],
+        },
+      ]);
+    });
+  }
+
+  function requiredStepInput(step: InvoiceGenerationSteps) {
     switch (step) {
-      case 1:
-        inputStep1();
+      case InvoiceGenerationSteps.Timespan:
+        inputTimespanStep();
+        break;
+      case InvoiceGenerationSteps.WaterMeterReadings:
+        inputWaterMeterReadingStep();
         break;
     }
   }
 
-  function moveToStep(step: number) {
-    for (let currentStep = 1; currentStep < step; currentStep += 1) {
+  function moveToStep(step: InvoiceGenerationSteps) {
+    for (let currentStep = 0; currentStep < step; currentStep += 1) {
       requiredStepInput(currentStep);
       fireEvent.click(
         renderResult.getAllByRole('button', { hidden: true }).at(-1)!,
@@ -70,20 +112,21 @@ describe('InvoiceGenerationView', () => {
     act(() => {
       setRecoil(currentViewState, View.InvoiceGeneration);
       setRecoil(incidentalsState, incidentals);
+      setRecoil(residentState, residents);
     });
   });
 
-  test('should match image snapshot (step 1)', async () => {
+  test('should match image snapshot (step timespan)', async () => {
     // Act
-    inputStep1();
+    inputTimespanStep();
 
     // Assert
     expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
   });
 
-  test('should match image snapshot (step 2)', async () => {
+  test('should match image snapshot (step ongoing incidentals)', async () => {
     // Arrange
-    moveToStep(2);
+    moveToStep(InvoiceGenerationSteps.OngoingIncidentals);
 
     // Act
     const selectableIncidentals = renderResult.getAllByRole('listitem');
@@ -95,15 +138,23 @@ describe('InvoiceGenerationView', () => {
     expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
   });
 
-  test('should match image snapshot (step 3)', async () => {
+  test('should match image snapshot (step one time incidentals)', async () => {
     // Arrange
-    moveToStep(3);
+    moveToStep(InvoiceGenerationSteps.OneTimeIncidentals);
 
     // Act
     const selectableIncidentals = renderResult.getAllByRole('listitem');
     [2, 3, 5].forEach((i) => act(() => {
       fireEvent.click(selectableIncidentals[i].firstChild!);
     }));
+
+    // Assert
+    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+  });
+
+  test('should match image snapshot (step water meter reading)', async () => {
+    // Arrange
+    moveToStep(InvoiceGenerationSteps.WaterMeterReadings);
 
     // Assert
     expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();

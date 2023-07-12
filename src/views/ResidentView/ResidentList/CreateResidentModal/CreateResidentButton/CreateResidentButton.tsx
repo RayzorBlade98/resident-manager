@@ -39,6 +39,7 @@ function CreateResidentButton(): JSX.Element {
         {
           waterMeterCount: formValidationState.formInput.waterMeter as number,
           readingDate: formValidationState.formInput.contractStart as Date,
+          wasDeductedInInvoice: true,
         },
       ],
     });

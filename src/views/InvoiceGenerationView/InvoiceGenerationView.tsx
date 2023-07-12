@@ -1,10 +1,12 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import MonthSelection from './MonthSelection/MonthSelection';
 import OneTimeIncidentalsSelection from './OneTimeIncidentalsSelection/OneTimeIncidentalsSelection';
+import WaterMeterReadingsCheck from './WaterMeterReadingsCheck/WaterMeterReadingsCheck';
 import invoiceGenerationViewState, {
-  isCurrentStepFinished,
+  InvoiceGenerationSteps,
+  isCurrentStepFinishedSelector,
 } from './states/invoice_generation_view_state';
 import GenericStepper, {
   STEPPER_FINISHED,
@@ -19,11 +21,12 @@ const styles = {
 
 function InvoiceGenerationView() {
   const [viewState, setViewState] = useRecoilState(invoiceGenerationViewState);
+  const isCurrentStepFinished = useRecoilValue(isCurrentStepFinishedSelector);
 
   const onStepChange = (step: number) => {
     setViewState((state) => ({
       ...state,
-      currentStep: step,
+      currentStep: step as InvoiceGenerationSteps,
     }));
   };
 
@@ -35,13 +38,15 @@ function InvoiceGenerationView() {
             'Abrechnungszeitraum',
             'Laufende Nebenkosten',
             'Einmalige Nebenkosten',
+            'Wasserzählerstände',
           ]}
           onStepChange={onStepChange}
-          canFinishStep={isCurrentStepFinished()}
+          canFinishStep={isCurrentStepFinished}
         >
           <MonthSelection />
           <OngoingIncidentalsSelection />
           <OneTimeIncidentalsSelection />
+          <WaterMeterReadingsCheck />
         </GenericStepper>
       )}
       {viewState.currentStep === STEPPER_FINISHED && <p>Fertig</p>}

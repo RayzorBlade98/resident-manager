@@ -45,12 +45,14 @@ describe('ResidentView', () => {
       new WaterMeterReadingBuilder()
         .withReadingDate(new Date(2023, 2, 1))
         .withWaterMeterCount(1337)
+        .withWasDeductedInInvoice(true)
         .build(),
     )
     .addWaterMeterReading(
       new WaterMeterReadingBuilder()
         .withReadingDate(new Date(2023, 4, 13))
         .withWaterMeterCount(420)
+        .withWasDeductedInInvoice(false)
         .build(),
     )
     .build());

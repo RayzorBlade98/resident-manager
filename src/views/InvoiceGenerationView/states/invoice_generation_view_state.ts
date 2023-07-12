@@ -1,15 +1,28 @@
 import _ from 'lodash';
-import { atom } from 'recoil';
-import { getRecoil, setRecoil } from 'recoil-nexus';
+import { atom, selector } from 'recoil';
+import { setRecoil } from 'recoil-nexus';
 import { ValidationConstraint } from '../../../utils/validation/constraints';
+import { STEPPER_FINISHED } from '_/components/generic/GenericStepper/GenericStepper';
 import MonthYear from '_/extensions/date/month_year.extension';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
+import residentState from '_/states/resident/resident.state';
 import {
   CompleteFormValidationState,
   createFormValidationStateSelector,
 } from '_/utils/validation/validation';
 import Validator from '_/utils/validation/validator';
+
+/**
+ * Enum containing all steps for the invoice generation
+ */
+export enum InvoiceGenerationSteps {
+  Timespan = 0,
+  OngoingIncidentals = 1, // eslint-disable-line @typescript-eslint/no-shadow
+  OneTimeIncidentals = 2, // eslint-disable-line @typescript-eslint/no-shadow
+  WaterMeterReadings = 3,
+  Finished = STEPPER_FINISHED,
+}
 
 /**
  * Current form input for the invoice generation
@@ -33,7 +46,7 @@ export interface InvoiceGenerationViewState {
   /**
    * Current step of the invoice generation
    */
-  currentStep: number;
+  currentStep: InvoiceGenerationSteps;
 
   /**
    * List of all selected ongoing incidentals
@@ -146,25 +159,36 @@ export function removeSelectedOneTimeIncidentals(
 }
 
 /**
- * Validates whether the current step is finished
- * @returns true if the current step is finished, else false
+ * Selector that returns whether the current step is finished
  */
-export function isCurrentStepFinished(): boolean {
-  const step = getRecoil(invoiceGenerationViewState).currentStep;
-  let toValidate: (keyof InvoiceGenerationInput)[];
-  switch (step) {
-    case 0:
-      toValidate = ['invoiceStart', 'invoiceEnd'];
-      break;
-    default:
-      toValidate = [];
-  }
+export const isCurrentStepFinishedSelector = selector<boolean>({
+  key: 'invoiceGenerationViewState-isCurrentStepFinished',
+  get: ({ get }) => {
+    const isInputValid = (
+      keysToValidate: (keyof InvoiceGenerationInput)[],
+    ): boolean => {
+      const formValidation = get(generateInvoiceFormValidationSelector);
+      const errors = formValidation.formValidator.validate(
+        _.pick(formValidation.formInput, keysToValidate),
+      );
+      return Object.keys(_.pick(errors, keysToValidate)).length === 0;
+    };
 
-  const formValidation = getRecoil(generateInvoiceFormValidationSelector);
-  const errors = formValidation.formValidator.validate(
-    _.pick(formValidation.formInput, toValidate),
-  );
-  return Object.keys(_.pick(errors, toValidate)).length === 0;
-}
+    const step = get(invoiceGenerationViewState).currentStep;
+    switch (step) {
+      case InvoiceGenerationSteps.Timespan:
+        return isInputValid(['invoiceStart', 'invoiceEnd']);
+      case InvoiceGenerationSteps.WaterMeterReadings: {
+        const residents = get(residentState);
+        return residents.every(
+          (r) => r.waterMeterReadings.find((w) => !w.wasDeductedInInvoice)
+            !== undefined,
+        );
+      }
+      default:
+        return true;
+    }
+  },
+});
 
 export default invoiceGenerationViewState;

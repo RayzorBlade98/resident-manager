@@ -7,14 +7,17 @@ import addWaterMeterReadingState from '_/components/shared/AddWaterMeterReadingM
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import ResidentBuilder from '_/test/builders/resident.builder';
+import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 import residentViewState from '_/views/ResidentView/states/resident_view_state';
 
 describe('WaterMeterReadingTable', () => {
   const resident = new ResidentBuilder()
-    .addWaterMeterReading({
-      waterMeterCount: 1000,
-      readingDate: new Date(2023, 6, 8),
-    })
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withWaterMeterCount(1000)
+        .withReadingDate(new Date(2023, 6, 8))
+        .build(),
+    )
     .build();
   let renderResult: RenderResult;
 

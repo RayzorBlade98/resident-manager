@@ -24,7 +24,16 @@ function createDummyData(): void {
         },
       ],
       waterMeterReadings: [
-        { waterMeterCount: 1234, readingDate: new Date().toUTC() },
+        {
+          waterMeterCount: 1234,
+          readingDate: new Date(2023, 6, 1).toUTC(),
+          wasDeductedInInvoice: true,
+        },
+        {
+          waterMeterCount: 1235,
+          readingDate: new Date().toUTC(),
+          wasDeductedInInvoice: false,
+        },
       ],
       invoiceStart: new MonthYear(),
     });

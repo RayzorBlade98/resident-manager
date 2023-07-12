@@ -115,6 +115,7 @@ describe('CreateResidentButton', () => {
           {
             readingDate: validInputValues.contractStart,
             waterMeterCount: validInputValues.waterMeter,
+            wasDeductedInInvoice: true,
           },
         ],
         numberOfResidents: validInputValues.numberOfResidents,

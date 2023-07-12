@@ -15,13 +15,17 @@ import ResidentStateManager from '_/states/resident/resident.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import '_/extensions/date/date.extension';
 import ResidentBuilder from '_/test/builders/resident.builder';
+import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
 describe('AddRentPaymentButton', () => {
   const selectedResident = new ResidentBuilder()
-    .addWaterMeterReading({
-      waterMeterCount: 100,
-      readingDate: new Date(2023, 6, 8).toUTC(),
-    })
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(new Date(2023, 6, 8).toUTC())
+        .withWaterMeterCount(100)
+        .withWasDeductedInInvoice(false)
+        .build(),
+    )
     .build();
   const validInputValues = {
     waterMeterCount: 123,
@@ -105,7 +109,7 @@ describe('AddRentPaymentButton', () => {
     expect(updateResidentSpy).toHaveBeenCalledWith(selectedResident.id, {
       waterMeterReadings: [
         ...selectedResident.waterMeterReadings,
-        validInputValues,
+        { ...validInputValues, wasDeductedInInvoice: false },
       ],
     });
   });

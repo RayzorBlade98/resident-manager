@@ -1,3 +1,5 @@
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import {
   Table,
   TableBody,
@@ -5,6 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
 } from '@mui/material';
 import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -44,6 +47,7 @@ function WaterMeterReadingTable(): JSX.Element {
           <TableRow>
             <TableCell>Ablesedatum</TableCell>
             <TableCell>Zählerstand</TableCell>
+            <TableCell>Abrechnungsstatus</TableCell>
             <TableCell>Aktionen</TableCell>
           </TableRow>
         </TableHead>
@@ -65,6 +69,20 @@ function WaterMeterReadingTable(): JSX.Element {
             >
               <TableCell>{reading.readingDate.toPreferredString()}</TableCell>
               <TableCell>{reading.waterMeterCount}</TableCell>
+              <TableCell>
+                {reading.wasDeductedInInvoice ? (
+                  <Tooltip title="Wasserzählerstand wurde abgerechnet" arrow>
+                    <CheckCircleOutlineIcon color="success" />
+                  </Tooltip>
+                ) : (
+                  <Tooltip
+                    title="Wasserzählerstand wurde noch nicht abgerechnet"
+                    arrow
+                  >
+                    <HighlightOffIcon color="error" />
+                  </Tooltip>
+                )}
+              </TableCell>
               <TableCell />
             </TableRow>
           ))}

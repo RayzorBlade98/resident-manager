@@ -11,6 +11,11 @@ interface WaterMeterReading {
    * Count of the water meter
    */
   waterMeterCount: number;
+
+  /**
+   * Whether the water meter reading was included in an invoice
+   */
+  wasDeductedInInvoice: boolean;
 }
 
 export default WaterMeterReading;

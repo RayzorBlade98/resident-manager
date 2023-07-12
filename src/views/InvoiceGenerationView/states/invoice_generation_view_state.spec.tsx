@@ -1,19 +1,27 @@
 /* eslint-disable max-len */
 
 import { render } from '@testing-library/react';
+import { range } from 'lodash';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { getRecoil, setRecoil } from 'recoil-nexus';
 import {
   InvoiceGenerationInput,
+  InvoiceGenerationSteps,
+  addSelectedOneTimeIncidentals,
   addSelectedOngoingIncidentals,
   invoiceGenerationViewState,
-  isCurrentStepFinished,
+  isCurrentStepFinishedSelector,
+  removeSelectedOneTimeIncidentals,
   removeSelectedOngoingIncidentals,
 } from './invoice_generation_view_state';
 import MonthYear from '_/extensions/date/month_year.extension';
+import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
+import ResidentBuilder from '_/test/builders/resident.builder';
+import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
 describe('invoiceGenerationViewState', () => {
   beforeEach(() => {
@@ -72,10 +80,62 @@ describe('invoiceGenerationViewState', () => {
     });
   });
 
+  describe('addSelectedOneTimeIncidentals', () => {
+    test('Should add incidentals to state', () => {
+      // Arrange
+      const newIncidentals1 = new OneTimeIncidentalsBuilder().build();
+      const newIncidentals2 = new OneTimeIncidentalsBuilder().build();
+      const expectedState = [
+        ...getRecoil(invoiceGenerationViewState).selectedOneTimeIncidentals,
+        newIncidentals1,
+        newIncidentals2,
+      ];
+
+      // Act
+      act(() => {
+        addSelectedOneTimeIncidentals(newIncidentals1);
+        addSelectedOneTimeIncidentals(newIncidentals2);
+      });
+
+      // Assert
+      const newState = getRecoil(
+        invoiceGenerationViewState,
+      ).selectedOneTimeIncidentals;
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('removeSelectedOneTimeIncidentals', () => {
+    test('Should remove incidentals from state', () => {
+      // Arrange
+      const newIncidentals1 = new OneTimeIncidentalsBuilder().build();
+      const newIncidentals2 = new OneTimeIncidentalsBuilder().build();
+      const expectedState = getRecoil(
+        invoiceGenerationViewState,
+      ).selectedOneTimeIncidentals;
+      act(() => {
+        addSelectedOneTimeIncidentals(newIncidentals1);
+        addSelectedOneTimeIncidentals(newIncidentals2);
+      });
+
+      // Act
+      act(() => {
+        removeSelectedOneTimeIncidentals(newIncidentals1);
+        removeSelectedOneTimeIncidentals(newIncidentals2);
+      });
+
+      // Assert
+      const newState = getRecoil(
+        invoiceGenerationViewState,
+      ).selectedOneTimeIncidentals;
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
   describe('isCurrentStepFinished', () => {
     test.each([
       [
-        0,
+        InvoiceGenerationSteps.Timespan,
         'invoiceStart: undefined, invoiceEnd: undefined',
         false,
         {
@@ -84,7 +144,7 @@ describe('invoiceGenerationViewState', () => {
         },
       ],
       [
-        0,
+        InvoiceGenerationSteps.Timespan,
         'invoiceStart: 06.2023, invoiceEnd: undefined',
         false,
         {
@@ -93,7 +153,7 @@ describe('invoiceGenerationViewState', () => {
         },
       ],
       [
-        0,
+        InvoiceGenerationSteps.Timespan,
         'invoiceStart: undefined, invoiceEnd: 06.2023',
         false,
         {
@@ -102,7 +162,7 @@ describe('invoiceGenerationViewState', () => {
         },
       ],
       [
-        0,
+        InvoiceGenerationSteps.Timespan,
         'invoiceStart: 06.2023, invoiceEnd: 06.2023',
         true,
         {
@@ -110,7 +170,18 @@ describe('invoiceGenerationViewState', () => {
           invoiceEnd: new MonthYear(5, 2023),
         },
       ],
-      [1, '<no input required>', true, {}],
+      [
+        InvoiceGenerationSteps.OngoingIncidentals,
+        '<no input required>',
+        true,
+        {},
+      ],
+      [
+        InvoiceGenerationSteps.OneTimeIncidentals,
+        '<no input required>',
+        true,
+        {},
+      ],
     ])(
       'step %i with input %s should return %s',
       (step, _, expected, formInput: Partial<InvoiceGenerationInput>) => {
@@ -128,15 +199,72 @@ describe('invoiceGenerationViewState', () => {
             },
           }));
         });
-        // Act
-        let result = !expected;
-        act(() => {
-          result = isCurrentStepFinished();
-        });
 
         // Assert
-        expect(result).toBe(expected);
+        expect(getRecoil(isCurrentStepFinishedSelector)).toBe(expected);
       },
     );
+
+    test(`step ${InvoiceGenerationSteps.WaterMeterReadings} should return true when all residents have an undeducted reading`, () => {
+      // Arrange
+      act(() => {
+        setRecoil(
+          residentState,
+          range(0, 5).map((_) => new ResidentBuilder()
+            .addWaterMeterReading(
+              new WaterMeterReadingBuilder()
+                .withWasDeductedInInvoice(false)
+                .build(),
+            )
+            .addWaterMeterReading(
+              new WaterMeterReadingBuilder()
+                .withWasDeductedInInvoice(true)
+                .build(),
+            )
+            .build()),
+        );
+        setRecoil(invoiceGenerationViewState, (state) => ({
+          ...state,
+          currentStep: InvoiceGenerationSteps.WaterMeterReadings,
+        }));
+      });
+
+      // Assert
+      expect(getRecoil(isCurrentStepFinishedSelector)).toBe(true);
+    });
+
+    test(`step ${InvoiceGenerationSteps.WaterMeterReadings} should return false when one residents doesn't have an undeducted reading`, () => {
+      // Arrange
+      act(() => {
+        setRecoil(residentState, [
+          ...range(0, 5).map((_) => new ResidentBuilder()
+            .addWaterMeterReading(
+              new WaterMeterReadingBuilder()
+                .withWasDeductedInInvoice(false)
+                .build(),
+            )
+            .addWaterMeterReading(
+              new WaterMeterReadingBuilder()
+                .withWasDeductedInInvoice(true)
+                .build(),
+            )
+            .build()),
+          new ResidentBuilder()
+            .addWaterMeterReading(
+              new WaterMeterReadingBuilder()
+                .withWasDeductedInInvoice(true)
+                .build(),
+            )
+            .build(),
+        ]);
+        setRecoil(invoiceGenerationViewState, (state) => ({
+          ...state,
+          currentStep: InvoiceGenerationSteps.WaterMeterReadings,
+        }));
+      });
+
+      // Assert
+      expect(getRecoil(isCurrentStepFinishedSelector)).toBe(false);
+    });
   });
 });

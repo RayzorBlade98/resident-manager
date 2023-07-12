@@ -8,6 +8,7 @@ class WaterMeterReadingBuilder {
     this.waterMeterReading = {
       readingDate: new Date(2023, 5, 13).toUTC(),
       waterMeterCount: 1337,
+      wasDeductedInInvoice: false,
     };
   }
 
@@ -18,6 +19,13 @@ class WaterMeterReadingBuilder {
 
   public withWaterMeterCount(count: number): WaterMeterReadingBuilder {
     this.waterMeterReading.waterMeterCount = count;
+    return this;
+  }
+
+  public withWasDeductedInInvoice(
+    wasDeducted: boolean,
+  ): WaterMeterReadingBuilder {
+    this.waterMeterReading.wasDeductedInInvoice = wasDeducted;
     return this;
   }
 

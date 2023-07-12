@@ -19,6 +19,11 @@ class ResidentBuilder {
     };
   }
 
+  public withId(id: string): ResidentBuilder {
+    this.resident.id = id;
+    return this;
+  }
+
   public withFirstName(firstName: string): ResidentBuilder {
     this.resident.firstName = firstName;
     return this;
@@ -46,6 +51,16 @@ class ResidentBuilder {
 
   public addWaterMeterReading(reading: WaterMeterReading): ResidentBuilder {
     this.resident.waterMeterReadings.push(reading);
+    return this;
+  }
+
+  public withConditionalSetup(
+    condition: boolean,
+    setup: (rb: ResidentBuilder) => void,
+  ): ResidentBuilder {
+    if (condition) {
+      setup(this);
+    }
     return this;
   }
 

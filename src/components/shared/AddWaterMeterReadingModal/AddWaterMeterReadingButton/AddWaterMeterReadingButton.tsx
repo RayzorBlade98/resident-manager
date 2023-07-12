@@ -32,6 +32,7 @@ function AddWaterMeterReadingButton(): JSX.Element {
         {
           waterMeterCount: formInput.waterMeterCount as number,
           readingDate: formInput.readingDate as Date,
+          wasDeductedInInvoice: false,
         },
       ],
     });
