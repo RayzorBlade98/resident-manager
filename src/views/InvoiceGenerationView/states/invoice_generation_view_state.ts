@@ -6,6 +6,7 @@ import { STEPPER_FINISHED } from '_/components/generic/GenericStepper/GenericSte
 import MonthYear from '_/extensions/date/month_year.extension';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
+import { Resident } from '_/models/resident/resident';
 import residentState from '_/states/resident/resident.state';
 import {
   CompleteFormValidationState,
@@ -157,6 +158,24 @@ export function removeSelectedOneTimeIncidentals(
     ),
   }));
 }
+
+/**
+ * Selector that returns all residents that will be included into the invoice
+ */
+export const residentsForInvoiceSelector = selector<Resident[]>({
+  key: 'invoiceGenerationViewState-residents',
+  get: ({ get }) => {
+    const formState = get(generateInvoiceFormValidationSelector);
+    const residents = get(residentState);
+
+    const invoiceEnd = formState.formInput.invoiceEnd;
+    if (!formState.formInput.invoiceStart || !invoiceEnd) {
+      return residents;
+    }
+
+    return residents.filter((r) => r.invoiceStart <= invoiceEnd);
+  },
+});
 
 /**
  * Selector that returns whether the current step is finished

@@ -14,6 +14,7 @@ import {
   isCurrentStepFinishedSelector,
   removeSelectedOneTimeIncidentals,
   removeSelectedOngoingIncidentals,
+  residentsForInvoiceSelector,
 } from './invoice_generation_view_state';
 import MonthYear from '_/extensions/date/month_year.extension';
 import residentState from '_/states/resident/resident.state';
@@ -129,6 +130,61 @@ describe('invoiceGenerationViewState', () => {
         invoiceGenerationViewState,
       ).selectedOneTimeIncidentals;
       expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('residentsForInvoiceSelector', () => {
+    const invoiceStart = new MonthYear(3, 2023);
+    const invoiceEnd = new MonthYear(8, 2023);
+
+    const includedResidents = range(0, 9).map((i) => new ResidentBuilder().withInvoiceStart(new MonthYear(i, 2023)).build());
+    const excludedResidents = range(9, 12).map((i) => new ResidentBuilder().withInvoiceStart(new MonthYear(i, 2023)).build());
+    const residents = [...includedResidents, ...excludedResidents];
+
+    beforeEach(() => {
+      act(() => {
+        setRecoil(residentState, residents);
+      });
+    });
+
+    test('should return all residents if no timespan is set', () => {
+      // Arrange
+      act(() => {
+        setRecoil(invoiceGenerationViewState, (state) => ({
+          ...state,
+          formValidation: {
+            ...state.formValidation,
+            formInput: {
+              ...state.formValidation.formInput,
+              invoiceStart: undefined,
+              invoiceEnd: undefined,
+            },
+          },
+        }));
+      });
+
+      // Assert
+      expect(getRecoil(residentsForInvoiceSelector)).toEqual(residents);
+    });
+
+    test('should only return included residents if timespan is set', () => {
+      // Arrange
+      act(() => {
+        setRecoil(invoiceGenerationViewState, (state) => ({
+          ...state,
+          formValidation: {
+            ...state.formValidation,
+            formInput: {
+              ...state.formValidation.formInput,
+              invoiceStart,
+              invoiceEnd,
+            },
+          },
+        }));
+      });
+
+      // Assert
+      expect(getRecoil(residentsForInvoiceSelector)).toEqual(includedResidents);
     });
   });
 

@@ -12,16 +12,16 @@ import {
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import '_/extensions/date/date.extension';
+import { residentsForInvoiceSelector } from '../states/invoice_generation_view_state';
 import AddWaterMeterReadingIcon from './AddWaterMeterReadingIcon/AddWaterMeterReadingIcon';
 import AddWaterMeterReadingModal from '_/components/shared/AddWaterMeterReadingModal/AddWaterMeterReadingModal';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
-import residentState from '_/states/resident/resident.state';
 
 /**
  * Table thats shows alle the water readings that will be included into the invoice generation
  */
 function WaterMeterReadingsCheck(): JSX.Element {
-  const residents = useRecoilValue(residentState);
+  const residents = useRecoilValue(residentsForInvoiceSelector);
   return (
     <>
       <AddWaterMeterReadingModal />
