@@ -22,6 +22,7 @@ export enum InvoiceGenerationSteps {
   OngoingIncidentals = 1, // eslint-disable-line @typescript-eslint/no-shadow
   OneTimeIncidentals = 2, // eslint-disable-line @typescript-eslint/no-shadow
   WaterMeterReadings = 3,
+  RentPayment = 4,
   Finished = STEPPER_FINISHED,
 }
 

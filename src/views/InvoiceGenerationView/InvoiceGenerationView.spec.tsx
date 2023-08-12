@@ -9,6 +9,7 @@ import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../styles';
 import { InvoiceGenerationSteps } from './states/invoice_generation_view_state';
+import MonthYear from '_/extensions/date/month_year.extension';
 import App from '_/renderer/App';
 import currentViewState, { View } from '_/states/current_view.state';
 import incidentalsState from '_/states/incidentals/incidentals.state';
@@ -16,6 +17,7 @@ import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
+import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
@@ -51,6 +53,29 @@ describe('InvoiceGenerationView', () => {
         .withWasDeductedInInvoice(false)
         .build(),
     ))
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(4, 2023))
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(5, 2023))
+        .withRent(50000)
+        .withIncidentals(10000)
+        .withPayment(60000, new Date())
+        .build(),
+    )
+    .withConditionalSetup(i === 1, (b) => b.addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(6, 2023))
+        .build(),
+    ))
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(7, 2023))
+        .build(),
+    )
     .build());
   let renderResult: RenderResult;
 
@@ -155,6 +180,14 @@ describe('InvoiceGenerationView', () => {
   test('should match image snapshot (step water meter reading)', async () => {
     // Arrange
     moveToStep(InvoiceGenerationSteps.WaterMeterReadings);
+
+    // Assert
+    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+  });
+
+  test('should match image snapshot (step rent payment)', async () => {
+    // Arrange
+    moveToStep(InvoiceGenerationSteps.RentPayment);
 
     // Assert
     expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();

@@ -3,6 +3,7 @@ import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import MonthSelection from './MonthSelection/MonthSelection';
 import OneTimeIncidentalsSelection from './OneTimeIncidentalsSelection/OneTimeIncidentalsSelection';
+import RentPaymentCheck from './RentPaymentCheck/RentPaymentCheck';
 import WaterMeterReadingsCheck from './WaterMeterReadingsCheck/WaterMeterReadingsCheck';
 import invoiceGenerationViewState, {
   InvoiceGenerationSteps,
@@ -39,6 +40,7 @@ function InvoiceGenerationView() {
             'Laufende Nebenkosten',
             'Einmalige Nebenkosten',
             'Wasserzählerstände',
+            'Mietzahlungen',
           ]}
           onStepChange={onStepChange}
           canFinishStep={isCurrentStepFinished}
@@ -47,6 +49,7 @@ function InvoiceGenerationView() {
           <OngoingIncidentalsSelection />
           <OneTimeIncidentalsSelection />
           <WaterMeterReadingsCheck />
+          <RentPaymentCheck />
         </GenericStepper>
       )}
       {viewState.currentStep === STEPPER_FINISHED && <p>Fertig</p>}

@@ -16,7 +16,6 @@ import ResidentStateManager from '_/states/resident/resident.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import '_/extensions/date/date.extension';
 import ResidentBuilder from '_/test/builders/resident.builder';
-import residentViewState from '_/views/ResidentView/states/resident_view_state';
 
 describe('AddRentPaymentButton', () => {
   const selectedResident = new ResidentBuilder().build();
@@ -80,12 +79,9 @@ describe('AddRentPaymentButton', () => {
 
     act(() => {
       setRecoil(residentState, [selectedResident]);
-      setRecoil(residentViewState, (state) => ({
-        ...state,
-        selectedResident: selectedResident.id,
-      }));
       setRecoil(addRentPaymentState, (state) => ({
         ...state,
+        selectedResident,
         selectedRentMonth,
       }));
     });

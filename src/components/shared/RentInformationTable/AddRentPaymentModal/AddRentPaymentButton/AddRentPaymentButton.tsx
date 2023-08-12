@@ -8,7 +8,6 @@ import addRentPaymentState, {
 import MonthYear from '_/extensions/date/month_year.extension';
 import { Resident } from '_/models/resident/resident';
 import ResidentStateManager from '_/states/resident/resident.state.manager';
-import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 import '_/extensions/date/date.extension';
 
 /**
@@ -18,13 +17,9 @@ function AddRentPaymentButton(): JSX.Element {
   const rentPaymentState = useRecoilValue(addRentPaymentState);
   const resetRentPaymentState = useResetRecoilState(addRentPaymentState);
 
-  const selectedResident = useRecoilValue(
-    residentViewSelectedResidentState,
-  ) as Resident;
-
   const onSuccess = (): void => {
     ResidentStateManager.updateRentInformation(
-      selectedResident.id,
+      (rentPaymentState.selectedResident as Resident).id,
       rentPaymentState.selectedRentMonth as MonthYear,
       {
         paymentAmount: rentPaymentState.formValidation.formInput.paymentAmount,

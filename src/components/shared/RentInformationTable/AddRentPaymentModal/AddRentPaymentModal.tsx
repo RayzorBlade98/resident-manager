@@ -12,6 +12,15 @@ function AddRentPaymentModal(): JSX.Element {
   const rentPaymentState = useRecoilValue(addRentPaymentState);
   const resetRentPaymentState = useResetRecoilState(addRentPaymentState);
 
+  if (
+    rentPaymentState.showModal
+    && (!rentPaymentState.selectedResident || !rentPaymentState.selectedRentMonth)
+  ) {
+    throw new Error(
+      'Resident and month must be defined in the addRentPaymentState!',
+    );
+  }
+
   return (
     <GenericModal
       title="Neue Zahlung"

@@ -4,7 +4,9 @@ import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import AddRentPaymentModal from './AddRentPaymentModal';
 import addRentPaymentState from '_/components/shared/RentInformationTable/states/add_rent_payment_state';
+import MonthYear from '_/extensions/date/month_year.extension';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('AddRentPaymentModal', () => {
   test('should match snapshot', async () => {
@@ -17,6 +19,8 @@ describe('AddRentPaymentModal', () => {
     act(() => {
       setRecoil(addRentPaymentState, (state) => ({
         ...state,
+        selectedResident: new ResidentBuilder().build(),
+        selectedRentMonth: new MonthYear(),
         showModal: true,
         formValidation: {
           ...state.formValidation,
@@ -29,8 +33,10 @@ describe('AddRentPaymentModal', () => {
     });
 
     // Assert
-    expect(
-      await generateImage({ viewport: { width: 650, height: 400 } }),
-    ).toMatchImageSnapshot();
+    await act(async () => {
+      expect(
+        await generateImage({ viewport: { width: 650, height: 400 } }),
+      ).toMatchImageSnapshot();
+    });
   });
 });

@@ -4,8 +4,14 @@ import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import addRentPaymentState from '_/components/shared/RentInformationTable/states/add_rent_payment_state';
 import { RentInformation } from '_/models/resident/rent';
+import { Resident } from '_/models/resident/resident';
 
 interface AddPaymentIconProps {
+  /**
+   * Resident for which the payment should be added
+   */
+  resident: Resident;
+
   /**
    * Rentinformation for which the payment should be added
    */
@@ -21,6 +27,7 @@ function AddPaymentIcon(props: AddPaymentIconProps): JSX.Element {
   const onClick = () => {
     setRentPaymentState((state) => ({
       ...state,
+      selectedResident: props.resident,
       selectedRentMonth: props.rentInformation.dueDate,
       showModal: true,
     }));

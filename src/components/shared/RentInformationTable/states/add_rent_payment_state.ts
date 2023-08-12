@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 import { ValidationConstraint } from '../../../../utils/validation/constraints';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { Resident } from '_/models/resident/resident';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 import {
   CompleteFormValidationState,
@@ -25,6 +26,11 @@ export interface RentPaymentInput {
 }
 
 interface AddRentPaymentState {
+  /**
+   * Resident for which the rent payment is added
+   */
+  selectedResident?: Resident;
+
   /**
    * Month for which the rent payment is added
    */
