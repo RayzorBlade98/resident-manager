@@ -1,10 +1,10 @@
 import React from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
+import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import addRentPaymentState, {
   RentPaymentInput,
   addRentPaymentFormValidationSelector,
-} from '../../states/add_rent_payment_state';
-import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
+} from '_/components/shared/RentInformationTable/states/add_rent_payment_state';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { Resident } from '_/models/resident/resident';
 import ResidentStateManager from '_/states/resident/resident.state.manager';

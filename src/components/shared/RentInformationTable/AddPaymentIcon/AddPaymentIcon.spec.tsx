@@ -1,8 +1,8 @@
 import { RenderResult, fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { getRecoil } from 'recoil-nexus';
-import addRentPaymentState from '../../states/add_rent_payment_state';
 import AddPaymentIcon from './AddPaymentIcon';
+import addRentPaymentState from '_/components/shared/RentInformationTable/states/add_rent_payment_state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 

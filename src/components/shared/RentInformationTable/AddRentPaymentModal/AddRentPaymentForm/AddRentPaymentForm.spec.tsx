@@ -3,11 +3,11 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, resetRecoil } from 'recoil-nexus';
-import { convertCurrencyEurosToCents } from '../../../../../../utils/currency/currency.utils';
+import { convertCurrencyEurosToCents } from '../../../../../utils/currency/currency.utils';
+import AddRentPaymentForm from './AddRentPaymentForm';
 import addRentPaymentState, {
   addRentPaymentFormValidationSelector,
-} from '../../states/add_rent_payment_state';
-import AddRentPaymentForm from './AddRentPaymentForm';
+} from '_/components/shared/RentInformationTable/states/add_rent_payment_state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import '_/extensions/date/date.extension';
 

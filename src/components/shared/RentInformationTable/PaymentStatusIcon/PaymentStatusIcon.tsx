@@ -2,13 +2,10 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { Tooltip } from '@mui/material';
 import React from 'react';
-import {
-  CurrencyInCents,
-  convertCurrencyCentsToString,
-} from '../../../../../../utils/currency/currency.utils';
-import RentInformationUtils from '../../../../../../utils/rent/rent.utils';
-import { PaymentStatus, RentInformation } from '_/models/resident/rent';
 import '_/extensions/date/date.extension';
+import { convertCurrencyCentsToString, CurrencyInCents } from '../../../../utils/currency/currency.utils';
+import RentInformationUtils from '../../../../utils/rent/rent.utils';
+import { PaymentStatus, RentInformation } from '_/models/resident/rent';
 
 interface PaymentStatusIconProps {
   /**

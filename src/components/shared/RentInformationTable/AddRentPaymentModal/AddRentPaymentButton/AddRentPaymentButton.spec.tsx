@@ -6,10 +6,10 @@ import {
 import React from 'react';
 import * as RecoilModule from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
+import AddRentPaymentButton from './AddRentPaymentButton';
 import addRentPaymentState, {
   addRentPaymentFormValidationSelector,
-} from '../../states/add_rent_payment_state';
-import AddRentPaymentButton from './AddRentPaymentButton';
+} from '_/components/shared/RentInformationTable/states/add_rent_payment_state';
 import MonthYear from '_/extensions/date/month_year.extension';
 import residentState from '_/states/resident/resident.state';
 import ResidentStateManager from '_/states/resident/resident.state.manager';

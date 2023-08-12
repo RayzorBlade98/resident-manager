@@ -1,12 +1,12 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import {
-  RentPaymentInput,
-  addRentPaymentFormValidationSelector,
-} from '../../states/add_rent_payment_state';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
 import StandardDateField from '_/components/form/StandardDateField/StandardDateField';
+import {
+  addRentPaymentFormValidationSelector,
+  RentPaymentInput,
+} from '_/components/shared/RentInformationTable/states/add_rent_payment_state';
 
 /**
  * Form to submit payment information

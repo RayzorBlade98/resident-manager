@@ -2,8 +2,8 @@ import { act, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
-import addRentPaymentState from '../states/add_rent_payment_state';
 import AddRentPaymentModal from './AddRentPaymentModal';
+import addRentPaymentState from '_/components/shared/RentInformationTable/states/add_rent_payment_state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('AddRentPaymentModal', () => {
