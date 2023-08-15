@@ -1,11 +1,12 @@
 import { DeductionType } from '../incidentals/ongoing_incidentals';
+import ResidentInvoiceInformation from './resident_invoice';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
  * Object containing information about an invoice
  */
-export interface Invoice {
+export default interface Invoice {
   /**
    * Unique id of the invoice
    */
@@ -57,21 +58,4 @@ interface OngoingIncidentalsInvoiceInformation {
    * Deduction type of the incidentals
    */
   deductionType: DeductionType;
-}
-
-/**
- * Object containing invoice information for a single resident
- */
-interface ResidentInvoiceInformation {
-  /**
-   * Id of the resident
-   */
-  residentId: string;
-
-  /**
-   * Costs for all ongoing incidentals
-   */
-  ongoingIncidentalsCosts: {
-    [incidentalsId: string]: CurrencyInCents;
-  };
 }

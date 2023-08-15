@@ -10,7 +10,7 @@ import incidentalsState, {
 import RentInformationUtils from '../rent/rent.utils';
 import PersistenceUtils from './persistence.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { Invoice } from '_/models/invoice/invoice';
+import Invoice from '_/models/invoice/invoice';
 import { Resident } from '_/models/resident/resident';
 import invoiceState from '_/states/invoice/invoice.state';
 import { propertyState } from '_/states/property/property.state';

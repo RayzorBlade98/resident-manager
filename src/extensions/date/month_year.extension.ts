@@ -35,18 +35,18 @@ class MonthYear extends Date {
   }
 
   /**
-   *
-   * @param date
-   * @returns
+   * Converts a `Date` object to a `MonthYear`
+   * @param date Date that should be converted
+   * @returns `MonthYear` with the same month and year as `date`
    */
   public static fromDate(date: Date): MonthYear {
     return new MonthYear(date.getMonth(), date.getFullYear());
   }
 
   /**
-   *
-   * @param date
-   * @returns
+   * Converts a date string to a `MonthYear`
+   * @param date Date string that should be converted
+   * @returns `MonthYear` with the same month and year as `date`
    */
   public static fromString(date: string): MonthYear {
     return MonthYear.fromDate(new Date(date));

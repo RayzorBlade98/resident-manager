@@ -3,12 +3,12 @@ import {
   OngoingIncidentals,
 } from '../../../models/incidentals/ongoing_incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { Invoice } from '_/models/invoice/invoice';
+import Invoice from '_/models/invoice/invoice';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
 
 /**
- * Arguments for the incidentals generation
+ * Arguments for the incidentals calculation
  */
 interface IncidentalsCalculationArguments {
   /**

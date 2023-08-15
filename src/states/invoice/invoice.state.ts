@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { sortInvoicesEffect } from './invoice.state.effects';
-import { Invoice } from '_/models/invoice/invoice';
+import Invoice from '_/models/invoice/invoice';
 
 /**
  * The invoice state is a list of all invoices

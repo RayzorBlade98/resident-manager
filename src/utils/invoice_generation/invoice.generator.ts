@@ -1,10 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import {
-  OngoingIncidentals,
-} from '../../models/incidentals/ongoing_incidentals';
+import { OngoingIncidentals } from '../../models/incidentals/ongoing_incidentals';
 import addIncidentalsCalculationToInvoice from './calculations/incidentals';
+import addRentPaymentCalculationToInvoice from './calculations/rent';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { Invoice } from '_/models/invoice/invoice';
+import Invoice from '_/models/invoice/invoice';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
 
@@ -58,6 +57,7 @@ export default function generateInvoice(
     invoice.residentInformation[r.id] = {
       residentId: r.id,
       ongoingIncidentalsCosts: {},
+      rentPayments: [],
     };
   });
 
@@ -69,6 +69,11 @@ export default function generateInvoice(
     residents,
     invoice,
     timespan,
+  });
+
+  addRentPaymentCalculationToInvoice({
+    invoice,
+    residents,
   });
 
   return invoice;

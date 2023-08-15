@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { invoiceViewSelectedInvoiceSelector } from '../../states/invoice_view_state';
-import { Invoice } from '_/models/invoice/invoice';
+import Invoice from '_/models/invoice/invoice';
 
 /**
  * Component that displays general information about an invoice

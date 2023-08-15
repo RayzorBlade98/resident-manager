@@ -4,9 +4,10 @@ import _ from 'lodash';
 import { DeductionType } from '../../models/incidentals/ongoing_incidentals';
 import generateInvoice from './invoice.generator';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { Invoice } from '_/models/invoice/invoice';
+import Invoice from '_/models/invoice/invoice';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
+import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('generateInvoice', () => {
@@ -45,6 +46,29 @@ describe('generateInvoice', () => {
   const standardResident = new ResidentBuilder()
     .withInvoiceStart(new MonthYear(0, 2023))
     .withNumberOfResidents(2)
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(0, 2023))
+        .withRent(500)
+        .withIncidentals(100)
+        .withPayment(600, new Date(2023, 0, 31))
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(1, 2023))
+        .withRent(600)
+        .withIncidentals(200)
+        .withPayment(600, new Date(2023, 1, 31))
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(2, 2023))
+        .withRent(700)
+        .withIncidentals(300)
+        .build(),
+    )
     .build();
 
   /**
@@ -53,7 +77,24 @@ describe('generateInvoice', () => {
   const residentLaterInvoiceStart = new ResidentBuilder()
     .withInvoiceStart(new MonthYear(1, 2023))
     .withNumberOfResidents(2)
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(1, 2023))
+        .withRent(700)
+        .withIncidentals(100)
+        .withPayment(1000, new Date(2023, 1, 31))
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(2, 2023))
+        .withRent(800)
+        .withIncidentals(200)
+        .withPayment(0, new Date(2023, 2, 31))
+        .build(),
+    )
     .build();
+
   const includedResidents = [standardResident, residentLaterInvoiceStart];
   const notIncludedResidents = [
     new ResidentBuilder().withInvoiceStart(start.clone().addMonths(-1)).build(),
@@ -85,6 +126,29 @@ describe('generateInvoice', () => {
           [ongoingIncidentalsPerApartment.id]: 20,
           [ongoingIncidentalsPerResident.id]: 200,
         },
+        rentPayments: [
+          {
+            dueDate: new MonthYear(0, 2023),
+            rent: 500,
+            incidentals: 100,
+            paymentAmount: 600,
+            paymentMissing: 0,
+          },
+          {
+            dueDate: new MonthYear(1, 2023),
+            rent: 600,
+            incidentals: 200,
+            paymentAmount: 600,
+            paymentMissing: 200,
+          },
+          {
+            dueDate: new MonthYear(2, 2023),
+            rent: 700,
+            incidentals: 300,
+            paymentAmount: 0,
+            paymentMissing: 1000,
+          },
+        ],
       },
       [residentLaterInvoiceStart.id]: {
         residentId: residentLaterInvoiceStart.id,
@@ -92,6 +156,22 @@ describe('generateInvoice', () => {
           [ongoingIncidentalsPerApartment.id]: 20,
           [ongoingIncidentalsPerResident.id]: 100,
         },
+        rentPayments: [
+          {
+            dueDate: new MonthYear(1, 2023),
+            rent: 700,
+            incidentals: 100,
+            paymentAmount: 1000,
+            paymentMissing: -200,
+          },
+          {
+            dueDate: new MonthYear(2, 2023),
+            rent: 800,
+            incidentals: 200,
+            paymentAmount: 0,
+            paymentMissing: 1000,
+          },
+        ],
       },
     },
   };

@@ -1,6 +1,6 @@
 import StandardParser from '../parser';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { Invoice } from '_/models/invoice/invoice';
+import Invoice from '_/models/invoice/invoice';
 
 /**
  * Parser for `Invoice` objects

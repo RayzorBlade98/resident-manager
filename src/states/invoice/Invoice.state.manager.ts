@@ -1,6 +1,6 @@
 import { setRecoil } from 'recoil-nexus';
 import invoiceState from './invoice.state';
-import { Invoice } from '_/models/invoice/invoice';
+import Invoice from '_/models/invoice/invoice';
 
 /**
  * Class that provides utility functions to manage the invoice state
