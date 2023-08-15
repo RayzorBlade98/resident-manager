@@ -2,8 +2,8 @@ import { Grid } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { invoiceViewSelectedInvoiceSelector } from './states/invoice_view_state';
+import InvoiceInformation from '_/components/shared/InvoiceInformation/InvoiceInformation';
 import invoiceState from '_/states/invoice/invoice.state';
-import InvoiceInformation from '_/views/InvoiceView/InvoiceInformation/InvoiceInformation';
 import InvoiceList from '_/views/InvoiceView/InvoiceList/InvoiceList';
 
 const styles = {
@@ -31,7 +31,7 @@ function InvoiceView(): JSX.Element {
         <InvoiceList />
       </Grid>
       <Grid item xs={10} sx={styles.grid}>
-        {selectedInvoice && <InvoiceInformation />}
+        {selectedInvoice && <InvoiceInformation invoice={selectedInvoice} />}
       </Grid>
     </Grid>
   );

@@ -23,6 +23,12 @@ class InvoiceBuilder {
     return this;
   }
 
+  public withStartAndEnd(start: MonthYear, end: MonthYear): InvoiceBuilder {
+    this.invoice.start = start;
+    this.invoice.end = end;
+    return this;
+  }
+
   public build(): Invoice {
     InvoiceBuilder.nextStart.addMonths(1);
     return this.invoice;

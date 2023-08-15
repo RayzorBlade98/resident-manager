@@ -2,6 +2,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Box, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
 import GeneralInvoiceInformation from './GeneralInvoiceInformation/GeneralInvoiceInformation';
+import Invoice from '_/models/invoice/invoice';
 
 /**
  * Enum containing all tabs of this component
@@ -14,10 +15,17 @@ const styles = {
   tabsBox: { borderBottom: 1, borderColor: 'divider' },
 };
 
+interface InvoiceInformationProps {
+  /**
+   * Invoice for which the information should be displayed
+   */
+  invoice: Invoice;
+}
+
 /**
  * Component that displays information of the invoice in different tabs.
  */
-function InvoiceInformation(): JSX.Element {
+function InvoiceInformation(props: InvoiceInformationProps): JSX.Element {
   const [activeTab, setActiveTab] = useState<InvoiceTab>(InvoiceTab.General);
 
   return (
@@ -32,7 +40,7 @@ function InvoiceInformation(): JSX.Element {
         </Tabs>
       </Box>
       <div hidden={activeTab !== InvoiceTab.General}>
-        <GeneralInvoiceInformation />
+        <GeneralInvoiceInformation invoice={props.invoice} />
       </div>
     </>
   );
