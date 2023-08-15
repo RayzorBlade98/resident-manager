@@ -6,11 +6,11 @@ import {
 import { range } from 'lodash';
 import React from 'react';
 import { getRecoil, setRecoil } from 'recoil-nexus';
+import View from '../../../routes';
 import invoiceViewState, {
   invoiceViewSelectedInvoiceSelector,
 } from '../states/invoice_view_state';
 import InvoiceList from './InvoiceList';
-import currentViewState, { View } from '_/states/current_view.state';
 import invoiceState from '_/states/invoice/invoice.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
@@ -18,10 +18,15 @@ import InvoiceBuilder from '_/test/builders/invoice.builder';
 describe('InvoiceList', () => {
   const invoices = range(0, 5).map((i) => new InvoiceBuilder().withId(`invoice${i}`).build());
   let renderResult: RenderResult;
+  let currentRoute: string;
 
   beforeEach(() => {
     renderResult = render(
-      <ReactTestWrapper>
+      <ReactTestWrapper
+        onRouteChange={(route) => {
+          currentRoute = route;
+        }}
+      >
         <InvoiceList />
       </ReactTestWrapper>,
     );
@@ -41,8 +46,7 @@ describe('InvoiceList', () => {
     fireEvent.click(createButton);
 
     // Assert
-    const newView = getRecoil(currentViewState);
-    expect(newView).toEqual(View.InvoiceGeneration);
+    expect(currentRoute).toEqual(View.InvoiceGeneration);
   });
 
   test('should select invoice when clicking', () => {

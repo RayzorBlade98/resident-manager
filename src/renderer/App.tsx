@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import View from '../routes';
 import { defaultColors } from '../styles';
-import currentViewState, { View } from '_/states/current_view.state';
 import { propertyState } from '_/states/property/property.state';
 import IncidentalsView from '_/views/IncidentalsView/IncidentalsView';
 import InvoiceGenerationView from '_/views/InvoiceGenerationView/InvoiceGenerationView';
@@ -15,7 +16,6 @@ function App(): JSX.Element {
     window.ipcAPI?.rendererReady();
   }, []);
 
-  const view: View = useRecoilValue(currentViewState);
   const property = useRecoilValue(propertyState);
 
   // Init property if it's not defined yet
@@ -25,11 +25,16 @@ function App(): JSX.Element {
 
   return (
     <div className="app" style={{ backgroundColor: defaultColors.mainLight1 }}>
-      {view === View.Main && <MainView />}
-      {view === View.Resident && <ResidentView />}
-      {view === View.Incidentals && <IncidentalsView />}
-      {view === View.Invoice && <InvoiceView />}
-      {view === View.InvoiceGeneration && <InvoiceGenerationView />}
+      <Routes>
+        <Route path={View.Main} Component={MainView} />
+        <Route path={View.Resident} Component={ResidentView} />
+        <Route path={View.Incidentals} Component={IncidentalsView} />
+        <Route path={View.Invoice} Component={InvoiceView} />
+        <Route
+          path={View.InvoiceGeneration}
+          Component={InvoiceGenerationView}
+        />
+      </Routes>
     </div>
   );
 }

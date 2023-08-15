@@ -7,11 +7,11 @@ import { generateImage } from 'jsdom-screenshot';
 import { range } from 'lodash';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
+import View from '../../routes';
 import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../styles';
 import { InvoiceGenerationSteps } from './states/invoice_generation_view_state';
 import MonthYear from '_/extensions/date/month_year.extension';
 import App from '_/renderer/App';
-import currentViewState, { View } from '_/states/current_view.state';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
@@ -129,13 +129,12 @@ describe('InvoiceGenerationView', () => {
 
   beforeEach(() => {
     renderResult = render(
-      <ReactTestWrapper>
+      <ReactTestWrapper route={View.InvoiceGeneration}>
         <App />
       </ReactTestWrapper>,
     );
 
     act(() => {
-      setRecoil(currentViewState, View.InvoiceGeneration);
       setRecoil(incidentalsState, incidentals);
       setRecoil(residentState, residents);
     });

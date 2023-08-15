@@ -6,10 +6,11 @@ import {
   ListItemText,
 } from '@mui/material';
 import React from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import View from '../../../routes';
 import { invoiceViewSelectedInvoiceSelector } from '../states/invoice_view_state';
 import Invoice from '_/models/invoice/invoice';
-import currentViewState, { View } from '_/states/current_view.state';
 import invoiceState from '_/states/invoice/invoice.state';
 
 const styles = {
@@ -36,13 +37,13 @@ function InvoiceList(): JSX.Element {
   const [selectedInvoice, setSelectedInvoice] = useRecoilState(
     invoiceViewSelectedInvoiceSelector,
   );
-  const setCurrentView = useSetRecoilState(currentViewState);
+  const navigate = useNavigate();
 
   return (
     <Box sx={styles.box}>
       <List sx={styles.list}>
         <ListItemButton
-          onClick={() => setCurrentView(View.InvoiceGeneration)}
+          onClick={() => navigate(View.InvoiceGeneration)}
           sx={styles.listItemButton}
         >
           <ListItemText primary="Neue Abrechnung" />

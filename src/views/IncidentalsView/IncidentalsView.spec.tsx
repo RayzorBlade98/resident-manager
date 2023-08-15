@@ -7,9 +7,9 @@ import { generateImage } from 'jsdom-screenshot';
 import { range } from 'lodash';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
+import View from '../../routes';
 import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../styles';
 import App from '_/renderer/App';
-import currentViewState, { View } from '_/states/current_view.state';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
@@ -20,12 +20,11 @@ describe('IncidentalsView', () => {
 
   beforeEach(() => {
     renderResult = render(
-      <ReactTestWrapper>
+      <ReactTestWrapper route={View.Incidentals}>
         <App />
       </ReactTestWrapper>,
     );
     act(() => {
-      setRecoil(currentViewState, View.Incidentals);
       setRecoil(incidentalsState, (state) => ({
         ...state,
         ongoingIncidentals: [

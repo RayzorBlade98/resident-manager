@@ -5,10 +5,10 @@ import { generateImage } from 'jsdom-screenshot';
 import { range } from 'lodash';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
+import View from '../../routes';
 import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../styles';
 import MonthYear from '_/extensions/date/month_year.extension';
 import App from '_/renderer/App';
-import currentViewState, { View } from '_/states/current_view.state';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
@@ -60,14 +60,13 @@ describe('ResidentView', () => {
 
   beforeEach(() => {
     renderResult = render(
-      <ReactTestWrapper>
+      <ReactTestWrapper route={View.Resident}>
         <App />
       </ReactTestWrapper>,
     );
 
     act(() => {
       setRecoil(residentState, residents);
-      setRecoil(currentViewState, View.Resident);
     });
 
     const selectedInvoice = renderResult.getAllByRole('button').at(2)!;

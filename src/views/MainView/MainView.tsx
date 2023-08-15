@@ -1,22 +1,20 @@
 import { Button } from '@mui/material';
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
-import currentViewState, { View } from '_/states/current_view.state';
+import { useNavigate } from 'react-router-dom';
+import View from '../../routes';
 
 function MainView(): JSX.Element {
-  const setCurrentView = useSetRecoilState(currentViewState);
+  const navigate = useNavigate();
+
   return (
     <>
-      <Button variant="contained" onClick={() => setCurrentView(View.Resident)}>
+      <Button variant="contained" onClick={() => navigate(View.Resident)}>
         Bewohner
       </Button>
-      <Button
-        variant="contained"
-        onClick={() => setCurrentView(View.Incidentals)}
-      >
+      <Button variant="contained" onClick={() => navigate(View.Incidentals)}>
         Nebenkosten
       </Button>
-      <Button variant="contained" onClick={() => setCurrentView(View.Invoice)}>
+      <Button variant="contained" onClick={() => navigate(View.Invoice)}>
         Nebenkostenabrechnung
       </Button>
     </>

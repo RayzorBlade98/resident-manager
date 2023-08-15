@@ -1,10 +1,12 @@
 /* eslint-disable max-len */
 
-import { RenderResult, act, render } from '@testing-library/react';
+import {
+  RenderResult, act, cleanup, render,
+} from '@testing-library/react';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
+import View from '../routes';
 import App from './App';
-import currentViewState, { View } from '_/states/current_view.state';
 import { propertyState } from '_/states/property/property.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import PropertyBuilder from '_/test/builders/property.builder';
@@ -17,30 +19,25 @@ import * as ResidentView from '_/views/ResidentView/ResidentView';
 
 describe('App', () => {
   const propertyInitializationViewText = 'PropertyInitializationView';
-  const mainViewText = 'MainView';
-  const residentViewText = 'ResidentView';
-  const incidentalsViewText = 'IncidentalsView';
-  const invoiceViewText = 'InvoiceView';
-  const invoiceGenerationViewText = 'InvoiceGenerationView';
   let renderResult: RenderResult;
 
   beforeAll(() => {
     jest
       .spyOn(PropertyInitializationView, 'default')
       .mockReturnValue(<div>{propertyInitializationViewText}</div>);
-    jest.spyOn(MainView, 'default').mockReturnValue(<div>{mainViewText}</div>);
+    jest.spyOn(MainView, 'default').mockReturnValue(<div>{View.Main}</div>);
     jest
       .spyOn(ResidentView, 'default')
-      .mockReturnValue(<div>{residentViewText}</div>);
+      .mockReturnValue(<div>{View.Resident}</div>);
     jest
       .spyOn(IncidentalsView, 'default')
-      .mockReturnValue(<div>{incidentalsViewText}</div>);
+      .mockReturnValue(<div>{View.Incidentals}</div>);
     jest
       .spyOn(InvoiceView, 'default')
-      .mockReturnValue(<div>{invoiceViewText}</div>);
+      .mockReturnValue(<div>{View.Invoice}</div>);
     jest
       .spyOn(InvoiceGenerationView, 'default')
-      .mockReturnValue(<div>{invoiceGenerationViewText}</div>);
+      .mockReturnValue(<div>{View.InvoiceGeneration}</div>);
   });
 
   beforeEach(() => {
@@ -66,20 +63,20 @@ describe('App', () => {
     expect(view).toBeDefined();
   });
 
-  test.each([
-    [mainViewText, View.Main],
-    [residentViewText, View.Resident],
-    [incidentalsViewText, View.Incidentals],
-    [invoiceViewText, View.Invoice],
-    [invoiceGenerationViewText, View.InvoiceGeneration],
-  ])('should render %s', (expectedContent, view) => {
-    // Arrange
-    act(() => {
-      setRecoil(currentViewState, view);
-    });
+  test.each(Object.keys(View).map((k) => [k, View[k as keyof typeof View]]))(
+    'should render %s',
+    (_, route) => {
+      // Arrange
+      cleanup();
+      renderResult = render(
+        <ReactTestWrapper route={route}>
+          <App />
+        </ReactTestWrapper>,
+      );
 
-    // Assert
-    const content = renderResult.queryByText(expectedContent);
-    expect(content).toBeDefined();
-  });
+      // Assert
+      const content = renderResult.queryByText(route);
+      expect(content).toBeDefined();
+    },
+  );
 });

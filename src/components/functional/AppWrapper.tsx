@@ -1,4 +1,5 @@
 import React from 'react';
+import { HashRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import RecoilNexus from 'recoil-nexus';
 import SaveStateManager from './SaveStateHandler/SaveStateHandler';
@@ -18,7 +19,7 @@ function AppWrapper(
       <RecoilNexus />
       <SaveStateManager>
         <StandardLocalizationProvider>
-          {props.children}
+          <HashRouter>{props.children}</HashRouter>
         </StandardLocalizationProvider>
       </SaveStateManager>
     </RecoilRoot>
