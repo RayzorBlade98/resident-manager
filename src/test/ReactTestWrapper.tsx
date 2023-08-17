@@ -46,6 +46,11 @@ interface ReactTestWrapperProps {
   route?: View;
 
   /**
+   * Routing history that should be initialized
+   */
+  routingHistory?: View[];
+
+  /**
    * Callback whenever the route changes
    */
   onRouteChange?: (route: View) => void;
@@ -57,12 +62,21 @@ interface ReactTestWrapperProps {
 function ReactTestWrapper(
   props: React.PropsWithChildren<ReactTestWrapperProps>,
 ): JSX.Element {
+  const routingHistory = [
+    ...(props.routingHistory ?? []),
+    ...(props.route ? [props.route] : []),
+  ];
+
   return (
     <RecoilRoot>
       <RecoilNexus />
       <PropertyInitializer />
       <StandardLocalizationProvider>
-        <MemoryRouter initialEntries={props.route ? [props.route] : undefined}>
+        <MemoryRouter
+          initialEntries={
+            routingHistory.length > 0 ? routingHistory : undefined
+          }
+        >
           <CurrentRouteProvider onRouteChange={props.onRouteChange} />
           {props.children}
         </MemoryRouter>

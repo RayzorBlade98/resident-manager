@@ -3,6 +3,7 @@ import LoopIcon from '@mui/icons-material/Loop';
 import { Box, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
 import OneTimeIncidentalsTable from './OneTimeIncidentalsTable/OneTimeIncidentalsTable';
+import AppBar from '_/components/shared/AppBar/AppBar';
 import OngoingIncidentalsTable from '_/views/IncidentalsView/OngoingIncidentalsTable/OngoingIncidentalsTable';
 
 /**
@@ -24,6 +25,7 @@ function IncidentalsView(): JSX.Element {
 
   return (
     <>
+      <AppBar />
       <Box sx={styles.tabsBox}>
         <Tabs
           variant="fullWidth"
