@@ -6,21 +6,18 @@ import AppBar from './AppBar';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('AppBar', () => {
-  const previousRoute = View.Resident;
-
   let renderResult: RenderResult;
   let currentRoute: string;
 
   beforeEach(() => {
     renderResult = render(
       <ReactTestWrapper
-        routingHistory={[previousRoute]}
-        route={View.Main}
+        route={View.Incidentals}
         onRouteChange={(route) => {
           currentRoute = route;
         }}
       >
-        <AppBar />
+        <AppBar returnRoute={View.Main} />
       </ReactTestWrapper>,
     );
   });
@@ -31,7 +28,7 @@ describe('AppBar', () => {
     fireEvent.click(backButton);
 
     // Assert
-    expect(currentRoute).toBe(previousRoute);
+    expect(currentRoute).toBe(View.Main);
   });
 
   test('should match snapshot', async () => {

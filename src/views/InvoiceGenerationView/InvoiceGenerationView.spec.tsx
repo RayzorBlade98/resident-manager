@@ -4,7 +4,7 @@ import {
   RenderResult, act, fireEvent, render,
 } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
-import { range } from 'lodash';
+import { isNumber, range } from 'lodash';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import View from '../../routes';
@@ -119,6 +119,11 @@ describe('InvoiceGenerationView', () => {
   }
 
   function moveToStep(step: InvoiceGenerationSteps) {
+    if (step === InvoiceGenerationSteps.Finished) {
+      const allSteps = Object.values(InvoiceGenerationSteps).filter((s) => isNumber(s)) as InvoiceGenerationSteps[];
+      step = Math.max(...allSteps) + 1;
+    }
+
     for (let currentStep = 0; currentStep < step; currentStep += 1) {
       requiredStepInput(currentStep);
       fireEvent.click(
@@ -187,6 +192,14 @@ describe('InvoiceGenerationView', () => {
   test('should match image snapshot (step rent payment)', async () => {
     // Arrange
     moveToStep(InvoiceGenerationSteps.RentPayment);
+
+    // Assert
+    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+  });
+
+  test('should match image snapshot (step finished)', async () => {
+    // Arrange
+    moveToStep(InvoiceGenerationSteps.Finished);
 
     // Assert
     expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();

@@ -1,6 +1,9 @@
 import { Box } from '@mui/material';
-import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React, { useEffect } from 'react';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import View from '../../routes';
+import { CONTENT_HEIGHT_WITHOUT_APPBAR } from '../../styles';
+import GeneratedInvoiceOverview from './GeneratedInvoiceOverview/GeneratedInvoiceOverview';
 import MonthSelection from './MonthSelection/MonthSelection';
 import OneTimeIncidentalsSelection from './OneTimeIncidentalsSelection/OneTimeIncidentalsSelection';
 import RentPaymentCheck from './RentPaymentCheck/RentPaymentCheck';
@@ -8,23 +11,52 @@ import WaterMeterReadingsCheck from './WaterMeterReadingsCheck/WaterMeterReading
 import invoiceGenerationViewState, {
   InvoiceGenerationSteps,
   isCurrentStepFinishedSelector,
+  residentsForInvoiceSelector,
 } from './states/invoice_generation_view_state';
 import GenericStepper, {
   STEPPER_FINISHED,
 } from '_/components/generic/GenericStepper/GenericStepper';
+import AppBar from '_/components/shared/AppBar/AppBar';
+import MonthYear from '_/extensions/date/month_year.extension';
+import propertySelector from '_/states/property/property.state';
+import generateInvoice from '_/utils/invoice_generation/invoice.generator';
 import OngoingIncidentalsSelection from '_/views/InvoiceGenerationView/OngoingIncidentalsSelection/OngoingIncidentalsSelection';
 
 const styles = {
   view: {
-    height: '100%',
+    height: CONTENT_HEIGHT_WITHOUT_APPBAR,
   },
 };
 
 function InvoiceGenerationView() {
   const [viewState, setViewState] = useRecoilState(invoiceGenerationViewState);
+  const resetViewState = useResetRecoilState(invoiceGenerationViewState);
   const isCurrentStepFinished = useRecoilValue(isCurrentStepFinishedSelector);
 
+  const residents = useRecoilValue(residentsForInvoiceSelector);
+  const property = useRecoilValue(propertySelector);
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    resetViewState();
+  }, []);
+
   const onStepChange = (step: number) => {
+    // Generate invoice if stepper is finished
+    if (step === STEPPER_FINISHED) {
+      const invoice = generateInvoice({
+        start: viewState.formValidation.formInput.invoiceStart as MonthYear,
+        end: viewState.formValidation.formInput.invoiceEnd as MonthYear,
+        residents,
+        includedOngoingIncidentals: viewState.selectedOngoingIncidentals,
+        property,
+      });
+      setViewState((state) => ({
+        ...state,
+        generatedInvoice: invoice,
+      }));
+    }
+
     setViewState((state) => ({
       ...state,
       currentStep: step as InvoiceGenerationSteps,
@@ -32,28 +64,33 @@ function InvoiceGenerationView() {
   };
 
   return (
-    <Box sx={styles.view}>
-      {viewState.currentStep !== STEPPER_FINISHED && (
-        <GenericStepper
-          steps={[
-            'Abrechnungszeitraum',
-            'Laufende Nebenkosten',
-            'Einmalige Nebenkosten',
-            'Wasserzählerstände',
-            'Mietzahlungen',
-          ]}
-          onStepChange={onStepChange}
-          canFinishStep={isCurrentStepFinished}
-        >
-          <MonthSelection />
-          <OngoingIncidentalsSelection />
-          <OneTimeIncidentalsSelection />
-          <WaterMeterReadingsCheck />
-          <RentPaymentCheck />
-        </GenericStepper>
-      )}
-      {viewState.currentStep === STEPPER_FINISHED && <p>Fertig</p>}
-    </Box>
+    <>
+      <AppBar returnRoute={View.Invoice} />
+      <Box sx={styles.view}>
+        {viewState.currentStep !== STEPPER_FINISHED && (
+          <GenericStepper
+            steps={[
+              'Abrechnungszeitraum',
+              'Laufende Nebenkosten',
+              'Einmalige Nebenkosten',
+              'Wasserzählerstände',
+              'Mietzahlungen',
+            ]}
+            onStepChange={onStepChange}
+            canFinishStep={isCurrentStepFinished}
+          >
+            <MonthSelection />
+            <OngoingIncidentalsSelection />
+            <OneTimeIncidentalsSelection />
+            <WaterMeterReadingsCheck />
+            <RentPaymentCheck />
+          </GenericStepper>
+        )}
+        {viewState.currentStep === STEPPER_FINISHED && (
+          <GeneratedInvoiceOverview />
+        )}
+      </Box>
+    </>
   );
 }
 

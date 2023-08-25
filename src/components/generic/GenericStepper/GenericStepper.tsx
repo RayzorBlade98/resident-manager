@@ -4,7 +4,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import React from 'react';
-import { CONTENT_HEIGHT } from '../../../styles';
+import { CONTENT_HEIGHT_WITHOUT_APPBAR } from '../../../styles';
 
 /**
  * Constant that indicates that all steps are finished
@@ -20,7 +20,7 @@ const styles = {
     paddingTop: '20px',
   },
   content: {
-    height: `${CONTENT_HEIGHT - 140}px`,
+    height: `${CONTENT_HEIGHT_WITHOUT_APPBAR - 140}px`,
   },
   footer: {
     height: '60px',

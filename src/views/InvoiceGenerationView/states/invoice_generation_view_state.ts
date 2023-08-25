@@ -6,6 +6,7 @@ import { STEPPER_FINISHED } from '_/components/generic/GenericStepper/GenericSte
 import MonthYear from '_/extensions/date/month_year.extension';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
+import Invoice from '_/models/invoice/invoice';
 import { Resident } from '_/models/resident/resident';
 import residentState from '_/states/resident/resident.state';
 import {
@@ -59,6 +60,11 @@ export interface InvoiceGenerationViewState {
    * List of all selected one time incidentals
    */
   selectedOneTimeIncidentals: OneTimeIncidentals[];
+
+  /**
+   * Invoice that got generated
+   */
+  generatedInvoice: Invoice | undefined;
 }
 
 /**
@@ -75,6 +81,7 @@ InvoiceGenerationInput
     currentStep: 0,
     selectedOngoingIncidentals: [],
     selectedOneTimeIncidentals: [],
+    generatedInvoice: undefined,
     formValidation: {
       formInput: {
         invoiceStart: undefined,

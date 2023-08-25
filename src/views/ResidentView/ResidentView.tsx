@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import View from '../../routes';
 import { CONTENT_HEIGHT_WITHOUT_APPBAR } from '../../styles';
 import ResidentInformation from './ResidentInformation/ResidentInformation';
 import ResidentList from './ResidentList/ResidentList';
@@ -29,7 +30,7 @@ function ResidentView(): JSX.Element {
 
   return (
     <>
-      <AppBar />
+      <AppBar returnRoute={View.Main} />
       <Grid container sx={styles.grid}>
         <Grid item xs={2} sx={styles.grid}>
           <ResidentList />

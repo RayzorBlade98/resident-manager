@@ -2,6 +2,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { IconButton, AppBar as MuiAppBar, Toolbar } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import View from '../../../routes';
 import { APPBAR_HEIGHT } from '../../../styles';
 
 const styles = {
@@ -15,10 +16,17 @@ const styles = {
   },
 };
 
+interface AppBarProps {
+  /**
+   * Route to where the back button should navigate
+   */
+  returnRoute: View;
+}
+
 /**
  * Toolbar that provides functionality to navigate backwards
  */
-function AppBar(): JSX.Element {
+function AppBar(props: AppBarProps): JSX.Element {
   const navigate = useNavigate();
 
   return (
@@ -30,7 +38,7 @@ function AppBar(): JSX.Element {
           color="inherit"
           sx={{ mr: 2 }}
           onClick={() => {
-            navigate(-1);
+            navigate(props.returnRoute);
           }}
         >
           <ArrowBackIosIcon />

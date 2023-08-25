@@ -2,6 +2,7 @@ import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
 import LoopIcon from '@mui/icons-material/Loop';
 import { Box, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
+import View from '../../routes';
 import OneTimeIncidentalsTable from './OneTimeIncidentalsTable/OneTimeIncidentalsTable';
 import AppBar from '_/components/shared/AppBar/AppBar';
 import OngoingIncidentalsTable from '_/views/IncidentalsView/OngoingIncidentalsTable/OngoingIncidentalsTable';
@@ -25,7 +26,7 @@ function IncidentalsView(): JSX.Element {
 
   return (
     <>
-      <AppBar />
+      <AppBar returnRoute={View.Main} />
       <Box sx={styles.tabsBox}>
         <Tabs
           variant="fullWidth"
