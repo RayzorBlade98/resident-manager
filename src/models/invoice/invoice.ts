@@ -1,4 +1,4 @@
-import { DeductionType } from '../incidentals/ongoing_incidentals';
+import { DeductionType } from '../incidentals/deduction_type';
 import ResidentInvoiceInformation from './resident_invoice';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';

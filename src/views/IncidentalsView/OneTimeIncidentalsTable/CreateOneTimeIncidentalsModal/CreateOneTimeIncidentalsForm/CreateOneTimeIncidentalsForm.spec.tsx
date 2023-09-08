@@ -29,11 +29,11 @@ describe('CreateOngoingIncidentalsForm', () => {
       target: { value: cost.toString() },
     });
 
-    fireEvent.change(inputFields.item(2), {
+    fireEvent.change(inputFields.item(3), {
       target: { value: billingDate },
     });
 
-    fireEvent.change(inputFields.item(3), {
+    fireEvent.change(inputFields.item(4), {
       target: { value: paymentDate },
     });
   }
@@ -56,6 +56,9 @@ describe('CreateOngoingIncidentalsForm', () => {
     const currentCost = 100;
     const billingDate = '16.06.2023';
     const paymentDate = '17.06.2023';
+    const defaultFormInput = getRecoil(
+      createOneTimeIncidentalsFormValidationSelector,
+    ).formInput;
 
     // Act
     inputToForm(name, currentCost, billingDate, paymentDate);
@@ -65,6 +68,7 @@ describe('CreateOngoingIncidentalsForm', () => {
       createOneTimeIncidentalsFormValidationSelector,
     ).formInput;
     expect(formInput).toEqual({
+      ...defaultFormInput,
       name,
       cost: convertCurrencyEurosToCents(currentCost),
       billingDate: new Date(2023, 5, 16).toUTC(),

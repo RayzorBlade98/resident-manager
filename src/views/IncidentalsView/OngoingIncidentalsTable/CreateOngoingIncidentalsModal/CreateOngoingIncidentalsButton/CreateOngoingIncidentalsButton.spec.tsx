@@ -5,12 +5,12 @@ import _ from 'lodash';
 import React from 'react';
 import * as RecoilModule from 'recoil';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import { DeductionType } from '../../../../../models/incidentals/ongoing_incidentals';
 import createOngoingIncidentalsState, {
   createOngoingIncidentalsFormValidationSelector,
 } from '../../states/create_ongoing_incidentals_state';
 import CreateOngoingIncidentalsButton from './CreateOngoingIncidentalsButton';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 

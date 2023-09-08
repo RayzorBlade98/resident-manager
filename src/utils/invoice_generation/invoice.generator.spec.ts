@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 
 import _ from 'lodash';
-import { DeductionType } from '../../models/incidentals/ongoing_incidentals';
 import generateInvoice from './invoice.generator';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import PropertyBuilder from '_/test/builders/property.builder';

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import { v4 as uuid } from 'uuid';
-import { DeductionType } from '../../models/incidentals/ongoing_incidentals';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import { OngoingIncidentalsInvoiceInformation } from '_/models/invoice/invoice';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
@@ -27,12 +27,16 @@ class OngoingIncidentalsInvoiceInformationBuilder {
     return this;
   }
 
-  public withDeductionType(deductionType: DeductionType): OngoingIncidentalsInvoiceInformationBuilder {
+  public withDeductionType(
+    deductionType: DeductionType,
+  ): OngoingIncidentalsInvoiceInformationBuilder {
     this.incidentals.deductionType = deductionType;
     return this;
   }
 
-  public withTotalCost(cost: CurrencyInCents): OngoingIncidentalsInvoiceInformationBuilder {
+  public withTotalCost(
+    cost: CurrencyInCents,
+  ): OngoingIncidentalsInvoiceInformationBuilder {
     this.incidentals.totalCost = cost;
     return this;
   }

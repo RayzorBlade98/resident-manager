@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
-import { DeductionType } from '../../../../models/incidentals/ongoing_incidentals';
 import { ValidationConstraint } from '../../../../utils/validation/constraints';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 import {
   CompleteFormValidationState,

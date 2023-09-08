@@ -1,20 +1,6 @@
+import { DeductionType } from './deduction_type';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
-
-/**
- * Method of how the costs are distributed between the residents
- */
-export enum DeductionType {
-  /**
-   * The costs get split up between each resident
-   */
-  PerResident = 'Pro Bewohner',
-
-  /**
-   * The costs get split up between each apartment
-   */
-  PerApartment = 'Pro Wohnung',
-}
 
 /**
  * Cost information of the incidentals
@@ -23,12 +9,12 @@ export interface OngoingIncidentalsCost {
   /**
    * Cost of the incidentals
    */
-  cost: CurrencyInCents
+  cost: CurrencyInCents;
 
   /**
    * Month in which the cost first applies
    */
-  date: MonthYear
+  date: MonthYear;
 }
 
 /**
@@ -48,7 +34,7 @@ export interface OngoingIncidentals {
   /**
    * History of all costs
    */
-  costs: OngoingIncidentalsCost[]
+  costs: OngoingIncidentalsCost[];
 
   /**
    * Deduction type of the incidentals

@@ -2,11 +2,11 @@
 
 import { v4 as uuid } from 'uuid';
 import {
-  DeductionType,
   OngoingIncidentals,
   OngoingIncidentalsCost,
 } from '../../models/incidentals/ongoing_incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 
 class OngoingIncidentalsBuilder {
   private incidentals: OngoingIncidentals;
@@ -36,7 +36,9 @@ class OngoingIncidentalsBuilder {
     return this;
   }
 
-  public withDeductionType(deductionType: DeductionType): OngoingIncidentalsBuilder {
+  public withDeductionType(
+    deductionType: DeductionType,
+  ): OngoingIncidentalsBuilder {
     this.incidentals.deductionType = deductionType;
     return this;
   }

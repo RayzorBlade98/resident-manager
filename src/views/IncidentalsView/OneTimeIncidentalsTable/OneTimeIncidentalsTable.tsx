@@ -43,6 +43,7 @@ function OneTimeIncidentalsTable(): JSX.Element {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
+              <TableCell>Abrechnungsart</TableCell>
               <TableCell>Preis</TableCell>
               <TableCell>Rechnungsdatum</TableCell>
               <TableCell>Zahlungsdatum</TableCell>
@@ -66,6 +67,7 @@ function OneTimeIncidentalsTable(): JSX.Element {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell>{_incidentals.name}</TableCell>
+                <TableCell>{_incidentals.deductionType}</TableCell>
                 <TableCell>
                   {convertCurrencyCentsToString(_incidentals.cost)}
                 </TableCell>

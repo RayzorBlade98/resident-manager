@@ -1,8 +1,6 @@
-import {
-  DeductionType,
-  OngoingIncidentals,
-} from '../../../models/incidentals/ongoing_incidentals';
+import { OngoingIncidentals } from '../../../models/incidentals/ongoing_incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';

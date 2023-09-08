@@ -8,6 +8,7 @@ import createOneTimeIncidentalsState, {
   createOneTimeIncidentalsFormValidationSelector,
 } from '../../states/create_one_time_incidentals_state';
 import CreateOneTimeIncidentalsButton from './CreateOneTimeIncidentalsButton';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
@@ -17,6 +18,7 @@ describe('CreateOneTimeIncidentalsButton', () => {
     cost: 100,
     billingDate: new Date(2023, 5, 16),
     paymentDate: new Date(2023, 5, 17),
+    deductionType: DeductionType.PerApartment,
   };
 
   let renderResult: RenderResult;

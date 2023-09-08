@@ -3,12 +3,12 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, resetRecoil } from 'recoil-nexus';
-import { DeductionType } from '../../../../../models/incidentals/ongoing_incidentals';
 import { convertCurrencyEurosToCents } from '../../../../../utils/currency/currency.utils';
 import createOngoingIncidentalsState, {
   createOngoingIncidentalsFormValidationSelector,
 } from '../../states/create_ongoing_incidentals_state';
 import CreateOngoingIncidentalsForm from './CreateOngoingIncidentalsForm';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateOngoingIncidentalsForm', () => {

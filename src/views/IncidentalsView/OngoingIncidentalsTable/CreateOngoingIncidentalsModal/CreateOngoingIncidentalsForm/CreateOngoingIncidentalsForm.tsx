@@ -1,20 +1,14 @@
-import {
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { DeductionType } from '../../../../../models/incidentals/ongoing_incidentals';
 import {
   CreateOngoingIncidentalsInput,
   createOngoingIncidentalsFormValidationSelector,
 } from '../../states/create_ongoing_incidentals_state';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
+import DeductionTypeSelect from '_/components/form/DeductionTypeSelect/DeductionTypeSelect';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 
 /**
  * Form to submit new ongoing incidentals
@@ -66,28 +60,12 @@ function CreateOngoingIncidentalsForm(): JSX.Element {
         />
       </Grid>
       <Grid item xs={6}>
-        <FormControl fullWidth>
-          <InputLabel id="deductionTypeLabel">Abrechnungsart</InputLabel>
-          <Select
-            required
-            labelId="deductionTypeLabel"
-            id="deductionType"
-            label="Abrechnungsart"
-            value={formInput.deductionType}
-            onChange={(event) => {
-              onChange<DeductionType>(
-                'deductionType',
-                event.target.value as DeductionType,
-              );
-            }}
-          >
-            {Object.values(DeductionType).map((type) => (
-              <MenuItem key={type} value={type}>
-                {type}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <DeductionTypeSelect
+          value={formInput.deductionType}
+          onChange={(deductionType) => {
+            onChange<DeductionType>('deductionType', deductionType);
+          }}
+        />
       </Grid>
       <Grid item xs={6}>
         <NumberTextField

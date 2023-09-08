@@ -1,9 +1,9 @@
 import { RenderResult, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
-import { DeductionType } from '../../../models/incidentals/ongoing_incidentals';
 import InvoiceInformation from './InvoiceInformation';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import OngoingIncidentalsInvoiceInformationBuilder from '_/test/builders/ongoing_incidentals_invoice_information.builder';

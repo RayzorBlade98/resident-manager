@@ -1,3 +1,4 @@
+import { DeductionType } from './deduction_type';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
@@ -18,6 +19,11 @@ interface OneTimeIncidentals {
    * Cost of the incidentals
    */
   cost: CurrencyInCents;
+
+  /**
+   * Deduction type of the incidentals
+   */
+  deductionType: DeductionType;
 
   /**
    * Date of the bill

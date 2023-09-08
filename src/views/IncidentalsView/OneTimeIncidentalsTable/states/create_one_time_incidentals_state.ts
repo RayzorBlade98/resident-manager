@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import { ValidationConstraint } from '../../../../utils/validation/constraints';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 import {
   CompleteFormValidationState,
@@ -31,6 +32,11 @@ export interface CreateOneTimeIncidentalsInput {
    * Payment date of the new incidentals
    */
   paymentDate: Date | undefined;
+
+  /**
+   * Deduction type of the new incidentals
+   */
+  deductionType: DeductionType;
 }
 
 interface CreateOneTimeIncidentalsState {
@@ -58,6 +64,7 @@ CreateOneTimeIncidentalsInput
         cost: undefined,
         billingDate: new Date().toUTC(),
         paymentDate: undefined,
+        deductionType: DeductionType.PerApartment,
       },
       formErrors: {},
       formValidator: new Validator<CreateOneTimeIncidentalsInput>({

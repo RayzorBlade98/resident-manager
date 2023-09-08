@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import '_/extensions/date/date.extension';
 
@@ -10,6 +11,7 @@ class OneTimeIncidentalsBuilder {
       id: uuid(),
       name: 'Test Incidentals',
       cost: 10000,
+      deductionType: DeductionType.PerApartment,
       billingDate: new Date(2023, 5, 16).toUTC(),
     };
   }

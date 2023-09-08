@@ -1,12 +1,14 @@
-import {
-  Grid,
-  TextField,
-} from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { CreateOneTimeIncidentalsInput, createOneTimeIncidentalsFormValidationSelector } from '../../states/create_one_time_incidentals_state';
+import {
+  CreateOneTimeIncidentalsInput,
+  createOneTimeIncidentalsFormValidationSelector,
+} from '../../states/create_one_time_incidentals_state';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
+import DeductionTypeSelect from '_/components/form/DeductionTypeSelect/DeductionTypeSelect';
 import StandardDateField from '_/components/form/StandardDateField/StandardDateField';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 
 /**
  * Form to submit new ongoing incidentals
@@ -55,6 +57,14 @@ function CreateOneTimeIncidentalsForm(): JSX.Element {
             onChange<number | undefined>('cost', cost);
           }}
           errorMessage={errors.cost}
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <DeductionTypeSelect
+          value={formInput.deductionType}
+          onChange={(deductionType) => {
+            onChange<DeductionType>('deductionType', deductionType);
+          }}
         />
       </Grid>
       <Grid item xs={6}>

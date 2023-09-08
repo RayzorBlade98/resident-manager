@@ -28,6 +28,7 @@ function CreateOneTimeIncidentalsButton(): JSX.Element {
       cost: formValidationState.formInput.cost as CurrencyInCents,
       billingDate: formValidationState.formInput.billingDate as Date,
       paymentDate: formValidationState.formInput.paymentDate,
+      deductionType: formValidationState.formInput.deductionType,
     });
     resetCreateIncidentalsState();
   };
