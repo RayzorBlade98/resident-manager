@@ -5,6 +5,7 @@ import generateInvoice from './invoice.generator';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
+import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
@@ -41,6 +42,23 @@ describe('generateInvoice', () => {
   const includedOngoingIncidentals = [
     ongoingIncidentalsPerApartment,
     ongoingIncidentalsPerResident,
+  ];
+
+  const oneTimeIncidentalsPerApartment = new OneTimeIncidentalsBuilder()
+    .withDeductionType(DeductionType.PerApartment)
+    .withCosts(500)
+    .withBillingDate(new Date(2023, 2, 1).toUTC())
+    .build();
+
+  const oneTimeIncidentalsPerResident = new OneTimeIncidentalsBuilder()
+    .withDeductionType(DeductionType.PerResident)
+    .withCosts(1000)
+    .withBillingDate(new Date(2023, 2, 1).toUTC())
+    .build();
+
+  const includedOneTimeIncidentals = [
+    oneTimeIncidentalsPerApartment,
+    oneTimeIncidentalsPerResident,
   ];
 
   const standardResident = new ResidentBuilder()
@@ -119,12 +137,32 @@ describe('generateInvoice', () => {
         deductionType: ongoingIncidentalsPerResident.deductionType,
       },
     },
+    oneTimeIncidentalsInformation: {
+      [oneTimeIncidentalsPerApartment.id]: {
+        incidentalsId: oneTimeIncidentalsPerApartment.id,
+        name: oneTimeIncidentalsPerApartment.name,
+        totalCost: oneTimeIncidentalsPerApartment.cost,
+        deductionType: oneTimeIncidentalsPerApartment.deductionType,
+      },
+      [oneTimeIncidentalsPerResident.id]: {
+        incidentalsId: oneTimeIncidentalsPerResident.id,
+        name: oneTimeIncidentalsPerResident.name,
+        totalCost: oneTimeIncidentalsPerResident.cost,
+        deductionType: oneTimeIncidentalsPerResident.deductionType,
+      },
+    },
     residentInformation: {
       [standardResident.id]: {
         residentId: standardResident.id,
         ongoingIncidentalsCosts: {
           [ongoingIncidentalsPerApartment.id]: 20,
           [ongoingIncidentalsPerResident.id]: 200,
+        },
+        oneTimeIncidentalsCosts: {
+          [oneTimeIncidentalsPerApartment.id]:
+            oneTimeIncidentalsPerApartment.cost / property.numberOfApartments,
+          [oneTimeIncidentalsPerResident.id]:
+            oneTimeIncidentalsPerResident.cost / 2,
         },
         rentPayments: [
           {
@@ -156,6 +194,12 @@ describe('generateInvoice', () => {
           [ongoingIncidentalsPerApartment.id]: 20,
           [ongoingIncidentalsPerResident.id]: 100,
         },
+        oneTimeIncidentalsCosts: {
+          [oneTimeIncidentalsPerApartment.id]:
+            oneTimeIncidentalsPerApartment.cost / property.numberOfApartments,
+          [oneTimeIncidentalsPerResident.id]:
+            oneTimeIncidentalsPerResident.cost / 2,
+        },
         rentPayments: [
           {
             dueDate: new MonthYear(1, 2023),
@@ -183,6 +227,7 @@ describe('generateInvoice', () => {
       end,
       residents,
       includedOngoingIncidentals,
+      includedOneTimeIncidentals,
       property,
     });
     _.unset(invoice, 'id');

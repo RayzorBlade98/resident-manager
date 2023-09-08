@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import '_/extensions/date/date.extension';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 class OneTimeIncidentalsBuilder {
   private incidentals: OneTimeIncidentals;
@@ -28,6 +29,18 @@ class OneTimeIncidentalsBuilder {
 
   public withBillingDate(date: Date): OneTimeIncidentalsBuilder {
     this.incidentals.billingDate = date.toUTC();
+    return this;
+  }
+
+  public withDeductionType(
+    deductionType: DeductionType,
+  ): OneTimeIncidentalsBuilder {
+    this.incidentals.deductionType = deductionType;
+    return this;
+  }
+
+  public withCosts(cost: CurrencyInCents): OneTimeIncidentalsBuilder {
+    this.incidentals.cost = cost;
     return this;
   }
 

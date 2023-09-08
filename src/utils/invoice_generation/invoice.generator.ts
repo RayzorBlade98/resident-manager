@@ -3,6 +3,7 @@ import { OngoingIncidentals } from '../../models/incidentals/ongoing_incidentals
 import addIncidentalsCalculationToInvoice from './calculations/incidentals';
 import addRentPaymentCalculationToInvoice from './calculations/rent';
 import MonthYear from '_/extensions/date/month_year.extension';
+import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import Invoice from '_/models/invoice/invoice';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
@@ -32,6 +33,11 @@ export interface InvoiceGenerationArguments {
   includedOngoingIncidentals: OngoingIncidentals[];
 
   /**
+   * One time incidentals that should be included into the invoice
+   */
+  includedOneTimeIncidentals: OneTimeIncidentals[];
+
+  /**
    * Property of the invoice
    */
   property: Property;
@@ -51,12 +57,14 @@ export default function generateInvoice(
     start: args.start,
     end: args.end,
     ongoingIncidentalsInformation: {},
+    oneTimeIncidentalsInformation: {},
     residentInformation: {},
   };
   residents.forEach((r) => {
     invoice.residentInformation[r.id] = {
       residentId: r.id,
       ongoingIncidentalsCosts: {},
+      oneTimeIncidentalsCosts: {},
       rentPayments: [],
     };
   });
@@ -65,6 +73,7 @@ export default function generateInvoice(
 
   addIncidentalsCalculationToInvoice({
     includedOngoingIncidentals: args.includedOngoingIncidentals,
+    includedOneTimeIncidentals: args.includedOneTimeIncidentals,
     property: args.property,
     residents,
     invoice,

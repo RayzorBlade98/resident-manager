@@ -2,7 +2,8 @@
 
 import { v4 as uuid } from 'uuid';
 import MonthYear from '_/extensions/date/month_year.extension';
-import Invoice, { OngoingIncidentalsInvoiceInformation } from '_/models/invoice/invoice';
+import { IncidentalsInvoiceInformation } from '_/models/invoice/incidentals_invoice';
+import Invoice from '_/models/invoice/invoice';
 
 class InvoiceBuilder {
   private static nextStart = new MonthYear(1, 2023);
@@ -16,6 +17,7 @@ class InvoiceBuilder {
       end: InvoiceBuilder.nextStart.clone(),
       residentInformation: {},
       ongoingIncidentalsInformation: {},
+      oneTimeIncidentalsInformation: {},
     };
     InvoiceBuilder.nextStart = this.invoice.end;
   }
@@ -31,7 +33,9 @@ class InvoiceBuilder {
     return this;
   }
 
-  public withOngoingIncidentals(incidentals: OngoingIncidentalsInvoiceInformation): InvoiceBuilder {
+  public withOngoingIncidentals(
+    incidentals: IncidentalsInvoiceInformation,
+  ): InvoiceBuilder {
     this.invoice.ongoingIncidentalsInformation[incidentals.incidentalsId] = incidentals;
     return this;
   }

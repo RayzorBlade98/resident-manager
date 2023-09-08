@@ -49,6 +49,7 @@ function InvoiceGenerationView() {
         end: viewState.formValidation.formInput.invoiceEnd as MonthYear,
         residents,
         includedOngoingIncidentals: viewState.selectedOngoingIncidentals,
+        includedOneTimeIncidentals: viewState.selectedOneTimeIncidentals,
         property,
       });
       setViewState((state) => ({

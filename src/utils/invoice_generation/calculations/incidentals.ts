@@ -1,6 +1,7 @@
 import { OngoingIncidentals } from '../../../models/incidentals/ongoing_incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { DeductionType } from '_/models/incidentals/deduction_type';
+import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import Invoice from '_/models/invoice/invoice';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
@@ -13,6 +14,11 @@ interface IncidentalsCalculationArguments {
    * Ongoing incidentals that should be included into the invoice
    */
   includedOngoingIncidentals: OngoingIncidentals[];
+
+  /**
+   * One time incidentals that should be included into the invoice
+   */
+  includedOneTimeIncidentals: OneTimeIncidentals[];
 
   /**
    * Invoice the incidentals calculation should be added to
@@ -43,6 +49,7 @@ export default function addIncidentalsCalculationToInvoice(
   args: IncidentalsCalculationArguments,
 ): void {
   ongoingIncidentalsCalculation(args);
+  oneTimeIncidentalsCalculation(args);
 }
 
 /**
@@ -103,6 +110,38 @@ function ongoingIncidentalsCalculation(
       if (cost !== undefined) {
         incidentalsCosts[incidentals.id] = Math.ceil(cost);
       }
+    }
+  }
+}
+
+function oneTimeIncidentalsCalculation(
+  args: IncidentalsCalculationArguments,
+): void {
+  for (const incidentals of args.includedOneTimeIncidentals) {
+    args.invoice.oneTimeIncidentalsInformation[incidentals.id] = {
+      incidentalsId: incidentals.id,
+      name: incidentals.name,
+      deductionType: incidentals.deductionType,
+      totalCost: incidentals.cost,
+    };
+
+    const residents = args.residents.filter(
+      (r) => r.invoiceStart <= incidentals.billingDate,
+    );
+    const totalDeductionUnits = getTotalNumberOfDeductionUnits(
+      incidentals.deductionType,
+      args.property,
+      residents,
+    );
+    const costPerUnit = incidentals.cost / totalDeductionUnits;
+    for (const resident of residents) {
+      const residentInfo = args.invoice.residentInformation[resident.id];
+      const incidentalsCost = residentInfo.oneTimeIncidentalsCosts;
+      const numberOfUnits = getDeductionUnits(
+        incidentals.deductionType,
+        resident,
+      );
+      incidentalsCost[incidentals.id] = costPerUnit * numberOfUnits;
     }
   }
 }

@@ -18,6 +18,13 @@ export default interface ResidentInvoiceInformation {
   };
 
   /**
+   * Costs for all one time incidentals
+   */
+  oneTimeIncidentalsCosts: {
+    [incidentalsId: string]: CurrencyInCents;
+  };
+
+  /**
    * Rent payments of the resident
    */
   rentPayments: ResidentInvoiceRentPayment[];
