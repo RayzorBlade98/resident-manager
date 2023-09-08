@@ -1,7 +1,9 @@
 import InfoIcon from '@mui/icons-material/Info';
+import LoopIcon from '@mui/icons-material/Loop';
 import { Box, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
 import GeneralInvoiceInformation from './GeneralInvoiceInformation/GeneralInvoiceInformation';
+import OngoingIncidentalsInvoiceInformation from './OngoingIncidentalsInvoiceInformation/OngoingIncidentalsInvoiceInformation';
 import Invoice from '_/models/invoice/invoice';
 
 /**
@@ -9,6 +11,7 @@ import Invoice from '_/models/invoice/invoice';
  */
 enum InvoiceTab {
   General = 0,
+  OngoingIncidentals = 1,
 }
 
 const styles = {
@@ -37,10 +40,18 @@ function InvoiceInformation(props: InvoiceInformationProps): JSX.Element {
           onChange={(_, tab: InvoiceTab) => setActiveTab(tab)}
         >
           <Tab icon={<InfoIcon />} iconPosition="start" label="Informationen" />
+          <Tab
+            icon={<LoopIcon />}
+            iconPosition="start"
+            label="Laufende Nebenkosten"
+          />
         </Tabs>
       </Box>
       <div hidden={activeTab !== InvoiceTab.General}>
         <GeneralInvoiceInformation invoice={props.invoice} />
+      </div>
+      <div hidden={activeTab !== InvoiceTab.OngoingIncidentals}>
+        <OngoingIncidentalsInvoiceInformation invoice={props.invoice} />
       </div>
     </>
   );

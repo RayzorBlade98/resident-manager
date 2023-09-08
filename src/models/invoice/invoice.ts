@@ -38,7 +38,7 @@ export default interface Invoice {
 /**
  * Object containing invoice information for a single ongoing incidentals
  */
-interface OngoingIncidentalsInvoiceInformation {
+export interface OngoingIncidentalsInvoiceInformation {
   /**
    * Id of the ongoing incidentals
    */

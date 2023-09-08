@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
+
 import { v4 as uuid } from 'uuid';
 import MonthYear from '_/extensions/date/month_year.extension';
-import Invoice from '_/models/invoice/invoice';
+import Invoice, { OngoingIncidentalsInvoiceInformation } from '_/models/invoice/invoice';
 
 class InvoiceBuilder {
   private static nextStart = new MonthYear(1, 2023);
@@ -26,6 +28,11 @@ class InvoiceBuilder {
   public withStartAndEnd(start: MonthYear, end: MonthYear): InvoiceBuilder {
     this.invoice.start = start;
     this.invoice.end = end;
+    return this;
+  }
+
+  public withOngoingIncidentals(incidentals: OngoingIncidentalsInvoiceInformation): InvoiceBuilder {
+    this.invoice.ongoingIncidentalsInformation[incidentals.incidentalsId] = incidentals;
     return this;
   }
 
