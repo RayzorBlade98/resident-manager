@@ -6,6 +6,7 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { atom } from 'recoil';
 import { getRecoil, resetRecoil, setRecoil } from 'recoil-nexus';
+import viewPorts from '../../../test/screenshotViewports';
 import FormSubmitButton from './FormSubmitButton';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import {
@@ -74,11 +75,13 @@ describe('FormSubmitButton', () => {
   beforeEach(() => {
     renderResult = render(
       <ReactTestWrapper>
-        <FormSubmitButton<TestValidationClass>
-          buttonText="Testbutton"
-          formState={testStateValidationSelector}
-          onSuccess={onSuccessMock}
-        />
+        <div style={{ marginLeft: '5px', marginTop: '5px' }}>
+          <FormSubmitButton<TestValidationClass>
+            buttonText="Testbutton"
+            formState={testStateValidationSelector}
+            onSuccess={onSuccessMock}
+          />
+        </div>
       </ReactTestWrapper>,
     );
   });
@@ -127,7 +130,7 @@ describe('FormSubmitButton', () => {
   test('should match image snapshot (valid input)', async () => {
     // Assert
     expect(
-      await generateImage({ viewport: { width: 200, height: 50 } }),
+      await generateImage({ viewport: viewPorts.button }),
     ).toMatchImageSnapshot();
   });
 
@@ -137,7 +140,7 @@ describe('FormSubmitButton', () => {
 
     // Assert
     expect(
-      await generateImage({ viewport: { width: 200, height: 50 } }),
+      await generateImage({ viewport: viewPorts.button }),
     ).toMatchImageSnapshot();
   });
 });

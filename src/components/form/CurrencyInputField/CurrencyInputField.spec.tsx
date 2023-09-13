@@ -2,6 +2,7 @@ import { RenderResult, cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { generateImage } from 'jsdom-screenshot';
 import React, { useState } from 'react';
+import viewPorts from '../../../test/screenshotViewports';
 import {
   CurrencyInCents,
   convertCurrencyCentsToEuros,
@@ -38,7 +39,9 @@ describe('CurrencyInputField', () => {
   function renderComponent(): void {
     renderResult = render(
       <ReactTestWrapper>
-        <CurrencyInputFieldWrapper />
+        <div style={{ marginTop: '10px', marginLeft: '5px' }}>
+          <CurrencyInputFieldWrapper />
+        </div>
       </ReactTestWrapper>,
     );
   }
@@ -111,14 +114,14 @@ describe('CurrencyInputField', () => {
 
     // Assert
     expect(
-      await generateImage({ viewport: { width: 300, height: 100 } }),
+      await generateImage({ viewport: viewPorts.inputField.normal }),
     ).toMatchImageSnapshot();
   });
 
   test('should match image snapshot (with error)', async () => {
     // Assert
     expect(
-      await generateImage({ viewport: { width: 300, height: 100 } }),
+      await generateImage({ viewport: viewPorts.inputField.error }),
     ).toMatchImageSnapshot();
   });
 });

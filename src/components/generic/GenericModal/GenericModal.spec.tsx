@@ -81,7 +81,7 @@ describe('GenericModal', () => {
   test('should match iamge snapshot', async () => {
     // Assert
     expect(
-      await generateImage({ viewport: { width: 400, height: 400 } }),
+      await generateImage({ viewport: { width: 350, height: 400 } }),
     ).toMatchImageSnapshot();
   });
 });

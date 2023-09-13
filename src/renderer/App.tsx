@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import View from '../routes';
-import { defaultColors } from '../styles';
 import { propertyState } from '_/states/property/property.state';
 import IncidentalsView from '_/views/IncidentalsView/IncidentalsView';
 import InvoiceGenerationView from '_/views/InvoiceGenerationView/InvoiceGenerationView';
@@ -24,7 +23,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <div className="app" style={{ backgroundColor: defaultColors.mainLight1 }}>
+    <div className="app">
       <Routes>
         <Route path={View.Main} Component={MainView} />
         <Route path={View.Resident} Component={ResidentView} />

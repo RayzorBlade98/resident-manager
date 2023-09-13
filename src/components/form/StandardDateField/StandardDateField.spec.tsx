@@ -4,6 +4,7 @@ import { RenderResult, cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
+import viewPorts from '../../../test/screenshotViewports';
 import StandardDateField from './StandardDateField';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import '_/extensions/date/date.extension';
@@ -18,13 +19,15 @@ describe('StandardDateField', () => {
   function renderComponent(): void {
     renderResult = render(
       <ReactTestWrapper>
-        <StandardDateField
-          id="testField"
-          label={labelText}
-          value={value}
-          onChange={onChangeMock}
-          errorMessage={errorMessage}
-        />
+        <div style={{ marginTop: '10px', marginLeft: '5px' }}>
+          <StandardDateField
+            id="testField"
+            label={labelText}
+            value={value}
+            onChange={onChangeMock}
+            errorMessage={errorMessage}
+          />
+        </div>
       </ReactTestWrapper>,
     );
   }
@@ -91,7 +94,9 @@ describe('StandardDateField', () => {
     renderComponent();
 
     // Assert
-    expect(await generateImage({ viewport: { width: 300, height: 100 } })).toMatchImageSnapshot();
+    expect(
+      await generateImage({ viewport: viewPorts.inputField.normal }),
+    ).toMatchImageSnapshot();
   });
 
   test('should match snapshot (with error)', async () => {
@@ -101,6 +106,8 @@ describe('StandardDateField', () => {
     renderComponent();
 
     // Assert
-    expect(await generateImage({ viewport: { width: 300, height: 100 } })).toMatchImageSnapshot();
+    expect(
+      await generateImage({ viewport: viewPorts.inputField.error }),
+    ).toMatchImageSnapshot();
   });
 });

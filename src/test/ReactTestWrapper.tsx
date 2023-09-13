@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface, react-hooks/exhaustive-deps */
 
+import { ThemeProvider } from '@emotion/react';
+import { CssBaseline } from '@mui/material';
 import React, { useEffect } from 'react';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
@@ -8,6 +10,7 @@ import View from '../routes';
 import PropertyBuilder from './builders/property.builder';
 import StandardLocalizationProvider from '_/components/functional/StandardLocalizationProvider/StandardLocalizationProvider';
 import { propertyState } from '_/states/property/property.state';
+import theme from '_/styles/mui.theme';
 
 /**
  * Initialize property to enable standard app flow
@@ -72,14 +75,17 @@ function ReactTestWrapper(
       <RecoilNexus />
       <PropertyInitializer />
       <StandardLocalizationProvider>
-        <MemoryRouter
-          initialEntries={
-            routingHistory.length > 0 ? routingHistory : undefined
-          }
-        >
-          <CurrentRouteProvider onRouteChange={props.onRouteChange} />
-          {props.children}
-        </MemoryRouter>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <MemoryRouter
+            initialEntries={
+              routingHistory.length > 0 ? routingHistory : undefined
+            }
+          >
+            <CurrentRouteProvider onRouteChange={props.onRouteChange} />
+            {props.children}
+          </MemoryRouter>
+        </ThemeProvider>
       </StandardLocalizationProvider>
     </RecoilRoot>
   );
