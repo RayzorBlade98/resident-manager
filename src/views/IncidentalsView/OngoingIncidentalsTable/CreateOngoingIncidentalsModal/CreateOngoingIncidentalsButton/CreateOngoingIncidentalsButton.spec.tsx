@@ -10,8 +10,8 @@ import createOngoingIncidentalsState, {
 } from '../../states/create_ongoing_incidentals_state';
 import CreateOngoingIncidentalsButton from './CreateOngoingIncidentalsButton';
 import MonthYear from '_/extensions/date/month_year.extension';
+import * as useIncidentalsStateModule from '_/hooks/useIncidentalsState/useIncidentalsState';
 import { DeductionType } from '_/models/incidentals/deduction_type';
-import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateOngoingIncidentalsButton', () => {
@@ -23,7 +23,7 @@ describe('CreateOngoingIncidentalsButton', () => {
   };
 
   let renderResult: RenderResult;
-  let addIncidentalsSpy: jest.SpyInstance;
+  let addIncidentalsSpy: jest.Mock;
   let resetCreateIncidentalsStateSpy: jest.Mock;
 
   function validInput(): void {
@@ -64,9 +64,14 @@ describe('CreateOngoingIncidentalsButton', () => {
   });
 
   beforeEach(() => {
-    addIncidentalsSpy = jest
-      .spyOn(IncidentalsStateManager, 'addOngoingIncidentals')
-      .mockReturnValue(undefined);
+    addIncidentalsSpy = jest.fn();
+    jest.spyOn(useIncidentalsStateModule, 'default').mockReturnValue({
+      incidentals: { ongoingIncidentals: [], oneTimeIncidentals: [] },
+      ongoingIncidentals: [],
+      oneTimeIncidentals: [],
+      addOngoingIncidentals: addIncidentalsSpy,
+      addOneTimeIncidentals: jest.fn(),
+    });
 
     resetCreateIncidentalsStateSpy = jest.fn();
     jest

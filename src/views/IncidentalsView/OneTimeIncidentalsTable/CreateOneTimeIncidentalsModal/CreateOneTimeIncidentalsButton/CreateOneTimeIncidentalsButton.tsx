@@ -6,7 +6,7 @@ import createOneTimeIncidentalsState, {
   createOneTimeIncidentalsFormValidationSelector,
 } from '../../states/create_one_time_incidentals_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
-import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
+import useIncidentalsState from '_/hooks/useIncidentalsState/useIncidentalsState';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
@@ -21,8 +21,10 @@ function CreateOneTimeIncidentalsButton(): JSX.Element {
     createOneTimeIncidentalsState,
   );
 
+  const { addOneTimeIncidentals } = useIncidentalsState();
+
   const onSuccess = (): void => {
-    IncidentalsStateManager.addOneTimeIncidentals({
+    addOneTimeIncidentals({
       id: uuid(),
       name: formValidationState.formInput.name,
       cost: formValidationState.formInput.cost as CurrencyInCents,

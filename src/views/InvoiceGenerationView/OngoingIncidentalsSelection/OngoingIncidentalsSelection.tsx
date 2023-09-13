@@ -8,8 +8,8 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
+import useIncidentalsState from '_/hooks/useIncidentalsState/useIncidentalsState';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
-import { ongoingIncidentalsSelector } from '_/states/incidentals/incidentals.state';
 import invoiceGenerationViewState, {
   addSelectedOngoingIncidentals,
   removeSelectedOngoingIncidentals,
@@ -19,8 +19,10 @@ import invoiceGenerationViewState, {
  * Component so select ongoing incidentals that should be included to the invoice
  */
 function OngoingIncidentalsSelection(): JSX.Element {
-  const incidentals = useRecoilValue(ongoingIncidentalsSelector);
-  const selectedIncidentals = useRecoilValue(invoiceGenerationViewState).selectedOngoingIncidentals; // eslint-disable-line max-len
+  const { ongoingIncidentals } = useIncidentalsState();
+  const selectedIncidentals = useRecoilValue(
+    invoiceGenerationViewState,
+  ).selectedOngoingIncidentals; // eslint-disable-line max-len
 
   const handleToggle = (_incidentals: OngoingIncidentals) => () => {
     if (selectedIncidentals.find((i) => i.id === _incidentals.id)) {
@@ -32,7 +34,7 @@ function OngoingIncidentalsSelection(): JSX.Element {
 
   return (
     <List>
-      {incidentals.map((_incidentals) => {
+      {ongoingIncidentals.map((_incidentals) => {
         const labelId = `checkbox-list-label-${_incidentals.id}`;
 
         return (

@@ -7,12 +7,12 @@ import {
   TableRow,
 } from '@mui/material';
 import React from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { convertCurrencyCentsToString } from '../../../utils/currency/currency.utils';
 import CreateOneTimeIncidentalsModal from './CreateOneTimeIncidentalsModal/CreateOneTimeIncidentalsModal';
 import createOneTimeIncidentalsState from './states/create_one_time_incidentals_state';
-import { oneTimeIncidentalsSelector } from '_/states/incidentals/incidentals.state';
 import '_/extensions/date/date.extension';
+import useIncidentalsState from '_/hooks/useIncidentalsState/useIncidentalsState';
 
 const styles = {
   createIncidentalsCell: {
@@ -29,7 +29,7 @@ function OneTimeIncidentalsTable(): JSX.Element {
   const setCreateIncidentalsState = useSetRecoilState(
     createOneTimeIncidentalsState,
   );
-  const incidentals = useRecoilValue(oneTimeIncidentalsSelector);
+  const { oneTimeIncidentals } = useIncidentalsState();
 
   const onCreateIncidentals = () => {
     setCreateIncidentalsState((state) => ({ ...state, showModal: true }));
@@ -61,7 +61,7 @@ function OneTimeIncidentalsTable(): JSX.Element {
                 Neue Nebenkosten
               </TableCell>
             </TableRow>
-            {incidentals.map((_incidentals) => (
+            {oneTimeIncidentals.map((_incidentals) => (
               <TableRow
                 key={_incidentals.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

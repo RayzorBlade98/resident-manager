@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import {
   sortOneTimeIncidentalsEffect,
   sortOngoingIncidentalsCostEffect,
@@ -24,22 +24,6 @@ const incidentalsState = atom<IncidentalsState>({
     oneTimeIncidentals: [],
   },
   effects: [sortOngoingIncidentalsCostEffect, sortOneTimeIncidentalsEffect],
-});
-
-/**
- * Selector for the ongoing incidentals
- */
-export const ongoingIncidentalsSelector = selector<OngoingIncidentals[]>({
-  key: 'incidentalsState-ongoingIncidentals',
-  get: ({ get }) => get(incidentalsState).ongoingIncidentals,
-});
-
-/**
- * Selector for the one-time incidentals
- */
-export const oneTimeIncidentalsSelector = selector<OneTimeIncidentals[]>({
-  key: 'incidentalsState-oneTimeIncidentals',
-  get: ({ get }) => get(incidentalsState).oneTimeIncidentals,
 });
 
 export default incidentalsState;

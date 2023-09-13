@@ -7,7 +7,7 @@ import createOngoingIncidentalsState, {
 } from '../../states/create_ongoing_incidentals_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import MonthYear from '_/extensions/date/month_year.extension';
-import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
+import useIncidentalsState from '_/hooks/useIncidentalsState/useIncidentalsState';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
@@ -22,14 +22,18 @@ function CreateOngoingIncidentalsButton(): JSX.Element {
     createOngoingIncidentalsState,
   );
 
+  const { addOngoingIncidentals } = useIncidentalsState();
+
   const onSuccess = (): void => {
-    IncidentalsStateManager.addOngoingIncidentals({
+    addOngoingIncidentals({
       id: uuid(),
       name: formValidationState.formInput.name,
-      costs: [{
-        cost: formValidationState.formInput.currentCost as CurrencyInCents,
-        date: new MonthYear().addMonths(-12),
-      }],
+      costs: [
+        {
+          cost: formValidationState.formInput.currentCost as CurrencyInCents,
+          date: new MonthYear().addMonths(-12),
+        },
+      ],
       deductionType: formValidationState.formInput.deductionType,
       invoiceInterval: formValidationState.formInput.invoiceInterval as number,
     });

@@ -8,8 +8,8 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
+import useIncidentalsState from '_/hooks/useIncidentalsState/useIncidentalsState';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
-import { oneTimeIncidentalsSelector } from '_/states/incidentals/incidentals.state';
 import invoiceGenerationViewState, {
   addSelectedOneTimeIncidentals,
   removeSelectedOneTimeIncidentals,
@@ -19,7 +19,7 @@ import invoiceGenerationViewState, {
  * Component so select ongoing incidentals that should be included to the invoice
  */
 function OneTimeIncidentalsSelection(): JSX.Element {
-  const incidentals = useRecoilValue(oneTimeIncidentalsSelector);
+  const { oneTimeIncidentals } = useIncidentalsState();
   const selectedIncidentals = useRecoilValue(
     invoiceGenerationViewState,
   ).selectedOneTimeIncidentals; // eslint-disable-line max-len
@@ -34,7 +34,7 @@ function OneTimeIncidentalsSelection(): JSX.Element {
 
   return (
     <List>
-      {incidentals.map((_incidentals) => {
+      {oneTimeIncidentals.map((_incidentals) => {
         const labelId = `checkbox-list-label-${_incidentals.id}`;
 
         return (

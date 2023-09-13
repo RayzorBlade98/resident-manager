@@ -8,8 +8,8 @@ import createOneTimeIncidentalsState, {
   createOneTimeIncidentalsFormValidationSelector,
 } from '../../states/create_one_time_incidentals_state';
 import CreateOneTimeIncidentalsButton from './CreateOneTimeIncidentalsButton';
+import * as useIncidentalsStateModule from '_/hooks/useIncidentalsState/useIncidentalsState';
 import { DeductionType } from '_/models/incidentals/deduction_type';
-import IncidentalsStateManager from '_/states/incidentals/incidentals.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateOneTimeIncidentalsButton', () => {
@@ -22,7 +22,7 @@ describe('CreateOneTimeIncidentalsButton', () => {
   };
 
   let renderResult: RenderResult;
-  let addIncidentalsSpy: jest.SpyInstance;
+  let addIncidentalsSpy: jest.Mock;
   let resetCreateIncidentalsStateSpy: jest.Mock;
 
   function validInput(): void {
@@ -58,10 +58,14 @@ describe('CreateOneTimeIncidentalsButton', () => {
   }
 
   beforeEach(() => {
-    addIncidentalsSpy = jest
-      .spyOn(IncidentalsStateManager, 'addOneTimeIncidentals')
-      .mockReturnValue(undefined);
-
+    addIncidentalsSpy = jest.fn();
+    jest.spyOn(useIncidentalsStateModule, 'default').mockReturnValue({
+      incidentals: { ongoingIncidentals: [], oneTimeIncidentals: [] },
+      ongoingIncidentals: [],
+      oneTimeIncidentals: [],
+      addOngoingIncidentals: jest.fn(),
+      addOneTimeIncidentals: addIncidentalsSpy,
+    });
     resetCreateIncidentalsStateSpy = jest.fn();
     jest
       .spyOn(RecoilModule, 'useResetRecoilState')
