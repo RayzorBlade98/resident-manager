@@ -12,12 +12,12 @@ describe('waterCostsState effects', () => {
   });
 
   const waterUsageCosts = range(0, 5).map((i) => ({
-    cost: 1000,
+    costPerCubicMeter: 1000,
     date: new MonthYear(i, 2023),
   }));
 
   const sewageCosts = range(0, 5).map((i) => ({
-    cost: 2000,
+    costPerCubicMeter: 2000,
     date: new MonthYear(i, 2023),
   }));
 
