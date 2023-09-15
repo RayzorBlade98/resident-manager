@@ -14,13 +14,23 @@ export interface InitializationInput {
    * Number of aparments that get rented in the property
    */
   numberOfApartments: number | undefined;
+
+  /**
+   * Current cost of the water usage
+   */
+  waterUsageCost: number | undefined;
+
+  /**
+   * Current cost of the sewage
+   */
+  sewageCost: number | undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface InitializationState {}
 
 /**
- * State for the property initialization
+ * State for the initialization
  */
 const initializationState = atom<
 CompleteFormValidationState<InitializationState, InitializationInput>
@@ -30,10 +40,14 @@ CompleteFormValidationState<InitializationState, InitializationInput>
     formValidation: {
       formInput: {
         numberOfApartments: undefined,
+        waterUsageCost: undefined,
+        sewageCost: undefined,
       },
       formErrors: {},
       formValidator: new Validator<InitializationInput>({
         numberOfApartments: ValidationConstraint.Defined,
+        waterUsageCost: ValidationConstraint.Currency,
+        sewageCost: ValidationConstraint.Currency,
       }),
     },
   },

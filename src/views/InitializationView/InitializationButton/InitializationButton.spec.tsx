@@ -7,12 +7,22 @@ import initializationState, {
   initializationFormValidationSelector,
 } from '../states/initialization_state';
 import InitializationButton from './InitializationButton';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { propertyState } from '_/states/property/property.state';
+import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('InitializationButton', () => {
   const validInputValues = {
     numberOfApartments: 8,
+    waterUsageCost: 500,
+    sewageCost: 250,
+  };
+
+  const invalidInputValues = {
+    numberOfApartments: undefined,
+    waterUsageCost: undefined,
+    sewageCost: undefined,
   };
 
   let renderResult: RenderResult;
@@ -36,8 +46,7 @@ describe('InitializationButton', () => {
         formValidation: {
           ...state.formValidation,
           formInput: {
-            ...state.formValidation.formInput,
-            numberOfApartments: undefined,
+            ...invalidInputValues,
           },
         },
       }));
@@ -51,6 +60,9 @@ describe('InitializationButton', () => {
   }
 
   beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date(2023, 8, 15));
+
     renderResult = render(
       <ReactTestWrapper>
         <InitializationButton />
@@ -58,7 +70,7 @@ describe('InitializationButton', () => {
     );
   });
 
-  test('should initialize property for valid inputs', () => {
+  test('should initialize property and water costs for valid inputs', () => {
     // Arrange
     validInput();
 
@@ -69,9 +81,23 @@ describe('InitializationButton', () => {
     expect(getRecoil(propertyState)).toEqual({
       numberOfApartments: validInputValues.numberOfApartments,
     });
+    expect(getRecoil(waterCostsState)).toEqual({
+      waterUsageCosts: [
+        {
+          costPerCubicMeter: validInputValues.waterUsageCost,
+          date: new MonthYear(8, 2023),
+        },
+      ],
+      sewageCosts: [
+        {
+          costPerCubicMeter: validInputValues.sewageCost,
+          date: new MonthYear(8, 2023),
+        },
+      ],
+    });
   });
 
-  test('should not update rent information for invalid inputs', () => {
+  test('should not update states for invalid inputs', () => {
     // Arrange
     invalidInput();
 
@@ -80,6 +106,10 @@ describe('InitializationButton', () => {
 
     // Assert
     expect(getRecoil(propertyState)).toBeUndefined();
+    expect(getRecoil(waterCostsState)).toEqual({
+      waterUsageCosts: [],
+      sewageCosts: [],
+    });
   });
 
   test('should write error message to state for invalid inputs', () => {
