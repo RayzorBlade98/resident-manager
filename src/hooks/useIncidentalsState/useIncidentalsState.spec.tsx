@@ -1,64 +1,41 @@
-/* eslint-disable max-len, react-hooks/exhaustive-deps */
+/* eslint-disable max-len, react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
 
-import { render } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { range } from 'lodash';
-import React, { useEffect } from 'react';
-import { getRecoil, setRecoil } from 'recoil-nexus';
+import { RecoilRoot } from 'recoil';
 import useIncidentalsState from './useIncidentalsState';
-import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
-import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
-import incidentalsState, {
-  IncidentalsState,
-} from '_/states/incidentals/incidentals.state';
-import ReactTestWrapper from '_/test/ReactTestWrapper';
+import incidentalsState from '_/states/incidentals/incidentals.state';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
+import useInitializedRecoilState from '_/test/hooks/useInitializedRecoilState';
 
 describe('useIncidentalsState', () => {
-  function setup(Component: () => null) {
-    render(<ReactTestWrapper><Component /></ReactTestWrapper>);
-  }
+  const incidentals = {
+    ongoingIncidentals: range(0, 3).map((_) => new OngoingIncidentalsBuilder().build()),
+    oneTimeIncidentals: range(0, 3).map((_) => new OneTimeIncidentalsBuilder().build()),
+  };
 
   describe('incidentals, ongoingIncidentals, oneTimeIncidentals', () => {
     test('should return right incidentals', () => {
       // Arrange
-      const expectedIncidentals = {
-        ongoingIncidentals: range(0, 3).map((_) => new OngoingIncidentalsBuilder().build()),
-        oneTimeIncidentals: range(0, 3).map((_) => new OneTimeIncidentalsBuilder().build()),
-      };
-
-      let returnedIncidentals: IncidentalsState | null = null;
-      let returnedOngoingIncidentals: OngoingIncidentals[] | null = null;
-      let returnedOneTimeIncidentals: OneTimeIncidentals[] | null = null;
-      function TestComponent() {
-        const { incidentals, ongoingIncidentals, oneTimeIncidentals } = useIncidentalsState();
-
-        useEffect(() => {
-          returnedIncidentals = incidentals;
-        }, [incidentals]);
-
-        useEffect(() => {
-          returnedOngoingIncidentals = ongoingIncidentals;
-        }, [ongoingIncidentals]);
-
-        useEffect(() => {
-          returnedOneTimeIncidentals = oneTimeIncidentals;
-        }, [oneTimeIncidentals]);
-
-        useEffect(() => {
-          setRecoil(incidentalsState, expectedIncidentals);
-        }, []);
-        return null;
-      }
-      setup(TestComponent);
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: incidentalsState,
+          stateValue: incidentals,
+          hook: () => useIncidentalsState(),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
 
       // Assert
-      expect(returnedIncidentals).toEqual(expectedIncidentals);
-      expect(returnedOngoingIncidentals).toEqual(
-        expectedIncidentals.ongoingIncidentals,
+      expect(result.current.incidentals).toEqual(incidentals);
+      expect(result.current.ongoingIncidentals).toEqual(
+        incidentals.ongoingIncidentals,
       );
-      expect(returnedOneTimeIncidentals).toEqual(
-        expectedIncidentals.oneTimeIncidentals,
+      expect(result.current.oneTimeIncidentals).toEqual(
+        incidentals.oneTimeIncidentals,
       );
     });
   });
@@ -66,50 +43,42 @@ describe('useIncidentalsState', () => {
   describe('addOngoingIncidentals', () => {
     test('should set state correctly', () => {
       // Arrange
-      const expectedIncidentals = range(0, 3).map((_) => new OngoingIncidentalsBuilder().build());
-      let oldState: IncidentalsState | null = null;
-      function TestComponent() {
-        const { addOngoingIncidentals } = useIncidentalsState();
+      const { result } = renderHook(useIncidentalsState, {
+        wrapper: RecoilRoot,
+      });
 
-        useEffect(() => {
-          oldState = getRecoil(incidentalsState);
-          expectedIncidentals.forEach((i) => addOngoingIncidentals(i));
-        }, []);
-        return null;
-      }
-      setup(TestComponent);
+      // Act
+      act(() => {
+        incidentals.ongoingIncidentals.forEach(
+          result.current.addOngoingIncidentals,
+        );
+      });
 
       // Assert
-      const newState = getRecoil(incidentalsState);
-      expect(newState).toEqual({
-        ...oldState!,
-        ongoingIncidentals: expectedIncidentals,
-      });
+      expect(result.current.ongoingIncidentals).toEqual(
+        incidentals.ongoingIncidentals,
+      );
     });
   });
 
   describe('addOneTimeIncidentals', () => {
     test('should set state correctly', () => {
       // Arrange
-      const expectedIncidentals = range(0, 3).map((_) => new OneTimeIncidentalsBuilder().build());
-      let oldState: IncidentalsState | null = null;
-      function TestComponent() {
-        const { addOneTimeIncidentals } = useIncidentalsState();
+      const { result } = renderHook(useIncidentalsState, {
+        wrapper: RecoilRoot,
+      });
 
-        useEffect(() => {
-          oldState = getRecoil(incidentalsState);
-          expectedIncidentals.forEach((i) => addOneTimeIncidentals(i));
-        }, []);
-        return null;
-      }
-      setup(TestComponent);
+      // Act
+      act(() => {
+        incidentals.oneTimeIncidentals.forEach(
+          result.current.addOneTimeIncidentals,
+        );
+      });
 
       // Assert
-      const newState = getRecoil(incidentalsState);
-      expect(newState).toEqual({
-        ...oldState!,
-        oneTimeIncidentals: expectedIncidentals,
-      });
+      expect(result.current.oneTimeIncidentals).toEqual(
+        incidentals.oneTimeIncidentals,
+      );
     });
   });
 });
