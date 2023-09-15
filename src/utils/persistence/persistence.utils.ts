@@ -13,10 +13,13 @@ import IncidentalsParser from './parsers/incidentals/incidentals.parser';
 import InvoiceParser from './parsers/invoice/invoice.parser';
 import StandardParser from './parsers/parser';
 import ResidentParser from './parsers/resident/resident.parser';
+import WaterCostsParser from './parsers/waterCosts.parser';
+import WaterCosts from '_/models/incidentals/WaterCosts';
 import Property from '_/models/property/property';
 import { RentInformation } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
 import { propertyState } from '_/states/property/property.state';
+import waterCostsState from '_/states/waterCosts/waterCosts.state';
 
 /**
  * Class that provides functionality to handle save state persistence
@@ -42,6 +45,11 @@ abstract class PersistenceUtils {
   public static PROPERTY_FILE = path.join(
     PersistenceUtils.OUTPUT_DIRECTORY,
     'property.json',
+  );
+
+  public static WATER_COSTS_FILE = path.join(
+    PersistenceUtils.OUTPUT_DIRECTORY,
+    'waterCosts.json',
   );
 
   /**
@@ -95,6 +103,16 @@ abstract class PersistenceUtils {
       ) as Property; // eslint-disable-line max-len
       setRecoil(propertyState, loadedProperty);
     }
+
+    // Water costs
+    if (fs.existsSync(this.WATER_COSTS_FILE)) {
+      const json = fs.readFileSync(this.WATER_COSTS_FILE).toString();
+      const loadedWaterCosts = JSON.parse(
+        json,
+        WaterCostsParser.reviver,
+      ) as WaterCosts; // eslint-disable-line max-len
+      setRecoil(waterCostsState, loadedWaterCosts);
+    }
   }
 
   /**
@@ -126,6 +144,11 @@ abstract class PersistenceUtils {
       const propertyJson = JSON.stringify(property, null, 4);
       fs.writeFileSync(this.PROPERTY_FILE, propertyJson);
     }
+
+    // Water costs
+    const waterCosts = getRecoil(waterCostsState);
+    const waterCostsJson = JSON.stringify(waterCosts, null, 4);
+    fs.writeFileSync(this.WATER_COSTS_FILE, waterCostsJson);
   }
 }
 

@@ -1,9 +1,11 @@
 import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
 import LoopIcon from '@mui/icons-material/Loop';
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import { Box, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
 import View from '../../routes';
 import OneTimeIncidentalsTable from './OneTimeIncidentalsTable/OneTimeIncidentalsTable';
+import WaterCostInformation from './WaterCostInformation/WaterCostInformation';
 import AppBar from '_/components/shared/AppBar/AppBar';
 import OngoingIncidentalsTable from '_/views/IncidentalsView/OngoingIncidentalsTable/OngoingIncidentalsTable';
 
@@ -13,6 +15,7 @@ import OngoingIncidentalsTable from '_/views/IncidentalsView/OngoingIncidentalsT
 enum IncidentalsTab {
   Ongoing = 0,
   OneTime = 1,
+  Water = 2,
 }
 
 const styles = {
@@ -43,6 +46,11 @@ function IncidentalsView(): JSX.Element {
             iconPosition="start"
             label="Einmalige Nebenkosten"
           />
+          <Tab
+            icon={<WaterDropIcon />}
+            iconPosition="start"
+            label="Wasserkosten"
+          />
         </Tabs>
       </Box>
       <div hidden={activeTab !== IncidentalsTab.Ongoing}>
@@ -50,6 +58,9 @@ function IncidentalsView(): JSX.Element {
       </div>
       <div hidden={activeTab !== IncidentalsTab.OneTime}>
         <OneTimeIncidentalsTable />
+      </div>
+      <div hidden={activeTab !== IncidentalsTab.Water}>
+        <WaterCostInformation />
       </div>
     </>
   );

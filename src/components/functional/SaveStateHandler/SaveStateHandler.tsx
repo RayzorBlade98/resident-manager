@@ -5,6 +5,7 @@ import incidentalsState from '_/states/incidentals/incidentals.state';
 import invoiceState from '_/states/invoice/invoice.state';
 import { propertyState } from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
+import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import createDummyData from '_/utils/dummy_data';
 import { dev } from '_/utils/node-env';
 
@@ -22,6 +23,7 @@ export function SaveStateManager(
   const invoices = useRecoilValue(invoiceState);
   const residents = useRecoilValue(residentState);
   const property = useRecoilValue(propertyState);
+  const waterCosts = useRecoilValue(waterCostsState);
 
   /**
    * Handles the save state when starting the program
@@ -47,7 +49,14 @@ export function SaveStateManager(
   }
 
   useEffect(onStart, []); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(onSaveChange, [incidentals, invoices, residents, property]); // eslint-disable-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(onSaveChange, [
+    incidentals,
+    invoices,
+    residents,
+    property,
+    waterCosts,
+  ]);
 
   if (!isInitialized) {
     return null;

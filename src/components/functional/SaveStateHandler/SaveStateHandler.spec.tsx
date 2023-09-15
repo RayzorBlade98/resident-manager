@@ -10,12 +10,14 @@ import incidentalsState from '_/states/incidentals/incidentals.state';
 import invoiceState from '_/states/invoice/invoice.state';
 import { propertyState } from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
+import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
+import WaterCostsBuilder from '_/test/builders/waterCosts.builder';
 
 describe('SaveStateManager', () => {
   let importSaveStatesSpy: jest.SpyInstance;
@@ -65,6 +67,9 @@ describe('SaveStateManager', () => {
       },
       () => {
         setRecoil(propertyState, new PropertyBuilder().build());
+      },
+      () => {
+        setRecoil(waterCostsState, new WaterCostsBuilder().build());
       },
     ];
 

@@ -15,6 +15,7 @@ import { Resident } from '_/models/resident/resident';
 import invoiceState from '_/states/invoice/invoice.state';
 import { propertyState } from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
+import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
@@ -22,6 +23,7 @@ import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.build
 import PropertyBuilder from '_/test/builders/property.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
+import WaterCostsBuilder from '_/test/builders/waterCosts.builder';
 
 describe('PersistenceUtils', () => {
   let existsSyncSpy: jest.SpyInstance;
@@ -58,6 +60,9 @@ describe('PersistenceUtils', () => {
       const expectedInvoiceState: Invoice[] = [new InvoiceBuilder().build()];
       const expectedResidentState: Resident[] = [new ResidentBuilder().build()];
       const expectedPropertyState = new PropertyBuilder().build();
+      const expectedWaterCostsState = new WaterCostsBuilder()
+        .addWaterUsageCost(500, new MonthYear())
+        .build();
 
       existsSyncSpy.mockReturnValue(true);
       readFileSyncSpy
@@ -75,6 +80,12 @@ describe('PersistenceUtils', () => {
         )
         .mockReturnValueOnce(
           Buffer.from(JSON.stringify(expectedPropertyState, null, 4), 'utf-8'),
+        )
+        .mockReturnValueOnce(
+          Buffer.from(
+            JSON.stringify(expectedWaterCostsState, null, 4),
+            'utf-8',
+          ),
         );
 
       // Act
@@ -83,18 +94,20 @@ describe('PersistenceUtils', () => {
       });
 
       // Assert
-      expect(existsSyncSpy).toHaveBeenCalledTimes(4);
-      expect(readFileSyncSpy).toHaveBeenCalledTimes(4);
-      expect(setRecoilSpy).toHaveBeenCalledTimes(4);
+      expect(existsSyncSpy).toHaveBeenCalledTimes(5);
+      expect(readFileSyncSpy).toHaveBeenCalledTimes(5);
+      expect(setRecoilSpy).toHaveBeenCalledTimes(5);
 
       const newIncidentalsState = getRecoil(incidentalsState);
       const newInvoiceState = getRecoil(invoiceState);
       const newResidentState = getRecoil(residentState);
       const newPropertyState = getRecoil(propertyState);
+      const newWaterCostState = getRecoil(waterCostsState);
       expect(newIncidentalsState).toEqual(expectedIncidentalsState);
       expect(newInvoiceState).toEqual(expectedInvoiceState);
       expect(newResidentState).toEqual(expectedResidentState);
       expect(newPropertyState).toEqual(expectedPropertyState);
+      expect(newWaterCostState).toEqual(expectedWaterCostsState);
     });
 
     test("shouldn't import save state if files dont exist", () => {
@@ -103,6 +116,7 @@ describe('PersistenceUtils', () => {
       const expectedIncidentalsState = getRecoil(incidentalsState);
       const expectedInvoiceState = getRecoil(invoiceState);
       const expectedResidentState = getRecoil(residentState);
+      const expectedWaterCostState = getRecoil(waterCostsState);
 
       // Act
       act(() => {
@@ -110,16 +124,18 @@ describe('PersistenceUtils', () => {
       });
 
       // Assert
-      expect(existsSyncSpy).toHaveBeenCalledTimes(4);
+      expect(existsSyncSpy).toHaveBeenCalledTimes(5);
       expect(readFileSyncSpy).toHaveBeenCalledTimes(0);
       expect(setRecoilSpy).toHaveBeenCalledTimes(0);
 
       const newIncidentalsState = getRecoil(incidentalsState);
       const newInvoiceState = getRecoil(invoiceState);
       const newResidentState = getRecoil(residentState);
+      const newWaterCostState = getRecoil(waterCostsState);
       expect(newIncidentalsState).toEqual(expectedIncidentalsState);
       expect(newInvoiceState).toEqual(expectedInvoiceState);
       expect(newResidentState).toEqual(expectedResidentState);
+      expect(newWaterCostState).toEqual(expectedWaterCostState);
     });
 
     test('should add missing months to rent information', () => {
@@ -192,12 +208,16 @@ describe('PersistenceUtils', () => {
       const expectedInvoiceState: Invoice[] = [new InvoiceBuilder().build()];
       const expectedResidentState: Resident[] = [new ResidentBuilder().build()];
       const expectedPropertyState = new PropertyBuilder().build();
+      const expectedWaterCostsState = new WaterCostsBuilder()
+        .addWaterUsageCost(500, new MonthYear())
+        .build();
 
       act(() => {
         setRecoil(incidentalsState, expectedIncidentalsState);
         setRecoil(invoiceState, expectedInvoiceState);
         setRecoil(residentState, expectedResidentState);
         setRecoil(propertyState, expectedPropertyState);
+        setRecoil(waterCostsState, expectedWaterCostsState);
       });
 
       // Act
@@ -220,6 +240,10 @@ describe('PersistenceUtils', () => {
         [
           PersistenceUtils.PROPERTY_FILE,
           JSON.stringify(expectedPropertyState, null, 4),
+        ],
+        [
+          PersistenceUtils.WATER_COSTS_FILE,
+          JSON.stringify(expectedWaterCostsState, null, 4),
         ],
       ]);
     });

@@ -2,7 +2,8 @@
 
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { act } from 'react-dom/test-utils';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 import RecoilNexus from 'recoil-nexus';
@@ -57,6 +58,11 @@ interface ReactTestWrapperProps {
    * Callback whenever the route changes
    */
   onRouteChange?: (route: View) => void;
+
+  /**
+   * Function that is called before the children are rendered
+   */
+  initializationFunction?: () => void;
 }
 
 /**
@@ -65,10 +71,21 @@ interface ReactTestWrapperProps {
 function ReactTestWrapper(
   props: React.PropsWithChildren<ReactTestWrapperProps>,
 ): JSX.Element {
+  const [isInitialized, setInitialized] = useState(false);
+
   const routingHistory = [
     ...(props.routingHistory ?? []),
     ...(props.route ? [props.route] : []),
   ];
+
+  useEffect(() => {
+    if (props.initializationFunction) {
+      act(() => {
+        props.initializationFunction!();
+      });
+    }
+    setInitialized(true);
+  }, []);
 
   return (
     <RecoilRoot>
@@ -83,7 +100,7 @@ function ReactTestWrapper(
             }
           >
             <CurrentRouteProvider onRouteChange={props.onRouteChange} />
-            {props.children}
+            {isInitialized && props.children}
           </MemoryRouter>
         </ThemeProvider>
       </StandardLocalizationProvider>
