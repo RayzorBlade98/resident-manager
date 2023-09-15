@@ -4,7 +4,7 @@ import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 
 /**
- * Hook that returns the incidentals state and util function to modify it
+ * Hook that returns the incidentals state and utility functions to modify it
  */
 function useIncidentalsState() {
   const [incidentals, setIncidentals] = useRecoilState(incidentalsState);

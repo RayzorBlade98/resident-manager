@@ -9,7 +9,7 @@ import createResidentState, {
 } from '../../states/create_resident_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import MonthYear from '_/extensions/date/month_year.extension';
-import ResidentStateManager from '_/states/resident/resident.state.manager';
+import useResidentState from '_/hooks/useResidentState/useResidentState';
 
 /**
  * Button that submits the input resident data if they are valid
@@ -20,9 +20,10 @@ function CreateResidentButton(): JSX.Element {
     createResidentFormValidationSelector,
   );
   const resetCreateResidentState = useResetRecoilState(createResidentState);
+  const { addResident } = useResidentState();
 
   const onSuccess = (): void => {
-    ResidentStateManager.addResident({
+    addResident({
       id: uuid(),
       firstName: formValidationState.formInput.firstName,
       lastName: formValidationState.formInput.lastName,

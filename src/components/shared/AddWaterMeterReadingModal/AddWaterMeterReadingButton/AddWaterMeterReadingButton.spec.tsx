@@ -11,7 +11,6 @@ import addWaterMeterReadingState, {
 } from '../states/add_water_reading_state';
 import AddWaterMeterReadingButton from './AddWaterMeterReadingButton';
 import residentState from '_/states/resident/resident.state';
-import ResidentStateManager from '_/states/resident/resident.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import '_/extensions/date/date.extension';
 import ResidentBuilder from '_/test/builders/resident.builder';
@@ -33,7 +32,6 @@ describe('AddRentPaymentButton', () => {
   };
 
   let renderResult: RenderResult;
-  let updateResidentSpy: jest.SpyInstance;
   let resetWaterMeterReadingStateSpy: jest.Mock;
 
   function validInput(): void {
@@ -69,10 +67,6 @@ describe('AddRentPaymentButton', () => {
   }
 
   beforeEach(() => {
-    updateResidentSpy = jest
-      .spyOn(ResidentStateManager, 'updateResident')
-      .mockReturnValue(undefined);
-
     resetWaterMeterReadingStateSpy = jest.fn();
     jest
       .spyOn(RecoilModule, 'useResetRecoilState')
@@ -105,13 +99,16 @@ describe('AddRentPaymentButton', () => {
     pressButton();
 
     // Assert
-    expect(updateResidentSpy).toHaveBeenCalledTimes(1);
-    expect(updateResidentSpy).toHaveBeenCalledWith(selectedResident.id, {
-      waterMeterReadings: [
-        ...selectedResident.waterMeterReadings,
-        { ...validInputValues, wasDeductedInInvoice: false },
-      ],
-    });
+    const newState = getRecoil(residentState);
+    expect(newState).toEqual([
+      {
+        ...selectedResident,
+        waterMeterReadings: [
+          { ...validInputValues, wasDeductedInInvoice: false },
+          ...selectedResident.waterMeterReadings,
+        ],
+      },
+    ]);
   });
 
   test('should reset water meter reading state for valid inputs', () => {
@@ -133,7 +130,8 @@ describe('AddRentPaymentButton', () => {
     pressButton();
 
     // Assert
-    expect(updateResidentSpy).toHaveBeenCalledTimes(0);
+    const newState = getRecoil(residentState);
+    expect(newState).toEqual([selectedResident]);
   });
 
   test('should write error message to state for invalid inputs', () => {

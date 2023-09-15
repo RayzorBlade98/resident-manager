@@ -8,40 +8,43 @@ import MonthYear from '_/extensions/date/month_year.extension';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import InvoiceStateManager from '_/states/invoice/Invoice.state.manager';
-import ResidentStateManager from '_/states/resident/resident.state.manager';
+import residentState from '_/states/resident/resident.state';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
+import RentInformationBuilder from '_/test/builders/rent_information.builder';
+import ResidentBuilder from '_/test/builders/resident.builder';
+import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
 function createDummyData(): void {
   // Dummy residents
-  for (let i = 0; i < 8; i += 1) {
-    ResidentStateManager.addResident({
-      id: uuid(),
-      firstName: 'Max',
-      lastName: 'Mustermann',
-      numberOfResidents: 2,
-      rentInformation: [
-        {
-          dueDate: new MonthYear(),
-          rent: 50000,
-          incidentals: 10000,
-        },
-      ],
-      waterMeterReadings: [
-        {
-          waterMeterCount: 1234,
-          readingDate: new Date(2023, 6, 1).toUTC(),
-          wasDeductedInInvoice: true,
-        },
-        {
-          waterMeterCount: 1235,
-          readingDate: new Date().toUTC(),
-          wasDeductedInInvoice: false,
-        },
-      ],
-      invoiceStart: new MonthYear(),
-    });
-  }
+  const residents = range(0, 8).map((i) => new ResidentBuilder()
+    .withFirstName(`Max ${i + 1}`)
+    .withLastName('Mustermann')
+    .withNumberOfResidents(2)
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear())
+        .withRent(100 * (i + 1))
+        .withIncidentals(100 - i * 10)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(new Date(2023, 6, 1).toUTC())
+        .withWaterMeterCount(1234)
+        .withWasDeductedInInvoice(true)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(new Date().toUTC())
+        .withWaterMeterCount(1235)
+        .withWasDeductedInInvoice(false)
+        .build(),
+    )
+    .withInvoiceStart(new MonthYear())
+    .build());
+  setRecoil(residentState, residents);
 
   // Dummy incidentals
   const ongoingIncidentals = range(0, 8).map((i) => new OngoingIncidentalsBuilder()

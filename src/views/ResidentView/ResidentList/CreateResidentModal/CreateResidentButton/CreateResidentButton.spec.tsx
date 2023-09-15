@@ -9,10 +9,13 @@ import createResidentState, {
 } from '../../states/create_resident_state';
 import CreateResidentButton from './CreateResidentButton';
 import MonthYear from '_/extensions/date/month_year.extension';
-import ResidentStateManager from '_/states/resident/resident.state.manager';
+import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('CreateResidentButton', () => {
+  const oldState = [new ResidentBuilder().build()];
+
   const validInputValues = {
     firstName: 'Max',
     lastName: 'Mustermann',
@@ -24,7 +27,6 @@ describe('CreateResidentButton', () => {
   };
 
   let renderResult: RenderResult;
-  let addResidentSpy: jest.SpyInstance;
   let resetCreateResidentStateSpy: jest.Mock;
 
   function validInput(): void {
@@ -65,10 +67,6 @@ describe('CreateResidentButton', () => {
   });
 
   beforeEach(() => {
-    addResidentSpy = jest
-      .spyOn(ResidentStateManager, 'addResident')
-      .mockReturnValue(undefined);
-
     resetCreateResidentStateSpy = jest.fn();
     jest
       .spyOn(RecoilModule, 'useResetRecoilState')
@@ -79,6 +77,10 @@ describe('CreateResidentButton', () => {
         <CreateResidentButton />
       </ReactTestWrapper>,
     );
+
+    act(() => {
+      setRecoil(residentState, oldState);
+    });
   });
 
   afterEach(() => {
@@ -93,34 +95,34 @@ describe('CreateResidentButton', () => {
     pressButton();
 
     // Assert
-    expect(addResidentSpy).toHaveBeenCalledTimes(1);
-    expect(addResidentSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        firstName: validInputValues.firstName,
-        lastName: validInputValues.lastName,
-        rentInformation: [
-          {
-            dueDate: validInputValues.contractStart,
-            rent: validInputValues.rent,
-            incidentals: validInputValues.incidentals,
-          },
-          {
-            dueDate: new MonthYear(),
-            rent: validInputValues.rent,
-            incidentals: validInputValues.incidentals,
-          },
-        ],
-        invoiceStart: validInputValues.contractStart,
-        waterMeterReadings: [
-          {
-            readingDate: validInputValues.contractStart,
-            waterMeterCount: validInputValues.waterMeter,
-            wasDeductedInInvoice: true,
-          },
-        ],
-        numberOfResidents: validInputValues.numberOfResidents,
-      }),
-    );
+    const newState = getRecoil(residentState);
+    expect(newState[0]).toEqual(oldState[0]);
+    expect(newState[1]).toEqual({
+      id: newState[1].id,
+      firstName: validInputValues.firstName,
+      lastName: validInputValues.lastName,
+      rentInformation: [
+        {
+          dueDate: new MonthYear(),
+          rent: validInputValues.rent,
+          incidentals: validInputValues.incidentals,
+        },
+        {
+          dueDate: validInputValues.contractStart,
+          rent: validInputValues.rent,
+          incidentals: validInputValues.incidentals,
+        },
+      ],
+      invoiceStart: validInputValues.contractStart,
+      waterMeterReadings: [
+        {
+          readingDate: validInputValues.contractStart,
+          waterMeterCount: validInputValues.waterMeter,
+          wasDeductedInInvoice: true,
+        },
+      ],
+      numberOfResidents: validInputValues.numberOfResidents,
+    });
   });
 
   test('should reset rent payment state for valid inputs', () => {
@@ -142,7 +144,8 @@ describe('CreateResidentButton', () => {
     pressButton();
 
     // Assert
-    expect(addResidentSpy).toHaveBeenCalledTimes(0);
+    const newState = getRecoil(residentState);
+    expect(newState).toEqual(oldState);
   });
 
   test('should write error message to state for invalid inputs', () => {

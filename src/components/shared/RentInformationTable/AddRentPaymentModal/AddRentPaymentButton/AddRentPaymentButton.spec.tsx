@@ -12,13 +12,20 @@ import addRentPaymentState, {
 } from '_/components/shared/RentInformationTable/states/add_rent_payment_state';
 import MonthYear from '_/extensions/date/month_year.extension';
 import residentState from '_/states/resident/resident.state';
-import ResidentStateManager from '_/states/resident/resident.state.manager';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import '_/extensions/date/date.extension';
+import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('AddRentPaymentButton', () => {
-  const selectedResident = new ResidentBuilder().build();
+  const selectedResident = new ResidentBuilder()
+    .addRentInformation(
+      new RentInformationBuilder().withDueDate(new MonthYear(4, 2023)).build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder().withDueDate(new MonthYear(3, 2023)).build(),
+    )
+    .build();
   const selectedRentMonth = new MonthYear(4, 2023);
   const validInputValues = {
     paymentAmount: 100,
@@ -26,7 +33,6 @@ describe('AddRentPaymentButton', () => {
   };
 
   let renderResult: RenderResult;
-  let updateRentInformationSpy: jest.SpyInstance;
   let resetRentPaymentStateSpy: jest.Mock;
 
   function validInput(): void {
@@ -62,10 +68,6 @@ describe('AddRentPaymentButton', () => {
   }
 
   beforeEach(() => {
-    updateRentInformationSpy = jest
-      .spyOn(ResidentStateManager, 'updateRentInformation')
-      .mockReturnValue(undefined);
-
     resetRentPaymentStateSpy = jest.fn();
     jest
       .spyOn(RecoilModule, 'useResetRecoilState')
@@ -99,12 +101,16 @@ describe('AddRentPaymentButton', () => {
     pressButton();
 
     // Assert
-    expect(updateRentInformationSpy).toHaveBeenCalledTimes(1);
-    expect(updateRentInformationSpy).toHaveBeenCalledWith(
-      selectedResident.id,
-      selectedRentMonth,
-      validInputValues,
-    );
+    const newState = getRecoil(residentState);
+    expect(newState).toEqual([
+      {
+        ...selectedResident,
+        rentInformation: [
+          { ...selectedResident.rentInformation[0], ...validInputValues },
+          selectedResident.rentInformation[1],
+        ],
+      },
+    ]);
   });
 
   test('should reset rent payment state for valid inputs', () => {
@@ -126,7 +132,8 @@ describe('AddRentPaymentButton', () => {
     pressButton();
 
     // Assert
-    expect(updateRentInformationSpy).toHaveBeenCalledTimes(0);
+    const newState = getRecoil(residentState);
+    expect(newState).toEqual([selectedResident]);
   });
 
   test('should write error message to state for invalid inputs', () => {
