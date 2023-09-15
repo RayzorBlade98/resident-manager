@@ -11,10 +11,10 @@ import { propertyState } from '_/states/property/property.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import PropertyBuilder from '_/test/builders/property.builder';
 import * as IncidentalsView from '_/views/IncidentalsView/IncidentalsView';
+import * as PropertyInitializationView from '_/views/InitializationView/InitializationView';
 import * as InvoiceGenerationView from '_/views/InvoiceGenerationView/InvoiceGenerationView';
 import * as InvoiceView from '_/views/InvoiceView/InvoiceView';
 import * as MainView from '_/views/MainView/MainView';
-import * as PropertyInitializationView from '_/views/PropertyInitializationView/PropertyInitializationView';
 import * as ResidentView from '_/views/ResidentView/ResidentView';
 
 describe('App', () => {

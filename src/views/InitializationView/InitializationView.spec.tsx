@@ -7,7 +7,7 @@ import App from '_/renderer/App';
 import { propertyState } from '_/states/property/property.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
-describe('PropertyInitializationView', () => {
+describe('InitializationView', () => {
   const screenshotSettings = {
     viewport: {
       width: CONTENT_WIDTH,

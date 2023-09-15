@@ -2,9 +2,9 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import {
-  PropertyInitializationInput,
-  propertyInitializationFormValidationSelector,
-} from '../states/property_initialization_state';
+  InitializationInput,
+  initializationFormValidationSelector,
+} from '../states/initialization_state';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 
 const styles = {
@@ -18,17 +18,14 @@ const styles = {
 /**
  * Form to submit new property
  */
-function PropertyInitializationForm(): JSX.Element {
+function InitializationForm(): JSX.Element {
   const [formValidationState, setFormValidationState] = useRecoilState(
-    propertyInitializationFormValidationSelector,
+    initializationFormValidationSelector,
   );
   const formInput = formValidationState.formInput;
   const errors = formValidationState.formErrors;
 
-  function onChange<T>(
-    field: keyof PropertyInitializationInput,
-    value: T,
-  ): void {
+  function onChange<T>(field: keyof InitializationInput, value: T): void {
     setFormValidationState((state) => ({
       ...state,
       formInput: { ...state.formInput, [field]: value as number },
@@ -54,4 +51,4 @@ function PropertyInitializationForm(): JSX.Element {
   );
 }
 
-export default PropertyInitializationForm;
+export default InitializationForm;

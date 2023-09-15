@@ -9,7 +9,7 @@ import Validator from '../../../utils/validation/validator';
 /**
  * All values that can be submitted in the form
  */
-export interface PropertyInitializationInput {
+export interface InitializationInput {
   /**
    * Number of aparments that get rented in the property
    */
@@ -17,25 +17,22 @@ export interface PropertyInitializationInput {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface PropertyInitializationState {}
+interface InitializationState {}
 
 /**
  * State for the property initialization
  */
-const propertyInitializationState = atom<
-CompleteFormValidationState<
-PropertyInitializationState,
-PropertyInitializationInput
->
+const initializationState = atom<
+CompleteFormValidationState<InitializationState, InitializationInput>
 >({
-  key: 'propertyInitializationState',
+  key: 'initializationState',
   default: {
     formValidation: {
       formInput: {
         numberOfApartments: undefined,
       },
       formErrors: {},
-      formValidator: new Validator<PropertyInitializationInput>({
+      formValidator: new Validator<InitializationInput>({
         numberOfApartments: ValidationConstraint.Defined,
       }),
     },
@@ -46,9 +43,8 @@ PropertyInitializationInput
  * Selector for the property initialization form validation
  */
 // eslint-disable-next-line max-len
-export const propertyInitializationFormValidationSelector = createFormValidationStateSelector<
-PropertyInitializationState,
-PropertyInitializationInput
->(propertyInitializationState);
+export const initializationFormValidationSelector = createFormValidationStateSelector<InitializationState, InitializationInput>(
+  initializationState,
+);
 
-export default propertyInitializationState;
+export default initializationState;

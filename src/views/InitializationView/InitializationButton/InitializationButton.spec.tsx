@@ -3,14 +3,14 @@ import {
 } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, setRecoil } from 'recoil-nexus';
-import propertyInitializationState, {
-  propertyInitializationFormValidationSelector,
-} from '../states/property_initialization_state';
-import PropertyInitializationButton from './PropertyInitializationButton';
+import initializationState, {
+  initializationFormValidationSelector,
+} from '../states/initialization_state';
+import InitializationButton from './InitializationButton';
 import { propertyState } from '_/states/property/property.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
-describe('PropertyInitializationButton', () => {
+describe('InitializationButton', () => {
   const validInputValues = {
     numberOfApartments: 8,
   };
@@ -19,7 +19,7 @@ describe('PropertyInitializationButton', () => {
 
   function validInput(): void {
     act(() => {
-      setRecoil(propertyInitializationState, (state) => ({
+      setRecoil(initializationState, (state) => ({
         ...state,
         formValidation: {
           ...state.formValidation,
@@ -31,7 +31,7 @@ describe('PropertyInitializationButton', () => {
 
   function invalidInput(): void {
     act(() => {
-      setRecoil(propertyInitializationState, (state) => ({
+      setRecoil(initializationState, (state) => ({
         ...state,
         formValidation: {
           ...state.formValidation,
@@ -53,7 +53,7 @@ describe('PropertyInitializationButton', () => {
   beforeEach(() => {
     renderResult = render(
       <ReactTestWrapper>
-        <PropertyInitializationButton />
+        <InitializationButton />
       </ReactTestWrapper>,
     );
   });
@@ -90,7 +90,7 @@ describe('PropertyInitializationButton', () => {
     pressButton();
 
     // Assert
-    const errorMessage = getRecoil(propertyInitializationFormValidationSelector)
+    const errorMessage = getRecoil(initializationFormValidationSelector)
       .formErrors.numberOfApartments;
     expect(errorMessage).toBeDefined();
   });

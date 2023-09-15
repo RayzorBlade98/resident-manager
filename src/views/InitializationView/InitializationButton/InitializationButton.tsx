@@ -1,19 +1,19 @@
 import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
-  PropertyInitializationInput,
-  propertyInitializationFormValidationSelector,
-} from '../states/property_initialization_state';
+  InitializationInput,
+  initializationFormValidationSelector,
+} from '../states/initialization_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import { propertyState } from '_/states/property/property.state';
 
 /**
  * Button that submits the input property data if they are valid
  */
-function PropertyInitializationButton(): JSX.Element {
+function InitializationButton(): JSX.Element {
   // eslint-disable-next-line max-len
   const formValidationState = useRecoilValue(
-    propertyInitializationFormValidationSelector,
+    initializationFormValidationSelector,
   );
   const setPropertyState = useSetRecoilState(propertyState);
 
@@ -25,12 +25,12 @@ function PropertyInitializationButton(): JSX.Element {
   };
 
   return (
-    <FormSubmitButton<PropertyInitializationInput>
+    <FormSubmitButton<InitializationInput>
       buttonText="Erstellen"
-      formState={propertyInitializationFormValidationSelector}
+      formState={initializationFormValidationSelector}
       onSuccess={onSuccess}
     />
   );
 }
 
-export default PropertyInitializationButton;
+export default InitializationButton;
