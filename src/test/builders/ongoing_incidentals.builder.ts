@@ -1,11 +1,9 @@
 /* eslint-disable max-len */
 
 import { v4 as uuid } from 'uuid';
-import {
-  OngoingIncidentals,
-  OngoingIncidentalsCost,
-} from '../../models/incidentals/ongoing_incidentals';
+import { OngoingIncidentals } from '../../models/incidentals/ongoing_incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { OngoingCost } from '_/models/OngoingCost';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 
 class OngoingIncidentalsBuilder {
@@ -50,7 +48,7 @@ class OngoingIncidentalsBuilder {
     return this;
   }
 
-  public withCosts(costs: OngoingIncidentalsCost[]): OngoingIncidentalsBuilder {
+  public withCosts(costs: OngoingCost[]): OngoingIncidentalsBuilder {
     this.incidentals.costs = costs;
     return this;
   }

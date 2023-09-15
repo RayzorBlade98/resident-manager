@@ -1,21 +1,5 @@
+import { OngoingCost } from '../OngoingCost';
 import { DeductionType } from './deduction_type';
-import MonthYear from '_/extensions/date/month_year.extension';
-import { CurrencyInCents } from '_/utils/currency/currency.utils';
-
-/**
- * Cost information of the incidentals
- */
-export interface OngoingIncidentalsCost {
-  /**
-   * Cost of the incidentals
-   */
-  cost: CurrencyInCents;
-
-  /**
-   * Month in which the cost first applies
-   */
-  date: MonthYear;
-}
 
 /**
  * Object containing information about ongoing incidentals
@@ -34,7 +18,7 @@ export interface OngoingIncidentals {
   /**
    * History of all costs
    */
-  costs: OngoingIncidentalsCost[];
+  costs: OngoingCost[];
 
   /**
    * Deduction type of the incidentals
