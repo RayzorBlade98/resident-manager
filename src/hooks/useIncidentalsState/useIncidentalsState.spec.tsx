@@ -1,4 +1,4 @@
-/* eslint-disable max-len, react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/rules-of-hooks */
 
 import { act, renderHook } from '@testing-library/react';
 import { range } from 'lodash';

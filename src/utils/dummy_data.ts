@@ -3,12 +3,12 @@
 
 import { range } from 'lodash';
 import { setRecoil } from 'recoil-nexus';
-import { v4 as uuid } from 'uuid';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import incidentalsState from '_/states/incidentals/incidentals.state';
-import InvoiceStateManager from '_/states/invoice/Invoice.state.manager';
+import invoiceState from '_/states/invoice/invoice.state';
 import residentState from '_/states/resident/resident.state';
+import InvoiceBuilder from '_/test/builders/invoice.builder';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
@@ -66,20 +66,9 @@ function createDummyData(): void {
   setRecoil(incidentalsState, { ongoingIncidentals, oneTimeIncidentals });
 
   // Dummy invoices
-  const startMonth = new MonthYear(0, 2023);
-  const endMonth = new MonthYear(2, 2023);
-  for (let i = 0; i < 4; i += 1) {
-    InvoiceStateManager.addInvoice({
-      id: uuid(),
-      start: startMonth.clone(),
-      end: endMonth.clone(),
-      residentInformation: {},
-      ongoingIncidentalsInformation: {},
-      oneTimeIncidentalsInformation: {},
-    });
-    startMonth.addMonths(2);
-    endMonth.addMonths(2);
-  }
+  InvoiceBuilder.setStart(new MonthYear().addMonths(-4));
+  const invoices = range(0, 4).map((_) => new InvoiceBuilder().build());
+  setRecoil(invoiceState, invoices);
 }
 
 export default createDummyData;

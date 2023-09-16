@@ -5,8 +5,8 @@ import { useRecoilState } from 'recoil';
 import View from '../../../routes';
 import invoiceGenerationViewState from '../states/invoice_generation_view_state';
 import InvoiceInformation from '_/components/shared/InvoiceInformation/InvoiceInformation';
+import useInvoiceState from '_/hooks/useInvoiceState/useInvoiceState';
 import Invoice from '_/models/invoice/invoice';
-import InvoiceStateManager from '_/states/invoice/Invoice.state.manager';
 
 /**
  * Component that displays the newly generated invoice
@@ -14,6 +14,7 @@ import InvoiceStateManager from '_/states/invoice/Invoice.state.manager';
 function GeneratedInvoiceOverview(): JSX.Element {
   const [viewState, setViewState] = useRecoilState(invoiceGenerationViewState);
   const navigate = useNavigate();
+  const { addInvoice } = useInvoiceState();
 
   const onEdit = (): void => {
     setViewState((state) => ({
@@ -24,7 +25,7 @@ function GeneratedInvoiceOverview(): JSX.Element {
   };
 
   const onSave = (): void => {
-    InvoiceStateManager.addInvoice(viewState.generatedInvoice as Invoice);
+    addInvoice(viewState.generatedInvoice as Invoice);
     navigate(View.Invoice);
   };
 

@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
+import _ from 'lodash';
 import { AtomEffect } from 'recoil';
 import { InvoiceState } from './invoice.state';
 
@@ -11,8 +12,11 @@ export const sortInvoicesEffect: AtomEffect<InvoiceState> = ({
   setSelf,
 }) => {
   onSet((newValue) => {
-    setSelf(
-      newValue.sort((a, b) => b.start.getTime() - a.start.getTime()),
+    const sorted = [...newValue].sort(
+      (a, b) => b.start.getTime() - a.start.getTime(),
     );
+    if (!_.isEqual(newValue, sorted)) {
+      setSelf(sorted);
+    }
   });
 };

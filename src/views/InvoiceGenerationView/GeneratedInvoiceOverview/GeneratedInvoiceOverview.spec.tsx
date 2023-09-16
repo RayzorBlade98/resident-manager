@@ -67,7 +67,7 @@ describe('GeneratedInvoiceOverview', () => {
     fireEvent.click(saveButton);
 
     // Assert
-    expect(getRecoil(invoiceState)).toEqual([invoice, ...oldInvoices]);
+    expect(getRecoil(invoiceState)).toEqual([invoice, ...oldInvoices.reverse()]);
     expect(currentRoute).toBe(View.Invoice);
   });
 });
