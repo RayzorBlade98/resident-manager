@@ -2,7 +2,9 @@ import { v4 as uuid } from 'uuid';
 import { OngoingIncidentals } from '../../models/incidentals/ongoing_incidentals';
 import addIncidentalsCalculationToInvoice from './calculations/incidentals';
 import addRentPaymentCalculationToInvoice from './calculations/rent';
+import addWaterCostsToInvoice from './calculations/water';
 import MonthYear from '_/extensions/date/month_year.extension';
+import WaterCosts from '_/models/incidentals/WaterCosts';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import Invoice from '_/models/invoice/invoice';
 import Property from '_/models/property/property';
@@ -41,6 +43,11 @@ export interface InvoiceGenerationArguments {
    * Property of the invoice
    */
   property: Property;
+
+  /**
+   * Water costs used in the invoice
+   */
+  waterCosts: WaterCosts;
 }
 
 export default function generateInvoice(
@@ -59,6 +66,10 @@ export default function generateInvoice(
     ongoingIncidentalsInformation: {},
     oneTimeIncidentalsInformation: {},
     residentInformation: {},
+    waterCosts: {
+      waterUsageCostPerCubicMeter: 0,
+      sewageCostPerCubicMeter: 0,
+    },
   };
   residents.forEach((r) => {
     invoice.residentInformation[r.id] = {
@@ -66,6 +77,13 @@ export default function generateInvoice(
       ongoingIncidentalsCosts: {},
       oneTimeIncidentalsCosts: {},
       rentPayments: [],
+      waterCosts: {
+        waterUsage: 0,
+        waterUsageCosts: 0,
+        sewageCosts: 0,
+        lastWaterMeterCount: 0,
+        currentWaterMeterCount: 0,
+      },
     };
   });
 
@@ -83,6 +101,12 @@ export default function generateInvoice(
   addRentPaymentCalculationToInvoice({
     invoice,
     residents,
+  });
+
+  addWaterCostsToInvoice({
+    residents,
+    invoice,
+    waterCosts: args.waterCosts,
   });
 
   return invoice;

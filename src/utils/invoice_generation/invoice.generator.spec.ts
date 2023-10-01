@@ -10,6 +10,8 @@ import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.build
 import PropertyBuilder from '_/test/builders/property.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
+import WaterCostsBuilder from '_/test/builders/waterCosts.builder';
+import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
 describe('generateInvoice', () => {
   const start = new MonthYear(0, 2023);
@@ -61,6 +63,21 @@ describe('generateInvoice', () => {
     oneTimeIncidentalsPerResident,
   ];
 
+  const waterUsageCostPerCubicMeter = 2;
+  const sewageCostPerCubicMeter = 1;
+  const waterCosts = new WaterCostsBuilder()
+    .addWaterUsageCost(500, start.clone().addMonths(-1))
+    .addWaterUsageCost(500, start)
+    .addWaterUsageCost(500, end.clone().addMonths(-1))
+    .addWaterUsageCost(waterUsageCostPerCubicMeter, end)
+    .addWaterUsageCost(500, end.clone().addMonths(1))
+    .addSewageCost(500, start.clone().addMonths(-1))
+    .addSewageCost(500, start)
+    .addSewageCost(500, end.clone().addMonths(-1))
+    .addSewageCost(sewageCostPerCubicMeter, end)
+    .addSewageCost(500, end.clone().addMonths(1))
+    .build();
+
   const standardResident = new ResidentBuilder()
     .withInvoiceStart(new MonthYear(0, 2023))
     .withNumberOfResidents(2)
@@ -87,6 +104,41 @@ describe('generateInvoice', () => {
         .withIncidentals(300)
         .build(),
     )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(start.clone().addMonths(-2))
+        .withWaterMeterCount(1)
+        .withWasDeductedInInvoice(true)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(start.clone().addMonths(-1))
+        .withWaterMeterCount(1000)
+        .withWasDeductedInInvoice(true)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(start)
+        .withWaterMeterCount(1100)
+        .withWasDeductedInInvoice(false)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(end)
+        .withWaterMeterCount(1200)
+        .withWasDeductedInInvoice(false)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(end.clone().addMonths(1))
+        .withWaterMeterCount(1300)
+        .withWasDeductedInInvoice(false)
+        .build(),
+    )
     .build();
 
   /**
@@ -111,6 +163,20 @@ describe('generateInvoice', () => {
         .withPayment(0, new Date(2023, 2, 31))
         .build(),
     )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(start.clone().addMonths(-2))
+        .withWaterMeterCount(1)
+        .withWasDeductedInInvoice(true)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(start.clone().addMonths(-1))
+        .withWaterMeterCount(2000)
+        .withWasDeductedInInvoice(true)
+        .build(),
+    )
     .build();
 
   const includedResidents = [standardResident, residentLaterInvoiceStart];
@@ -120,7 +186,7 @@ describe('generateInvoice', () => {
   ];
   const residents = [...includedResidents, ...notIncludedResidents];
 
-  const expectedInvoice: Partial<Invoice> = {
+  const expectedInvoice: Omit<Invoice, 'id'> = {
     start,
     end,
     ongoingIncidentalsInformation: {
@@ -187,6 +253,13 @@ describe('generateInvoice', () => {
             paymentMissing: 1000,
           },
         ],
+        waterCosts: {
+          lastWaterMeterCount: 1000,
+          currentWaterMeterCount: 1300,
+          waterUsage: 300,
+          waterUsageCosts: 600,
+          sewageCosts: 300,
+        },
       },
       [residentLaterInvoiceStart.id]: {
         residentId: residentLaterInvoiceStart.id,
@@ -216,7 +289,18 @@ describe('generateInvoice', () => {
             paymentMissing: 1000,
           },
         ],
+        waterCosts: {
+          lastWaterMeterCount: 2000,
+          currentWaterMeterCount: 2000,
+          waterUsage: 0,
+          waterUsageCosts: 0,
+          sewageCosts: 0,
+        },
       },
+    },
+    waterCosts: {
+      waterUsageCostPerCubicMeter,
+      sewageCostPerCubicMeter,
     },
   };
 
@@ -229,6 +313,7 @@ describe('generateInvoice', () => {
       includedOngoingIncidentals,
       includedOneTimeIncidentals,
       property,
+      waterCosts,
     });
     _.unset(invoice, 'id');
 

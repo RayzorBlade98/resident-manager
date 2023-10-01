@@ -28,6 +28,36 @@ export default interface ResidentInvoiceInformation {
    * Rent payments of the resident
    */
   rentPayments: ResidentInvoiceRentPayment[];
+
+  /**
+   * Water costs of the resident
+   */
+  waterCosts: {
+    /**
+     * Water meter count at the last invoice
+     */
+    lastWaterMeterCount: number;
+
+    /**
+     * Current water meter count
+     */
+    currentWaterMeterCount: number;
+
+    /**
+     * Water usage during this invoice period
+     */
+    waterUsage: number;
+
+    /**
+     * Costs for the water usage during this invoice period
+     */
+    waterUsageCosts: CurrencyInCents;
+
+    /**
+     * Costs for the sewage during this invoice period
+     */
+    sewageCosts: CurrencyInCents;
+  };
 }
 
 /**

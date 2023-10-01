@@ -14,11 +14,13 @@ import MonthYear from '_/extensions/date/month_year.extension';
 import App from '_/renderer/App';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import residentState from '_/states/resident/resident.state';
+import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
+import WaterCostsBuilder from '_/test/builders/waterCosts.builder';
 import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
 describe('InvoiceGenerationView', () => {
@@ -77,6 +79,11 @@ describe('InvoiceGenerationView', () => {
         .build(),
     )
     .build());
+  const waterCosts = new WaterCostsBuilder()
+    .addWaterUsageCost(1, new MonthYear(0, 2023))
+    .addSewageCost(1, new MonthYear(0, 2023))
+    .build();
+
   let renderResult: RenderResult;
 
   function inputTimespanStep(): void {
@@ -142,6 +149,7 @@ describe('InvoiceGenerationView', () => {
     act(() => {
       setRecoil(incidentalsState, incidentals);
       setRecoil(residentState, residents);
+      setRecoil(waterCostsState, waterCosts);
     });
   });
 

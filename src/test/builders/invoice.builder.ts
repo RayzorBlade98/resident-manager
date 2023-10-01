@@ -18,6 +18,10 @@ class InvoiceBuilder {
       residentInformation: {},
       ongoingIncidentalsInformation: {},
       oneTimeIncidentalsInformation: {},
+      waterCosts: {
+        waterUsageCostPerCubicMeter: 1,
+        sewageCostPerCubicMeter: 1,
+      },
     };
     InvoiceBuilder.nextStart = this.invoice.end;
   }

@@ -1,7 +1,7 @@
 import MonthYear from '_/extensions/date/month_year.extension';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
-interface WaterCost {
+export interface WaterCost {
   /**
    * Cost per cubic meter that needs to be payed
    */
