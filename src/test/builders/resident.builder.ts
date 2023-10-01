@@ -64,6 +64,16 @@ class ResidentBuilder {
     return this;
   }
 
+  public addMultiple<T>(
+    args: T[],
+    adder: (builder: ResidentBuilder, args: T) => void,
+  ): ResidentBuilder {
+    for (const arg of args) {
+      adder(this, arg);
+    }
+    return this;
+  }
+
   public build(): Resident {
     return this.resident;
   }
