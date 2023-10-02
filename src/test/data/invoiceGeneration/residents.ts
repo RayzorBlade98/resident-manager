@@ -104,7 +104,7 @@ export const residentLaterInvoiceStart = new ResidentBuilder()
   )
   .build();
 
-const includedResidents = [standardResident, residentLaterInvoiceStart];
+export const includedResidents = [standardResident, residentLaterInvoiceStart];
 const notIncludedResidents = [
   new ResidentBuilder().withInvoiceStart(new MonthYear(11, 2022)).build(),
   new ResidentBuilder().withInvoiceStart(new MonthYear(3, 2023)).build(),

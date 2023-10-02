@@ -8,7 +8,7 @@ import {
   property,
   waterCosts,
 } from './invoiceInformation';
-import { residents } from './residents';
+import { includedResidents, residents } from './residents';
 
 export const invoiceGenerationArgs = {
   start: invoiceStart,
@@ -17,5 +17,26 @@ export const invoiceGenerationArgs = {
   includedOngoingIncidentals,
   includedOneTimeIncidentals,
   property,
+  waterCosts,
+};
+
+export const incidentalsCalculationArgs = {
+  includedOngoingIncidentals,
+  includedOneTimeIncidentals,
+  invoiceStart,
+  invoiceEnd,
+  residents: includedResidents,
+  property,
+};
+
+export const rentPaymentCalculationArgs = {
+  invoiceStart,
+  invoiceEnd,
+  residents: includedResidents,
+};
+
+export const waterCostCalculationArgs = {
+  invoiceEnd,
+  residents: includedResidents,
   waterCosts,
 };

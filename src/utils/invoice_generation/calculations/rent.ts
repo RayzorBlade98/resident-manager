@@ -1,4 +1,4 @@
-import Invoice from '_/models/invoice/invoice';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { Resident } from '_/models/resident/resident';
 
 /**
@@ -6,9 +6,14 @@ import { Resident } from '_/models/resident/resident';
  */
 interface RentPaymentCalculationArguments {
   /**
-   * Invoice the rent payment calculation should be added to
+   * First month of the invoice
    */
-  invoice: Invoice;
+  invoiceStart: MonthYear;
+
+  /**
+   * Last month of the invoice
+   */
+  invoiceEnd: MonthYear;
 
   /**
    * List of all residents
@@ -17,26 +22,40 @@ interface RentPaymentCalculationArguments {
 }
 
 /**
- * Adds the incidentals calculation to the invoice
- * @param args arguments for the incidentals calculation
+ * Calculates the rent payments for the invoice
+ * @param args arguments for the rent payment calculation
+ * @returns rent payment calculations for all residents
  */
-export default function addRentPaymentCalculationToInvoice(
+export default function calculateRentPayments(
   args: RentPaymentCalculationArguments,
-): void {
-  for (const resident of args.residents) {
-    args.invoice.residentInformation[resident.id].rentPayments = resident.rentInformation
-      .filter(
-        (r) => args.invoice.start <= r.dueDate && r.dueDate <= args.invoice.end,
-      )
-      .map((r) => {
-        const paymentAmount = r.paymentAmount ?? 0;
-        return {
-          dueDate: r.dueDate,
-          rent: r.rent,
-          incidentals: r.incidentals,
-          paymentAmount,
-          paymentMissing: r.rent + r.incidentals - paymentAmount,
-        };
-      });
-  }
+) {
+  return Object.fromEntries(
+    args.residents.map((resident) => [
+      resident.id,
+      calculateRentPaymentsForResident(args, resident),
+    ]),
+  );
+}
+
+/**
+ * Calculates the rent payments for a single resident
+ */
+function calculateRentPaymentsForResident(
+  args: RentPaymentCalculationArguments,
+  resident: Resident,
+) {
+  return resident.rentInformation
+    .filter(
+      (r) => args.invoiceStart <= r.dueDate && r.dueDate <= args.invoiceEnd,
+    )
+    .map((r) => {
+      const paymentAmount = r.paymentAmount ?? 0;
+      return {
+        dueDate: r.dueDate,
+        rent: r.rent,
+        incidentals: r.incidentals,
+        paymentAmount,
+        paymentMissing: r.rent + r.incidentals - paymentAmount,
+      };
+    });
 }

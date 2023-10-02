@@ -56,6 +56,37 @@ describe('MonthYear', () => {
     });
   });
 
+  describe('max', () => {
+    test.each([
+      [new MonthYear(0, 2023), new MonthYear(3, 2023), new MonthYear(3, 2023)],
+      [new MonthYear(7, 2023), new MonthYear(5, 2023), new MonthYear(7, 2023)],
+      [new MonthYear(8, 2023), new MonthYear(8, 2023), new MonthYear(8, 2023)],
+    ])('max(%s, %s) should return %s', (month1, month2, expected) => {
+      // Act
+      const max = MonthYear.max(month1, month2);
+
+      // Assert
+      expect(max).toEqual(expected);
+    });
+  });
+
+  describe('monthsBetween', () => {
+    test.each([
+      [new MonthYear(0, 2023), new MonthYear(3, 2023), 4],
+      [new MonthYear(7, 2023), new MonthYear(5, 2023), 3],
+      [new MonthYear(8, 2023), new MonthYear(8, 2023), 1],
+      [new MonthYear(1, 2023), new MonthYear(8, 2022), 6],
+      [new MonthYear(7, 2022), new MonthYear(3, 2023), 9],
+      [new MonthYear(5, 2020), new MonthYear(3, 2023), 35],
+    ])('monthsBetween(%s, %s) should return %s', (month1, month2, expected) => {
+      // Act
+      const monthsBetween = MonthYear.monthsBetween(month1, month2);
+
+      // Assert
+      expect(monthsBetween).toEqual(expected);
+    });
+  });
+
   describe('addMonths', () => {
     test.each([
       [5, 2023, 1, 6, 2023],

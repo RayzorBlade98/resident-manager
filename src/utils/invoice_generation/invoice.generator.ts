@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import { OngoingIncidentals } from '../../models/incidentals/ongoing_incidentals';
-import addIncidentalsCalculationToInvoice from './calculations/incidentals';
-import addRentPaymentCalculationToInvoice from './calculations/rent';
-import addWaterCostsToInvoice from './calculations/water';
+import calculateIncidentalsCosts from './calculations/incidentals';
+import calculateRentPayments from './calculations/rent';
+import calculateWaterCosts from './calculations/water';
 import MonthYear from '_/extensions/date/month_year.extension';
 import WaterCosts from '_/models/incidentals/WaterCosts';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
@@ -58,56 +58,64 @@ export default function generateInvoice(
     (r) => args.start <= r.invoiceStart && r.invoiceStart <= args.end,
   );
 
-  // Initialize invoice
-  const invoice: Invoice = {
+  const { incidentalsCalculations, waterCostCalculations, rentPayments } = performCalculations(args, residents);
+
+  const residentInformation = Object.fromEntries(
+    residents.map((resident) => [
+      resident.id,
+      {
+        residentId: resident.id,
+        ongoingIncidentalsCosts:
+          incidentalsCalculations.residentInformation[resident.id]
+            .ongoingIncidentalsCosts,
+        oneTimeIncidentalsCosts:
+          incidentalsCalculations.residentInformation[resident.id]
+            .oneTimeIncidentalsCosts,
+        rentPayments: rentPayments[resident.id],
+        waterCosts: waterCostCalculations.residentCosts[resident.id],
+      },
+    ]),
+  );
+
+  return {
     id: uuid(),
     start: args.start,
     end: args.end,
-    ongoingIncidentalsInformation: {},
-    oneTimeIncidentalsInformation: {},
-    residentInformation: {},
-    waterCosts: {
-      waterUsageCostPerCubicMeter: 0,
-      sewageCostPerCubicMeter: 0,
-    },
+    ongoingIncidentalsInformation:
+      incidentalsCalculations.ongoingIncidentalsInformation,
+    oneTimeIncidentalsInformation:
+      incidentalsCalculations.oneTimeIncidentalsInformation,
+    waterCosts: waterCostCalculations.waterCosts,
+    residentInformation,
   };
-  residents.forEach((r) => {
-    invoice.residentInformation[r.id] = {
-      residentId: r.id,
-      ongoingIncidentalsCosts: {},
-      oneTimeIncidentalsCosts: {},
-      rentPayments: [],
-      waterCosts: {
-        waterUsage: 0,
-        waterUsageCosts: 0,
-        sewageCosts: 0,
-        lastWaterMeterCount: 0,
-        currentWaterMeterCount: 0,
-      },
-    };
-  });
+}
 
-  const timespan = MonthYear.timespan(args.start, args.end);
-
-  addIncidentalsCalculationToInvoice({
-    includedOngoingIncidentals: args.includedOngoingIncidentals,
+function performCalculations(
+  args: InvoiceGenerationArguments,
+  residents: Resident[],
+) {
+  const incidentalsCalculations = calculateIncidentalsCosts({
+    invoiceStart: args.start,
+    invoiceEnd: args.end,
     includedOneTimeIncidentals: args.includedOneTimeIncidentals,
+    includedOngoingIncidentals: args.includedOngoingIncidentals,
     property: args.property,
     residents,
-    invoice,
-    timespan,
   });
-
-  addRentPaymentCalculationToInvoice({
-    invoice,
-    residents,
-  });
-
-  addWaterCostsToInvoice({
-    residents,
-    invoice,
+  const waterCostCalculations = calculateWaterCosts({
+    invoiceEnd: args.end,
     waterCosts: args.waterCosts,
+    residents,
+  });
+  const rentPayments = calculateRentPayments({
+    invoiceStart: args.start,
+    invoiceEnd: args.end,
+    residents,
   });
 
-  return invoice;
+  return {
+    incidentalsCalculations,
+    waterCostCalculations,
+    rentPayments,
+  };
 }

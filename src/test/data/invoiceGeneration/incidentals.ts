@@ -5,25 +5,31 @@ import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.build
 
 /**
  * Deduction type: Per Apartment
- * TotalCost: costs[0].id
+ * TotalCost: 200
+ * Cost per apartment (per month): 10
+ * Not available in first month
  */
 export const ongoingIncidentalsPerApartment = new OngoingIncidentalsBuilder()
   .withDeductionType(DeductionType.PerApartment)
   .withInvoiceInterval(2)
-  .withCosts([{ date: new MonthYear(1, 2023), cost: 200 }])
+  .withCosts([
+    { date: new MonthYear(1, 2023), cost: 200 },
+    { date: new MonthYear(3, 2023), cost: 0 },
+  ])
   .build();
 
 /**
  * Deduction type: Per Resident
- * TotalCost: costs[0].id
- * Not available in first month
+ * TotalCost: 300
  */
 export const ongoingIncidentalsPerResident = new OngoingIncidentalsBuilder()
   .withDeductionType(DeductionType.PerResident)
   .withInvoiceInterval(3)
   .withCosts([
-    { date: new MonthYear(0, 2023), cost: 300 },
     { date: new MonthYear(11, 2022), cost: 0 },
+    { date: new MonthYear(0, 2023), cost: 0 },
+    { date: new MonthYear(1, 2023), cost: 300 },
+    { date: new MonthYear(3, 2023), cost: 0 },
   ])
   .build();
 export const includedOngoingIncidentals = [
@@ -34,7 +40,7 @@ export const includedOngoingIncidentals = [
 export const oneTimeIncidentalsPerApartment = new OneTimeIncidentalsBuilder()
   .withDeductionType(DeductionType.PerApartment)
   .withCosts(500)
-  .withBillingDate(new Date(2023, 2, 1).toUTC())
+  .withBillingDate(new Date(2023, 0, 1).toUTC())
   .build();
 
 export const oneTimeIncidentalsPerResident = new OneTimeIncidentalsBuilder()

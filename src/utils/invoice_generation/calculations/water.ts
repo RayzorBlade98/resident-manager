@@ -1,15 +1,16 @@
+import MonthYear from '_/extensions/date/month_year.extension';
 import WaterCosts, { WaterCost } from '_/models/incidentals/WaterCosts';
-import Invoice from '_/models/invoice/invoice';
 import { Resident } from '_/models/resident/resident';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
  * Arguments for the water cost calculation
  */
 interface WaterCostCalculationArguments {
   /**
-   * Invoice the water cost calculation should be added to
+   * Last month of the invoice
    */
-  invoice: Invoice;
+  invoiceEnd: MonthYear;
 
   /**
    * List of all residents
@@ -23,34 +24,33 @@ interface WaterCostCalculationArguments {
 }
 
 /**
- * Adds the water cost calculation to the invoice
+ * Calculates the water costs for the invoice
  * @param args arguments for the water cost calculation
+ * @returns water cost calculations for all residents and the current water costs
  */
-export default function addWaterCostsToInvoice(
+export default function calculateWaterCosts(
   args: WaterCostCalculationArguments,
-): void {
+) {
   const { waterUsageCostPerCubicMeter, sewageCostPerCubicMeter } = getWaterCosts(args);
 
-  // Add water costs to invoice
-  args.invoice.waterCosts = {
-    waterUsageCostPerCubicMeter,
-    sewageCostPerCubicMeter,
+  const residentCosts = Object.fromEntries(
+    args.residents.map((resident) => [
+      resident.id,
+      calculateWaterCostsForResident({
+        resident,
+        waterUsageCostPerCubicMeter,
+        sewageCostPerCubicMeter,
+      }),
+    ]),
+  );
+
+  return {
+    waterCosts: {
+      waterUsageCostPerCubicMeter,
+      sewageCostPerCubicMeter,
+    },
+    residentCosts,
   };
-
-  for (const resident of args.residents) {
-    const { lastWaterMeterCount, currentWaterMeterCount } = getWaterCounts(resident);
-    const waterUsage = currentWaterMeterCount - lastWaterMeterCount;
-    const waterUsageCosts = Math.ceil(waterUsage * waterUsageCostPerCubicMeter);
-    const sewageCosts = Math.ceil(waterUsage * sewageCostPerCubicMeter);
-
-    args.invoice.residentInformation[resident.id].waterCosts = {
-      lastWaterMeterCount,
-      currentWaterMeterCount,
-      waterUsage,
-      waterUsageCosts,
-      sewageCosts,
-    };
-  }
 }
 
 /**
@@ -61,13 +61,39 @@ function getWaterCosts(args: WaterCostCalculationArguments) {
   const waterUsageCosts = [...args.waterCosts.waterUsageCosts].sort(sorter);
   const sewageCosts = [...args.waterCosts.sewageCosts].sort(sorter);
 
-  const finder = (c: WaterCost) => c.date <= args.invoice.end;
-  const waterUsageCost = waterUsageCosts.find(finder) ?? waterUsageCosts[0];
-  const sewageCost = sewageCosts.find(finder) ?? sewageCosts[0];
+  const finder = (c: WaterCost) => c.date <= args.invoiceEnd;
+  const waterUsageCost = waterUsageCosts.find(finder) as WaterCost;
+  const sewageCost = sewageCosts.find(finder) as WaterCost;
 
   return {
     waterUsageCostPerCubicMeter: waterUsageCost.costPerCubicMeter,
     sewageCostPerCubicMeter: sewageCost.costPerCubicMeter,
+  };
+}
+
+/**
+ * Calculates the water costs for a single resident
+ */
+function calculateWaterCostsForResident(args: {
+  resident: Resident;
+  waterUsageCostPerCubicMeter: CurrencyInCents;
+  sewageCostPerCubicMeter: CurrencyInCents;
+}) {
+  const { lastWaterMeterCount, currentWaterMeterCount } = getWaterCounts(
+    args.resident,
+  );
+  const waterUsage = currentWaterMeterCount - lastWaterMeterCount;
+  const waterUsageCosts = Math.ceil(
+    waterUsage * args.waterUsageCostPerCubicMeter,
+  );
+  const sewageCosts = Math.ceil(waterUsage * args.sewageCostPerCubicMeter);
+
+  return {
+    lastWaterMeterCount,
+    currentWaterMeterCount,
+    waterUsage,
+    waterUsageCosts,
+    sewageCosts,
   };
 }
 

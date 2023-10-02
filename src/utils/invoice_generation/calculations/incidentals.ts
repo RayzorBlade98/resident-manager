@@ -1,10 +1,14 @@
-import { OngoingIncidentals } from '../../../models/incidentals/ongoing_incidentals';
+import _ from 'lodash';
+import {
+  OngoingIncidentals,
+  OngoingIncidentalsCost,
+} from '../../../models/incidentals/ongoing_incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
-import Invoice from '_/models/invoice/invoice';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
  * Arguments for the incidentals calculation
@@ -21,9 +25,14 @@ interface IncidentalsCalculationArguments {
   includedOneTimeIncidentals: OneTimeIncidentals[];
 
   /**
-   * Invoice the incidentals calculation should be added to
+   * First month of the invoice
    */
-  invoice: Invoice;
+  invoiceStart: MonthYear;
+
+  /**
+   * Last month of the invoice
+   */
+  invoiceEnd: MonthYear;
 
   /**
    * Property of the invoice
@@ -34,116 +43,188 @@ interface IncidentalsCalculationArguments {
    * List of all residents
    */
   residents: Resident[];
-
-  /**
-   * All months included in the invoice
-   */
-  timespan: MonthYear[];
 }
 
 /**
- * Adds the incidentals calculation to the invoice
- * @param args arguments for the incidentals calculation
+ * Calculates the incidentals costs for the invoice
+ * @param args arguments for the incidentals costs calculation
+ * @returns incidentals cost calculations for all residents and the total incidentals costs
  */
-export default function addIncidentalsCalculationToInvoice(
+export default function calculateIncidentalsCosts(
   args: IncidentalsCalculationArguments,
-): void {
-  ongoingIncidentalsCalculation(args);
-  oneTimeIncidentalsCalculation(args);
+) {
+  const ongoingIncidentalsCalculation = Object.fromEntries(
+    args.includedOngoingIncidentals.map((incidentals) => [
+      incidentals.id,
+      calculateOngoingIncidentalsCosts(args, incidentals),
+    ]),
+  );
+  const oneTimeIncidentalsCalculation = Object.fromEntries(
+    args.includedOneTimeIncidentals.map((incidentals) => [
+      incidentals.id,
+      calculateOneTimeIncidentalsCosts(args, incidentals),
+    ]),
+  );
+
+  return {
+    ongoingIncidentalsInformation: _.mapValues(
+      ongoingIncidentalsCalculation,
+      (c) => c.incidentalsInformation,
+    ),
+    oneTimeIncidentalsInformation: _.mapValues(
+      oneTimeIncidentalsCalculation,
+      (c) => c.incidentalsInformation,
+    ),
+    residentInformation: Object.fromEntries(
+      args.residents.map((resident) => [
+        resident.id,
+        {
+          ongoingIncidentalsCosts: _.mapValues(
+            ongoingIncidentalsCalculation,
+            (c) => c.residentCosts[resident.id],
+          ),
+          oneTimeIncidentalsCosts: _.omitBy(
+            _.mapValues(
+              oneTimeIncidentalsCalculation,
+              (c) => c.residentCosts[resident.id],
+            ),
+            (c) => !c,
+          ),
+        },
+      ]),
+    ),
+  };
 }
 
 /**
- * Adds the ongoing incidentals calculation to the invoice
+ * Calculates the ongoing incidentals costs for the invoice
  */
-function ongoingIncidentalsCalculation(
+function calculateOngoingIncidentalsCosts(
   args: IncidentalsCalculationArguments,
-): void {
-  for (const incidentals of args.includedOngoingIncidentals) {
-    let totalCost = 0;
-    for (const month of args.timespan) {
-      let cost = incidentals.costs.find((c) => c.date <= month)?.cost;
-      if (!cost) {
-        continue;
-      }
-      cost /= incidentals.invoiceInterval;
+  incidentals: OngoingIncidentals,
+) {
+  const costPerMonth = getOngoingIncidentalsCostPerMonth(args, incidentals);
+  const firstInvoiceMonth = getOngoingIncidentalsFirstInvoiceMonth(
+    args,
+    incidentals,
+  );
 
-      totalCost += cost;
-
+  const totalResidentCosts = MonthYear.timespan(
+    firstInvoiceMonth,
+    args.invoiceEnd,
+  )
+    .map((month) => {
       const residents = args.residents.filter((r) => r.invoiceStart <= month);
-
-      const totalDeductionUnits = getTotalNumberOfDeductionUnits(
+      const costPerUnit = getCostPerDeductionUnit(
+        costPerMonth,
         incidentals.deductionType,
         args.property,
         residents,
       );
-      const costPerUnit = cost / totalDeductionUnits;
+      return Object.fromEntries(
+        residents.map((resident) => [
+          resident.id,
+          getDeductionUnits(incidentals.deductionType, resident) * costPerUnit,
+        ]),
+      );
+    })
+    .reduce((totalCosts, newCosts) => _.mergeWith(
+      totalCosts,
+      newCosts,
+      (objValue: number | undefined, srcValue: number) => (objValue ?? 0) + srcValue,
+    ));
 
-      for (const resident of residents) {
-        const residentInfo = args.invoice.residentInformation[resident.id];
-        const incidentalsCost = residentInfo.ongoingIncidentalsCosts;
-        if (!(incidentals.id in incidentalsCost)) {
-          incidentalsCost[incidentals.id] = 0;
-        }
-
-        const numberOfUnits = getDeductionUnits(
-          incidentals.deductionType,
-          resident,
-        );
-        incidentalsCost[incidentals.id] += costPerUnit * numberOfUnits;
-      }
-    }
-
-    args.invoice.ongoingIncidentalsInformation[incidentals.id] = {
+  return {
+    incidentalsInformation: {
       incidentalsId: incidentals.id,
       name: incidentals.name,
       deductionType: incidentals.deductionType,
-      totalCost: Math.ceil(totalCost),
-    };
-  }
-
-  // Round resident costs
-  for (const resident of args.residents) {
-    const residentInformation = args.invoice.residentInformation[resident.id];
-    for (const incidentals of args.includedOngoingIncidentals) {
-      const incidentalsCosts = residentInformation.ongoingIncidentalsCosts;
-      const cost = incidentalsCosts[incidentals.id];
-      if (cost !== undefined) {
-        incidentalsCosts[incidentals.id] = Math.ceil(cost);
-      }
-    }
-  }
+      totalCost: Math.ceil(
+        costPerMonth
+          * MonthYear.monthsBetween(firstInvoiceMonth, args.invoiceEnd),
+      ),
+    },
+    residentCosts: _.mapValues(totalResidentCosts, Math.ceil),
+  };
 }
 
-function oneTimeIncidentalsCalculation(
+/**
+ * Calculates the one time incidentals costs for the invoice
+ */
+function calculateOneTimeIncidentalsCosts(
   args: IncidentalsCalculationArguments,
-): void {
-  for (const incidentals of args.includedOneTimeIncidentals) {
-    args.invoice.oneTimeIncidentalsInformation[incidentals.id] = {
+  incidentals: OneTimeIncidentals,
+) {
+  const residents = args.residents.filter(
+    (r) => r.invoiceStart <= incidentals.billingDate,
+  );
+  const costPerUnit = getCostPerDeductionUnit(
+    incidentals.cost,
+    incidentals.deductionType,
+    args.property,
+    residents,
+  );
+
+  return {
+    incidentalsInformation: {
       incidentalsId: incidentals.id,
       name: incidentals.name,
       deductionType: incidentals.deductionType,
       totalCost: incidentals.cost,
-    };
+    },
+    residentCosts: Object.fromEntries(
+      residents.map((resident) => [
+        resident.id,
+        Math.ceil(
+          getDeductionUnits(incidentals.deductionType, resident) * costPerUnit,
+        ),
+      ]),
+    ),
+  };
+}
 
-    const residents = args.residents.filter(
-      (r) => r.invoiceStart <= incidentals.billingDate,
-    );
-    const totalDeductionUnits = getTotalNumberOfDeductionUnits(
-      incidentals.deductionType,
-      args.property,
-      residents,
-    );
-    const costPerUnit = incidentals.cost / totalDeductionUnits;
-    for (const resident of residents) {
-      const residentInfo = args.invoice.residentInformation[resident.id];
-      const incidentalsCost = residentInfo.oneTimeIncidentalsCosts;
-      const numberOfUnits = getDeductionUnits(
-        incidentals.deductionType,
-        resident,
-      );
-      incidentalsCost[incidentals.id] = costPerUnit * numberOfUnits;
-    }
-  }
+/**
+ * Returns the cost per month of the ongoing incidentals
+ */
+function getOngoingIncidentalsCostPerMonth(
+  args: IncidentalsCalculationArguments,
+  incidentals: OngoingIncidentals,
+): CurrencyInCents {
+  const incidentalsCosts = [...incidentals.costs]
+    .sort((a, b) => b.date.getTime() - a.date.getTime())
+    .find((c) => c.date <= args.invoiceEnd) as OngoingIncidentalsCost;
+
+  return incidentalsCosts.cost / incidentals.invoiceInterval;
+}
+
+/**
+ * Returns the first month in which the ongoing incidentals should be included in the invoice
+ */
+function getOngoingIncidentalsFirstInvoiceMonth(
+  args: IncidentalsCalculationArguments,
+  incidentals: OngoingIncidentals,
+): MonthYear {
+  const firstIncidentalsMonth = [...incidentals.costs].sort(
+    (a, b) => a.date.getTime() - b.date.getTime(),
+  )[0].date;
+  return MonthYear.max(firstIncidentalsMonth, args.invoiceStart);
+}
+
+/**
+ * Returns the cost per deduction unit
+ */
+function getCostPerDeductionUnit(
+  costs: CurrencyInCents,
+  deductionType: DeductionType,
+  property: Property,
+  residents: Resident[],
+): CurrencyInCents {
+  const totalNumberOfDeductionUnits = getTotalNumberOfDeductionUnits(
+    deductionType,
+    property,
+    residents,
+  );
+  return costs / totalNumberOfDeductionUnits;
 }
 
 /**

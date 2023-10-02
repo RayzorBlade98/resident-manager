@@ -53,6 +53,33 @@ class MonthYear extends Date {
   }
 
   /**
+   * Compares two months and returns the latest
+   * @param month1 First month to compare
+   * @param month2 Second month to compare
+   * @returns The bigger of both months
+   */
+  public static max(month1: MonthYear, month2: MonthYear): MonthYear {
+    return month1 >= month2 ? month1 : month2;
+  }
+
+  /**
+   * Returns the number of months between two month (including these)
+   *
+   * Examples:
+   * - monthsBetween(03.2023, 05.2023) = monthsBetween(05.2023, 03.2023) = 3
+   * - monthsBetween(07.2023, 07.2023) = 1
+   *
+   * @param month1 First month of the interval
+   * @param month2 Second month of the interval
+   * @returns Number of month included in the provided interval
+   */
+  public static monthsBetween(month1: MonthYear, month2: MonthYear): number {
+    const yearsBetween = month2.getFullYear() - month1.getFullYear();
+    const monthsBetween = month2.getMonth() - month1.getMonth();
+    return Math.abs(yearsBetween * 12 + monthsBetween) + 1;
+  }
+
+  /**
    * Adds the specified number of months to the given `MonthYear` object
    * @param toAdd Number of months that should be added (can be negative)
    * @returns this month year
