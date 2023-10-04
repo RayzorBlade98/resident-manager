@@ -1,3 +1,4 @@
+import { expectedIncidentalsCosts, expectedRentPayments, expectedWaterCosts } from './expected';
 import {
   includedOneTimeIncidentals,
   includedOngoingIncidentals,
@@ -39,4 +40,11 @@ export const waterCostCalculationArgs = {
   invoiceEnd,
   residents: includedResidents,
   waterCosts,
+};
+
+export const totalCostCalculationArgs = {
+  incidentalsCalculations: expectedIncidentalsCosts,
+  waterCostCalculations: expectedWaterCosts,
+  rentPayments: expectedRentPayments,
+  residents: includedResidents,
 };

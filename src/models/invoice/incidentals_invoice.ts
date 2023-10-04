@@ -4,7 +4,6 @@ import { CurrencyInCents } from '_/utils/currency/currency.utils';
 /**
  * Object containing invoice information for a single ongoing incidentals
  */
-
 export interface IncidentalsInvoiceInformation {
   /**
    * Id of the ongoing incidentals

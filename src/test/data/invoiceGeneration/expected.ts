@@ -133,6 +133,27 @@ export const expectedWaterCosts = {
   },
 };
 
+export const expectedTotalCosts = {
+  [standardResident.id]: {
+    ongoingIncidentalsCosts: 220,
+    oneTimeIncidentalsCosts: 550,
+    missingRentPayments: 1200,
+    waterCosts: 900,
+    totalCosts: 2870,
+    totalPaidIncidentals: 600,
+    totalMissingCosts: 2270,
+  },
+  [residentLaterInvoiceStart.id]: {
+    ongoingIncidentalsCosts: 120,
+    oneTimeIncidentalsCosts: 500,
+    missingRentPayments: 800,
+    waterCosts: 0,
+    totalCosts: 1420,
+    totalPaidIncidentals: 300,
+    totalMissingCosts: 1120,
+  },
+};
+
 export const expectedInvoice: Omit<Invoice, 'id'> = {
   start: invoiceStart,
   end: invoiceEnd,
@@ -162,5 +183,6 @@ function getExpectedResidentInformation(
         .oneTimeIncidentalsCosts,
     rentPayments: expectedRentPayments[resident.id],
     waterCosts: expectedWaterCosts.residentCosts[resident.id],
+    totalCosts: expectedTotalCosts[resident.id],
   };
 }

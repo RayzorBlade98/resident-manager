@@ -27,7 +27,32 @@ export default interface ResidentInvoiceInformation {
   /**
    * Rent payments of the resident
    */
-  rentPayments: ResidentInvoiceRentPayment[];
+  rentPayments: {
+    /**
+     * Month and year this rent information is about
+     */
+    dueDate: MonthYear;
+
+    /**
+     * Rent that has to be paid in this month
+     */
+    rent: CurrencyInCents;
+
+    /**
+     * Incidentals that have to be paid in this month
+     */
+    incidentals: CurrencyInCents;
+
+    /**
+     * Amount that was paid for this month
+     */
+    paymentAmount: CurrencyInCents;
+
+    /**
+     * Amount that is missing for this month
+     */
+    paymentMissing: CurrencyInCents;
+  }[];
 
   /**
    * Water costs of the resident
@@ -58,34 +83,44 @@ export default interface ResidentInvoiceInformation {
      */
     sewageCosts: CurrencyInCents;
   };
-}
-
-/**
- * Object containing rent payment information for a single month
- */
-interface ResidentInvoiceRentPayment {
-  /**
-   * Month and year this rent information is about
-   */
-  dueDate: MonthYear;
 
   /**
-   * Rent that has to be paid in this month
+   * Accumulated costs
    */
-  rent: CurrencyInCents;
+  totalCosts: {
+    /**
+     * Sum of all ongoing incidentals costs
+     */
+    ongoingIncidentalsCosts: CurrencyInCents;
 
-  /**
-   * Incidentals that have to be paid in this month
-   */
-  incidentals: CurrencyInCents;
+    /**
+     * Sum of all ongoing incidentals costs
+     */
+    oneTimeIncidentalsCosts: CurrencyInCents;
 
-  /**
-   * Amount that was paid for this month
-   */
-  paymentAmount: CurrencyInCents;
+    /**
+     * Sum of all missing rent payments
+     */
+    missingRentPayments: CurrencyInCents
 
-  /**
-   * Amount that is missing for this month
-   */
-  paymentMissing: CurrencyInCents;
+    /**
+     * Sum of all water costs
+     */
+    waterCosts: CurrencyInCents;
+
+    /**
+     * Sum of all costs
+     */
+    totalCosts: CurrencyInCents;
+
+    /**
+     * Sum of all paid incidentals
+     */
+    totalPaidIncidentals: CurrencyInCents;
+
+    /**
+     * Total amount that must be paid by the resident
+     */
+    totalMissingCosts: CurrencyInCents
+  };
 }

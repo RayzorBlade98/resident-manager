@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { OngoingIncidentals } from '../../models/incidentals/ongoing_incidentals';
 import calculateIncidentalsCosts from './calculations/incidentals';
 import calculateRentPayments from './calculations/rent';
+import calculateTotalCosts from './calculations/totalCosts';
 import calculateWaterCosts from './calculations/water';
 import MonthYear from '_/extensions/date/month_year.extension';
 import WaterCosts from '_/models/incidentals/WaterCosts';
@@ -58,7 +59,9 @@ export default function generateInvoice(
     (r) => args.start <= r.invoiceStart && r.invoiceStart <= args.end,
   );
 
-  const { incidentalsCalculations, waterCostCalculations, rentPayments } = performCalculations(args, residents);
+  const {
+    incidentalsCalculations, waterCostCalculations, rentPayments, totalCosts,
+  } = performCalculations(args, residents);
 
   const residentInformation = Object.fromEntries(
     residents.map((resident) => [
@@ -73,6 +76,7 @@ export default function generateInvoice(
             .oneTimeIncidentalsCosts,
         rentPayments: rentPayments[resident.id],
         waterCosts: waterCostCalculations.residentCosts[resident.id],
+        totalCosts: totalCosts[resident.id],
       },
     ]),
   );
@@ -113,9 +117,17 @@ function performCalculations(
     residents,
   });
 
+  const totalCosts = calculateTotalCosts({
+    incidentalsCalculations,
+    waterCostCalculations,
+    rentPayments,
+    residents,
+  });
+
   return {
     incidentalsCalculations,
     waterCostCalculations,
     rentPayments,
+    totalCosts,
   };
 }
