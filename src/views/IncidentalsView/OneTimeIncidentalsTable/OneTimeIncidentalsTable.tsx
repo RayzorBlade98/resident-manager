@@ -53,7 +53,7 @@ function OneTimeIncidentalsTable(): JSX.Element {
           <TableBody>
             <TableRow>
               <TableCell
-                colSpan={5}
+                colSpan={6}
                 onClick={onCreateIncidentals}
                 align="center"
                 sx={styles.createIncidentalsCell}

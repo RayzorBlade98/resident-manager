@@ -10,7 +10,7 @@ import RecoilNexus from 'recoil-nexus';
 import View from '../routes';
 import PropertyBuilder from './builders/property.builder';
 import StandardLocalizationProvider from '_/components/functional/StandardLocalizationProvider/StandardLocalizationProvider';
-import { propertyState } from '_/states/property/property.state';
+import propertyState from '_/states/property/property.state';
 import theme from '_/styles/mui.theme';
 
 /**

@@ -3,7 +3,8 @@
  */
 import * as path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { BrowserWindow, app, ipcMain } from 'electron';
+import { BrowserWindow, app } from 'electron';
+import addIpcHandlers from '_/ipc/ipcHandlers';
 import * as nodeEnv from '_utils/node-env';
 
 let mainWindow: Electron.BrowserWindow | undefined;
@@ -17,10 +18,8 @@ function createWindow() {
       devTools: nodeEnv.dev,
       preload: path.join(__dirname, './preload.bundle.js'),
       webSecurity: nodeEnv.prod,
-      // Both needed to use "fs" module
       nodeIntegration: true,
-      contextIsolation: false,
-      //
+      contextIsolation: true,
     },
     resizable: false,
     autoHideMenuBar: true,
@@ -63,13 +62,10 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-ipcMain.on('renderer-ready', () => {
-  // eslint-disable-next-line no-console
-  console.log('Renderer is ready.');
-});
-
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+addIpcHandlers();
 
 // eslint-disable-next-line import/prefer-default-export
 export const exportedForTests = nodeEnv.test ? { createWindow } : undefined;

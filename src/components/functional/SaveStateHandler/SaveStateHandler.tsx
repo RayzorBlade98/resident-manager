@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import PersistenceUtils from '../../../utils/persistence/persistence.utils';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import invoiceState from '_/states/invoice/invoice.state';
-import { propertyState } from '_/states/property/property.state';
+import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import createDummyData from '_/utils/dummy_data';
 import { dev } from '_/utils/node-env';
+import {
+  importSaveStates,
+  exportSaveStates,
+} from '_/utils/persistence/persistence';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SaveStateManagerProps {}
@@ -26,29 +29,33 @@ export function SaveStateManager(
   const waterCosts = useRecoilValue(waterCostsState);
 
   /**
-   * Handles the save state when starting the program
-   * - Loads the save file
-   * - Creates dummy data when in dev mode
-   */
-  function onStart(): void {
-    /* istanbul ignore next */
-    if (dev) {
-      createDummyData();
-    }
-    PersistenceUtils.importSaveStates();
-    setInitialized(true);
-  }
-
-  /**
    * Handles save state changes
    * - saves the states to the save files
    */
   function onSaveChange(): void {
     if (!isInitialized) return;
-    PersistenceUtils.exportSaveStates();
+    exportSaveStates();
   }
 
-  useEffect(onStart, []); // eslint-disable-line react-hooks/exhaustive-deps
+  /**
+   * Handles the save state when starting the program
+   * - Loads the save file
+   * - Creates dummy data when in dev mode
+   */
+  useEffect(() => {
+    /* istanbul ignore next */
+    if (dev) {
+      createDummyData();
+    }
+
+    const asyncImport = async () => {
+      await importSaveStates();
+      setInitialized(true);
+    };
+
+    void asyncImport();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(onSaveChange, [
     incidentals,

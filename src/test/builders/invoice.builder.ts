@@ -14,7 +14,7 @@ class InvoiceBuilder {
     this.invoice = {
       id: uuid(),
       start: InvoiceBuilder.nextStart,
-      end: InvoiceBuilder.nextStart.clone(),
+      end: InvoiceBuilder.nextStart.addMonths(1),
       residentInformation: {},
       ongoingIncidentalsInformation: {},
       oneTimeIncidentalsInformation: {},
@@ -45,7 +45,6 @@ class InvoiceBuilder {
   }
 
   public build(): Invoice {
-    InvoiceBuilder.nextStart.addMonths(1);
     return this.invoice;
   }
 

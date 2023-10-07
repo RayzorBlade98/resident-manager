@@ -38,7 +38,10 @@ function pathsToESModuleNameMapper() {
 export default {
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
-  moduleNameMapper: pathsToESModuleNameMapper(),
+  moduleNameMapper: {
+    ...pathsToESModuleNameMapper(),
+    '^electron$': '<rootDir>/src/test/electronModuleMock.ts',
+  },
   modulePathIgnorePatterns: [
     '<rootDir>/dist',
     '<rootDir>/node_modules',

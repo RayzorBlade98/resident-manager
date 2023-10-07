@@ -4,10 +4,10 @@ import {
   RenderResult, act, cleanup, render,
 } from '@testing-library/react';
 import React from 'react';
-import { setRecoil } from 'recoil-nexus';
+import { resetRecoil, setRecoil } from 'recoil-nexus';
 import View from '../routes';
 import App from './App';
-import { propertyState } from '_/states/property/property.state';
+import propertyState from '_/states/property/property.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import PropertyBuilder from '_/test/builders/property.builder';
 import * as IncidentalsView from '_/views/IncidentalsView/IncidentalsView';
@@ -55,7 +55,7 @@ describe('App', () => {
   test('should render PropertyInitializationView when no property is set', () => {
     // Arrange
     act(() => {
-      setRecoil(propertyState, undefined);
+      resetRecoil(propertyState);
     });
 
     // Assert

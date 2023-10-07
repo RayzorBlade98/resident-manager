@@ -18,7 +18,7 @@ import GenericStepper, {
 } from '_/components/generic/GenericStepper/GenericStepper';
 import AppBar from '_/components/shared/AppBar/AppBar';
 import MonthYear from '_/extensions/date/month_year.extension';
-import propertySelector from '_/states/property/property.state';
+import propertyState from '_/states/property/property.state';
 import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import generateInvoice from '_/utils/invoice_generation/invoice.generator';
 import OngoingIncidentalsSelection from '_/views/InvoiceGenerationView/OngoingIncidentalsSelection/OngoingIncidentalsSelection';
@@ -35,7 +35,7 @@ function InvoiceGenerationView() {
   const isCurrentStepFinished = useRecoilValue(isCurrentStepFinishedSelector);
 
   const residents = useRecoilValue(residentsForInvoiceSelector);
-  const property = useRecoilValue(propertySelector);
+  const property = useRecoilValue(propertyState);
   const waterCosts = useRecoilValue(waterCostsState);
 
   /* eslint-disable react-hooks/exhaustive-deps */

@@ -2,13 +2,13 @@ import {
   RenderResult, act, fireEvent, render,
 } from '@testing-library/react';
 import React from 'react';
-import { getRecoil, setRecoil } from 'recoil-nexus';
+import { getRecoil, resetRecoil, setRecoil } from 'recoil-nexus';
 import initializationState, {
   initializationFormValidationSelector,
 } from '../states/initialization_state';
 import InitializationButton from './InitializationButton';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { propertyState } from '_/states/property/property.state';
+import propertyState from '_/states/property/property.state';
 import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
@@ -50,7 +50,6 @@ describe('InitializationButton', () => {
           },
         },
       }));
-      setRecoil(propertyState, undefined);
     });
   }
 
@@ -68,6 +67,10 @@ describe('InitializationButton', () => {
         <InitializationButton />
       </ReactTestWrapper>,
     );
+
+    act(() => {
+      resetRecoil(propertyState);
+    });
   });
 
   test('should initialize property and water costs for valid inputs', () => {

@@ -67,7 +67,7 @@ const commonConfig = {
 };
 
 const mainConfig = merge(commonConfig, {
-  entry: './src/main/main.ts',
+  entry: './src/electron/main.ts',
   target: 'electron-main',
   output: { filename: 'main.bundle.js' },
   plugins: [
@@ -98,7 +98,7 @@ const mainConfig = merge(commonConfig, {
 });
 
 const preloadConfig = merge(commonConfig, {
-  entry: './src/preload/preload.ts',
+  entry: './src/electron/preload.ts',
   target: 'electron-preload',
   output: { filename: 'preload.bundle.js' },
 });

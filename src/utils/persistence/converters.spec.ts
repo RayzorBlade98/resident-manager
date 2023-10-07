@@ -1,0 +1,227 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument  */
+
+import {
+  convertImportedIncidentals,
+  convertImportedInvoices,
+  convertImportedProperty,
+  convertImportedResidents,
+  convertImportedWaterCosts,
+} from './converters';
+import MonthYear from '_/extensions/date/month_year.extension';
+import { DeductionType } from '_/models/incidentals/deduction_type';
+import { IncidentalsState } from '_/states/incidentals/incidentals.state';
+import { InvoiceState } from '_/states/invoice/invoice.state';
+import { PropertyState } from '_/states/property/property.state';
+import { ResidentState } from '_/states/resident/resident.state';
+import { WaterCostsState } from '_/states/waterCosts/waterCosts.state';
+
+describe('convertImportedIncidentals', () => {
+  test('should convert incidentals correctly', () => {
+    // Arrange
+    const incidentals: IncidentalsState = {
+      ongoingIncidentals: [
+        {
+          id: 'id',
+          name: 'ongoing incidentals',
+          deductionType: DeductionType.PerApartment,
+          invoiceInterval: 1,
+          costs: [
+            {
+              cost: 500,
+              date: new MonthYear(9, 2023),
+            },
+          ],
+        },
+      ],
+      oneTimeIncidentals: [
+        {
+          id: 'id',
+          name: 'ongoing incidentals',
+          cost: 300,
+          deductionType: DeductionType.PerResident,
+          billingDate: new Date(2023, 9, 7),
+          paymentDate: new Date(2023, 9, 8),
+        },
+        {
+          id: 'id2',
+          name: 'ongoing incidentals2',
+          cost: 333,
+          deductionType: DeductionType.PerResident,
+          billingDate: new Date(2023, 9, 16),
+          paymentDate: undefined,
+        },
+      ],
+    };
+    const incidentalsJson = JSON.parse(JSON.stringify(incidentals));
+
+    // Act
+    const converted = convertImportedIncidentals(incidentalsJson);
+
+    // Assert
+    expect(converted).toEqual(incidentals);
+  });
+});
+
+describe('convertImportedInvoices', () => {
+  test('should convert invoices correctly', () => {
+    // Arrange
+    const invoices: InvoiceState = [
+      {
+        id: 'id',
+        start: new MonthYear(9, 2023),
+        end: new MonthYear(11, 2023),
+        ongoingIncidentalsInformation: {
+          'ongoing id': {
+            incidentalsId: 'ongoing id',
+            name: 'ongoing',
+            totalCost: 123,
+            deductionType: DeductionType.PerApartment,
+          },
+        },
+        oneTimeIncidentalsInformation: {
+          'onetime id': {
+            incidentalsId: 'onetime id',
+            name: 'onetime',
+            totalCost: 321,
+            deductionType: DeductionType.PerResident,
+          },
+        },
+        waterCosts: {
+          waterUsageCostPerCubicMeter: 100,
+          sewageCostPerCubicMeter: 200,
+        },
+        residentInformation: {
+          resident: {
+            residentId: 'resident',
+            ongoingIncidentalsCosts: {
+              'ongoing id': 111,
+            },
+            oneTimeIncidentalsCosts: {
+              'onetime id': 333,
+            },
+            rentPayments: [
+              {
+                dueDate: new MonthYear(9, 2023),
+                rent: 500,
+                incidentals: 100,
+                paymentAmount: 400,
+                paymentMissing: 200,
+              },
+            ],
+            waterCosts: {
+              lastWaterMeterCount: 1234,
+              currentWaterMeterCount: 1236,
+              waterUsage: 2,
+              waterUsageCosts: 7,
+              sewageCosts: 16,
+            },
+            totalCosts: {
+              ongoingIncidentalsCosts: 456,
+              oneTimeIncidentalsCosts: 987,
+              missingRentPayments: 6000,
+              waterCosts: 23,
+              totalCosts: 10000,
+              totalPaidIncidentals: 9000,
+              totalMissingCosts: 1000,
+            },
+          },
+        },
+      },
+    ];
+    const invoicesJson = JSON.parse(JSON.stringify(invoices));
+
+    // Act
+    const converted = convertImportedInvoices(invoicesJson);
+
+    // Assert
+    expect(converted).toEqual(invoices);
+  });
+});
+
+describe('convertImportedResidents', () => {
+  test('should convert residents correctly', () => {
+    // Arrange
+    const residents: ResidentState = [
+      {
+        id: 'id',
+        firstName: 'first',
+        lastName: 'last',
+        numberOfResidents: 8,
+        rentInformation: [
+          {
+            dueDate: new MonthYear(9, 2023),
+            rent: 500,
+            incidentals: 100,
+            paymentDate: new Date(2023, 9, 15),
+            paymentAmount: 600,
+          },
+          {
+            dueDate: new MonthYear(10, 2023),
+            rent: 500,
+            incidentals: 100,
+            paymentDate: undefined,
+            paymentAmount: undefined,
+          },
+        ],
+        waterMeterReadings: [
+          {
+            readingDate: new Date(2023, 8, 27),
+            waterMeterCount: 6666,
+            wasDeductedInInvoice: false,
+          },
+        ],
+        invoiceStart: new MonthYear(9, 2023),
+      },
+    ];
+    const residentsJson = JSON.parse(JSON.stringify(residents));
+
+    // Act
+    const converted = convertImportedResidents(residentsJson);
+
+    // Assert
+    expect(converted).toEqual(residents);
+  });
+});
+
+describe('convertImportedProperty', () => {
+  test('should convert property correctly', () => {
+    // Arrange
+    const property: PropertyState = {
+      numberOfApartments: 8,
+    };
+    const propertyJson = JSON.parse(JSON.stringify(property));
+
+    // Act
+    const converted = convertImportedProperty(propertyJson);
+
+    // Assert
+    expect(converted).toEqual(property);
+  });
+});
+
+describe('convertImportedWaterCosts', () => {
+  test('should convert water costs correctly', () => {
+    // Arrange
+    const waterCosts: WaterCostsState = {
+      waterUsageCosts: [
+        {
+          costPerCubicMeter: 3,
+          date: new MonthYear(6, 2023),
+        },
+      ],
+      sewageCosts: [
+        {
+          costPerCubicMeter: 2,
+          date: new MonthYear(5, 2023),
+        },
+      ],
+    };
+    const waterCostsJson = JSON.parse(JSON.stringify(waterCosts));
+
+    // Act
+    const converted = convertImportedWaterCosts(waterCostsJson);
+
+    // Assert
+    expect(converted).toEqual(waterCosts);
+  });
+});

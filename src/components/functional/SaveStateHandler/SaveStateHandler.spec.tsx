@@ -1,14 +1,14 @@
 /* eslint-disable max-len */
 
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { setRecoil } from 'recoil-nexus';
-import PersistenceUtils from '../../../utils/persistence/persistence.utils';
+import * as persistenceModule from '../../../utils/persistence/persistence';
 import SaveStateManager from './SaveStateHandler';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import invoiceState from '_/states/invoice/invoice.state';
-import { propertyState } from '_/states/property/property.state';
+import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
@@ -25,10 +25,10 @@ describe('SaveStateManager', () => {
 
   beforeEach(() => {
     importSaveStatesSpy = jest
-      .spyOn(PersistenceUtils, 'importSaveStates')
-      .mockReturnValue();
+      .spyOn(persistenceModule, 'importSaveStates')
+      .mockReturnValue(Promise.resolve());
     exportSaveStatesSpy = jest
-      .spyOn(PersistenceUtils, 'exportSaveStates')
+      .spyOn(persistenceModule, 'exportSaveStates')
       .mockReturnValue();
 
     render(
@@ -50,7 +50,7 @@ describe('SaveStateManager', () => {
     expect(exportSaveStatesSpy).toHaveBeenCalledTimes(0);
   });
 
-  test('should export save data', () => {
+  test('should export save data', async () => {
     // Arrange
     const updates = [
       () => {
@@ -73,6 +73,10 @@ describe('SaveStateManager', () => {
       },
     ];
 
+    await waitFor(() => {
+      expect(importSaveStatesSpy).toHaveBeenCalledTimes(1);
+    });
+
     for (let i = 0; i < updates.length; i += 1) {
       // Act
       act(() => {
@@ -80,7 +84,6 @@ describe('SaveStateManager', () => {
       });
 
       // Assert
-      expect(importSaveStatesSpy).toHaveBeenCalledTimes(1);
       expect(exportSaveStatesSpy).toHaveBeenCalledTimes(i + 1);
     }
   });

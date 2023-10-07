@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import View from '../routes';
-import { propertyState } from '_/states/property/property.state';
+import propertyState from '_/states/property/property.state';
 import IncidentalsView from '_/views/IncidentalsView/IncidentalsView';
 import InitializationView from '_/views/InitializationView/InitializationView';
 import InvoiceGenerationView from '_/views/InvoiceGenerationView/InvoiceGenerationView';
@@ -12,7 +12,7 @@ import ResidentView from '_/views/ResidentView/ResidentView';
 
 function App(): JSX.Element {
   useEffect(() => {
-    window.ipcAPI?.rendererReady();
+    window.ipcAPI.rendererReady();
   }, []);
 
   const property = useRecoilValue(propertyState);

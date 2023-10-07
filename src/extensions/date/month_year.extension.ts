@@ -80,13 +80,14 @@ class MonthYear extends Date {
   }
 
   /**
-   * Adds the specified number of months to the given `MonthYear` object
+   * Creates a new `MonthYear` with the specified number of months added to the given `MonthYear`
    * @param toAdd Number of months that should be added (can be negative)
-   * @returns this month year
+   * @returns new month year object
    */
   public addMonths(toAdd = 1): MonthYear {
-    this.setMonth(this.getMonth() + toAdd);
-    return this;
+    const newMonth = this.clone();
+    newMonth.setMonth(this.getMonth() + toAdd);
+    return MonthYear.fromDate(newMonth);
   }
 
   /**
@@ -119,8 +120,7 @@ class MonthYear extends Date {
     const timespan: MonthYear[] = [start.clone()];
     let next = start;
     while (!end.equals(next)) {
-      next = next.clone();
-      next.addMonths(direction);
+      next = next.addMonths(direction);
       timespan.push(next);
     }
 

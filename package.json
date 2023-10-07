@@ -1,6 +1,6 @@
 {
   "name": "resident-manager",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "TODO",
   "main": "./dist/main.bundle.js",
   "scripts": {
@@ -17,8 +17,8 @@
     "next-patch": "npm --no-git-tag-version version patch",
     "next-minor": "npm --no-git-tag-version version minor",
     "next-major": "npm --no-git-tag-version version major",
-    "build:win": "electron-builder build --win",
-    "build:mac": "electron-builder build --mac"
+    "build:win": "npm run prod && electron-builder build --win",
+    "build:mac": "npm run prod && electron-builder build --mac"
   },
   "build": {
     "appId": "TODO",
@@ -80,7 +80,8 @@
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
     "cross-env": "^7.0.3",
-    "electron": "^21.1.0",
+    "electron": "^21.4.4",
+    "electron-mock-ipc": "^0.3.12",
     "eslint": "^8.25.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",

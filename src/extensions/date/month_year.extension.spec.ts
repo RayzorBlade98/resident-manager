@@ -101,10 +101,10 @@ describe('MonthYear', () => {
         const expectedDate = new MonthYear(expectedMonth, expectedYear);
 
         // Act
-        date.addMonths(added);
+        const newDate = date.addMonths(added);
 
         // Assert
-        expect(date).toEqual(expectedDate);
+        expect(newDate).toEqual(expectedDate);
       },
     );
 
@@ -114,10 +114,10 @@ describe('MonthYear', () => {
       const expectedDate = new MonthYear(6, 2023);
 
       // Act
-      date.addMonths();
+      const newDate = date.addMonths();
 
       // Assert
-      expect(date).toEqual(expectedDate);
+      expect(newDate).toEqual(expectedDate);
     });
   });
 

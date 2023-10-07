@@ -1,10 +1,10 @@
 import { act, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
-import { setRecoil } from 'recoil-nexus';
+import { resetRecoil } from 'recoil-nexus';
 import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../styles';
 import App from '_/renderer/App';
-import { propertyState } from '_/states/property/property.state';
+import propertyState from '_/states/property/property.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('InitializationView', () => {
@@ -22,7 +22,7 @@ describe('InitializationView', () => {
       </ReactTestWrapper>,
     );
     act(() => {
-      setRecoil(propertyState, undefined);
+      resetRecoil(propertyState);
     });
   });
 

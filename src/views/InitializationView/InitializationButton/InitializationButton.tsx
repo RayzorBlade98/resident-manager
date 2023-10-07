@@ -6,7 +6,7 @@ import {
 } from '../states/initialization_state';
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { propertyState } from '_/states/property/property.state';
+import propertyState from '_/states/property/property.state';
 import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 

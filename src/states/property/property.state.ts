@@ -1,22 +1,14 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import Property from '_/models/property/property';
+
+export type PropertyState = Property;
 
 /**
  * Property state
- *
- * Only use this when initializing the state. Otherwise use `property`
  */
-export const propertyState = atom<Property | undefined>({
+const propertyState = atom<PropertyState>({
   key: 'propertyState',
   default: undefined,
 });
 
-/**
- * Selector for the property
- */
-const property = selector<Property>({
-  key: 'propertyState-property',
-  get: ({ get }) => get(propertyState) as Property,
-});
-
-export default property;
+export default propertyState;
