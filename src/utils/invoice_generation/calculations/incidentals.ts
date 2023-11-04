@@ -114,7 +114,7 @@ function calculateOngoingIncidentalsCosts(
     args.invoiceEnd,
   )
     .map((month) => {
-      const residents = args.residents.filter((r) => r.invoiceStart <= month);
+      const residents = args.residents.filter((r) => r.contractStart <= month);
       const costPerUnit = getCostPerDeductionUnit(
         costPerMonth,
         incidentals.deductionType,
@@ -156,7 +156,7 @@ function calculateOneTimeIncidentalsCosts(
   incidentals: OneTimeIncidentals,
 ) {
   const residents = args.residents.filter(
-    (r) => r.invoiceStart <= incidentals.billingDate,
+    (r) => r.contractStart <= incidentals.billingDate,
   );
   const costPerUnit = getCostPerDeductionUnit(
     incidentals.cost,

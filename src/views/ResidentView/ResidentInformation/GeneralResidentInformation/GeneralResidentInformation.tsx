@@ -19,7 +19,7 @@ function GeneralResidentInformation(): JSX.Element {
           selectedResident.rentInformation[0].rent,
         )}`}
       </p>
-      <p>{selectedResident.invoiceStart.toString()}</p>
+      <p>{selectedResident.contractStart.toString()}</p>
     </>
   );
 }

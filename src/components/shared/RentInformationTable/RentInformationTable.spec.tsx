@@ -13,6 +13,12 @@ describe('RentInformationTable', () => {
     const resident = new ResidentBuilder()
       .addRentInformation(
         new RentInformationBuilder()
+          .withDueDate(new MonthYear(1, 2023))
+          .withInvoiceDeduction(true)
+          .build(),
+      )
+      .addRentInformation(
+        new RentInformationBuilder()
           .withDueDate(new MonthYear(2, 2023))
           .build(),
       )

@@ -65,7 +65,7 @@ export function convertImportedResidents(
 ): ResidentState {
   return imported.map((r) => ({
     ...r,
-    invoiceStart: MonthYear.fromString(r.invoiceStart),
+    contractStart: MonthYear.fromString(r.contractStart),
     rentInformation: r.rentInformation.map((ri) => ({
       ...ri,
       dueDate: MonthYear.fromString(ri.dueDate),

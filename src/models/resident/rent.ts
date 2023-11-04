@@ -29,6 +29,11 @@ export interface RentInformation {
    * Amount that was paid for this month
    */
   paymentAmount?: CurrencyInCents;
+
+  /**
+   * Whether the water rent was included in an invoice
+   */
+  wasDeductedInInvoice: boolean;
 }
 
 /**
@@ -49,4 +54,9 @@ export enum PaymentStatus {
    * Nothing was paid
    */
   Unpaid = 'Unpaid',
+
+  /**
+   * Payment was deducted in invoice
+   */
+  DeductedInInvoice = 'DeductedInInvoice',
 }

@@ -137,8 +137,8 @@ describe('invoiceGenerationViewState', () => {
     const invoiceStart = new MonthYear(3, 2023);
     const invoiceEnd = new MonthYear(8, 2023);
 
-    const includedResidents = range(0, 9).map((i) => new ResidentBuilder().withInvoiceStart(new MonthYear(i, 2023)).build());
-    const excludedResidents = range(9, 12).map((i) => new ResidentBuilder().withInvoiceStart(new MonthYear(i, 2023)).build());
+    const includedResidents = range(0, 9).map((i) => new ResidentBuilder().withContractStart(new MonthYear(i, 2023)).build());
+    const excludedResidents = range(9, 12).map((i) => new ResidentBuilder().withContractStart(new MonthYear(i, 2023)).build());
     const residents = [...includedResidents, ...excludedResidents];
 
     beforeEach(() => {

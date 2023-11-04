@@ -53,14 +53,18 @@ export default abstract class RentInformationUtils {
   public static getPaymentStatus(
     rentInformation: RentInformation,
   ): PaymentStatus {
-    if (!rentInformation.paymentAmount) return PaymentStatus.Unpaid;
+    if (rentInformation.wasDeductedInInvoice) {
+      return PaymentStatus.DeductedInInvoice;
+    }
 
-    if (
-      rentInformation.paymentAmount
+    if (!rentInformation.paymentAmount) {
+      return PaymentStatus.Unpaid;
+    }
+
+    return rentInformation.paymentAmount
       >= RentInformationUtils.getAmountToPay(rentInformation)
-    ) return PaymentStatus.Paid;
-
-    return PaymentStatus.PaidPartially;
+      ? PaymentStatus.Paid
+      : PaymentStatus.PaidPartially;
   }
 
   /**
@@ -89,6 +93,7 @@ export default abstract class RentInformationUtils {
       dueDate: m,
       rent,
       incidentals,
+      wasDeductedInInvoice: false,
     }));
   }
 }

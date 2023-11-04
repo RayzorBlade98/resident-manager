@@ -24,7 +24,7 @@ export interface Resident {
   /**
    * Number of residents living in the appartment
    */
-  numberOfResidents: number
+  numberOfResidents: number;
 
   /**
    * Information about the rent payments
@@ -39,5 +39,5 @@ export interface Resident {
   /**
    * First month and year the next invoice calculation will include
    */
-  invoiceStart: MonthYear;
+  contractStart: MonthYear;
 }

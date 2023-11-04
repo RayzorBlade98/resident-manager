@@ -38,6 +38,8 @@ function PaymentStatusIcon(props: PaymentStatusIconProps): JSX.Element {
         )} von ${convertCurrencyCentsToString(
           RentInformationUtils.getAmountToPay(props.rentInformation),
         )})`;
+      case PaymentStatus.DeductedInInvoice:
+        return 'In Nebenkostenrechnung abgerechnet';
       /* istanbul ignore next */
       default:
         throw new Error(`Tooltip for status ${paymentStatus} not implemted`);
@@ -47,6 +49,7 @@ function PaymentStatusIcon(props: PaymentStatusIconProps): JSX.Element {
   const icon = (): JSX.Element => {
     switch (paymentStatus) {
       case PaymentStatus.Paid:
+      case PaymentStatus.DeductedInInvoice:
         return <CheckCircleOutlineIcon color="success" />;
       case PaymentStatus.Unpaid:
         return <HighlightOffIcon color="error" />;

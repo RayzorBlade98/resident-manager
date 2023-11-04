@@ -3,12 +3,24 @@
 import { act, renderHook } from '@testing-library/react';
 import { range } from 'lodash';
 import { RecoilRoot } from 'recoil';
+import { expectedInvoice } from '../../test/data/invoiceGeneration/expected';
+import { invoiceEnd } from '../../test/data/invoiceGeneration/invoiceInformation';
+import {
+  includedResidents,
+  notIncludedResidents,
+  residents,
+} from '../../test/data/invoiceGeneration/residents';
+import useResidentState from '../useResidentState/useResidentState';
 import useInvoiceState from './useInvoiceState';
+import MonthYear from '_/extensions/date/month_year.extension';
 import invoiceState from '_/states/invoice/invoice.state';
+import residentState from '_/states/resident/resident.state';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import useInitializedRecoilState from '_/test/hooks/useInitializedRecoilState';
+import useMergedHook from '_/test/hooks/useMergedHook';
 
 describe('useIncidentalsState', () => {
+  InvoiceBuilder.setStart(new MonthYear(10, 2023));
   const invoices = range(0, 3)
     .map((_) => new InvoiceBuilder().build())
     .reverse();
@@ -20,7 +32,7 @@ describe('useIncidentalsState', () => {
         () => useInitializedRecoilState({
           state: invoiceState,
           stateValue: invoices,
-          hook: () => useInvoiceState(),
+          hook: useInvoiceState,
         }),
         {
           wrapper: RecoilRoot,
@@ -33,7 +45,7 @@ describe('useIncidentalsState', () => {
   });
 
   describe('addInvoice', () => {
-    test('should set state correctly', () => {
+    test('should set invoice state correctly', () => {
       // Arrange
       const { result } = renderHook(useInvoiceState, {
         wrapper: RecoilRoot,
@@ -46,6 +58,47 @@ describe('useIncidentalsState', () => {
 
       // Assert
       expect(result.current.invoices).toEqual(invoices);
+    });
+
+    test('should set resident state correctly', () => {
+      // Arrange
+      const expectedResidents = [
+        ...includedResidents.map((resident) => ({
+          ...resident,
+          waterMeterReadings: resident.waterMeterReadings
+            .map((r) => ({
+              ...r,
+              wasDeductedInInvoice: true,
+            }))
+            .reverse(),
+          rentInformation: resident.rentInformation
+            .map((r) => ({
+              ...r,
+              wasDeductedInInvoice: r.dueDate <= invoiceEnd,
+            }))
+            .reverse(),
+        })),
+        ...notIncludedResidents,
+      ];
+
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useMergedHook(useInvoiceState, useResidentState),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      // Act
+      act(() => {
+        result.current.addInvoice({ ...expectedInvoice, id: 'id' });
+      });
+
+      // Assert
+      expect(result.current.residents).toEqual(expectedResidents);
     });
   });
 });

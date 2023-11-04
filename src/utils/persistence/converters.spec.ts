@@ -154,6 +154,7 @@ describe('convertImportedResidents', () => {
             incidentals: 100,
             paymentDate: new Date(2023, 9, 15),
             paymentAmount: 600,
+            wasDeductedInInvoice: true,
           },
           {
             dueDate: new MonthYear(10, 2023),
@@ -161,6 +162,7 @@ describe('convertImportedResidents', () => {
             incidentals: 100,
             paymentDate: undefined,
             paymentAmount: undefined,
+            wasDeductedInInvoice: false,
           },
         ],
         waterMeterReadings: [
@@ -170,7 +172,7 @@ describe('convertImportedResidents', () => {
             wasDeductedInInvoice: false,
           },
         ],
-        invoiceStart: new MonthYear(9, 2023),
+        contractStart: new MonthYear(9, 2023),
       },
     ];
     const residentsJson = JSON.parse(JSON.stringify(residents));

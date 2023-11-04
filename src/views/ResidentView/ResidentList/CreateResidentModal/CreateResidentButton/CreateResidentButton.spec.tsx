@@ -9,6 +9,7 @@ import createResidentState, {
 } from '../../states/create_resident_state';
 import CreateResidentButton from './CreateResidentButton';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { Resident } from '_/models/resident/resident';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import ResidentBuilder from '_/test/builders/resident.builder';
@@ -106,14 +107,16 @@ describe('CreateResidentButton', () => {
           dueDate: new MonthYear(),
           rent: validInputValues.rent,
           incidentals: validInputValues.incidentals,
+          wasDeductedInInvoice: false,
         },
         {
           dueDate: validInputValues.contractStart,
           rent: validInputValues.rent,
           incidentals: validInputValues.incidentals,
+          wasDeductedInInvoice: false,
         },
       ],
-      invoiceStart: validInputValues.contractStart,
+      contractStart: validInputValues.contractStart,
       waterMeterReadings: [
         {
           readingDate: validInputValues.contractStart,
@@ -122,7 +125,7 @@ describe('CreateResidentButton', () => {
         },
       ],
       numberOfResidents: validInputValues.numberOfResidents,
-    });
+    } as Resident);
   });
 
   test('should reset rent payment state for valid inputs', () => {

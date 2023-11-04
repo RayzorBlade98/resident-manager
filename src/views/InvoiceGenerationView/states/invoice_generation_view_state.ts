@@ -181,7 +181,7 @@ export const residentsForInvoiceSelector = selector<Resident[]>({
       return residents;
     }
 
-    return residents.filter((r) => r.invoiceStart <= invoiceEnd);
+    return residents.filter((r) => r.contractStart <= invoiceEnd);
   },
 });
 

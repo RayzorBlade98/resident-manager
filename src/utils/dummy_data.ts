@@ -56,7 +56,7 @@ function createDummyData(): void {
         .withWasDeductedInInvoice(false)
         .build(),
     )
-    .withInvoiceStart(new MonthYear().addMonths(-2))
+    .withContractStart(new MonthYear().addMonths(-2))
     .build());
   setRecoil(residentState, residents);
 

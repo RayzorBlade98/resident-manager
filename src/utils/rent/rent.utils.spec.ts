@@ -64,17 +64,19 @@ describe('RentInformationUtils', () => {
 
   describe('getPaymentStatus', () => {
     test.each([
-      [PaymentStatus.Paid, 333],
-      [PaymentStatus.Paid, 400],
-      [PaymentStatus.PaidPartially, 300],
-      [PaymentStatus.Unpaid, undefined],
+      [PaymentStatus.Paid, 333, false],
+      [PaymentStatus.Paid, 400, false],
+      [PaymentStatus.PaidPartially, 300, false],
+      [PaymentStatus.Unpaid, undefined, false],
+      [PaymentStatus.DeductedInInvoice, undefined, true],
     ])(
-      'should return stauts %s for paymentAmount %s',
-      (expectedStatus, payment) => {
+      'should return stauts %s for paymentAmount %s and invoice deduction %s',
+      (expectedStatus, payment, wasDeductedInInvoice) => {
         // Arrange
         const rent = new RentInformationBuilder()
           .withIncidentals(111)
           .withRent(222)
+          .withInvoiceDeduction(wasDeductedInInvoice)
           .build();
         rent.paymentAmount = payment;
 

@@ -35,7 +35,7 @@ function CreateResidentButton(): JSX.Element {
       ),
       numberOfResidents: formValidationState.formInput
         .numberOfResidents as number,
-      invoiceStart: formValidationState.formInput.contractStart as MonthYear,
+      contractStart: formValidationState.formInput.contractStart as MonthYear,
       waterMeterReadings: [
         {
           waterMeterCount: formValidationState.formInput.waterMeter as number,

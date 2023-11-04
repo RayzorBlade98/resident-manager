@@ -10,6 +10,7 @@ class RentInformationBuilder {
       dueDate: new MonthYear(2, 2023),
       rent: 50000,
       incidentals: 10000,
+      wasDeductedInInvoice: false,
     };
   }
 
@@ -34,6 +35,11 @@ class RentInformationBuilder {
   ): RentInformationBuilder {
     this.rentInformation.paymentAmount = paymentAmount;
     this.rentInformation.paymentDate = paymentDate;
+    return this;
+  }
+
+  public withInvoiceDeduction(wasDeductedInInvoice: boolean): RentInformationBuilder {
+    this.rentInformation.wasDeductedInInvoice = wasDeductedInInvoice;
     return this;
   }
 

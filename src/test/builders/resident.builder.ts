@@ -14,7 +14,7 @@ class ResidentBuilder {
       lastName: 'Mustermann',
       numberOfResidents: 2,
       rentInformation: [],
-      invoiceStart: new MonthYear(2, 2023),
+      contractStart: new MonthYear(2, 2023),
       waterMeterReadings: [],
     };
   }
@@ -34,8 +34,8 @@ class ResidentBuilder {
     return this;
   }
 
-  public withInvoiceStart(start: MonthYear): ResidentBuilder {
-    this.resident.invoiceStart = start;
+  public withContractStart(start: MonthYear): ResidentBuilder {
+    this.resident.contractStart = start;
     return this;
   }
 
