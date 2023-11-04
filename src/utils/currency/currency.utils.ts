@@ -10,7 +10,7 @@ export function convertCurrencyCentsToString(
   currency: CurrencyInCents,
 ): string {
   const float = (currency / 100.0).toFixed(2);
-  return `${float}€`;
+  return `${float} €`;
 }
 
 /**

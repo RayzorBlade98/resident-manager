@@ -1,43 +1,11 @@
 /**
  * Entry point of the Election app.
  */
-import * as path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserWindow, app } from 'electron';
+import { createMainWindow } from './windows';
 import addIpcHandlers from '_/ipc/ipcHandlers';
 import * as nodeEnv from '_utils/node-env';
-
-let mainWindow: Electron.BrowserWindow | undefined;
-
-function createWindow() {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    height: 1080,
-    width: 1920,
-    webPreferences: {
-      devTools: nodeEnv.dev,
-      preload: path.join(__dirname, './preload.bundle.js'),
-      webSecurity: nodeEnv.prod,
-      nodeIntegration: true,
-      contextIsolation: true,
-    },
-    resizable: false,
-    autoHideMenuBar: true,
-  });
-
-  // and load the index.html of the app.
-  mainWindow.loadFile('index.html').finally(() => {
-    /* no action */
-  });
-
-  // Emitted when the window is closed.
-  mainWindow.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = undefined;
-  });
-}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -45,10 +13,10 @@ function createWindow() {
 app
   .whenReady()
   .then(() => {
-    if (nodeEnv.dev || nodeEnv.prod) createWindow();
+    if (nodeEnv.dev || nodeEnv.prod) createMainWindow();
 
     app.on('activate', () => {
-      if (BrowserWindow.getAllWindows.length === 0) createWindow();
+      if (BrowserWindow.getAllWindows.length === 0) createMainWindow();
     });
   })
   .finally(() => {
@@ -66,6 +34,3 @@ app.on('window-all-closed', () => {
 // code. You can also put them in separate files and require them here.
 
 addIpcHandlers();
-
-// eslint-disable-next-line import/prefer-default-export
-export const exportedForTests = nodeEnv.test ? { createWindow } : undefined;

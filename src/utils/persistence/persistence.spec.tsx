@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 import { act, render } from '@testing-library/react';
 import React from 'react';
 import { getRecoil, setRecoil } from 'recoil-nexus';
@@ -73,25 +75,19 @@ describe('importSaveStates', () => {
       .mockImplementation((filename: string) => {
         switch (filename) {
           case persistenceFilenames.incidentals:
-            return incidentals;
+            return JSON.parse(JSON.stringify(incidentals));
           case persistenceFilenames.invoices:
-            return invoices;
+            return JSON.parse(JSON.stringify(invoices));
           case persistenceFilenames.residents:
-            return residents;
+            return JSON.parse(JSON.stringify(residents));
           case persistenceFilenames.property:
-            return property;
+            return JSON.parse(JSON.stringify(property));
           case persistenceFilenames.waterCosts:
-            return waterCosts;
+            return JSON.parse(JSON.stringify(waterCosts));
           default:
             throw new Error('Missing filename in mock implementation');
         }
-      })
-
-      .mockReturnValueOnce(JSON.parse(JSON.stringify(incidentals)))
-      .mockReturnValueOnce(JSON.parse(JSON.stringify(invoices)))
-      .mockReturnValueOnce(JSON.parse(JSON.stringify(residents)))
-      .mockReturnValueOnce(JSON.parse(JSON.stringify(property)))
-      .mockReturnValueOnce(JSON.parse(JSON.stringify(waterCosts)));
+      });
 
     // Act
     await act(async () => {
@@ -108,7 +104,7 @@ describe('importSaveStates', () => {
 });
 
 describe('exportSaveStates', () => {
-  test('should import states correctly', () => {
+  test('should export states correctly', () => {
     // Arrange
     act(() => {
       setRecoil(incidentalsState, incidentals);

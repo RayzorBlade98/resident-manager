@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcRenderer } from 'electron';
 import ipcCommands from './ipcCommands';
+import Invoice from '_/models/invoice/invoice';
 
 const ipcAPI = {
   /**
@@ -25,6 +26,15 @@ const ipcAPI = {
    * @returns `null` if the import failed, otherwise the imported object
    */
   importObject: <T>(filename: string) => ipcRenderer.invoke(ipcCommands.importObject, filename) as Promise<T | null>,
+
+  /**
+   * Generates the pdf files for the provided invoice
+   * @param invoice Invoice for which the pdfs should be created
+   */
+  generateInvoicePdfs: (invoice: Invoice) => ipcRenderer.invoke(
+    ipcCommands.generateInvoicePdfs,
+    invoice,
+  ) as Promise<void>,
 };
 
 export default ipcAPI;

@@ -63,4 +63,12 @@ describe('persistence', () => {
       expect(imported).toBeNull();
     });
   });
+
+  describe('exportJsPdf', () => {
+    test.todo('missing test');
+  });
+
+  describe('openDirectoryDialog', () => {
+    test.todo('missing test');
+  });
 });

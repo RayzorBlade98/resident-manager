@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import ipcAPI from './ipcApi';
 import ipcCommands from './ipcCommands';
+import InvoiceBuilder from '_/test/builders/invoice.builder';
 import { ipcRenderer } from '_/test/electronModuleMock';
 
 describe('ipcAPI', () => {
@@ -51,6 +52,20 @@ describe('ipcAPI', () => {
     expect(invokeSpy).toHaveBeenLastCalledWith(
       ipcCommands.importObject,
       filename,
+    );
+  });
+
+  test('generateInvoicePdfs should invoke generateInvoicePdfs event', async () => {
+    // Arrange
+    const invoice = new InvoiceBuilder().build();
+
+    // Act
+    await ipcAPI.generateInvoicePdfs(invoice);
+
+    // Assert
+    expect(invokeSpy).toHaveBeenLastCalledWith(
+      ipcCommands.generateInvoicePdfs,
+      invoice,
     );
   });
 });

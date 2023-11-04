@@ -8,7 +8,7 @@ describe('convertCurrencyCentsToString', () => {
   test('should covert to right string', () => {
     // Arrange
     const currency = 12345;
-    const expected = '123.45€';
+    const expected = '123.45 €';
 
     // Act
     const currencyAsString = convertCurrencyCentsToString(currency);

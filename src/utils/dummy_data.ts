@@ -23,6 +23,20 @@ function createDummyData(): void {
     .withNumberOfResidents(2)
     .addRentInformation(
       new RentInformationBuilder()
+        .withDueDate(new MonthYear().addMonths(-2))
+        .withRent(100 * (i + 1))
+        .withIncidentals(100 - i * 10)
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear().addMonths(-1))
+        .withRent(100 * (i + 1))
+        .withIncidentals(100 - i * 10)
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
         .withDueDate(new MonthYear())
         .withRent(100 * (i + 1))
         .withIncidentals(100 - i * 10)
@@ -42,7 +56,7 @@ function createDummyData(): void {
         .withWasDeductedInInvoice(false)
         .build(),
     )
-    .withInvoiceStart(new MonthYear())
+    .withInvoiceStart(new MonthYear().addMonths(-2))
     .build());
   setRecoil(residentState, residents);
 
