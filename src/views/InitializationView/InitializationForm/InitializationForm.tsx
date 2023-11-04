@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import {
@@ -38,7 +38,7 @@ function InitializationForm(): JSX.Element {
     <>
       <h1>Immobilieninformationen</h1>
       <Grid container columnSpacing={2} rowSpacing={2} sx={styles.container}>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <NumberTextField
             required
             id="numberOfApartments"
@@ -52,9 +52,65 @@ function InitializationForm(): JSX.Element {
           />
         </Grid>
       </Grid>
+      <Grid container columnSpacing={2} rowSpacing={2} sx={styles.container}>
+        <Grid item xs={3}>
+          <NumberTextField
+            required
+            id="zipCode"
+            label="Postleitzahl"
+            value={formInput.zipCode}
+            onChange={(zipCode) => {
+              onChange<number | undefined>('zipCode', zipCode);
+            }}
+            errorMessage={errors.zipCode}
+            min={1}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            required
+            fullWidth
+            id="city"
+            label="Stadt"
+            value={formInput.city}
+            onChange={(event) => {
+              onChange<string>('city', event.target.value);
+            }}
+            error={!!errors.city}
+            helperText={errors.city}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            required
+            fullWidth
+            id="street"
+            label="Straße"
+            value={formInput.street}
+            onChange={(event) => {
+              onChange<string>('street', event.target.value);
+            }}
+            error={!!errors.street}
+            helperText={errors.street}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <NumberTextField
+            required
+            id="houseNumber"
+            label="Hausnummer"
+            value={formInput.houseNumber}
+            onChange={(houseNumber) => {
+              onChange<number | undefined>('houseNumber', houseNumber);
+            }}
+            errorMessage={errors.houseNumber}
+            min={1}
+          />
+        </Grid>
+      </Grid>
       <h1>Wasserkosten</h1>
       <Grid container columnSpacing={2} rowSpacing={2} sx={styles.container}>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <CurrencyInputField
             required
             id="waterUsageCost"
@@ -66,7 +122,7 @@ function InitializationForm(): JSX.Element {
             errorMessage={errors.waterUsageCost}
           />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <CurrencyInputField
             required
             id="sewageCost"

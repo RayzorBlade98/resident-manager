@@ -13,11 +13,19 @@ describe('InitializationForm', () => {
 
   function inputToForm(
     numberOfApartments: number,
+    zipCode: number,
+    city: string,
+    street: string,
+    houseNumber: number,
     waterUsageCost: number,
     sewageCost: number,
   ) {
     const inputs = [
       numberOfApartments.toString(),
+      zipCode.toString(),
+      city,
+      street,
+      houseNumber.toString(),
       waterUsageCost.toString(),
       sewageCost.toString(),
     ];
@@ -36,16 +44,24 @@ describe('InitializationForm', () => {
   test('should add input to state', () => {
     // Arrange
     const numberOfApartments = 8;
+    const zipCode = 44444;
+    const city = 'city';
+    const street = 'street';
+    const houseNumber = 12;
     const waterUsageCost = 5;
     const sewageCost = 2.5;
 
     // Act
-    inputToForm(numberOfApartments, waterUsageCost, sewageCost);
+    inputToForm(numberOfApartments, zipCode, city, street, houseNumber, waterUsageCost, sewageCost);
 
     // Assert
     const formInput = getRecoil(initializationFormValidationSelector).formInput;
     expect(formInput).toEqual({
       numberOfApartments,
+      zipCode,
+      city,
+      street,
+      houseNumber,
       waterUsageCost: convertCurrencyEurosToCents(waterUsageCost),
       sewageCost: convertCurrencyEurosToCents(sewageCost),
     });

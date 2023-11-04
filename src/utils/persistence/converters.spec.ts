@@ -190,6 +190,12 @@ describe('convertImportedProperty', () => {
     // Arrange
     const property: PropertyState = {
       numberOfApartments: 8,
+      address: {
+        zipCode: 54321,
+        city: 'converter city',
+        street: 'conv str.',
+        houseNumber: 31,
+      },
     };
     const propertyJson = JSON.parse(JSON.stringify(property));
 

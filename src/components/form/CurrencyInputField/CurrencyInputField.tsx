@@ -56,6 +56,7 @@ function CurrencyInputField(props: CurrencyInputFieldProps): JSX.Element {
 
   return (
     <TextField
+      fullWidth
       required={props.required}
       id={props.id}
       label={props.label}

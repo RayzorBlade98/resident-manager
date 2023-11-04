@@ -16,6 +16,26 @@ export interface InitializationInput {
   numberOfApartments: number | undefined;
 
   /**
+   * Zip code of the property
+   */
+  zipCode: number | undefined
+
+  /**
+   * City of the property
+   */
+  city: string
+
+  /**
+   * Street of the property
+   */
+  street: string
+
+  /**
+   * House number of the property
+   */
+  houseNumber: number | undefined
+
+  /**
    * Current cost of the water usage
    */
   waterUsageCost: number | undefined;
@@ -40,12 +60,20 @@ CompleteFormValidationState<InitializationState, InitializationInput>
     formValidation: {
       formInput: {
         numberOfApartments: undefined,
+        zipCode: undefined,
+        city: '',
+        street: '',
+        houseNumber: undefined,
         waterUsageCost: undefined,
         sewageCost: undefined,
       },
       formErrors: {},
       formValidator: new Validator<InitializationInput>({
         numberOfApartments: ValidationConstraint.Defined,
+        zipCode: ValidationConstraint.Defined,
+        city: ValidationConstraint.NoEmptyString,
+        street: ValidationConstraint.NoEmptyString,
+        houseNumber: ValidationConstraint.Defined,
         waterUsageCost: ValidationConstraint.Currency,
         sewageCost: ValidationConstraint.Currency,
       }),

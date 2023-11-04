@@ -1,3 +1,4 @@
+import AddressBuilder from './address.builder';
 import Property from '_/models/property/property';
 
 class PropertyBuilder {
@@ -6,6 +7,7 @@ class PropertyBuilder {
   constructor() {
     this.property = {
       numberOfApartments: 8,
+      address: new AddressBuilder().build(),
     };
   }
 

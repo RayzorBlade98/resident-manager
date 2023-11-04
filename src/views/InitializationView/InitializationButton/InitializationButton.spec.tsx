@@ -15,12 +15,20 @@ import ReactTestWrapper from '_/test/ReactTestWrapper';
 describe('InitializationButton', () => {
   const validInputValues = {
     numberOfApartments: 8,
+    zipCode: 12345,
+    city: 'city',
+    street: 'street',
+    houseNumber: 1,
     waterUsageCost: 500,
     sewageCost: 250,
   };
 
   const invalidInputValues = {
     numberOfApartments: undefined,
+    zipCode: undefined,
+    city: '',
+    street: '',
+    houseNumber: undefined,
     waterUsageCost: undefined,
     sewageCost: undefined,
   };
@@ -83,6 +91,12 @@ describe('InitializationButton', () => {
     // Assert
     expect(getRecoil(propertyState)).toEqual({
       numberOfApartments: validInputValues.numberOfApartments,
+      address: {
+        zipCode: validInputValues.zipCode,
+        city: validInputValues.city,
+        street: validInputValues.street,
+        houseNumber: validInputValues.houseNumber,
+      },
     });
     expect(getRecoil(waterCostsState)).toEqual({
       waterUsageCosts: [

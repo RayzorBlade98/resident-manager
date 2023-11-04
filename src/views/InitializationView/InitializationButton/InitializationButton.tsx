@@ -25,6 +25,12 @@ function InitializationButton(): JSX.Element {
     setPropertyState({
       numberOfApartments: formValidationState.formInput
         .numberOfApartments as number,
+      address: {
+        zipCode: formValidationState.formInput.zipCode as number,
+        city: formValidationState.formInput.city,
+        street: formValidationState.formInput.street,
+        houseNumber: formValidationState.formInput.houseNumber as number,
+      },
     });
     setWaterCostState({
       waterUsageCosts: [
