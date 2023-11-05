@@ -12,6 +12,26 @@ class AddressBuilder {
     };
   }
 
+  public withZipCode(zipCode: number): AddressBuilder {
+    this.address.zipCode = zipCode;
+    return this;
+  }
+
+  public withCity(city: string): AddressBuilder {
+    this.address.city = city;
+    return this;
+  }
+
+  public withStreet(street: string): AddressBuilder {
+    this.address.street = street;
+    return this;
+  }
+
+  public withHouseNumber(houseNumber: number): AddressBuilder {
+    this.address.houseNumber = houseNumber;
+    return this;
+  }
+
   public build(): Address {
     return this.address;
   }

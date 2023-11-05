@@ -1,10 +1,18 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import {
+  convertAddressToCityString,
+  convertAddressToStreetString,
+} from '../../utils/address/address.utils';
 import { convertCurrencyCentsToString } from '../../utils/currency/currency.utils';
+import { convertNameToString } from '../../utils/name/name.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Invoice from '_/models/invoice/invoice';
 
 const labels = {
+  addresses: {
+    residentTitle: 'Mieter:',
+  },
   ongoingIncidentals: {
     title: 'Laufende Nebenkosten',
     tableHeader: [
@@ -68,6 +76,8 @@ function createInvoicePdfForResident(
 ): jsPDF {
   const pdf = new jsPDF();
 
+  addAddresses(pdf, invoice, residentId);
+
   if (
     Object.keys(invoice.residentInformation[residentId].ongoingIncidentalsCosts)
       .length > 0
@@ -91,6 +101,36 @@ function createInvoicePdfForResident(
   }
 
   return pdf;
+}
+
+function addAddresses(pdf: jsPDF, invoice: Invoice, residentId: string) {
+  const residentAddress = [
+    labels.addresses.residentTitle,
+    convertNameToString(invoice.residentInformation[residentId].name),
+    convertAddressToStreetString(invoice.property.address),
+    convertAddressToCityString(invoice.property.address),
+  ].join('\n');
+
+  autoTable(pdf, {
+    body: [
+      [
+        {
+          content: residentAddress,
+          styles: {
+            halign: 'left',
+          },
+        },
+        // Todo: Add land lord address
+        {
+          content: '',
+          styles: {
+            halign: 'right',
+          },
+        },
+      ],
+    ],
+    theme: 'plain',
+  });
 }
 
 function addOngoingIncidentals(
