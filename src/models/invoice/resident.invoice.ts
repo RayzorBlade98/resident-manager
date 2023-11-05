@@ -1,4 +1,5 @@
 import MonthYear from '_/extensions/date/month_year.extension';
+import Name from '_/models/name';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
@@ -9,6 +10,11 @@ export default interface ResidentInvoiceInformation {
    * Id of the resident
    */
   residentId: string;
+
+  /**
+   * Name of the resident
+   */
+  name: Name;
 
   /**
    * Costs for all ongoing incidentals
@@ -101,7 +107,7 @@ export default interface ResidentInvoiceInformation {
     /**
      * Sum of all missing rent payments
      */
-    missingRentPayments: CurrencyInCents
+    missingRentPayments: CurrencyInCents;
 
     /**
      * Sum of all water costs
@@ -121,6 +127,6 @@ export default interface ResidentInvoiceInformation {
     /**
      * Total amount that must be paid by the resident
      */
-    totalMissingCosts: CurrencyInCents
+    totalMissingCosts: CurrencyInCents;
   };
 }

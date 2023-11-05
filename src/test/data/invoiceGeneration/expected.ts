@@ -179,6 +179,7 @@ function getExpectedResidentInformation(
 ): ResidentInvoiceInformation {
   return {
     residentId: resident.id,
+    name: resident.name,
     ongoingIncidentalsCosts:
       expectedIncidentalsCosts.residentInformation[resident.id]
         .ongoingIncidentalsCosts,

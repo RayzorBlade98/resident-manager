@@ -69,6 +69,7 @@ export default function generateInvoice(
       resident.id,
       {
         residentId: resident.id,
+        name: resident.name,
         ongoingIncidentalsCosts:
           incidentalsCalculations.residentInformation[resident.id]
             .ongoingIncidentalsCosts,
