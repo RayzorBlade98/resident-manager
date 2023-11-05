@@ -12,6 +12,7 @@ import {
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import '_/extensions/date/date.extension';
+import { convertNameToString } from '../../../utils/name/name.utils';
 import { residentsForInvoiceSelector } from '../states/invoice_generation_view_state';
 import AddWaterMeterReadingIcon from './AddWaterMeterReadingIcon/AddWaterMeterReadingIcon';
 import AddWaterMeterReadingModal from '_/components/shared/AddWaterMeterReadingModal/AddWaterMeterReadingModal';
@@ -50,7 +51,7 @@ function WaterMeterReadingsCheck(): JSX.Element {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell>
-                    {`${resident.firstName} ${resident.lastName}`}
+                    {convertNameToString(resident.name)}
                   </TableCell>
                   <>
                     <TableCell>

@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 import { ValidationConstraint } from '../../../../utils/validation/constraints';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { Salutation } from '_/models/name';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 import {
   CompleteFormValidationState,
@@ -12,6 +13,11 @@ import Validator from '_/utils/validation/validator';
  * All values that can be submitted in the form
  */
 export interface CreateResidentInput {
+  /**
+   * Salutation of the new resident
+   */
+  salutation: Salutation
+
   /**
    * First name of the new resident
    */
@@ -66,6 +72,7 @@ CompleteFormValidationState<CreateResidentState, CreateResidentInput>
     showModal: false,
     formValidation: {
       formInput: {
+        salutation: Salutation.Male,
         firstName: '',
         lastName: '',
         rent: undefined,

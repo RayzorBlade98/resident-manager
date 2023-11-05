@@ -3,6 +3,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { Box, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { convertNameToString } from '../../../utils/name/name.utils';
 import RentInformationUtils from '../../../utils/rent/rent.utils';
 import {
   generateInvoiceFormValidationSelector,
@@ -59,7 +60,7 @@ function RentPaymentCheck(): JSX.Element {
                   )
                 }
                 iconPosition="start"
-                label={`${resident.firstName} ${resident.lastName}`}
+                label={convertNameToString(resident.name)}
               />
             );
           })}

@@ -11,6 +11,7 @@ import MonthYear from '_/extensions/date/month_year.extension';
 import App from '_/renderer/App';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import NameBuilder from '_/test/builders/name.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
@@ -23,7 +24,12 @@ describe('ResidentView', () => {
     },
   };
   const residents = range(0, 8).map((i) => new ResidentBuilder()
-    .withLastName(`Mustermann ${i}`)
+    .withName(
+      new NameBuilder()
+        .withFirstName('Max')
+        .withLastName(`Mustermann ${i}`)
+        .build(),
+    )
     .addRentInformation(
       new RentInformationBuilder()
         .withDueDate(new MonthYear(2, 2023))

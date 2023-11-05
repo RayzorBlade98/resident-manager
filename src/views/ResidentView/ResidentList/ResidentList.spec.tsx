@@ -13,10 +13,18 @@ import ResidentList from './ResidentList';
 import createResidentState from './states/create_resident_state';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import NameBuilder from '_/test/builders/name.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('ResidentList', () => {
-  const residents = range(0, 5).map((i) => new ResidentBuilder().withLastName(`Mustermann${i}`).build());
+  const residents = range(0, 5).map((i) => new ResidentBuilder()
+    .withName(
+      new NameBuilder()
+        .withFirstName('Max')
+        .withLastName(`Mustermann${i}`)
+        .build(),
+    )
+    .build());
   let renderResult: RenderResult;
 
   beforeEach(() => {

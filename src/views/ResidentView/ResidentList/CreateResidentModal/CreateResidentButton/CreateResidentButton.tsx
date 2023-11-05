@@ -10,6 +10,7 @@ import createResidentState, {
 import FormSubmitButton from '_/components/form/FormSubmitButton/FormSubmitButton';
 import MonthYear from '_/extensions/date/month_year.extension';
 import useResidentState from '_/hooks/useResidentState/useResidentState';
+import { Resident } from '_/models/resident/resident';
 
 /**
  * Button that submits the input resident data if they are valid
@@ -25,8 +26,11 @@ function CreateResidentButton(): JSX.Element {
   const onSuccess = (): void => {
     addResident({
       id: uuid(),
-      firstName: formValidationState.formInput.firstName,
-      lastName: formValidationState.formInput.lastName,
+      name: {
+        salutation: formValidationState.formInput.salutation,
+        firstName: formValidationState.formInput.firstName,
+        lastName: formValidationState.formInput.lastName,
+      },
       rentInformation: RentInformationUtils.timespan(
         formValidationState.formInput.contractStart as MonthYear,
         new MonthYear(),
@@ -43,7 +47,7 @@ function CreateResidentButton(): JSX.Element {
           wasDeductedInInvoice: true,
         },
       ],
-    });
+    } as Resident);
     resetCreateResidentState();
   };
 

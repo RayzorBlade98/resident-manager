@@ -11,6 +11,7 @@ import createResidentState, {
 } from '../../states/create_resident_state';
 import CreateResidentForm from './CreateResidentForm';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { Salutation } from '_/models/name';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('CreateResidentForm', () => {
@@ -35,7 +36,7 @@ describe('CreateResidentForm', () => {
       contractStart,
     ];
     const inputFields = renderResult.container.querySelectorAll('input');
-    inputs.forEach((input, i) => fireEvent.change(inputFields.item(i), { target: { value: input } }));
+    inputs.forEach((input, i) => fireEvent.change(inputFields.item(i + 1), { target: { value: input } }));
   }
 
   beforeAll(() => {
@@ -90,6 +91,7 @@ describe('CreateResidentForm', () => {
     expect(formInput).toEqual({
       firstName,
       lastName,
+      salutation: Salutation.Male,
       rent: convertCurrencyEurosToCents(rent),
       incidentals: convertCurrencyEurosToCents(incidentals),
       contractStart: new MonthYear(5, 2023),

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { convertCurrencyCentsToString } from '../../../../utils/currency/currency.utils';
+import { convertNameToString } from '../../../../utils/name/name.utils';
 import { residentViewSelectedResidentState } from '../../states/resident_view_state';
 import { Resident } from '_/models/resident/resident';
 
@@ -13,11 +14,9 @@ function GeneralResidentInformation(): JSX.Element {
   ) as Resident;
   return (
     <>
-      <p>{`${selectedResident.firstName} ${selectedResident.lastName}`}</p>
+      <p>{convertNameToString(selectedResident.name, true)}</p>
       <p>
-        {`${convertCurrencyCentsToString(
-          selectedResident.rentInformation[0].rent,
-        )}`}
+        {convertCurrencyCentsToString(selectedResident.rentInformation[0].rent)}
       </p>
       <p>{selectedResident.contractStart.toString()}</p>
     </>

@@ -8,7 +8,9 @@ import {
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
 import MonthYearDateField from '_/components/form/MonthYearDateField/MonthYearDateField';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
+import SalutationSelect from '_/components/form/SalutationSelect/SalutationSelect';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { Salutation } from '_/models/name';
 
 /**
  * Form to submit new resident
@@ -29,6 +31,12 @@ function CreateResidentForm(): JSX.Element {
 
   return (
     <Grid container columnSpacing={2} rowSpacing={2}>
+      <Grid item xs={6}>
+        <SalutationSelect
+          value={formInput.salutation}
+          onChange={(salutation) => onChange<Salutation>('salutation', salutation)}
+        />
+      </Grid>
       <Grid item xs={6}>
         <TextField
           required

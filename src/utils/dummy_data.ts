@@ -9,6 +9,7 @@ import incidentalsState from '_/states/incidentals/incidentals.state';
 import invoiceState from '_/states/invoice/invoice.state';
 import residentState from '_/states/resident/resident.state';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
+import NameBuilder from '_/test/builders/name.builder';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
@@ -18,8 +19,12 @@ import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builde
 function createDummyData(): void {
   // Dummy residents
   const residents = range(0, 8).map((i) => new ResidentBuilder()
-    .withFirstName(`Max ${i + 1}`)
-    .withLastName('Mustermann')
+    .withName(
+      new NameBuilder()
+        .withFirstName(`Max ${i + 1}`)
+        .withLastName('Mustermann')
+        .build(),
+    )
     .withNumberOfResidents(2)
     .addRentInformation(
       new RentInformationBuilder()

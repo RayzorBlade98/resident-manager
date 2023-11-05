@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { convertNameToString } from '../../../utils/name/name.utils';
 import { residentViewSelectedResidentState } from '../states/resident_view_state';
 import createResidentState from './states/create_resident_state';
 import { Resident } from '_/models/resident/resident';
@@ -69,7 +70,7 @@ function ResidentList(): JSX.Element {
                   <PersonIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary={`${resident.firstName} ${resident.lastName}`}
+                  primary={convertNameToString(resident.name)}
                 />
               </ListItemButton>
               {i !== residents.length - 1 && <Divider />}

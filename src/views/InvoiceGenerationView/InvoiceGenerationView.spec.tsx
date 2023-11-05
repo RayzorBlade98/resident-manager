@@ -16,6 +16,7 @@ import incidentalsState from '_/states/incidentals/incidentals.state';
 import residentState from '_/states/resident/resident.state';
 import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import NameBuilder from '_/test/builders/name.builder';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
@@ -40,7 +41,12 @@ describe('InvoiceGenerationView', () => {
   };
   const residents = range(0, 8).map((i) => new ResidentBuilder()
     .withId(i.toString())
-    .withFirstName(`Max${i}`)
+    .withName(
+      new NameBuilder()
+        .withFirstName(`Max${i}`)
+        .withLastName('Mustermann')
+        .build(),
+    )
     .addWaterMeterReading(
       new WaterMeterReadingBuilder()
         .withReadingDate(new Date(2023, 6, 9))

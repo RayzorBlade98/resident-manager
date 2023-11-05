@@ -10,6 +10,8 @@ import {
 import MonthYear from '_/extensions/date/month_year.extension';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
+import { Salutation } from '_/models/name';
+import { Resident } from '_/models/resident/resident';
 import { IncidentalsState } from '_/states/incidentals/incidentals.state';
 import { InvoiceState } from '_/states/invoice/invoice.state';
 import { PropertyState } from '_/states/property/property.state';
@@ -153,8 +155,11 @@ describe('convertImportedResidents', () => {
     const residents: ResidentState = [
       {
         id: 'id',
-        firstName: 'first',
-        lastName: 'last',
+        name: {
+          salutation: Salutation.Male,
+          firstName: 'first',
+          lastName: 'last',
+        },
         numberOfResidents: 8,
         rentInformation: [
           {
@@ -182,7 +187,7 @@ describe('convertImportedResidents', () => {
           },
         ],
         contractStart: new MonthYear(9, 2023),
-      },
+      } as Resident,
     ];
     const residentsJson = JSON.parse(JSON.stringify(residents));
 

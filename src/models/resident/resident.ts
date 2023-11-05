@@ -1,3 +1,4 @@
+import Name from '../name';
 import { RentInformation } from './rent';
 import WaterMeterReading from './water_meter_reading';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -12,14 +13,9 @@ export interface Resident {
   id: string;
 
   /**
-   * First name of the resident
+   * Name of the resident
    */
-  firstName: string;
-
-  /**
-   * Last name of the resident
-   */
-  lastName: string;
+  name: Name
 
   /**
    * Number of residents living in the appartment
@@ -37,7 +33,7 @@ export interface Resident {
   waterMeterReadings: WaterMeterReading[];
 
   /**
-   * First month and year the next invoice calculation will include
+   * First month and year of the rental contract
    */
   contractStart: MonthYear;
 }

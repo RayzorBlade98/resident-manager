@@ -9,6 +9,7 @@ import createResidentState, {
 } from '../../states/create_resident_state';
 import CreateResidentButton from './CreateResidentButton';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { Salutation } from '_/models/name';
 import { Resident } from '_/models/resident/resident';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
@@ -18,6 +19,7 @@ describe('CreateResidentButton', () => {
   const oldState = [new ResidentBuilder().build()];
 
   const validInputValues = {
+    salutation: Salutation.Male,
     firstName: 'Max',
     lastName: 'Mustermann',
     rent: 500,
@@ -100,8 +102,11 @@ describe('CreateResidentButton', () => {
     expect(newState[0]).toEqual(oldState[0]);
     expect(newState[1]).toEqual({
       id: newState[1].id,
-      firstName: validInputValues.firstName,
-      lastName: validInputValues.lastName,
+      name: {
+        salutation: validInputValues.salutation,
+        firstName: validInputValues.firstName,
+        lastName: validInputValues.lastName,
+      },
       rentInformation: [
         {
           dueDate: new MonthYear(),
