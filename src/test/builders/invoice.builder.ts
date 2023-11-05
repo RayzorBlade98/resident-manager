@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 
 import { v4 as uuid } from 'uuid';
+import AddressBuilder from './address.builder';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { IncidentalsInvoiceInformation } from '_/models/invoice/incidentals_invoice';
 import Invoice from '_/models/invoice/invoice';
@@ -21,6 +22,9 @@ class InvoiceBuilder {
       waterCosts: {
         waterUsageCostPerCubicMeter: 1,
         sewageCostPerCubicMeter: 1,
+      },
+      property: {
+        address: new AddressBuilder().build(),
       },
     };
     InvoiceBuilder.nextStart = this.invoice.end;

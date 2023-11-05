@@ -55,9 +55,7 @@ export default function generateInvoice(
   args: InvoiceGenerationArguments,
 ): Invoice {
   // Only include residents that had a contract during the invoice timespan
-  const residents = args.residents.filter(
-    (r) => r.contractStart <= args.end,
-  );
+  const residents = args.residents.filter((r) => r.contractStart <= args.end);
 
   const {
     incidentalsCalculations,
@@ -94,6 +92,9 @@ export default function generateInvoice(
       incidentalsCalculations.oneTimeIncidentalsInformation,
     waterCosts: waterCostCalculations.waterCosts,
     residentInformation,
+    property: {
+      address: args.property.address,
+    },
   };
 }
 

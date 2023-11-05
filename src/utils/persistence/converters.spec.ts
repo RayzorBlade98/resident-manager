@@ -9,6 +9,7 @@ import {
 } from './converters';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { DeductionType } from '_/models/incidentals/deduction_type';
+import Invoice from '_/models/invoice/invoice';
 import { IncidentalsState } from '_/states/incidentals/incidentals.state';
 import { InvoiceState } from '_/states/invoice/invoice.state';
 import { PropertyState } from '_/states/property/property.state';
@@ -126,7 +127,15 @@ describe('convertImportedInvoices', () => {
             },
           },
         },
-      },
+        property: {
+          address: {
+            zipCode: 54321,
+            city: 'myCity',
+            street: 'invoice street',
+            houseNumber: 42,
+          },
+        },
+      } as Invoice,
     ];
     const invoicesJson = JSON.parse(JSON.stringify(invoices));
 

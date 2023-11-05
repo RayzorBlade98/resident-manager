@@ -7,6 +7,7 @@ import {
 import {
   invoiceEnd,
   invoiceStart,
+  property,
   sewageCostPerCubicMeter,
   waterUsageCostPerCubicMeter,
 } from './invoiceInformation';
@@ -168,6 +169,9 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
     ),
   },
   waterCosts: expectedWaterCosts.waterCosts,
+  property: {
+    address: property.address,
+  },
 };
 
 function getExpectedResidentInformation(

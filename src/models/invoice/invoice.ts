@@ -1,3 +1,4 @@
+import Address from '../address';
 import { IncidentalsInvoiceInformation } from './incidentals_invoice';
 import ResidentInvoiceInformation from './resident.invoice';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -55,4 +56,14 @@ export default interface Invoice {
    * Invoice information of all residents
    */
   residentInformation: { [residentId: string]: ResidentInvoiceInformation };
+
+  /**
+   * Property the invoice is about
+   */
+  property: {
+    /**
+     * Address of the property
+     */
+    address: Address
+  }
 }
