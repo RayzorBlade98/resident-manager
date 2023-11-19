@@ -144,6 +144,20 @@ describe('convertImportedInvoices', () => {
             houseNumber: 42,
           },
         },
+        landlord: {
+          company: 'company',
+          representative: {
+            salutation: Salutation.Male,
+            firstName: 'Max',
+            lastName: 'Mustermann',
+          },
+          address: {
+            zipCode: 12345,
+            city: 'city',
+            street: 'street',
+            houseNumber: 42,
+          },
+        },
       } as Invoice,
     ];
     const invoicesJson = JSON.parse(JSON.stringify(invoices));

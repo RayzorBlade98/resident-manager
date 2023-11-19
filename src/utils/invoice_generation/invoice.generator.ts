@@ -8,6 +8,7 @@ import MonthYear from '_/extensions/date/month_year.extension';
 import WaterCosts from '_/models/incidentals/WaterCosts';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import Invoice from '_/models/invoice/invoice';
+import Landlord from '_/models/landlord/landlord';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
 
@@ -49,6 +50,11 @@ export interface InvoiceGenerationArguments {
    * Water costs used in the invoice
    */
   waterCosts: WaterCosts;
+
+  /**
+   *
+   */
+  landlord: Landlord;
 }
 
 export default function generateInvoice(
@@ -96,6 +102,7 @@ export default function generateInvoice(
     property: {
       address: args.property.address,
     },
+    landlord: args.landlord,
   };
 }
 

@@ -1,4 +1,5 @@
 import Address from '../address';
+import Landlord from '../landlord/landlord';
 import { IncidentalsInvoiceInformation } from './incidentals_invoice';
 import ResidentInvoiceInformation from './resident.invoice';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -64,6 +65,11 @@ export default interface Invoice {
     /**
      * Address of the property
      */
-    address: Address
-  }
+    address: Address;
+  };
+
+  /**
+   *
+   */
+  landlord: Landlord;
 }

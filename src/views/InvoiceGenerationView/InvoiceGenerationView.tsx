@@ -18,6 +18,7 @@ import GenericStepper, {
 } from '_/components/generic/GenericStepper/GenericStepper';
 import AppBar from '_/components/shared/AppBar/AppBar';
 import MonthYear from '_/extensions/date/month_year.extension';
+import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
 import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import generateInvoice from '_/utils/invoice_generation/invoice.generator';
@@ -37,6 +38,7 @@ function InvoiceGenerationView() {
   const residents = useRecoilValue(residentsForInvoiceSelector);
   const property = useRecoilValue(propertyState);
   const waterCosts = useRecoilValue(waterCostsState);
+  const landlord = useRecoilValue(landlordState);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -54,6 +56,7 @@ function InvoiceGenerationView() {
         includedOneTimeIncidentals: viewState.selectedOneTimeIncidentals,
         property,
         waterCosts,
+        landlord,
       });
       setViewState((state) => ({
         ...state,

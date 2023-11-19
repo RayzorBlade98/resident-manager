@@ -6,6 +6,7 @@ import {
 import {
   invoiceEnd,
   invoiceStart,
+  landlord,
   property,
   waterCosts,
 } from './invoiceInformation';
@@ -19,6 +20,7 @@ export const invoiceGenerationArgs = {
   includedOneTimeIncidentals,
   property,
   waterCosts,
+  landlord,
 };
 
 export const incidentalsCalculationArgs = {
