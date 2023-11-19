@@ -8,6 +8,7 @@ import { convertCurrencyCentsToString } from '../../utils/currency/currency.util
 import { convertNameToString } from '../../utils/name/name.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Invoice from '_/models/invoice/invoice';
+import ResidentInvoiceInformation from '_/models/invoice/resident.invoice';
 
 const labels = {
   addresses: {
@@ -57,197 +58,192 @@ const labels = {
 };
 
 /**
- * Creates an invoice pdf for all residents included in the given invoice
- * @param invoice invoice for which the pdfs should be generated
- * @returns object containing an invoice pdf for every resident
+ * Class that provides functionality to create a pdf invoice for a resident
  */
-function createInvoicePdfs(invoice: Invoice): { [residentId: string]: jsPDF } {
-  return Object.fromEntries(
-    Object.keys(invoice.residentInformation).map((id) => [
-      id,
-      createInvoicePdfForResident(invoice, id),
-    ]),
-  );
-}
+class InvoicePdfGenerator {
+  private readonly invoice: Invoice;
 
-function createInvoicePdfForResident(
-  invoice: Invoice,
-  residentId: string,
-): jsPDF {
-  const pdf = new jsPDF();
+  private readonly residentInformation: ResidentInvoiceInformation;
 
-  addAddresses(pdf, invoice, residentId);
+  private readonly pdf: jsPDF;
 
-  if (
-    Object.keys(invoice.residentInformation[residentId].ongoingIncidentalsCosts)
-      .length > 0
-  ) {
-    addOngoingIncidentals(pdf, invoice, residentId);
+  /**
+   * @param invoice invoice for which the pdf should be generated
+   * @param residentId id of the resident for which the pdf should be generated
+   */
+  public constructor(invoice: Invoice, residentId: string) {
+    this.invoice = invoice;
+    this.residentInformation = invoice.residentInformation[residentId];
+    this.pdf = new jsPDF();
   }
 
-  if (
-    Object.keys(invoice.residentInformation[residentId].oneTimeIncidentalsCosts)
-      .length > 0
-  ) {
-    addOneTimeIncidentals(pdf, invoice, residentId);
+  /**
+   * Generates a `jsPDF` for the provided invoice and resident
+   * @returns generated pdf
+   */
+  public generatePdf(): jsPDF {
+    this.addAddresses();
+
+    if (
+      Object.keys(this.residentInformation.ongoingIncidentalsCosts).length > 0
+    ) {
+      this.addOngoingIncidentals();
+    }
+
+    if (
+      Object.keys(this.residentInformation.oneTimeIncidentalsCosts).length > 0
+    ) {
+      this.addOneTimeIncidentals();
+    }
+
+    if (this.residentInformation.waterCosts.waterUsage > 0) {
+      this.addWaterCosts();
+    }
+
+    if (this.residentInformation.rentPayments.length > 0) {
+      this.addRentPayments();
+    }
+
+    return this.pdf;
   }
 
-  if (invoice.residentInformation[residentId].waterCosts.waterUsage > 0) {
-    addWaterCosts(pdf, invoice, residentId);
-  }
+  private addAddresses(): void {
+    const residentAddress = [
+      labels.addresses.residentTitle,
+      convertNameToString(this.residentInformation.name),
+      convertAddressToStreetString(this.invoice.property.address),
+      convertAddressToCityString(this.invoice.property.address),
+    ].join('\n');
 
-  if (invoice.residentInformation[residentId].rentPayments.length > 0) {
-    addRentPayments(pdf, invoice, residentId);
-  }
-
-  return pdf;
-}
-
-function addAddresses(pdf: jsPDF, invoice: Invoice, residentId: string) {
-  const residentAddress = [
-    labels.addresses.residentTitle,
-    convertNameToString(invoice.residentInformation[residentId].name),
-    convertAddressToStreetString(invoice.property.address),
-    convertAddressToCityString(invoice.property.address),
-  ].join('\n');
-
-  autoTable(pdf, {
-    body: [
-      [
-        {
-          content: residentAddress,
-          styles: {
-            halign: 'left',
+    autoTable(this.pdf, {
+      body: [
+        [
+          {
+            content: residentAddress,
+            styles: {
+              halign: 'left',
+            },
           },
-        },
-        // Todo: Add land lord address
-        {
-          content: '',
-          styles: {
-            halign: 'right',
+          // Todo: Add land lord address
+          {
+            content: '',
+            styles: {
+              halign: 'right',
+            },
           },
-        },
+        ],
       ],
-    ],
-    theme: 'plain',
-  });
-}
+      theme: 'plain',
+    });
+  }
 
-function addOngoingIncidentals(
-  pdf: jsPDF,
-  invoice: Invoice,
-  residentId: string,
-) {
-  addHeadline(pdf, labels.ongoingIncidentals.title);
-  addTable(
-    pdf,
-    labels.ongoingIncidentals.tableHeader,
-    Object.entries(
-      invoice.residentInformation[residentId].ongoingIncidentalsCosts,
-    ).map(([incidentals, costs]) => {
-      const incidentalsInformation = invoice.ongoingIncidentalsInformation[incidentals];
-      return [
-        incidentalsInformation.name,
-        incidentalsInformation.deductionType,
-        convertCurrencyCentsToString(incidentalsInformation.totalCost),
-        convertCurrencyCentsToString(costs),
-      ];
-    }),
-  );
-}
-
-function addOneTimeIncidentals(
-  pdf: jsPDF,
-  invoice: Invoice,
-  residentId: string,
-) {
-  addHeadline(pdf, labels.oneTimeIncidentals.title);
-  addTable(
-    pdf,
-    labels.oneTimeIncidentals.tableHeader,
-    Object.entries(
-      invoice.residentInformation[residentId].oneTimeIncidentalsCosts,
-    ).map(([incidentals, costs]) => {
-      const incidentalsInformation = invoice.oneTimeIncidentalsInformation[incidentals];
-      return [
-        incidentalsInformation.name,
-        incidentalsInformation.deductionType,
-        convertCurrencyCentsToString(incidentalsInformation.totalCost),
-        convertCurrencyCentsToString(costs),
-      ];
-    }),
-  );
-}
-
-function addWaterCosts(pdf: jsPDF, invoice: Invoice, residentId: string) {
-  const waterCosts = invoice.residentInformation[residentId].waterCosts;
-
-  const waterUsage = [
-    `${waterCosts.lastWaterMeterCount} m³`,
-    `${waterCosts.currentWaterMeterCount} m³`,
-    `${waterCosts.waterUsage} m³`,
-  ];
-
-  addHeadline(pdf, labels.waterCosts.title);
-  addTable(pdf, labels.waterCosts.tableHeader, [
-    [
-      labels.waterCosts.waterUsageCostLabel,
-      ...waterUsage,
-      convertCurrencyCentsToString(
-        invoice.waterCosts.waterUsageCostPerCubicMeter,
+  private addOngoingIncidentals() {
+    this.addHeadline(labels.ongoingIncidentals.title);
+    this.addTable(
+      labels.ongoingIncidentals.tableHeader,
+      Object.entries(this.residentInformation.ongoingIncidentalsCosts).map(
+        ([incidentals, costs]) => {
+          const incidentalsInformation = this.invoice.ongoingIncidentalsInformation[incidentals];
+          return [
+            incidentalsInformation.name,
+            incidentalsInformation.deductionType,
+            convertCurrencyCentsToString(incidentalsInformation.totalCost),
+            convertCurrencyCentsToString(costs),
+          ];
+        },
       ),
-      convertCurrencyCentsToString(waterCosts.waterUsageCosts),
-    ],
-    [
-      labels.waterCosts.sewageCostLabel,
-      ...waterUsage,
-      convertCurrencyCentsToString(invoice.waterCosts.sewageCostPerCubicMeter),
-      convertCurrencyCentsToString(waterCosts.sewageCosts),
-    ],
-  ]);
-}
+    );
+  }
 
-function addRentPayments(pdf: jsPDF, invoice: Invoice, residentId: string) {
-  addHeadline(pdf, labels.rentPayments.title);
-  addTable(
-    pdf,
-    labels.rentPayments.tableHeader,
-    invoice.residentInformation[residentId].rentPayments.map((r) => [
-      MonthYear.fromDate(r.dueDate).toString(),
-      convertCurrencyCentsToString(r.rent),
-      convertCurrencyCentsToString(r.incidentals),
-      convertCurrencyCentsToString(r.paymentAmount),
-      convertCurrencyCentsToString(r.paymentMissing),
-    ]),
-  );
-}
-
-function addHeadline(pdf: jsPDF, title: string) {
-  autoTable(pdf, {
-    body: [
-      [
-        {
-          content: title,
-          styles: {
-            halign: 'left',
-            fontSize: 14,
-          },
+  private addOneTimeIncidentals() {
+    this.addHeadline(labels.oneTimeIncidentals.title);
+    this.addTable(
+      labels.oneTimeIncidentals.tableHeader,
+      Object.entries(this.residentInformation.oneTimeIncidentalsCosts).map(
+        ([incidentals, costs]) => {
+          const incidentalsInformation = this.invoice.oneTimeIncidentalsInformation[incidentals];
+          return [
+            incidentalsInformation.name,
+            incidentalsInformation.deductionType,
+            convertCurrencyCentsToString(incidentalsInformation.totalCost),
+            convertCurrencyCentsToString(costs),
+          ];
         },
+      ),
+    );
+  }
+
+  private addWaterCosts() {
+    const waterCosts = this.residentInformation.waterCosts;
+
+    const waterUsage = [
+      `${waterCosts.lastWaterMeterCount} m³`,
+      `${waterCosts.currentWaterMeterCount} m³`,
+      `${waterCosts.waterUsage} m³`,
+    ];
+
+    this.addHeadline(labels.waterCosts.title);
+    this.addTable(labels.waterCosts.tableHeader, [
+      [
+        labels.waterCosts.waterUsageCostLabel,
+        ...waterUsage,
+        convertCurrencyCentsToString(
+          this.invoice.waterCosts.waterUsageCostPerCubicMeter,
+        ),
+        convertCurrencyCentsToString(waterCosts.waterUsageCosts),
       ],
-    ],
-    theme: 'plain',
-  });
+      [
+        labels.waterCosts.sewageCostLabel,
+        ...waterUsage,
+        convertCurrencyCentsToString(
+          this.invoice.waterCosts.sewageCostPerCubicMeter,
+        ),
+        convertCurrencyCentsToString(waterCosts.sewageCosts),
+      ],
+    ]);
+  }
+
+  private addRentPayments() {
+    this.addHeadline(labels.rentPayments.title);
+    this.addTable(
+      labels.rentPayments.tableHeader,
+      this.residentInformation.rentPayments.map((r) => [
+        MonthYear.fromDate(r.dueDate).toString(),
+        convertCurrencyCentsToString(r.rent),
+        convertCurrencyCentsToString(r.incidentals),
+        convertCurrencyCentsToString(r.paymentAmount),
+        convertCurrencyCentsToString(r.paymentMissing),
+      ]),
+    );
+  }
+
+  private addHeadline(title: string) {
+    autoTable(this.pdf, {
+      body: [
+        [
+          {
+            content: title,
+            styles: {
+              halign: 'left',
+              fontSize: 14,
+            },
+          },
+        ],
+      ],
+      theme: 'plain',
+    });
+  }
+
+  private addTable(head: string[], body: string[][]) {
+    autoTable(this.pdf, {
+      head: [head],
+      body,
+      theme: 'striped',
+      headStyles: {
+        fillColor: '#343a40',
+      },
+    });
+  }
 }
 
-function addTable(pdf: jsPDF, head: string[], body: string[][]) {
-  autoTable(pdf, {
-    head: [head],
-    body,
-    theme: 'striped',
-    headStyles: {
-      fillColor: '#343a40',
-    },
-  });
-}
-
-export default createInvoicePdfs;
+export default InvoicePdfGenerator;

@@ -5,6 +5,7 @@ import AddressBuilder from './address.builder';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { IncidentalsInvoiceInformation } from '_/models/invoice/incidentals_invoice';
 import Invoice from '_/models/invoice/invoice';
+import ResidentInvoiceInformation from '_/models/invoice/resident.invoice';
 
 class InvoiceBuilder {
   private static nextStart = new MonthYear(1, 2023);
@@ -45,6 +46,13 @@ class InvoiceBuilder {
     incidentals: IncidentalsInvoiceInformation,
   ): InvoiceBuilder {
     this.invoice.ongoingIncidentalsInformation[incidentals.incidentalsId] = incidentals;
+    return this;
+  }
+
+  public withResident(
+    resident: ResidentInvoiceInformation,
+  ): InvoiceBuilder {
+    this.invoice.residentInformation[resident.residentId] = resident;
     return this;
   }
 

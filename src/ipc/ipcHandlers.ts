@@ -2,7 +2,7 @@ import path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcMain } from 'electron';
 import ipcCommands from './ipcCommands';
-import createInvoicePdfs from './utils/invoicePdf';
+import InvoicePdfGenerator from './utils/invoicePdf';
 import {
   exportJsPdf,
   exportObject,
@@ -33,14 +33,14 @@ export default function addIpcHandlers(): void {
   });
 
   ipcMain.handle(ipcCommands.generateInvoicePdfs, (_, invoice: Invoice) => {
-    const pdfs = createInvoicePdfs(invoice);
     const directory = openDirectoryDialog();
 
     if (!directory) {
       return;
     }
 
-    Object.entries(pdfs).forEach(([residentId, pdf]) => {
+    Object.keys(invoice.residentInformation).forEach((residentId) => {
+      const pdf = new InvoicePdfGenerator(invoice, residentId).generatePdf();
       exportJsPdf(pdf, path.join(directory, `invoice-${residentId}.pdf`));
     });
   });
