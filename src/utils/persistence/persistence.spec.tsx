@@ -13,6 +13,7 @@ import incidentalsState, {
   IncidentalsState,
 } from '_/states/incidentals/incidentals.state';
 import invoiceState, { InvoiceState } from '_/states/invoice/invoice.state';
+import landlordState from '_/states/landlord/landlord.state';
 import propertyState, { PropertyState } from '_/states/property/property.state';
 import residentState, { ResidentState } from '_/states/resident/resident.state';
 import waterCostsState, {
@@ -20,6 +21,7 @@ import waterCostsState, {
 } from '_/states/waterCosts/waterCosts.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
+import LandlordBuilder from '_/test/builders/landlord.builder';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
@@ -59,6 +61,7 @@ const waterCosts: WaterCostsState = new WaterCostsBuilder()
   .addSewageCost(100, new MonthYear())
   .addWaterUsageCost(123, new MonthYear())
   .build();
+const landlord = new LandlordBuilder().build();
 
 beforeEach(() => {
   render(<ReactTestWrapper />);
@@ -71,23 +74,24 @@ afterEach(() => {
 describe('importSaveStates', () => {
   test('should import states correctly', async () => {
     // Arrange
-    importObjectMock
-      .mockImplementation((filename: string) => {
-        switch (filename) {
-          case persistenceFilenames.incidentals:
-            return JSON.parse(JSON.stringify(incidentals));
-          case persistenceFilenames.invoices:
-            return JSON.parse(JSON.stringify(invoices));
-          case persistenceFilenames.residents:
-            return JSON.parse(JSON.stringify(residents));
-          case persistenceFilenames.property:
-            return JSON.parse(JSON.stringify(property));
-          case persistenceFilenames.waterCosts:
-            return JSON.parse(JSON.stringify(waterCosts));
-          default:
-            throw new Error('Missing filename in mock implementation');
-        }
-      });
+    importObjectMock.mockImplementation((filename: string) => {
+      switch (filename) {
+        case persistenceFilenames.incidentals:
+          return JSON.parse(JSON.stringify(incidentals));
+        case persistenceFilenames.invoices:
+          return JSON.parse(JSON.stringify(invoices));
+        case persistenceFilenames.residents:
+          return JSON.parse(JSON.stringify(residents));
+        case persistenceFilenames.property:
+          return JSON.parse(JSON.stringify(property));
+        case persistenceFilenames.waterCosts:
+          return JSON.parse(JSON.stringify(waterCosts));
+        case persistenceFilenames.landlord:
+          return JSON.parse(JSON.stringify(landlord));
+        default:
+          throw new Error('Missing filename in mock implementation');
+      }
+    });
 
     // Act
     await act(async () => {
@@ -100,6 +104,7 @@ describe('importSaveStates', () => {
     expect(getRecoil(residentState)).toEqual(residents);
     expect(getRecoil(propertyState)).toEqual(property);
     expect(getRecoil(waterCostsState)).toEqual(waterCosts);
+    expect(getRecoil(landlordState)).toEqual(landlord);
   });
 });
 
@@ -112,6 +117,7 @@ describe('exportSaveStates', () => {
       setRecoil(residentState, residents);
       setRecoil(propertyState, property);
       setRecoil(waterCostsState, waterCosts);
+      setRecoil(landlordState, landlord);
     });
 
     // Act
@@ -142,6 +148,11 @@ describe('exportSaveStates', () => {
       5,
       waterCosts,
       persistenceFilenames.waterCosts,
+    );
+    expect(exportObjectMock).toHaveBeenNthCalledWith(
+      6,
+      landlord,
+      persistenceFilenames.landlord,
     );
   });
 });

@@ -4,31 +4,49 @@ import {
 import React from 'react';
 import { getRecoil, resetRecoil, setRecoil } from 'recoil-nexus';
 import initializationState, {
+  InitializationInput,
   initializationFormValidationSelector,
 } from '../states/initialization_state';
 import InitializationButton from './InitializationButton';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { Salutation } from '_/models/name';
 import propertyState from '_/states/property/property.state';
 import waterCostsState from '_/states/waterCosts/waterCosts.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 
 describe('InitializationButton', () => {
-  const validInputValues = {
+  const validInputValues: InitializationInput = {
+    companyLandlord: 'company',
+    salutationLandlord: Salutation.Male,
+    firstNameLandlord: 'first name landlord',
+    lastNameLandlord: 'last name landlord',
+    zipCodeLandlord: 54321,
+    cityLandlord: 'city landlord',
+    streetLandlord: 'street landlord',
+    houseNumberLandlord: 2,
     numberOfApartments: 8,
-    zipCode: 12345,
-    city: 'city',
-    street: 'street',
-    houseNumber: 1,
+    zipCodeProperty: 12345,
+    cityProperty: 'city property',
+    streetProperty: 'street property',
+    houseNumberProperty: 1,
     waterUsageCost: 500,
     sewageCost: 250,
   };
 
-  const invalidInputValues = {
+  const invalidInputValues: InitializationInput = {
+    companyLandlord: '',
+    salutationLandlord: Salutation.Female,
+    firstNameLandlord: '',
+    lastNameLandlord: '',
+    zipCodeLandlord: undefined,
+    cityLandlord: '',
+    streetLandlord: '',
+    houseNumberLandlord: undefined,
     numberOfApartments: undefined,
-    zipCode: undefined,
-    city: '',
-    street: '',
-    houseNumber: undefined,
+    zipCodeProperty: undefined,
+    cityProperty: '',
+    streetProperty: '',
+    houseNumberProperty: undefined,
     waterUsageCost: undefined,
     sewageCost: undefined,
   };
@@ -92,10 +110,10 @@ describe('InitializationButton', () => {
     expect(getRecoil(propertyState)).toEqual({
       numberOfApartments: validInputValues.numberOfApartments,
       address: {
-        zipCode: validInputValues.zipCode,
-        city: validInputValues.city,
-        street: validInputValues.street,
-        houseNumber: validInputValues.houseNumber,
+        zipCode: validInputValues.zipCodeProperty,
+        city: validInputValues.cityProperty,
+        street: validInputValues.streetProperty,
+        houseNumber: validInputValues.houseNumberProperty,
       },
     });
     expect(getRecoil(waterCostsState)).toEqual({

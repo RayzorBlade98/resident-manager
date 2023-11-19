@@ -1,4 +1,5 @@
 import MonthYear from '_/extensions/date/month_year.extension';
+import Landlord from '_/models/landlord/landlord';
 import Property from '_/models/property/property';
 import { IncidentalsState } from '_/states/incidentals/incidentals.state';
 import { InvoiceState } from '_/states/invoice/invoice.state';
@@ -107,4 +108,15 @@ export function convertImportedWaterCosts(
       date: MonthYear.fromString(c.date),
     })),
   };
+}
+
+/**
+ * Converts the imported landlord to the right format
+ * @param imported landlord that was imported from a file
+ * @returns landlord converted to the right format
+ */
+export function convertImportedLandlord(
+  imported: Imported<Landlord>,
+): Landlord {
+  return imported;
 }

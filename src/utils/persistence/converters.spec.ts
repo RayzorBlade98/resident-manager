@@ -3,6 +3,7 @@
 import {
   convertImportedIncidentals,
   convertImportedInvoices,
+  convertImportedLandlord,
   convertImportedProperty,
   convertImportedResidents,
   convertImportedWaterCosts,
@@ -10,6 +11,7 @@ import {
 import MonthYear from '_/extensions/date/month_year.extension';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
+import Landlord from '_/models/landlord/landlord';
 import { Salutation } from '_/models/name';
 import { Resident } from '_/models/resident/resident';
 import { IncidentalsState } from '_/states/incidentals/incidentals.state';
@@ -250,5 +252,32 @@ describe('convertImportedWaterCosts', () => {
 
     // Assert
     expect(converted).toEqual(waterCosts);
+  });
+});
+
+describe('convertImportedLandlord', () => {
+  test('should convert landlord correctly', () => {
+    // Arrange
+    const landlord: Landlord = {
+      company: 'company',
+      representative: {
+        salutation: Salutation.Male,
+        firstName: 'Max',
+        lastName: 'Mustermann',
+      },
+      address: {
+        zipCode: 12345,
+        city: 'city',
+        street: 'street',
+        houseNumber: 42,
+      },
+    };
+    const landlordJson = JSON.parse(JSON.stringify(landlord));
+
+    // Act
+    const converted = convertImportedLandlord(landlordJson);
+
+    // Assert
+    expect(converted).toEqual(landlord);
   });
 });

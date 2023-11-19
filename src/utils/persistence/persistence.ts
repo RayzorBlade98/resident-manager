@@ -11,11 +11,14 @@ import RentInformationUtils from '../rent/rent.utils';
 import {
   convertImportedIncidentals,
   convertImportedInvoices,
+  convertImportedLandlord,
   convertImportedProperty,
   convertImportedResidents,
   convertImportedWaterCosts,
 } from './converters';
+import Landlord from '_/models/landlord/landlord';
 import Property from '_/models/property/property';
+import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
 import waterCostsState, {
   WaterCostsState,
@@ -28,6 +31,7 @@ export const persistenceFilenames = {
   residents: 'residents.json',
   property: 'property.json',
   waterCosts: 'waterCosts.json',
+  landlord: 'landlord.json',
 };
 
 /**
@@ -76,6 +80,13 @@ export async function importSaveStates(): Promise<void> {
     waterCostsState,
     convertImportedWaterCosts,
   );
+
+  // Landlord
+  await importSaveState<Landlord>(
+    persistenceFilenames.landlord,
+    landlordState,
+    convertImportedLandlord,
+  );
 }
 
 /**
@@ -84,7 +95,10 @@ export async function importSaveStates(): Promise<void> {
 export function exportSaveStates(): void {
   // Incidentals
   const incidentals = getRecoil(incidentalsState);
-  void window.ipcAPI.exportObject(incidentals, persistenceFilenames.incidentals);
+  void window.ipcAPI.exportObject(
+    incidentals,
+    persistenceFilenames.incidentals,
+  );
 
   // Invoices
   const invoices = getRecoil(invoiceState);
@@ -103,6 +117,10 @@ export function exportSaveStates(): void {
   // Water costs
   const waterCosts = getRecoil(waterCostsState);
   void window.ipcAPI.exportObject(waterCosts, persistenceFilenames.waterCosts);
+
+  // Landlord
+  const landlord = getRecoil(landlordState);
+  void window.ipcAPI.exportObject(landlord, persistenceFilenames.landlord);
 }
 
 /**
