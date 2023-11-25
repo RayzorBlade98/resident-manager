@@ -13,6 +13,8 @@ import ResidentInvoiceInformation from '_/models/invoice/resident.invoice';
 const labels = {
   addresses: {
     residentTitle: 'Mieter:',
+    landlordTitle: 'Vermieter:',
+    landlordOnBehalfOf: 'i.A. ',
   },
   ongoingIncidentals: {
     title: 'Laufende Nebenkosten',
@@ -115,6 +117,19 @@ class InvoicePdfGenerator {
       convertAddressToCityString(this.invoice.property.address),
     ].join('\n');
 
+    const landlordNamePrefix = this.invoice.landlord.company !== undefined
+      ? labels.addresses.landlordOnBehalfOf
+      : '';
+    const landlordAddress = [
+      labels.addresses.landlordTitle,
+      this.invoice.landlord.company,
+      landlordNamePrefix + convertNameToString(this.residentInformation.name),
+      convertAddressToStreetString(this.invoice.landlord.address),
+      convertAddressToCityString(this.invoice.landlord.address),
+    ]
+      .filter((s) => s !== undefined)
+      .join('\n');
+
     autoTable(this.pdf, {
       body: [
         [
@@ -124,9 +139,8 @@ class InvoicePdfGenerator {
               halign: 'left',
             },
           },
-          // Todo: Add land lord address
           {
-            content: '',
+            content: landlordAddress,
             styles: {
               halign: 'right',
             },
