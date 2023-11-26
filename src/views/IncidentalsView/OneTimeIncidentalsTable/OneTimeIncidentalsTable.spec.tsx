@@ -2,9 +2,8 @@ import {
   RenderResult, act, fireEvent, render,
 } from '@testing-library/react';
 import React from 'react';
-import { getRecoil, resetRecoil, setRecoil } from 'recoil-nexus';
+import { setRecoil } from 'recoil-nexus';
 import OneTimeIncidentalsTable from './OneTimeIncidentalsTable';
-import createOneTimeIncidentalsState from './states/create_one_time_incidentals_state';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
@@ -12,7 +11,7 @@ import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.buil
 describe('OneTimeIncidentalsTable', () => {
   let renderResult: RenderResult;
 
-  beforeAll(() => {
+  beforeEach(() => {
     renderResult = render(
       <ReactTestWrapper>
         <OneTimeIncidentalsTable />
@@ -31,19 +30,13 @@ describe('OneTimeIncidentalsTable', () => {
     });
   });
 
-  afterEach(() => {
-    act(() => {
-      resetRecoil(createOneTimeIncidentalsState);
-    });
-  });
-
   test('should open modal when clicking create incidentals', () => {
     // Act
     const button = renderResult.container.querySelector('td')!;
     fireEvent.click(button);
 
     // Assert
-    const showModal = getRecoil(createOneTimeIncidentalsState).showModal;
-    expect(showModal).toBe(true);
+    const modal = renderResult.baseElement.querySelector('[role=dialog]');
+    expect(modal).toBeDefined();
   });
 });
