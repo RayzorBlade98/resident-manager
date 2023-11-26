@@ -5,6 +5,7 @@ import {
   CONSTRAINT_FUNCTIONS,
 } from './constraints';
 import { ValidationErrorMessages } from './validation';
+import OptionallyDefined from '_/types/OptionallyDefined';
 
 /**
  * Class that provide functionalities to validate objects of type `T`
@@ -27,7 +28,7 @@ export default class Validator<T extends object> {
    * @returns object containing the error messages for invalid keys of the validated object and undefined for the valid keys.
    */
   public validate(
-    toValidate: Partial<T>,
+    toValidate: Partial<T> | OptionallyDefined<T>,
     invalidOnly = true,
   ): ValidationErrorMessages<T> {
     const errorMessages: ValidationErrorMessages<T> = {};
@@ -55,8 +56,8 @@ export default class Validator<T extends object> {
    * @returns object containing the error messages of all keys that have different values than. Only invalid keys will be included.
    */
   public validateDifference(
-    oldValues: T,
-    newValues: T,
+    oldValues: OptionallyDefined<T>,
+    newValues: OptionallyDefined<T>,
   ): ValidationErrorMessages<T> {
     const errors = this.validate(newValues, false);
     return _.pickBy(
