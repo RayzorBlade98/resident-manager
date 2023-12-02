@@ -17,8 +17,20 @@ import MonthYear from '_/extensions/date/month_year.extension';
 import Invoice from '_/models/invoice/invoice';
 import ResidentInvoiceInformation from '_/models/invoice/resident.invoice';
 import { Resident } from '_/models/resident/resident';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
-export const expectedIncidentalsCosts = {
+export const expectedIncidentalsCosts: Pick<
+Invoice,
+'ongoingIncidentalsInformation' | 'oneTimeIncidentalsInformation'
+> & {
+  residentInformation: Record<
+  string,
+  {
+    ongoingIncidentalsCosts: Record<string, CurrencyInCents>;
+    oneTimeIncidentalsCosts: Record<string, CurrencyInCents>;
+  }
+  >;
+} = {
   ongoingIncidentalsInformation: {
     [ongoingIncidentalsPerApartment.id]: {
       incidentalsId: ongoingIncidentalsPerApartment.id,
@@ -70,7 +82,10 @@ export const expectedIncidentalsCosts = {
   },
 };
 
-export const expectedRentPayments = {
+export const expectedRentPayments: Record<
+string,
+ResidentInvoiceInformation['rentPayments']
+> = {
   [standardResident.id]: [
     {
       dueDate: new MonthYear(0, 2023),
@@ -112,7 +127,9 @@ export const expectedRentPayments = {
   ],
 };
 
-export const expectedWaterCosts = {
+export const expectedWaterCosts: Pick<Invoice, 'waterCosts'> & {
+  residentCosts: Record<string, ResidentInvoiceInformation['waterCosts']>;
+} = {
   waterCosts: {
     waterUsageCostPerCubicMeter,
     sewageCostPerCubicMeter,
@@ -135,10 +152,15 @@ export const expectedWaterCosts = {
   },
 };
 
-export const expectedTotalCosts = {
+export const expectedTotalCosts: Record<
+string,
+ResidentInvoiceInformation['totalCosts']
+> = {
   [standardResident.id]: {
     ongoingIncidentalsCosts: 220,
     oneTimeIncidentalsCosts: 550,
+    totalIncidentalsDeductionCosts: 1670,
+    newIncidentalsDeduction: 557,
     missingRentPayments: 1200,
     waterCosts: 900,
     totalCosts: 2870,
@@ -148,6 +170,8 @@ export const expectedTotalCosts = {
   [residentLaterInvoiceStart.id]: {
     ongoingIncidentalsCosts: 120,
     oneTimeIncidentalsCosts: 500,
+    totalIncidentalsDeductionCosts: 620,
+    newIncidentalsDeduction: 310,
     missingRentPayments: 800,
     waterCosts: 0,
     totalCosts: 1420,

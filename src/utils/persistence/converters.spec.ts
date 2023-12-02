@@ -128,6 +128,8 @@ describe('convertImportedInvoices', () => {
             totalCosts: {
               ongoingIncidentalsCosts: 456,
               oneTimeIncidentalsCosts: 987,
+              totalIncidentalsDeductionCosts: 1200,
+              newIncidentalsDeduction: 120,
               missingRentPayments: 6000,
               waterCosts: 23,
               totalCosts: 10000,

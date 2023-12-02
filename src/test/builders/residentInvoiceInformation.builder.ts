@@ -22,6 +22,8 @@ class ResidentInvoiceInformationBuilder {
       totalCosts: {
         ongoingIncidentalsCosts: 0,
         oneTimeIncidentalsCosts: 0,
+        totalIncidentalsDeductionCosts: 0,
+        newIncidentalsDeduction: 0,
         missingRentPayments: 0,
         waterCosts: 0,
         totalCosts: 0,

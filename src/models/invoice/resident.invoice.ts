@@ -105,6 +105,16 @@ export default interface ResidentInvoiceInformation {
     oneTimeIncidentalsCosts: CurrencyInCents;
 
     /**
+     * Sum of all incidentals (incl. water costs)
+     */
+    totalIncidentalsDeductionCosts: CurrencyInCents;
+
+    /**
+     * New incidentals deduction costs
+     */
+    newIncidentalsDeduction: CurrencyInCents;
+
+    /**
      * Sum of all missing rent payments
      */
     missingRentPayments: CurrencyInCents;

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import calculateIncidentalsCosts from './incidentals';
 import calculateRentPayments from './rent';
 import calculateWaterCosts from './water';
+import MonthYear from '_/extensions/date/month_year.extension';
 import { Resident } from '_/models/resident/resident';
 
 /**
@@ -39,6 +40,8 @@ export default function calculateTotalCosts(
 ) {
   return Object.fromEntries(
     args.residents.map((resident) => {
+      const rentPayments = args.rentPayments[resident.id];
+
       const allCosts = {
         ongoingIncidentalsCosts: _.sum(
           Object.values(
@@ -53,7 +56,7 @@ export default function calculateTotalCosts(
           ),
         ),
         missingRentPayments: _.sumBy(
-          args.rentPayments[resident.id],
+          rentPayments,
           (r) => r.paymentMissing,
         ),
         waterCosts:
@@ -61,16 +64,30 @@ export default function calculateTotalCosts(
             .waterUsageCosts
           + args.waterCostCalculations.residentCosts[resident.id].sewageCosts,
       };
+
+      const totalIncidentalsDeductionCosts = allCosts.oneTimeIncidentalsCosts
+        + allCosts.ongoingIncidentalsCosts
+        + allCosts.waterCosts;
+      const newIncidentalsDeduction = Math.ceil(
+        totalIncidentalsDeductionCosts
+          / MonthYear.monthsBetween(rentPayments[0].dueDate, rentPayments[rentPayments.length - 1].dueDate),
+      );
       const totalCosts = _.sum(Object.values(allCosts));
       const totalPaidIncidentals = _.sumBy(
         args.rentPayments[resident.id],
         (r) => r.incidentals,
       );
       const totalMissingCosts = totalCosts - totalPaidIncidentals;
+
       return [
         resident.id,
         {
-          ...allCosts, totalCosts, totalPaidIncidentals, totalMissingCosts,
+          ...allCosts,
+          totalCosts,
+          totalIncidentalsDeductionCosts,
+          totalPaidIncidentals,
+          totalMissingCosts,
+          newIncidentalsDeduction,
         },
       ];
     }),
