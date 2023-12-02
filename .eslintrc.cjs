@@ -16,9 +16,7 @@ const baseConfig = {
         ignorePattern: '^import .*',
       },
     ],
-    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     'import/order': ['error', { alphabetize: { order: 'asc' } }],
-    // Own adjustments
     'linebreak-style': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',
@@ -29,7 +27,8 @@ const baseConfig = {
     'react/jsx-props-no-spreading': 'off',
     'no-continue': 'off',
     'max-classes-per-file': 'off',
-    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/restrict-template-expressions': 'off',
     'no-extend-native': 'off',
     'no-restricted-syntax': [
