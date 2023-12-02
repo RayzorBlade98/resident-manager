@@ -11,7 +11,7 @@ import ReactTestWrapper from '_/test/ReactTestWrapper';
 describe('MonthSelection', () => {
   let renderResult: RenderResult;
 
-  function inputToForm(invoiceStart: string, invoiceEnd: string) {
+  function inputToForm(invoiceStart: string, invoiceEnd: string, newDeductionStart: string) {
     const inputFields = renderResult.container.querySelectorAll('input');
     fireEvent.change(inputFields.item(0), {
       target: { value: invoiceStart },
@@ -19,6 +19,10 @@ describe('MonthSelection', () => {
 
     fireEvent.change(inputFields.item(1), {
       target: { value: invoiceEnd },
+    });
+
+    fireEvent.change(inputFields.item(2), {
+      target: { value: newDeductionStart },
     });
   }
 
@@ -39,9 +43,10 @@ describe('MonthSelection', () => {
     // Arrange
     const invoiceStart = '06.2023';
     const invoiceEnd = '07.2023';
+    const newDeductionStart = '08.2023';
 
     // Act
-    inputToForm(invoiceStart, invoiceEnd);
+    inputToForm(invoiceStart, invoiceEnd, newDeductionStart);
 
     // Assert
     const formInput = getRecoil(
@@ -51,6 +56,7 @@ describe('MonthSelection', () => {
       expect.objectContaining({
         invoiceStart: new MonthYear(5, 2023),
         invoiceEnd: new MonthYear(6, 2023),
+        newDeductionStart: new MonthYear(7, 2023),
       }),
     );
   });

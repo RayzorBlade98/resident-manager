@@ -40,6 +40,11 @@ export interface InvoiceGenerationInput {
    * End month of the invoice
    */
   invoiceEnd: MonthYear | undefined;
+
+  /**
+   * First of for which the new deduction is used
+   */
+  newDeductionStart: MonthYear | undefined;
 }
 
 /**
@@ -86,11 +91,13 @@ InvoiceGenerationInput
       formInput: {
         invoiceStart: undefined,
         invoiceEnd: undefined,
+        newDeductionStart: undefined,
       },
       formErrors: {},
       formValidator: new Validator<InvoiceGenerationInput>({
         invoiceStart: ValidationConstraint.Defined,
         invoiceEnd: ValidationConstraint.Defined,
+        newDeductionStart: ValidationConstraint.Defined,
       }),
     },
   },
@@ -204,7 +211,7 @@ export const isCurrentStepFinishedSelector = selector<boolean>({
     const step = get(invoiceGenerationViewState).currentStep;
     switch (step) {
       case InvoiceGenerationSteps.Timespan:
-        return isInputValid(['invoiceStart', 'invoiceEnd']);
+        return isInputValid(['invoiceStart', 'invoiceEnd', 'newDeductionStart']);
       case InvoiceGenerationSteps.WaterMeterReadings: {
         const residents = get(residentState);
         return residents.every(

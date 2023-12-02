@@ -192,38 +192,82 @@ describe('invoiceGenerationViewState', () => {
     test.each([
       [
         InvoiceGenerationSteps.Timespan,
-        'invoiceStart: undefined, invoiceEnd: undefined',
+        'invoiceStart: undefined, invoiceEnd: undefined, newDeductionStart: undefined',
         false,
         {
           invoiceStart: undefined,
           invoiceEnd: undefined,
+          newDeductionStart: undefined,
         },
       ],
       [
         InvoiceGenerationSteps.Timespan,
-        'invoiceStart: 06.2023, invoiceEnd: undefined',
+        'invoiceStart: 06.2023, invoiceEnd: undefined, newDeductionStart: undefined',
         false,
         {
           invoiceStart: new MonthYear(5, 2023),
           invoiceEnd: undefined,
+          newDeductionStart: undefined,
         },
       ],
       [
         InvoiceGenerationSteps.Timespan,
-        'invoiceStart: undefined, invoiceEnd: 06.2023',
+        'invoiceStart: undefined, invoiceEnd: 06.2023, newDeductionStart: undefined',
         false,
         {
           invoiceStart: undefined,
           invoiceEnd: new MonthYear(5, 2023),
+          newDeductionStart: undefined,
         },
       ],
       [
         InvoiceGenerationSteps.Timespan,
-        'invoiceStart: 06.2023, invoiceEnd: 06.2023',
+        'invoiceStart: 06.2023, invoiceEnd: 06.2023, newDeductionStart: undefined',
+        false,
+        {
+          invoiceStart: new MonthYear(5, 2023),
+          invoiceEnd: new MonthYear(5, 2023),
+          newDeductionStart: undefined,
+        },
+      ],
+      [
+        InvoiceGenerationSteps.Timespan,
+        'invoiceStart: undefined, invoiceEnd: undefined, newDeductionStart:07.2023',
+        false,
+        {
+          invoiceStart: undefined,
+          invoiceEnd: undefined,
+          newDeductionStart: new MonthYear(6, 2023),
+        },
+      ],
+      [
+        InvoiceGenerationSteps.Timespan,
+        'invoiceStart: 06.2023, invoiceEnd: undefined, newDeductionStart:07.2023',
+        false,
+        {
+          invoiceStart: new MonthYear(5, 2023),
+          invoiceEnd: undefined,
+          newDeductionStart: new MonthYear(6, 2023),
+        },
+      ],
+      [
+        InvoiceGenerationSteps.Timespan,
+        'invoiceStart: undefined, invoiceEnd: 06.2023, newDeductionStart:07.2023',
+        false,
+        {
+          invoiceStart: undefined,
+          invoiceEnd: new MonthYear(5, 2023),
+          newDeductionStart: new MonthYear(6, 2023),
+        },
+      ],
+      [
+        InvoiceGenerationSteps.Timespan,
+        'invoiceStart: 06.2023, invoiceEnd: 06.2023, newDeductionStart:07.2023',
         true,
         {
           invoiceStart: new MonthYear(5, 2023),
           invoiceEnd: new MonthYear(5, 2023),
+          newDeductionStart: new MonthYear(6, 2023),
         },
       ],
       [

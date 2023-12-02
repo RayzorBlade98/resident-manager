@@ -59,6 +59,18 @@ function MonthSelection(): JSX.Element {
           errorMessage={formValidation.formErrors.invoiceEnd}
         />
       </Grid>
+      <Grid item>
+        <MonthYearDateField
+          required
+          id="newDeductionStart"
+          label="Start des neuen Abschlags"
+          value={formValidation.formInput.newDeductionStart}
+          onChange={(month) => {
+            onChange<MonthYear | undefined>('newDeductionStart', month);
+          }}
+          errorMessage={formValidation.formErrors.newDeductionStart}
+        />
+      </Grid>
     </Grid>
   );
 }

@@ -101,6 +101,10 @@ describe('InvoiceGenerationView', () => {
     fireEvent.change(inputFields.item(1), {
       target: { value: '07.2023' },
     });
+
+    fireEvent.change(inputFields.item(2), {
+      target: { value: '08.2023' },
+    });
   }
 
   function inputWaterMeterReadingStep(): void {
