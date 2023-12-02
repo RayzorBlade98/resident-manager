@@ -1,4 +1,5 @@
-import {
+import { Button } from '@mui/material';
+import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import usePreviousValue from '../usePreviousValue';
@@ -21,6 +22,11 @@ interface FormValidationArguments<T extends object> {
    * @param formInput Submitted valid input of the form
    */
   onSubmitSuccess: (formInput: T) => void;
+
+  /**
+   * Label of the generated submit button
+   */
+  submitButtonLabel: string;
 }
 
 type FormErrors<T> = Partial<Record<keyof T, string>>;
@@ -95,6 +101,17 @@ function useFormValidation<T extends object>(args: FormValidationArguments<T>) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formInput, previousFormInput]);
 
+  // Components
+  const FormSubmitButton = useCallback(() => (
+    <Button
+      variant="contained"
+      color={isFormInputValid ? 'primary' : 'error'}
+      onClick={submitForm}
+    >
+      {args.submitButtonLabel}
+    </Button>
+  ), [isFormInputValid, submitForm, args.submitButtonLabel]);
+
   return {
     /**
      * Current input values of the form
@@ -112,19 +129,14 @@ function useFormValidation<T extends object>(args: FormValidationArguments<T>) {
     formInputSetters,
 
     /**
-     * Function to submit the form input
-     */
-    submitForm,
-
-    /**
      * Function to reset the form input to its default values
      */
     resetFormInput,
 
     /**
-     * Whether the current form input is valid or not
+     * Submit button component that provides functionality to submit the form
      */
-    isFormInputValid,
+    FormSubmitButton,
   };
 }
 

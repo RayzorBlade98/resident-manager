@@ -1,4 +1,4 @@
-import { Button, Grid, TextField } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { ValidationConstraint } from '../../../../utils/validation/constraints';
@@ -66,9 +66,8 @@ function CreateOneTimeIncidentalsModal(
     formInput,
     formErrors,
     formInputSetters,
-    submitForm,
     resetFormInput,
-    isFormInputValid,
+    FormSubmitButton,
   } = useFormValidation<CreateOneTimeIncidentalsInput>({
     formValidator: new Validator<CreateOneTimeIncidentalsInput>({
       name: ValidationConstraint.NoEmptyString,
@@ -93,6 +92,7 @@ function CreateOneTimeIncidentalsModal(
       });
       props.onCloseModal();
     },
+    submitButtonLabel: 'Erstellen',
   });
 
   return (
@@ -159,13 +159,7 @@ function CreateOneTimeIncidentalsModal(
       </Grid>
 
       {/* Footer */}
-      <Button
-        variant="contained"
-        color={isFormInputValid ? 'primary' : 'error'}
-        onClick={submitForm}
-      >
-        Erstellen
-      </Button>
+      <FormSubmitButton />
     </GenericModal>
   );
 }

@@ -6,11 +6,9 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import React from 'react';
-import { useSetRecoilState } from 'recoil';
+import React, { useState } from 'react';
 import { convertCurrencyCentsToString } from '../../../utils/currency/currency.utils';
 import CreateOngoingIncidentalsModal from './CreateOngoingIncidentalsModal/CreateOngoingIncidentalsModal';
-import createOngoingIncidentalsState from './states/create_ongoing_incidentals_state';
 import useIncidentalsState from '_/hooks/useIncidentalsState/useIncidentalsState';
 
 const styles = {
@@ -25,18 +23,12 @@ const styles = {
  * Table that displays all incidentals
  */
 function OngoingIncidentalsTable(): JSX.Element {
-  const setCreateIncidentalsState = useSetRecoilState(
-    createOngoingIncidentalsState,
-  );
+  const [showModal, setShowModal] = useState(false);
   const { ongoingIncidentals } = useIncidentalsState();
-
-  const onCreateIncidentals = () => {
-    setCreateIncidentalsState((state) => ({ ...state, showModal: true }));
-  };
 
   return (
     <>
-      <CreateOngoingIncidentalsModal />
+      <CreateOngoingIncidentalsModal showModal={showModal} onCloseModal={() => setShowModal(false)} />
       <TableContainer>
         <Table>
           <TableHead>
@@ -52,7 +44,7 @@ function OngoingIncidentalsTable(): JSX.Element {
             <TableRow>
               <TableCell
                 colSpan={5}
-                onClick={onCreateIncidentals}
+                onClick={() => setShowModal(true)}
                 align="center"
                 sx={styles.createIncidentalsCell}
               >

@@ -2,9 +2,8 @@ import {
   RenderResult, act, fireEvent, render,
 } from '@testing-library/react';
 import React from 'react';
-import { getRecoil, resetRecoil, setRecoil } from 'recoil-nexus';
+import { setRecoil } from 'recoil-nexus';
 import OngoingIncidentalsTable from './OngoingIncidentalsTable';
-import createOngoingIncidentalsState from './states/create_ongoing_incidentals_state';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
@@ -34,19 +33,13 @@ describe('OngoingIncidentalsTable', () => {
     });
   });
 
-  afterEach(() => {
-    act(() => {
-      resetRecoil(createOngoingIncidentalsState);
-    });
-  });
-
   test('should open modal when clicking create incidentals', () => {
     // Act
     const button = renderResult.container.querySelector('td')!;
     fireEvent.click(button);
 
     // Assert
-    const showModal = getRecoil(createOngoingIncidentalsState).showModal;
-    expect(showModal).toBe(true);
+    const modal = renderResult.baseElement.querySelector('[role=dialog]');
+    expect(modal).toBeDefined();
   });
 });

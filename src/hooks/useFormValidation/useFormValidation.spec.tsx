@@ -1,5 +1,14 @@
-import { renderHook } from '@testing-library/react';
+import {
+  RenderResult,
+  cleanup,
+  fireEvent,
+  render,
+  renderHook,
+} from '@testing-library/react';
+import { generateImage } from 'jsdom-screenshot';
+import React from 'react';
 import { act } from 'react-dom/test-utils';
+import viewPorts from '../../test/screenshotViewports';
 import { ValidationConstraint } from '../../utils/validation/constraints';
 import useFormValidation from './useFormValidation';
 import Validator from '_/utils/validation/validator';
@@ -25,12 +34,34 @@ describe('useFormValidation', () => {
     formOptional: 0,
   };
   const onSubmitSuccess = jest.fn();
+  const submitButtonLabel = 'Submit';
+
+  const validInputValues: FormType = {
+    formString: 'b',
+    formNumber: 2,
+    formOptional: undefined,
+  };
+
+  function validInput() {
+    act(() => {
+      formValidationHook.current.formInputSetters.formString(
+        validInputValues.formString,
+      );
+      formValidationHook.current.formInputSetters.formNumber(
+        validInputValues.formNumber,
+      );
+      formValidationHook.current.formInputSetters.formOptional(
+        validInputValues.formOptional,
+      );
+    });
+  }
 
   beforeEach(() => {
     formValidationHook = renderHook(() => useFormValidation({
       defaultFormInput,
       formValidator,
       onSubmitSuccess,
+      submitButtonLabel,
     })).result;
   });
 
@@ -86,48 +117,6 @@ describe('useFormValidation', () => {
     });
   });
 
-  describe('submitForm', () => {
-    test('should handle valid input correctly', () => {
-      // Arrange
-      const input: FormType = {
-        formString: 'b',
-        formNumber: 2,
-        formOptional: undefined,
-      };
-      act(() => {
-        formValidationHook.current.formInputSetters.formString(
-          input.formString,
-        );
-        formValidationHook.current.formInputSetters.formNumber(
-          input.formNumber,
-        );
-        formValidationHook.current.formInputSetters.formOptional(
-          input.formOptional,
-        );
-      });
-
-      // Act
-      act(() => {
-        formValidationHook.current.submitForm();
-      });
-
-      // Assert
-      expect(onSubmitSuccess).toHaveBeenCalledTimes(1);
-      expect(onSubmitSuccess).toHaveBeenLastCalledWith(input);
-    });
-
-    test('should handle invalid input correctly', () => {
-      // Act
-      act(() => {
-        formValidationHook.current.submitForm();
-      });
-
-      // Assert
-      expect(onSubmitSuccess).toHaveBeenCalledTimes(0);
-      expect(formValidationHook.current.formErrors.formNumber).toBeDefined();
-    });
-  });
-
   describe('resetFormInput', () => {
     test('should set form input to default value', () => {
       // Arrange
@@ -158,33 +147,65 @@ describe('useFormValidation', () => {
     });
   });
 
-  describe('isFormInputValid', () => {
-    test('should return true for valid input', () => {
-      // Arrange
-      const input: FormType = {
-        formString: 'b',
-        formNumber: 2,
-        formOptional: undefined,
-      };
-      act(() => {
-        formValidationHook.current.formInputSetters.formString(
-          input.formString,
-        );
-        formValidationHook.current.formInputSetters.formNumber(
-          input.formNumber,
-        );
-        formValidationHook.current.formInputSetters.formOptional(
-          input.formOptional,
-        );
-      });
+  describe('FormSubmitButton', () => {
+    let renderResult: RenderResult;
 
-      // Assert
-      expect(formValidationHook.current.isFormInputValid).toBeTruthy();
+    function renderButton() {
+      const FormSubmitButton = formValidationHook.current.FormSubmitButton;
+      renderResult = render(<FormSubmitButton />);
+    }
+
+    function clickButton() {
+      const button = renderResult.container.querySelector('button')!;
+      fireEvent.click(button);
+    }
+
+    beforeEach(() => {
+      renderButton();
     });
 
-    test('should return false for invalid input', () => {
+    test('should handle submit of valid input correctly', () => {
+      // Arrange
+      validInput();
+      cleanup();
+      renderButton();
+
+      // Act
+      clickButton();
+
       // Assert
-      expect(formValidationHook.current.isFormInputValid).toBeFalsy();
+      expect(onSubmitSuccess).toHaveBeenCalledTimes(1);
+      expect(onSubmitSuccess).toHaveBeenLastCalledWith(validInputValues);
+    });
+
+    test('should handle invalid input correctly', () => {
+      // Act
+      clickButton();
+
+      // Assert
+      expect(onSubmitSuccess).toHaveBeenCalledTimes(0);
+      expect(formValidationHook.current.formErrors.formNumber).toBeDefined();
+    });
+
+    test('should match image snapshot (invalid input)', async () => {
+      // Assert
+      expect(
+        await generateImage({ viewport: viewPorts.button }),
+      ).toMatchImageSnapshot();
+    });
+
+    test('should match image snapshot (valid input)', async () => {
+      // Arrange
+      validInput();
+
+      // Act
+      cleanup();
+      renderButton();
+
+      // Assert
+      expect(
+        await generateImage({ viewport: viewPorts.button }),
+      ).toMatchImageSnapshot();
     });
   });
 });
