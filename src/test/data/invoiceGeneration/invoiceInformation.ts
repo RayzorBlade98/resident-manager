@@ -5,6 +5,7 @@ import WaterCostsBuilder from '_/test/builders/waterCosts.builder';
 
 export const invoiceStart = new MonthYear(0, 2023);
 export const invoiceEnd = new MonthYear(2, 2023);
+export const newDeductionStart = new MonthYear(4, 2023);
 
 export const property = new PropertyBuilder().withNumberOfApartments(10).build();
 export const landlord = new LandlordBuilder().build();

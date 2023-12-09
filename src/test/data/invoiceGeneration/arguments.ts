@@ -7,6 +7,7 @@ import {
   invoiceEnd,
   invoiceStart,
   landlord,
+  newDeductionStart,
   property,
   waterCosts,
 } from './invoiceInformation';
@@ -15,6 +16,7 @@ import { includedResidents, residents } from './residents';
 export const invoiceGenerationArgs = {
   start: invoiceStart,
   end: invoiceEnd,
+  newDeductionStart,
   residents,
   includedOngoingIncidentals,
   includedOneTimeIncidentals,

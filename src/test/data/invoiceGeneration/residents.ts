@@ -45,6 +45,13 @@ export const standardResident = new ResidentBuilder()
       .withIncidentals(300)
       .build(),
   )
+  .addRentInformation(
+    new RentInformationBuilder()
+      .withDueDate(new MonthYear(4, 2023))
+      .withRent(700)
+      .withIncidentals(300)
+      .build(),
+  )
   .addWaterMeterReading(
     new WaterMeterReadingBuilder()
       .withReadingDate(new MonthYear(10, 2022))

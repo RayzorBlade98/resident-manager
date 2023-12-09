@@ -3,13 +3,8 @@
 import { act, renderHook } from '@testing-library/react';
 import { range } from 'lodash';
 import { RecoilRoot } from 'recoil';
-import { expectedInvoice } from '../../test/data/invoiceGeneration/expected';
-import { invoiceEnd } from '../../test/data/invoiceGeneration/invoiceInformation';
-import {
-  includedResidents,
-  notIncludedResidents,
-  residents,
-} from '../../test/data/invoiceGeneration/residents';
+import { expectedInvoice, expectedResidentsAfterInvoiceGeneration } from '../../test/data/invoiceGeneration/expected';
+import { residents } from '../../test/data/invoiceGeneration/residents';
 import useResidentState from '../useResidentState/useResidentState';
 import useInvoiceState from './useInvoiceState';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -19,7 +14,7 @@ import InvoiceBuilder from '_/test/builders/invoice.builder';
 import useInitializedRecoilState from '_/test/hooks/useInitializedRecoilState';
 import useMergedHook from '_/test/hooks/useMergedHook';
 
-describe('useIncidentalsState', () => {
+describe('useInvoiceState', () => {
   InvoiceBuilder.setStart(new MonthYear(10, 2023));
   const invoices = range(0, 3)
     .map((_) => new InvoiceBuilder().build())
@@ -62,24 +57,6 @@ describe('useIncidentalsState', () => {
 
     test('should set resident state correctly', () => {
       // Arrange
-      const expectedResidents = [
-        ...includedResidents.map((resident) => ({
-          ...resident,
-          waterMeterReadings: resident.waterMeterReadings
-            .map((r) => ({
-              ...r,
-              wasDeductedInInvoice: true,
-            }))
-            .reverse(),
-          rentInformation: resident.rentInformation
-            .map((r) => ({
-              ...r,
-              wasDeductedInInvoice: r.dueDate <= invoiceEnd,
-            }))
-            .reverse(),
-        })),
-        ...notIncludedResidents,
-      ];
 
       const { result } = renderHook(
         () => useInitializedRecoilState({
@@ -98,7 +75,7 @@ describe('useIncidentalsState', () => {
       });
 
       // Assert
-      expect(result.current.residents).toEqual(expectedResidents);
+      expect(result.current.residents).toEqual(expectedResidentsAfterInvoiceGeneration);
     });
   });
 });

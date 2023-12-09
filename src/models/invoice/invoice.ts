@@ -25,6 +25,11 @@ export default interface Invoice {
   end: MonthYear;
 
   /**
+   * First month for which the new incidentals deduction is applied
+   */
+  newDeductionStart: MonthYear;
+
+  /**
    * Invoice information of all ongoing incidentals
    */
   ongoingIncidentalsInformation: {

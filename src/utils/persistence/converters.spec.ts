@@ -75,6 +75,7 @@ describe('convertImportedInvoices', () => {
         id: 'id',
         start: new MonthYear(9, 2023),
         end: new MonthYear(11, 2023),
+        newDeductionStart: new MonthYear(0, 2024),
         ongoingIncidentalsInformation: {
           'ongoing id': {
             incidentalsId: 'ongoing id',

@@ -27,6 +27,11 @@ export interface InvoiceGenerationArguments {
   end: MonthYear;
 
   /**
+   * First month for which the new incidentals deduction is applied
+   */
+  newDeductionStart: MonthYear;
+
+  /**
    * List of all residents
    */
   residents: Resident[];
@@ -93,6 +98,7 @@ export default function generateInvoice(
     id: uuid(),
     start: args.start,
     end: args.end,
+    newDeductionStart: args.newDeductionStart,
     ongoingIncidentalsInformation:
       incidentalsCalculations.ongoingIncidentalsInformation,
     oneTimeIncidentalsInformation:

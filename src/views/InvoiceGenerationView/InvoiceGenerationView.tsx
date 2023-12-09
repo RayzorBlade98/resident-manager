@@ -51,6 +51,7 @@ function InvoiceGenerationView() {
       const invoice = generateInvoice({
         start: viewState.formValidation.formInput.invoiceStart as MonthYear,
         end: viewState.formValidation.formInput.invoiceEnd as MonthYear,
+        newDeductionStart: viewState.formValidation.formInput.newDeductionStart as MonthYear,
         residents,
         includedOngoingIncidentals: viewState.selectedOngoingIncidentals,
         includedOneTimeIncidentals: viewState.selectedOneTimeIncidentals,

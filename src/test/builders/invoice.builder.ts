@@ -18,6 +18,7 @@ class InvoiceBuilder {
       id: uuid(),
       start: InvoiceBuilder.nextStart,
       end: InvoiceBuilder.nextStart.addMonths(1),
+      newDeductionStart: InvoiceBuilder.nextStart.addMonths(2),
       residentInformation: {},
       ongoingIncidentalsInformation: {},
       oneTimeIncidentalsInformation: {},

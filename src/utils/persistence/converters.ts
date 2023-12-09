@@ -41,6 +41,7 @@ export function convertImportedInvoices(
     ...i,
     start: MonthYear.fromString(i.start),
     end: MonthYear.fromString(i.end),
+    newDeductionStart: MonthYear.fromString(i.newDeductionStart),
     residentInformation: Object.fromEntries(
       Object.entries(i.residentInformation).map(([id, residentInformation]) => [
         id,

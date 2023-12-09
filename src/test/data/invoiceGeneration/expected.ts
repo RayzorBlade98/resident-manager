@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import {
   ongoingIncidentalsPerApartment,
   ongoingIncidentalsPerResident,
@@ -8,15 +10,21 @@ import {
   invoiceEnd,
   invoiceStart,
   landlord,
+  newDeductionStart,
   property,
   sewageCostPerCubicMeter,
   waterUsageCostPerCubicMeter,
 } from './invoiceInformation';
-import { standardResident, residentLaterInvoiceStart } from './residents';
+import {
+  standardResident,
+  residentLaterInvoiceStart,
+  notIncludedResidents,
+} from './residents';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Invoice from '_/models/invoice/invoice';
 import ResidentInvoiceInformation from '_/models/invoice/resident.invoice';
 import { Resident } from '_/models/resident/resident';
+import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 export const expectedIncidentalsCosts: Pick<
@@ -183,6 +191,7 @@ ResidentInvoiceInformation['totalCosts']
 export const expectedInvoice: Omit<Invoice, 'id'> = {
   start: invoiceStart,
   end: invoiceEnd,
+  newDeductionStart,
   ongoingIncidentalsInformation:
     expectedIncidentalsCosts.ongoingIncidentalsInformation,
   oneTimeIncidentalsInformation:
@@ -217,3 +226,54 @@ function getExpectedResidentInformation(
     totalCosts: expectedTotalCosts[resident.id],
   };
 }
+
+export const expectedResidentsAfterInvoiceGeneration: Resident[] = [
+  {
+    ...standardResident,
+    rentInformation: [
+      ...standardResident.rentInformation
+        .slice(0, -2)
+        .map((r) => ({ ...r, wasDeductedInInvoice: true })),
+      standardResident.rentInformation.at(-2)!,
+      {
+        ...standardResident.rentInformation.at(-1)!,
+        incidentals:
+          expectedTotalCosts[standardResident.id].newIncidentalsDeduction,
+        wasDeductedInInvoice: false,
+      },
+    ].reverse(),
+    waterMeterReadings: standardResident.waterMeterReadings
+      .map((r) => ({
+        ...r,
+        wasDeductedInInvoice: true,
+      }))
+      .reverse(),
+  },
+  {
+    ...residentLaterInvoiceStart,
+    rentInformation: [
+      ...residentLaterInvoiceStart.rentInformation
+        .slice(0, -1)
+        .map((r) => ({
+          ...r,
+          wasDeductedInInvoice: true,
+        })),
+      residentLaterInvoiceStart.rentInformation.at(-1)!,
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(4, 2023))
+        .withRent(700)
+        .withIncidentals(
+          expectedTotalCosts[residentLaterInvoiceStart.id]
+            .newIncidentalsDeduction,
+        )
+        .build(),
+    ].reverse(),
+    waterMeterReadings: residentLaterInvoiceStart.waterMeterReadings
+      .map((r) => ({
+        ...r,
+        wasDeductedInInvoice: true,
+      }))
+      .reverse(),
+  },
+  ...notIncludedResidents,
+];
