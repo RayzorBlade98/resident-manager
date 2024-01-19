@@ -1,6 +1,6 @@
 {
   "name": "resident-manager",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "TODO",
   "main": "./dist/main.bundle.js",
   "scripts": {
@@ -21,8 +21,8 @@
     "build:mac": "npm run prod && electron-builder build --mac"
   },
   "build": {
-    "appId": "TODO",
-    "productName": "TODO",
+    "appId": "resident-manager",
+    "productName": "Mieterverwaltung",
     "directories": {
       "app": "./dist/",
       "output": "./out/"
@@ -45,8 +45,7 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    },
-    "buildVersion": "1"
+    }
   },
   "author": "André Schweizer @RayzorBlade98",
   "license": "MIT",
