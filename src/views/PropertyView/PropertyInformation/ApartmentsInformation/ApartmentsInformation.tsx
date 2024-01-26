@@ -1,7 +1,8 @@
 import React from 'react';
+import ApartmentTable from './ApartmentTable/ApartmentTable';
 
 function ApartmentsInformation() {
-  return <p>Apartments</p>;
+  return <ApartmentTable />;
 }
 
 export default ApartmentsInformation;

@@ -3,6 +3,11 @@
  */
 interface Apartment {
   /**
+   * Unique id of the apartment
+   */
+  id: string;
+
+  /**
    * Floor in which the apartment is located
    */
   floor: string;
@@ -13,24 +18,9 @@ interface Apartment {
   location: string;
 
   /**
-   * List of all rooms of the apartment
+   * Number of rooms in the apartment (excluding bath, kitchen etc.)
    */
-  rooms: Room[];
-}
-
-/**
- * Object containing information about a type of room inside an apartment
- */
-interface Room {
-  /**
-   * Name of the room type
-   */
-  name: string;
-
-  /**
-   * Number of rooms of this type that are contained in the apartment
-   */
-  quantity: number;
+  rooms: number;
 }
 
 export default Apartment;

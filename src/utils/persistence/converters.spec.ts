@@ -236,32 +236,16 @@ describe('convertImportedProperty', () => {
       },
       apartments: [
         {
+          id: 'id1',
           floor: 'EG',
           location: 'left',
-          rooms: [
-            {
-              name: 'Room',
-              quantity: 3,
-            },
-            {
-              name: 'kitchen',
-              quantity: 1,
-            },
-          ],
+          rooms: 3,
         },
         {
+          id: 'id2',
           floor: 'EG',
           location: 'right',
-          rooms: [
-            {
-              name: 'Room',
-              quantity: 2,
-            },
-            {
-              name: 'bathroom',
-              quantity: 1,
-            },
-          ],
+          rooms: 2,
         },
       ],
     };

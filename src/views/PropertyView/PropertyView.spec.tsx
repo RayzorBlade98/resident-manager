@@ -10,6 +10,7 @@ import App from '_/renderer/App';
 import propertyState from '_/states/property/property.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import AddressBuilder from '_/test/builders/address.builder';
+import ApartmentBuilder from '_/test/builders/apartment.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 
 describe('ResidentView', () => {
@@ -26,6 +27,20 @@ describe('ResidentView', () => {
         .withHouseNumber(42)
         .withZipCode(424242)
         .withCity('Teststadt')
+        .build(),
+    )
+    .addApartment(
+      new ApartmentBuilder()
+        .withFloor('EG')
+        .withLocation('left')
+        .withRooms(3)
+        .build(),
+    )
+    .addApartment(
+      new ApartmentBuilder()
+        .withFloor('EG')
+        .withLocation('right')
+        .withRooms(4)
         .build(),
     )
     .build();
