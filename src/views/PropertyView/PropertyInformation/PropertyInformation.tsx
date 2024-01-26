@@ -17,6 +17,9 @@ const styles = {
   tabsBox: { borderBottom: 1, borderColor: 'divider' },
 };
 
+/**
+ * Component that displays information of the property in different tabs.
+ */
 function PropertyInformation() {
   const [activeTab, setActiveTab] = useState<PropertyTab>(PropertyTab.General);
 

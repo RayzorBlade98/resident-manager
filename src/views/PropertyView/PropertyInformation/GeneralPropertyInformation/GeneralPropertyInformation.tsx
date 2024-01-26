@@ -1,9 +1,11 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
-import propertyState from '_/states/property/property.state';
+import usePropertyState from '_/hooks/usePropertyState/usePropertyState';
 
+/**
+ * Component that displays general information about the property
+ */
 function GeneralPropertyInformation() {
-  const property = useRecoilValue(propertyState);
+  const { property } = usePropertyState();
 
   return (
     <>
