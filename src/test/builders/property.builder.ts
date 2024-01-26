@@ -9,6 +9,7 @@ class PropertyBuilder {
     this.property = {
       numberOfApartments: 8,
       address: new AddressBuilder().build(),
+      apartments: [],
     };
   }
 

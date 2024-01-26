@@ -1,4 +1,5 @@
 import Address from '../address';
+import Apartment from './apartment';
 
 /**
  * Object containing information about a property
@@ -12,7 +13,12 @@ interface Property {
   /**
    * Address of the property
    */
-  address: Address
+  address: Address;
+
+  /**
+   * List of all apartments that are in the property
+   */
+  apartments: Apartment[];
 }
 
 export default Property;

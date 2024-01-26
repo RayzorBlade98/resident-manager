@@ -51,6 +51,7 @@ function InitializationButton(): JSX.Element {
         houseNumber: formValidationState.formInput
           .houseNumberProperty as number,
       },
+      apartments: [],
     });
     setWaterCostState({
       waterUsageCosts: [
