@@ -1,7 +1,5 @@
-import {
-  FormControl, InputLabel, MenuItem, Select,
-} from '@mui/material';
 import React from 'react';
+import SelectField from '../SelectField/SelectField';
 import { Salutation } from '_/models/name';
 
 interface SalutationSelectProps {
@@ -21,24 +19,18 @@ interface SalutationSelectProps {
  */
 function SalutationSelect(props: SalutationSelectProps): JSX.Element {
   return (
-    <FormControl fullWidth>
-      <InputLabel id="salutationLabel">Anrede</InputLabel>
-      <Select
-        required
-        fullWidth
-        labelId="salutationLabel"
-        id="salutation"
-        label="Anrede"
-        value={props.value}
-        onChange={(event) => props.onChange(event.target.value as Salutation)}
-      >
-        {Object.values(Salutation).map((type) => (
-          <MenuItem key={type} value={type}>
-            {type}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <SelectField
+      required
+      id="salutation"
+      label="Anrede"
+      value={props.value}
+      onChange={props.onChange}
+      values={
+        Object.fromEntries(
+          Object.values(Salutation).map((s) => [s, s]),
+        ) as Record<Salutation, Salutation>
+      }
+    />
   );
 }
 
