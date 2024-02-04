@@ -47,15 +47,13 @@ describe('CreateApartmentModal', () => {
   beforeEach(() => {
     jest.spyOn(usePropertyStateModule, 'default').mockReturnValue({
       property: new PropertyBuilder().build(),
+      emptyApartments: [],
       addApartment: addApartmentMock,
     });
 
     baseElement = render(
       <ReactTestWrapper>
-        <CreateApartmentModal
-          showModal
-          onCloseModal={onCloseModalMock}
-        />
+        <CreateApartmentModal showModal onCloseModal={onCloseModalMock} />
       </ReactTestWrapper>,
     ).baseElement;
   });

@@ -15,7 +15,7 @@ export interface Resident {
   /**
    * Name of the resident
    */
-  name: Name
+  name: Name;
 
   /**
    * Number of residents living in the appartment
@@ -36,4 +36,9 @@ export interface Resident {
    * First month and year of the rental contract
    */
   contractStart: MonthYear;
+
+  /**
+   * Id of the apartment the resident lives in
+   */
+  apartmentId: string;
 }

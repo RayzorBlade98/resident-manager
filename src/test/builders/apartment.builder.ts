@@ -28,6 +28,11 @@ class ApartmentBuilder {
     return this;
   }
 
+  public withId(id: string): ApartmentBuilder {
+    this.apartment.id = id;
+    return this;
+  }
+
   public build(): Apartment {
     return this.apartment;
   }

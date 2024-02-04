@@ -211,6 +211,7 @@ describe('convertImportedResidents', () => {
           },
         ],
         contractStart: new MonthYear(9, 2023),
+        apartmentId: 'apartment1',
       } as Resident,
     ];
     const residentsJson = JSON.parse(JSON.stringify(residents));

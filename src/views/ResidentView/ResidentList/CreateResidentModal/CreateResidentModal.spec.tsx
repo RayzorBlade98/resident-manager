@@ -1,16 +1,29 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
+import { setRecoil } from 'recoil-nexus';
 import CreateResidentModal from './CreateResidentModal';
 import MonthYear from '_/extensions/date/month_year.extension';
 import * as useResidentStateModule from '_/hooks/useResidentState/useResidentState';
 import { Salutation } from '_/models/name';
+import propertyState from '_/states/property/property.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import ApartmentBuilder from '_/test/builders/apartment.builder';
+import PropertyBuilder from '_/test/builders/property.builder';
 
 describe('CreateResidentModal', () => {
   let baseElement: HTMLElement;
   const addResidentSpy = jest.fn();
   const onCloseModalMock = jest.fn();
+  const property = new PropertyBuilder()
+    .addApartment(
+      new ApartmentBuilder()
+        .withFloor('1 OG')
+        .withLocation('left')
+        .withRooms(3)
+        .build(),
+    )
+    .build();
 
   const validInputValues = {
     salutation: Salutation.Male,
@@ -81,7 +94,9 @@ describe('CreateResidentModal', () => {
     });
 
     baseElement = render(
-      <ReactTestWrapper>
+      <ReactTestWrapper
+        initializationFunction={() => setRecoil(propertyState, property)}
+      >
         <CreateResidentModal showModal onCloseModal={onCloseModalMock} />
       </ReactTestWrapper>,
     ).baseElement;
@@ -151,6 +166,7 @@ describe('CreateResidentModal', () => {
             wasDeductedInInvoice: true,
           },
         ],
+        apartmentId: property.apartments[0].id,
       }),
     );
   });

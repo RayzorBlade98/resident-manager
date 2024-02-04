@@ -17,6 +17,7 @@ class ResidentBuilder {
       rentInformation: [],
       contractStart: new MonthYear(2, 2023),
       waterMeterReadings: [],
+      apartmentId: '',
     };
   }
 
@@ -47,6 +48,11 @@ class ResidentBuilder {
 
   public addWaterMeterReading(reading: WaterMeterReading): ResidentBuilder {
     this.resident.waterMeterReadings.push(reading);
+    return this;
+  }
+
+  public withApartment(apartmentId: string): ResidentBuilder {
+    this.resident.apartmentId = apartmentId;
     return this;
   }
 

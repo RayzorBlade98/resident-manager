@@ -2,14 +2,17 @@ import { Grid, TextField } from '@mui/material';
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import GenericModal from '../../../../components/generic/GenericModal/GenericModal';
+import { convertApartmentToDisplayString } from '../../../../utils/apartment/apartment.utils';
 import RentInformationUtils from '../../../../utils/rent/rent.utils';
 import { ValidationConstraint } from '../../../../utils/validation/constraints';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
 import MonthYearDateField from '_/components/form/MonthYearDateField/MonthYearDateField';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 import SalutationSelect from '_/components/form/SalutationSelect/SalutationSelect';
+import SelectField from '_/components/form/SelectField/SelectField';
 import MonthYear from '_/extensions/date/month_year.extension';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
+import usePropertyState from '_/hooks/usePropertyState/usePropertyState';
 import useResidentState from '_/hooks/useResidentState/useResidentState';
 import { Salutation } from '_/models/name';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
@@ -70,6 +73,11 @@ interface CreateResidentInput {
    * Number of residents living in the appartment
    */
   numberOfResidents: number;
+
+  /**
+   *
+   */
+  apartmentId: string;
 }
 
 /**
@@ -77,6 +85,7 @@ interface CreateResidentInput {
  */
 function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
   const { addResident } = useResidentState();
+  const { emptyApartments } = usePropertyState();
   const {
     formInput,
     formErrors,
@@ -92,6 +101,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
       contractStart: ValidationConstraint.Defined,
       waterMeter: ValidationConstraint.Defined,
       numberOfResidents: ValidationConstraint.Defined,
+      apartmentId: ValidationConstraint.Defined,
     }),
     defaultFormInput: {
       salutation: Salutation.Male,
@@ -102,6 +112,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
       contractStart: new MonthYear(),
       waterMeter: undefined,
       numberOfResidents: undefined,
+      apartmentId: emptyApartments.at(0)?.id,
     },
     onSubmitSuccess: (values) => {
       addResident({
@@ -126,6 +137,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
             wasDeductedInInvoice: true,
           },
         ],
+        apartmentId: values.apartmentId,
       });
       props.onCloseModal();
     },
@@ -223,6 +235,22 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
             value={formInput.contractStart}
             onChange={formInputSetters.contractStart}
             errorMessage={formErrors.contractStart}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <SelectField
+            required
+            id="apartmentId"
+            label="Wohnung"
+            value={formInput.apartmentId}
+            onChange={formInputSetters.apartmentId}
+            errorMessage={formErrors.apartmentId}
+            values={Object.fromEntries(
+              emptyApartments.map((apartment) => [
+                apartment.id,
+                convertApartmentToDisplayString(apartment),
+              ]),
+            )}
           />
         </Grid>
       </Grid>
