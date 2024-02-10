@@ -6,7 +6,10 @@ import usePreviousValue from '../usePreviousValue';
 import OptionallyDefined from '_/types/OptionallyDefined';
 import Validator from '_/utils/validation/validator';
 
-interface FormValidationArguments<T extends object> {
+/**
+ * Arguments of the useFormValidation function
+ */
+export interface FormValidationArguments<T extends object> {
   /**
    * Validator that validates the form input
    */

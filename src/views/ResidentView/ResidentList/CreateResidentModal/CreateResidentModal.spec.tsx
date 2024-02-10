@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+
 import { act, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
@@ -56,27 +58,50 @@ describe('CreateResidentModal', () => {
     waterMeter: number | undefined;
     numberOfResidents: number | undefined;
   }) {
-    const inputFields = baseElement.querySelectorAll('input');
-    const inputs = [
-      inputValues.firstName,
-      inputValues.lastName,
-      inputValues.rent ? (inputValues.rent / 100).toString() : undefined,
-      inputValues.incidentals
-        ? (inputValues.incidentals / 100).toString()
-        : undefined,
-      inputValues.numberOfResidents?.toString(),
-      inputValues.waterMeter?.toString(),
-      inputValues.contractStart?.toPreferredString().slice(3) ?? '',
-    ];
+    function input(element: Element | null, value: string | undefined) {
+      if (!element) {
+        throw new Error(`Missing element for value ${value}`);
+      }
+      fireEvent.change(element, {
+        target: { value },
+      });
+    }
+
+    const tabs = baseElement.querySelectorAll('.MuiTab-root');
+
     act(() => {
-      inputs.forEach((input, i) => fireEvent.change(inputFields.item(i + 1), {
-        target: { value: input },
-      }));
+      fireEvent.click(tabs.item(0));
+      input(baseElement.querySelector('#firstName'), inputValues.firstName);
+      input(baseElement.querySelector('#lastName'), inputValues.lastName);
+      input(
+        baseElement.querySelector('#numberOfResidents'),
+        inputValues.numberOfResidents?.toString(),
+      );
+      input(
+        baseElement.querySelector('#contractStart'),
+        inputValues.contractStart?.toPreferredString().slice(3) ?? '',
+      );
+
+      fireEvent.click(tabs.item(1));
+      input(
+        baseElement.querySelector('#rent'),
+        inputValues.rent ? (inputValues.rent / 100).toString() : undefined,
+      );
+      input(
+        baseElement.querySelector('#incidentals'),
+        inputValues.incidentals
+          ? (inputValues.incidentals / 100).toString()
+          : undefined,
+      );
+      input(
+        baseElement.querySelector('#waterMeter'),
+        inputValues.waterMeter?.toString(),
+      );
     });
   }
 
   function submitForm() {
-    const button = baseElement.querySelectorAll('button').item(1);
+    const button = baseElement.querySelector('.MuiButton-contained')!;
     act(() => {
       fireEvent.click(button);
     });
@@ -107,9 +132,14 @@ describe('CreateResidentModal', () => {
     inputToForm(validInputValues);
 
     // Assert
-    expect(
-      await generateImage({ viewport: { width: 650, height: 600 } }),
-    ).toMatchImageSnapshot();
+    const tabs = baseElement.querySelectorAll('.MuiTab-root');
+
+    for (const tab of tabs) {
+      fireEvent.click(tab);
+      expect(
+        await generateImage({ viewport: { width: 650, height: 600 } }),
+      ).toMatchImageSnapshot();
+    }
   });
 
   test('should match image snapshot (invalid inputs)', async () => {
@@ -118,9 +148,14 @@ describe('CreateResidentModal', () => {
     submitForm();
 
     // Assert
-    expect(
-      await generateImage({ viewport: { width: 650, height: 650 } }),
-    ).toMatchImageSnapshot();
+    const tabs = baseElement.querySelectorAll('.MuiTab-root');
+
+    for (const tab of tabs) {
+      fireEvent.click(tab);
+      expect(
+        await generateImage({ viewport: { width: 650, height: 600 } }),
+      ).toMatchImageSnapshot();
+    }
   });
 
   test('should add incidentals on submit', () => {

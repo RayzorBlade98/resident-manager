@@ -1,11 +1,16 @@
 import { Grid, TextField } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 import GenericModal from '../../../../components/generic/GenericModal/GenericModal';
 import { convertApartmentToDisplayString } from '../../../../utils/apartment/apartment.utils';
 import RentInformationUtils from '../../../../utils/rent/rent.utils';
-import { ValidationConstraint } from '../../../../utils/validation/constraints';
+import {
+  CreateResidentGroups,
+  CreateResidentInput,
+  getCreateResidentModalConfig,
+} from './CreateResidentModal.config';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
+import GroupedForm from '_/components/form/GroupedForm/GroupedForm';
 import MonthYearDateField from '_/components/form/MonthYearDateField/MonthYearDateField';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 import SalutationSelect from '_/components/form/SalutationSelect/SalutationSelect';
@@ -15,8 +20,6 @@ import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import usePropertyState from '_/hooks/usePropertyState/usePropertyState';
 import useResidentState from '_/hooks/useResidentState/useResidentState';
 import { Salutation } from '_/models/name';
-import { CurrencyInCents } from '_/utils/currency/currency.utils';
-import Validator from '_/utils/validation/validator';
 
 interface CreateResidentModalProps {
   /**
@@ -31,61 +34,17 @@ interface CreateResidentModalProps {
 }
 
 /**
- * All values that can be submitted in the form
- */
-interface CreateResidentInput {
-  /**
-   * Salutation of the new resident
-   */
-  salutation: Salutation;
-
-  /**
-   * First name of the new resident
-   */
-  firstName: string;
-
-  /**
-   * Last name of the new resident
-   */
-  lastName: string;
-
-  /**
-   * Rent that the new resident needs to pay
-   */
-  rent: CurrencyInCents;
-
-  /**
-   * Incidentals that the new resident needs to pay
-   */
-  incidentals: CurrencyInCents;
-
-  /**
-   * First month and year the contract of the new resident starts
-   */
-  contractStart: MonthYear;
-
-  /**
-   * Current water meter count
-   */
-  waterMeter: number;
-
-  /**
-   * Number of residents living in the appartment
-   */
-  numberOfResidents: number;
-
-  /**
-   *
-   */
-  apartmentId: string;
-}
-
-/**
  * Modal that contains an input form to create a new resident.
  */
 function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
   const { addResident } = useResidentState();
   const { emptyApartments } = usePropertyState();
+
+  const { formValidationConfig, formGroupConfig } = useMemo(
+    () => getCreateResidentModalConfig({ emptyApartments }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
   const {
     formInput,
     formErrors,
@@ -93,27 +52,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
     resetFormInput,
     FormSubmitButton,
   } = useFormValidation<CreateResidentInput>({
-    formValidator: new Validator<CreateResidentInput>({
-      firstName: ValidationConstraint.NoEmptyString,
-      lastName: ValidationConstraint.NoEmptyString,
-      rent: ValidationConstraint.Currency,
-      incidentals: ValidationConstraint.Currency,
-      contractStart: ValidationConstraint.Defined,
-      waterMeter: ValidationConstraint.Defined,
-      numberOfResidents: ValidationConstraint.Defined,
-      apartmentId: ValidationConstraint.Defined,
-    }),
-    defaultFormInput: {
-      salutation: Salutation.Male,
-      firstName: '',
-      lastName: '',
-      rent: undefined,
-      incidentals: undefined,
-      contractStart: new MonthYear(),
-      waterMeter: undefined,
-      numberOfResidents: undefined,
-      apartmentId: emptyApartments.at(0)?.id,
-    },
+    ...formValidationConfig,
     onSubmitSuccess: (values) => {
       addResident({
         id: uuid(),
@@ -141,7 +80,6 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
       });
       props.onCloseModal();
     },
-    submitButtonLabel: 'Erstellen',
   });
 
   return (
@@ -154,106 +92,121 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
       }}
     >
       {/* Body */}
-      <Grid container columnSpacing={2} rowSpacing={2}>
-        <Grid item xs={6}>
-          <SalutationSelect
-            value={formInput.salutation as Salutation}
-            onChange={formInputSetters.salutation}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            required
-            id="firstName"
-            label="Vorname"
-            variant="outlined"
-            value={formInput.firstName}
-            onChange={(event) => formInputSetters.firstName(event.target.value)}
-            error={!!formErrors.firstName}
-            helperText={formErrors.firstName}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            required
-            id="lastName"
-            label="Nachname"
-            variant="outlined"
-            value={formInput.lastName}
-            onChange={(event) => formInputSetters.lastName(event.target.value)}
-            error={!!formErrors.lastName}
-            helperText={formErrors.lastName}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CurrencyInputField
-            required
-            id="rent"
-            label="Miete"
-            value={formInput.rent}
-            onChange={formInputSetters.rent}
-            errorMessage={formErrors.rent}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CurrencyInputField
-            required
-            id="incidentals"
-            label="Nebenkosten"
-            value={formInput.incidentals}
-            onChange={formInputSetters.incidentals}
-            errorMessage={formErrors.incidentals}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <NumberTextField
-            required
-            id="numberOfResidents"
-            label="Anzahl der Mieter"
-            min={1}
-            value={formInput.numberOfResidents}
-            onChange={formInputSetters.numberOfResidents}
-            errorMessage={formErrors.numberOfResidents}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <NumberTextField
-            required
-            id="waterMeter"
-            label="Wasserzählerstand"
-            min={1}
-            value={formInput.waterMeter}
-            onChange={formInputSetters.waterMeter}
-            errorMessage={formErrors.waterMeter}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <MonthYearDateField
-            required
-            id="contractStart"
-            label="Vertragsbeginn"
-            value={formInput.contractStart}
-            onChange={formInputSetters.contractStart}
-            errorMessage={formErrors.contractStart}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <SelectField
-            required
-            id="apartmentId"
-            label="Wohnung"
-            value={formInput.apartmentId}
-            onChange={formInputSetters.apartmentId}
-            errorMessage={formErrors.apartmentId}
-            values={Object.fromEntries(
-              emptyApartments.map((apartment) => [
-                apartment.id,
-                convertApartmentToDisplayString(apartment),
-              ]),
-            )}
-          />
-        </Grid>
-      </Grid>
+      <GroupedForm<CreateResidentInput, CreateResidentGroups>
+        {...formGroupConfig}
+        formErrors={formErrors}
+      >
+        {({ containers }) => (
+          <>
+            <containers.resident>
+              <Grid container columnSpacing={2} rowSpacing={2}>
+                <Grid item xs={6}>
+                  <SalutationSelect
+                    value={formInput.salutation as Salutation}
+                    onChange={formInputSetters.salutation}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    id="firstName"
+                    label="Vorname"
+                    variant="outlined"
+                    value={formInput.firstName}
+                    onChange={(event) => formInputSetters.firstName(event.target.value)}
+                    error={!!formErrors.firstName}
+                    helperText={formErrors.firstName}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    id="lastName"
+                    label="Nachname"
+                    variant="outlined"
+                    value={formInput.lastName}
+                    onChange={(event) => formInputSetters.lastName(event.target.value)}
+                    error={!!formErrors.lastName}
+                    helperText={formErrors.lastName}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <NumberTextField
+                    required
+                    id="numberOfResidents"
+                    label="Anzahl der Mieter"
+                    min={1}
+                    value={formInput.numberOfResidents}
+                    onChange={formInputSetters.numberOfResidents}
+                    errorMessage={formErrors.numberOfResidents}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <MonthYearDateField
+                    required
+                    id="contractStart"
+                    label="Vertragsbeginn"
+                    value={formInput.contractStart}
+                    onChange={formInputSetters.contractStart}
+                    errorMessage={formErrors.contractStart}
+                  />
+                </Grid>
+              </Grid>
+            </containers.resident>
+            <containers.apartment>
+              <Grid container columnSpacing={2} rowSpacing={2}>
+                <Grid item xs={6}>
+                  <SelectField
+                    required
+                    id="apartmentId"
+                    label="Wohnung"
+                    value={formInput.apartmentId}
+                    onChange={formInputSetters.apartmentId}
+                    errorMessage={formErrors.apartmentId}
+                    values={Object.fromEntries(
+                      emptyApartments.map((apartment) => [
+                        apartment.id,
+                        convertApartmentToDisplayString(apartment),
+                      ]),
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <CurrencyInputField
+                    required
+                    id="rent"
+                    label="Miete"
+                    value={formInput.rent}
+                    onChange={formInputSetters.rent}
+                    errorMessage={formErrors.rent}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <CurrencyInputField
+                    required
+                    id="incidentals"
+                    label="Nebenkosten"
+                    value={formInput.incidentals}
+                    onChange={formInputSetters.incidentals}
+                    errorMessage={formErrors.incidentals}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <NumberTextField
+                    required
+                    id="waterMeter"
+                    label="Wasserzählerstand"
+                    min={1}
+                    value={formInput.waterMeter}
+                    onChange={formInputSetters.waterMeter}
+                    errorMessage={formErrors.waterMeter}
+                  />
+                </Grid>
+              </Grid>
+            </containers.apartment>
+          </>
+        )}
+      </GroupedForm>
 
       {/* Footer */}
       <FormSubmitButton />
