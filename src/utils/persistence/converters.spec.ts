@@ -13,7 +13,6 @@ import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
 import Landlord from '_/models/landlord/landlord';
 import { Salutation } from '_/models/name';
-import { Resident } from '_/models/resident/resident';
 import { IncidentalsState } from '_/states/incidentals/incidentals.state';
 import { InvoiceState } from '_/states/invoice/invoice.state';
 import { PropertyState } from '_/states/property/property.state';
@@ -212,7 +211,14 @@ describe('convertImportedResidents', () => {
         ],
         contractStart: new MonthYear(9, 2023),
         apartmentId: 'apartment1',
-      } as Resident,
+        keys: {
+          apartment: 1,
+          basement: 2,
+          attic: 3,
+          frontDoor: 4,
+          mailbox: 5,
+        },
+      },
     ];
     const residentsJson = JSON.parse(JSON.stringify(residents));
 

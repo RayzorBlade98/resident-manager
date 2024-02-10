@@ -41,4 +41,34 @@ export interface Resident {
    * Id of the apartment the resident lives in
    */
   apartmentId: string;
+
+  /**
+   * Information about the keys the resident has
+   */
+  keys: {
+    /**
+     * Number of apartment keys the resident has
+     */
+    apartment: number;
+
+    /**
+     * Number of basement keys the resident has
+     */
+    basement: number;
+
+    /**
+     * Number of attic keys the resident has
+     */
+    attic: number;
+
+    /**
+     * Number of front door keys the resident has
+     */
+    frontDoor: number;
+
+    /**
+     * Number of mailbox keys the resident has
+     */
+    mailbox: number;
+  }
 }

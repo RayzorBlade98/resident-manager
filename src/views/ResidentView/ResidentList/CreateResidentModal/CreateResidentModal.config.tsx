@@ -1,4 +1,5 @@
 import HomeIcon from '@mui/icons-material/Home';
+import KeyIcon from '@mui/icons-material/Key';
 import PersonIcon from '@mui/icons-material/Person';
 import React from 'react';
 import { ValidationConstraint } from '../../../../utils/validation/constraints';
@@ -55,15 +56,40 @@ export interface CreateResidentInput {
   numberOfResidents: number;
 
   /**
-   *
+   * Id of the apartment the resident lives in
    */
   apartmentId: string;
+
+  /**
+   * Number of apartment keys the resident has
+   */
+  apartmentKeys: number;
+
+  /**
+   * Number of basement keys the resident has
+   */
+  basementKeys: number;
+
+  /**
+   * Number of attic keys the resident has
+   */
+  atticKeys: number;
+
+  /**
+   * Number of front door keys the resident has
+   */
+  frontDoorKeys: number;
+
+  /**
+   * Number of mailbox keys the resident has
+   */
+  mailboxKeys: number;
 }
 
 /**
  * All groups of the form
  */
-export type CreateResidentGroups = 'resident' | 'apartment';
+export type CreateResidentGroups = 'resident' | 'apartment' | 'keys';
 
 /**
  * Returns all configs for the create resident modal
@@ -92,6 +118,11 @@ export function getCreateResidentModalConfig(args: {
         waterMeter: ValidationConstraint.Defined,
         numberOfResidents: ValidationConstraint.Defined,
         apartmentId: ValidationConstraint.Defined,
+        apartmentKeys: ValidationConstraint.Defined,
+        basementKeys: ValidationConstraint.Defined,
+        atticKeys: ValidationConstraint.Defined,
+        frontDoorKeys: ValidationConstraint.Defined,
+        mailboxKeys: ValidationConstraint.Defined,
       }),
       defaultFormInput: {
         salutation: Salutation.Male,
@@ -103,6 +134,11 @@ export function getCreateResidentModalConfig(args: {
         waterMeter: undefined,
         numberOfResidents: undefined,
         apartmentId: args.emptyApartments.at(0)?.id,
+        apartmentKeys: undefined,
+        basementKeys: undefined,
+        atticKeys: undefined,
+        frontDoorKeys: undefined,
+        mailboxKeys: undefined,
       },
       submitButtonLabel: 'Erstellen',
     },
@@ -117,6 +153,11 @@ export function getCreateResidentModalConfig(args: {
         incidentals: 'apartment',
         waterMeter: 'apartment',
         apartmentId: 'apartment',
+        apartmentKeys: 'keys',
+        basementKeys: 'keys',
+        atticKeys: 'keys',
+        frontDoorKeys: 'keys',
+        mailboxKeys: 'keys',
       },
       groupConfigs: {
         resident: {
@@ -130,6 +171,13 @@ export function getCreateResidentModalConfig(args: {
           label: 'Wohnung',
           icon: {
             component: <HomeIcon />,
+            iconPosition: 'start',
+          },
+        },
+        keys: {
+          label: 'Schlüssel',
+          icon: {
+            component: <KeyIcon />,
             iconPosition: 'start',
           },
         },

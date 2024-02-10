@@ -77,6 +77,13 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
           },
         ],
         apartmentId: values.apartmentId,
+        keys: {
+          apartment: values.apartmentKeys,
+          basement: values.basementKeys,
+          attic: values.atticKeys,
+          frontDoor: values.frontDoorKeys,
+          mailbox: values.mailboxKeys,
+        },
       });
       props.onCloseModal();
     },
@@ -204,6 +211,65 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                 </Grid>
               </Grid>
             </containers.apartment>
+            <containers.keys>
+              <Grid container columnSpacing={2} rowSpacing={2}>
+                <Grid item xs={6}>
+                  <NumberTextField
+                    required
+                    id="apartmentKeys"
+                    label="Wohnungsschlüssel"
+                    min={0}
+                    value={formInput.apartmentKeys}
+                    onChange={formInputSetters.apartmentKeys}
+                    errorMessage={formErrors.apartmentKeys}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <NumberTextField
+                    required
+                    id="basementKeys"
+                    label="Kellerschlüssel"
+                    min={0}
+                    value={formInput.basementKeys}
+                    onChange={formInputSetters.basementKeys}
+                    errorMessage={formErrors.basementKeys}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <NumberTextField
+                    required
+                    id="atticKeys"
+                    label="Dachbodenschlüssel"
+                    min={0}
+                    value={formInput.atticKeys}
+                    onChange={formInputSetters.atticKeys}
+                    errorMessage={formErrors.atticKeys}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <NumberTextField
+                    required
+                    id="frontDoorKeys"
+                    label="Haustürschlüssel"
+                    min={0}
+                    value={formInput.frontDoorKeys}
+                    onChange={formInputSetters.frontDoorKeys}
+                    errorMessage={formErrors.frontDoorKeys}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <NumberTextField
+                    required
+                    id="mailboxKeys"
+                    label="Briefkastenschlüssel"
+                    min={0}
+                    value={formInput.mailboxKeys}
+                    onChange={formInputSetters.mailboxKeys}
+                    errorMessage={formErrors.mailboxKeys}
+                  />
+                </Grid>
+              </Grid>
+            </containers.keys>
           </>
         )}
       </GroupedForm>

@@ -36,6 +36,11 @@ describe('CreateResidentModal', () => {
     contractStart: new MonthYear(0, 2024),
     waterMeter: 12345,
     numberOfResidents: 5,
+    apartmentKeys: 1,
+    basementKeys: 2,
+    atticKeys: 3,
+    frontDoorKeys: 4,
+    mailboxKeys: 5,
   };
 
   const invalidInputValues = {
@@ -47,6 +52,11 @@ describe('CreateResidentModal', () => {
     contractStart: undefined,
     waterMeter: undefined,
     numberOfResidents: undefined,
+    apartmentKeys: undefined,
+    basementKeys: undefined,
+    atticKeys: undefined,
+    frontDoorKeys: undefined,
+    mailboxKeys: undefined,
   };
 
   function inputToForm(inputValues: {
@@ -57,6 +67,11 @@ describe('CreateResidentModal', () => {
     contractStart: MonthYear | undefined;
     waterMeter: number | undefined;
     numberOfResidents: number | undefined;
+    apartmentKeys: number | undefined;
+    basementKeys: number | undefined;
+    atticKeys: number | undefined;
+    frontDoorKeys: number | undefined;
+    mailboxKeys: number | undefined;
   }) {
     function input(element: Element | null, value: string | undefined) {
       if (!element) {
@@ -96,6 +111,28 @@ describe('CreateResidentModal', () => {
       input(
         baseElement.querySelector('#waterMeter'),
         inputValues.waterMeter?.toString(),
+      );
+
+      fireEvent.click(tabs.item(2));
+      input(
+        baseElement.querySelector('#apartmentKeys'),
+        inputValues.apartmentKeys?.toString(),
+      );
+      input(
+        baseElement.querySelector('#basementKeys'),
+        inputValues.basementKeys?.toString(),
+      );
+      input(
+        baseElement.querySelector('#atticKeys'),
+        inputValues.atticKeys?.toString(),
+      );
+      input(
+        baseElement.querySelector('#frontDoorKeys'),
+        inputValues.frontDoorKeys?.toString(),
+      );
+      input(
+        baseElement.querySelector('#mailboxKeys'),
+        inputValues.mailboxKeys?.toString(),
       );
     });
   }
@@ -202,6 +239,13 @@ describe('CreateResidentModal', () => {
           },
         ],
         apartmentId: property.apartments[0].id,
+        keys: {
+          apartment: validInputValues.apartmentKeys,
+          basement: validInputValues.basementKeys,
+          attic: validInputValues.atticKeys,
+          frontDoor: validInputValues.frontDoorKeys,
+          mailbox: validInputValues.mailboxKeys,
+        },
       }),
     );
   });

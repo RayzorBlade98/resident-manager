@@ -18,6 +18,13 @@ class ResidentBuilder {
       contractStart: new MonthYear(2, 2023),
       waterMeterReadings: [],
       apartmentId: '',
+      keys: {
+        apartment: 1,
+        basement: 1,
+        attic: 1,
+        frontDoor: 1,
+        mailbox: 1,
+      },
     };
   }
 
