@@ -35,6 +35,11 @@ const ipcAPI = {
     ipcCommands.generateInvoicePdfs,
     invoice,
   ) as Promise<void>,
+
+  /**
+   * Generates the contract as pdf file
+   */
+  generateContractPdf: () => ipcRenderer.invoke(ipcCommands.generateContractPdf) as Promise<void>,
 };
 
 export default ipcAPI;

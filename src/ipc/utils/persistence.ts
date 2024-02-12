@@ -52,7 +52,27 @@ export function exportJsPdf(pdf: jsPDF, filePath: string): void {
  * @returns path to the directory if the user picked on, otherwise undefined
  */
 export function openDirectoryDialog(): string | undefined {
-  return dialog.showOpenDialogSync(mainWindow, {
-    properties: ['openDirectory'],
-  })?.at(0);
+  return dialog
+    .showOpenDialogSync(mainWindow, {
+      properties: ['openDirectory'],
+    })
+    ?.at(0);
+}
+
+/**
+ * Opens a file dialog that lets the user pick a single file
+ * @returns path to the file if the user picked on, otherwise undefined
+ */
+export function openFileDialog(): string | undefined {
+  return dialog
+    .showOpenDialogSync(mainWindow, {
+      properties: ['openFile'],
+      filters: [
+        {
+          name: 'Pdf',
+          extensions: ['pdf'],
+        },
+      ],
+    })
+    ?.at(0);
 }

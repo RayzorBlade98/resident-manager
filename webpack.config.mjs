@@ -58,6 +58,10 @@ const commonConfig = {
           fullySpecified: false,
         },
       },
+      {
+        test: /\.md$/,
+        use: 'raw-loader',
+      },
     ],
   },
   // Needed to use "fs" module

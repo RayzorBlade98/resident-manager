@@ -13,6 +13,7 @@ const mockedIpcAPI: typeof window.ipcAPI = {
   importObject: importObjectMock,
   exportObject: exportObjectMock,
   generateInvoicePdfs: jest.fn(),
+  generateContractPdf: jest.fn(),
 };
 
 export default mockedIpcAPI;

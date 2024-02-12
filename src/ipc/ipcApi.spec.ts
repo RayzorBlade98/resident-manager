@@ -68,4 +68,12 @@ describe('ipcAPI', () => {
       invoice,
     );
   });
+
+  test('generateContractPdf should invoke generateContractPdf event', async () => {
+    // Act
+    await ipcAPI.generateContractPdf();
+
+    // Assert
+    expect(invokeSpy).toHaveBeenLastCalledWith(ipcCommands.generateContractPdf);
+  });
 });

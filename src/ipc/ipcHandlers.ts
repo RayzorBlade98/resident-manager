@@ -1,13 +1,16 @@
 import path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcMain } from 'electron';
+import { mdToPdfFile } from 'electron-md-to-pdf';
 import ipcCommands from './ipcCommands';
+import { generateContractMarkdown } from './utils/contractGeneration';
 import InvoicePdfGenerator from './utils/invoicePdf';
 import {
   exportJsPdf,
   exportObject,
   importObject,
   openDirectoryDialog,
+  openFileDialog,
 } from './utils/persistence';
 import Invoice from '_/models/invoice/invoice';
 
@@ -43,5 +46,16 @@ export default function addIpcHandlers(): void {
       const pdf = new InvoicePdfGenerator(invoice, residentId).generatePdf();
       exportJsPdf(pdf, path.join(directory, `invoice-${residentId}.pdf`));
     });
+  });
+
+  ipcMain.handle(ipcCommands.generateContractPdf, async (_) => {
+    const file = openFileDialog();
+
+    if (!file) {
+      return;
+    }
+
+    const contract = generateContractMarkdown();
+    await mdToPdfFile(contract, file, {});
   });
 }

@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { convertCurrencyCentsToString } from '../../../../utils/currency/currency.utils';
@@ -19,6 +20,13 @@ function GeneralResidentInformation(): JSX.Element {
         {convertCurrencyCentsToString(selectedResident.rentInformation[0].rent)}
       </p>
       <p>{selectedResident.contractStart.toString()}</p>
+      <Button
+        onClick={() => {
+          void window.ipcAPI.generateContractPdf();
+        }}
+      >
+        Vertrag generieren
+      </Button>
     </>
   );
 }
