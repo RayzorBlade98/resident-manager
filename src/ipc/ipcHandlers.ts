@@ -3,7 +3,7 @@ import path from 'path';
 import { ipcMain } from 'electron';
 import { mdToPdfFile } from 'electron-md-to-pdf';
 import ipcCommands from './ipcCommands';
-import { generateContractMarkdown } from './utils/contractGeneration';
+import { ContractGenerationArgs, generateContractMarkdown } from './utils/contractGeneration';
 import InvoicePdfGenerator from './utils/invoicePdf';
 import {
   exportJsPdf,
@@ -48,14 +48,14 @@ export default function addIpcHandlers(): void {
     });
   });
 
-  ipcMain.handle(ipcCommands.generateContractPdf, async (_) => {
+  ipcMain.handle(ipcCommands.generateContractPdf, async (_, args: ContractGenerationArgs) => {
     const file = openFileDialog();
 
     if (!file) {
       return;
     }
 
-    const contract = generateContractMarkdown();
+    const contract = generateContractMarkdown(args);
     await mdToPdfFile(contract, file, {});
   });
 }

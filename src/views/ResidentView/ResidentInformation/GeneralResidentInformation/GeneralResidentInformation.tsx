@@ -5,14 +5,19 @@ import { convertCurrencyCentsToString } from '../../../../utils/currency/currenc
 import { convertNameToString } from '../../../../utils/name/name.utils';
 import { residentViewSelectedResidentState } from '../../states/resident_view_state';
 import { Resident } from '_/models/resident/resident';
+import landlordState from '_/states/landlord/landlord.state';
+import propertyState from '_/states/property/property.state';
 
 /**
  * Component that displays general information about a resident
  */
 function GeneralResidentInformation(): JSX.Element {
+  const landlord = useRecoilValue(landlordState);
+  const property = useRecoilValue(propertyState);
   const selectedResident = useRecoilValue(
     residentViewSelectedResidentState,
   ) as Resident;
+
   return (
     <>
       <p>{convertNameToString(selectedResident.name, true)}</p>
@@ -22,7 +27,11 @@ function GeneralResidentInformation(): JSX.Element {
       <p>{selectedResident.contractStart.toString()}</p>
       <Button
         onClick={() => {
-          void window.ipcAPI.generateContractPdf();
+          void window.ipcAPI.generateContractPdf({
+            landlord,
+            property,
+            resident: selectedResident,
+          });
         }}
       >
         Vertrag generieren

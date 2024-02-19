@@ -2,6 +2,9 @@ import { v4 } from 'uuid';
 import ipcAPI from './ipcApi';
 import ipcCommands from './ipcCommands';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
+import LandlordBuilder from '_/test/builders/landlord.builder';
+import PropertyBuilder from '_/test/builders/property.builder';
+import ResidentBuilder from '_/test/builders/resident.builder';
 import { ipcRenderer } from '_/test/electronModuleMock';
 
 describe('ipcAPI', () => {
@@ -70,10 +73,19 @@ describe('ipcAPI', () => {
   });
 
   test('generateContractPdf should invoke generateContractPdf event', async () => {
+    // Arrange
+    const landlord = new LandlordBuilder().build();
+    const resident = new ResidentBuilder().build();
+    const property = new PropertyBuilder().build();
+    const args = { landlord, resident, property };
+
     // Act
-    await ipcAPI.generateContractPdf();
+    await ipcAPI.generateContractPdf(args);
 
     // Assert
-    expect(invokeSpy).toHaveBeenLastCalledWith(ipcCommands.generateContractPdf);
+    expect(invokeSpy).toHaveBeenLastCalledWith(
+      ipcCommands.generateContractPdf,
+      args,
+    );
   });
 });

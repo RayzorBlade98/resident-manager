@@ -66,7 +66,7 @@ export function openDirectoryDialog(): string | undefined {
 export function openFileDialog(): string | undefined {
   return dialog
     .showOpenDialogSync(mainWindow, {
-      properties: ['openFile'],
+      properties: ['openFile', 'promptToCreate'],
       filters: [
         {
           name: 'Pdf',
