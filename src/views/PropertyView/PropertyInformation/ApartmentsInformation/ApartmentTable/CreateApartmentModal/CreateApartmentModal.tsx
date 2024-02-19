@@ -115,6 +115,7 @@ function CreateApartmentModal(props: CreateApartmentModalProps) {
                     value={formInput.genericRooms}
                     onChange={formInputSetters.genericRooms}
                     errorMessage={formErrors.genericRooms}
+                    onlyInteger
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -126,6 +127,7 @@ function CreateApartmentModal(props: CreateApartmentModalProps) {
                     value={formInput.kitchenRooms}
                     onChange={formInputSetters.kitchenRooms}
                     errorMessage={formErrors.kitchenRooms}
+                    onlyInteger
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -137,6 +139,7 @@ function CreateApartmentModal(props: CreateApartmentModalProps) {
                     value={formInput.bathRooms}
                     onChange={formInputSetters.bathRooms}
                     errorMessage={formErrors.bathRooms}
+                    onlyInteger
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -148,6 +151,7 @@ function CreateApartmentModal(props: CreateApartmentModalProps) {
                     value={formInput.hallwayRooms}
                     onChange={formInputSetters.hallwayRooms}
                     errorMessage={formErrors.hallwayRooms}
+                    onlyInteger
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -159,6 +163,7 @@ function CreateApartmentModal(props: CreateApartmentModalProps) {
                     value={formInput.basementRooms}
                     onChange={formInputSetters.basementRooms}
                     errorMessage={formErrors.basementRooms}
+                    onlyInteger
                   />
                 </Grid>
               </Grid>

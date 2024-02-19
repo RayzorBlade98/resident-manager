@@ -146,6 +146,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     value={formInput.numberOfResidents}
                     onChange={formInputSetters.numberOfResidents}
                     errorMessage={formErrors.numberOfResidents}
+                    onlyInteger
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -207,6 +208,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     value={formInput.waterMeter}
                     onChange={formInputSetters.waterMeter}
                     errorMessage={formErrors.waterMeter}
+                    onlyInteger
                   />
                 </Grid>
               </Grid>
@@ -222,6 +224,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     value={formInput.apartmentKeys}
                     onChange={formInputSetters.apartmentKeys}
                     errorMessage={formErrors.apartmentKeys}
+                    onlyInteger
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -233,6 +236,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     value={formInput.basementKeys}
                     onChange={formInputSetters.basementKeys}
                     errorMessage={formErrors.basementKeys}
+                    onlyInteger
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -244,6 +248,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     value={formInput.atticKeys}
                     onChange={formInputSetters.atticKeys}
                     errorMessage={formErrors.atticKeys}
+                    onlyInteger
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -255,6 +260,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     value={formInput.frontDoorKeys}
                     onChange={formInputSetters.frontDoorKeys}
                     errorMessage={formErrors.frontDoorKeys}
+                    onlyInteger
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -266,6 +272,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     value={formInput.mailboxKeys}
                     onChange={formInputSetters.mailboxKeys}
                     errorMessage={formErrors.mailboxKeys}
+                    onlyInteger
                   />
                 </Grid>
               </Grid>

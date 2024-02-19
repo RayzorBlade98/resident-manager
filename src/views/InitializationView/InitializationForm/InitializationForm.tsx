@@ -100,6 +100,7 @@ function InitializationForm(): JSX.Element {
             }}
             errorMessage={errors.zipCodeLandlord}
             min={1}
+            onlyInteger
           />
         </Grid>
         <Grid item xs={3}>
@@ -141,6 +142,7 @@ function InitializationForm(): JSX.Element {
             }}
             errorMessage={errors.houseNumberLandlord}
             min={1}
+            onlyInteger
           />
         </Grid>
       </Grid>
@@ -157,6 +159,7 @@ function InitializationForm(): JSX.Element {
             }}
             errorMessage={errors.numberOfApartments}
             min={1}
+            onlyInteger
           />
         </Grid>
       </Grid>
@@ -172,6 +175,7 @@ function InitializationForm(): JSX.Element {
             }}
             errorMessage={errors.zipCodeProperty}
             min={1}
+            onlyInteger
           />
         </Grid>
         <Grid item xs={3}>
@@ -213,6 +217,7 @@ function InitializationForm(): JSX.Element {
             }}
             errorMessage={errors.houseNumberProperty}
             min={1}
+            onlyInteger
           />
         </Grid>
       </Grid>
