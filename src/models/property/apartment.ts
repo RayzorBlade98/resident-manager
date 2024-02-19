@@ -18,9 +18,34 @@ interface Apartment {
   location: string;
 
   /**
-   * Number of rooms in the apartment (excluding bath, kitchen etc.)
+   * Number of rooms in the apartment grouped by type
    */
-  rooms: number;
+  rooms: {
+    /**
+     * Number of generic rooms
+     */
+    generic: number;
+
+    /**
+     * Number of kitchens
+     */
+    kitchen: number;
+
+    /**
+     * Number of bathrooms / toilets
+     */
+    bath: number;
+
+    /**
+     * Number of hallways
+     */
+    hallway: number;
+
+    /**
+     * Number of basement rooms
+     */
+    basement: number;
+  };
 }
 
 export default Apartment;

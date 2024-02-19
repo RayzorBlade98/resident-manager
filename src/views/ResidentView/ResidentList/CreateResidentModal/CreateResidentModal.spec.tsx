@@ -22,7 +22,7 @@ describe('CreateResidentModal', () => {
       new ApartmentBuilder()
         .withFloor('1 OG')
         .withLocation('left')
-        .withRooms(3)
+        .withRooms({ generic: 3 })
         .build(),
     )
     .build();

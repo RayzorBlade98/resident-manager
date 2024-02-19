@@ -58,7 +58,7 @@ function ApartmentTable() {
               >
                 <TableCell>{apartment.floor}</TableCell>
                 <TableCell>{apartment.location}</TableCell>
-                <TableCell>{apartment.rooms}</TableCell>
+                <TableCell>{apartment.rooms.generic}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -9,7 +9,13 @@ class ApartmentBuilder {
       id: uuid(),
       floor: 'EG',
       location: 'left',
-      rooms: 3,
+      rooms: {
+        generic: 3,
+        kitchen: 1,
+        bath: 2,
+        basement: 1,
+        hallway: 2,
+      },
     };
   }
 
@@ -23,8 +29,8 @@ class ApartmentBuilder {
     return this;
   }
 
-  public withRooms(rooms: number): ApartmentBuilder {
-    this.apartment.rooms = rooms;
+  public withRooms(rooms: Partial<Apartment['rooms']>): ApartmentBuilder {
+    this.apartment.rooms = { ...this.apartment.rooms, ...rooms };
     return this;
   }
 

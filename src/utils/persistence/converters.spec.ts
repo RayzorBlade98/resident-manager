@@ -246,13 +246,25 @@ describe('convertImportedProperty', () => {
           id: 'id1',
           floor: 'EG',
           location: 'left',
-          rooms: 3,
+          rooms: {
+            generic: 3,
+            kitchen: 1,
+            bath: 2,
+            basement: 1,
+            hallway: 2,
+          },
         },
         {
           id: 'id2',
           floor: 'EG',
           location: 'right',
-          rooms: 2,
+          rooms: {
+            generic: 2,
+            kitchen: 2,
+            bath: 1,
+            basement: 2,
+            hallway: 1,
+          },
         },
       ],
     };

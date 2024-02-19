@@ -7,7 +7,7 @@ describe('convertApartmentToDisplayString', () => {
     const apartment = new ApartmentBuilder()
       .withFloor('floor')
       .withLocation('location')
-      .withRooms(42)
+      .withRooms({ generic: 42 })
       .build();
     const expectedString = 'floor location (42 Zimmer)';
 

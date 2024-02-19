@@ -8,5 +8,5 @@ import Apartment from '_/models/property/apartment';
  * @returns displayString of the given apartment
  */
 export function convertApartmentToDisplayString(apartment: Apartment) {
-  return `${apartment.floor} ${apartment.location} (${apartment.rooms} Zimmer)`;
+  return `${apartment.floor} ${apartment.location} (${apartment.rooms.generic} Zimmer)`;
 }

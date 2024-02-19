@@ -33,14 +33,14 @@ describe('ResidentView', () => {
       new ApartmentBuilder()
         .withFloor('EG')
         .withLocation('left')
-        .withRooms(3)
+        .withRooms({ generic: 3 })
         .build(),
     )
     .addApartment(
       new ApartmentBuilder()
         .withFloor('EG')
         .withLocation('right')
-        .withRooms(4)
+        .withRooms({ generic: 4 })
         .build(),
     )
     .build();

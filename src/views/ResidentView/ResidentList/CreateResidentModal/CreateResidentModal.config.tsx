@@ -4,11 +4,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import React from 'react';
 import { ValidationConstraint } from '../../../../utils/validation/constraints';
 import Validator from '../../../../utils/validation/validator';
-import { GroupedFormProps } from '_/components/form/GroupedForm/GroupedForm';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { FormValidationArguments } from '_/hooks/useFormValidation/useFormValidation';
 import { Salutation } from '_/models/name';
 import Apartment from '_/models/property/apartment';
+import { FormConfig } from '_/types/FormConfig';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
@@ -97,16 +96,7 @@ export type CreateResidentGroups = 'resident' | 'apartment' | 'keys';
  */
 export function getCreateResidentModalConfig(args: {
   emptyApartments: Apartment[];
-}): {
-    formValidationConfig: Omit<
-    FormValidationArguments<CreateResidentInput>,
-    'onSubmitSuccess'
-    >;
-    formGroupConfig: Omit<
-    GroupedFormProps<CreateResidentInput, CreateResidentGroups>,
-    'children' | 'formErrors'
-    >;
-  } {
+}): FormConfig<CreateResidentInput, CreateResidentGroups> {
   return {
     formValidationConfig: {
       formValidator: new Validator<CreateResidentInput>({

@@ -85,7 +85,7 @@ function NumberTextField(props: NumberTextFieldProps): JSX.Element {
       label={props.label}
       id={props.id}
       type="number"
-      value={props.value || ''}
+      value={props.value ?? ''}
       onChange={onChange}
       error={!!props.errorMessage}
       helperText={props.errorMessage}

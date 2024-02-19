@@ -1,5 +1,8 @@
+/* eslint-disable no-await-in-loop */
+
 import { act, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
+import _ from 'lodash';
 import React from 'react';
 import CreateApartmentModal from './CreateApartmentModal';
 import * as usePropertyStateModule from '_/hooks/usePropertyState/usePropertyState';
@@ -14,31 +17,73 @@ describe('CreateApartmentModal', () => {
   const validInputValues = {
     floor: 'EG',
     location: 'middle',
-    rooms: 4,
+    genericRooms: 4,
+    kitchenRooms: 1,
+    bathRooms: 2,
+    hallwayRooms: 1,
+    basementRooms: 0,
   };
 
   const invalidInputValues = {
     floor: '',
     location: '',
-    rooms: undefined,
+    genericRooms: undefined,
+    kitchenRooms: undefined,
+    bathRooms: undefined,
+    hallwayRooms: undefined,
+    basementRooms: undefined,
   };
 
   function inputToForm(inputValues: {
     floor: string;
     location: string;
-    rooms: number | undefined;
+    genericRooms: number | undefined;
+    kitchenRooms: number | undefined;
+    bathRooms: number | undefined;
+    hallwayRooms: number | undefined;
+    basementRooms: number | undefined;
   }) {
-    const inputFields = baseElement.querySelectorAll('input');
-    const inputs = [inputValues.floor, inputValues.location, inputValues.rooms];
+    function input(element: Element | null, value: string | undefined) {
+      if (!element) {
+        throw new Error(`Missing element for value ${value}`);
+      }
+      fireEvent.change(element, {
+        target: { value },
+      });
+    }
+
+    const tabs = baseElement.querySelectorAll('.MuiTab-root');
     act(() => {
-      inputs.forEach((input, i) => fireEvent.change(inputFields.item(i), {
-        target: { value: input },
-      }));
+      fireEvent.click(tabs.item(0));
+      input(baseElement.querySelector('#floor'), inputValues.floor);
+      input(baseElement.querySelector('#location'), inputValues.location);
+
+      fireEvent.click(tabs.item(1));
+      input(
+        baseElement.querySelector('#genericRooms'),
+        inputValues.genericRooms?.toString(),
+      );
+      input(
+        baseElement.querySelector('#kitchenRooms'),
+        inputValues.kitchenRooms?.toString(),
+      );
+      input(
+        baseElement.querySelector('#bathRooms'),
+        inputValues.bathRooms?.toString(),
+      );
+      input(
+        baseElement.querySelector('#basementRooms'),
+        inputValues.basementRooms?.toString(),
+      );
+      input(
+        baseElement.querySelector('#hallwayRooms'),
+        inputValues.hallwayRooms?.toString(),
+      );
     });
   }
 
   function submitForm() {
-    const button = baseElement.querySelectorAll('button').item(1);
+    const button = baseElement.querySelector('.MuiButton-contained')!;
     act(() => {
       fireEvent.click(button);
     });
@@ -63,9 +108,14 @@ describe('CreateApartmentModal', () => {
     inputToForm(validInputValues);
 
     // Assert
-    expect(
-      await generateImage({ viewport: { width: 650, height: 400 } }),
-    ).toMatchImageSnapshot();
+    const tabs = baseElement.querySelectorAll('.MuiTab-root');
+
+    for (const tab of tabs) {
+      fireEvent.click(tab);
+      expect(
+        await generateImage({ viewport: { width: 650, height: 600 } }),
+      ).toMatchImageSnapshot();
+    }
   });
 
   test('should match image snapshot (invalid inputs)', async () => {
@@ -74,9 +124,14 @@ describe('CreateApartmentModal', () => {
     submitForm();
 
     // Assert
-    expect(
-      await generateImage({ viewport: { width: 650, height: 450 } }),
-    ).toMatchImageSnapshot();
+    const tabs = baseElement.querySelectorAll('.MuiTab-root');
+
+    for (const tab of tabs) {
+      fireEvent.click(tab);
+      expect(
+        await generateImage({ viewport: { width: 650, height: 600 } }),
+      ).toMatchImageSnapshot();
+    }
   });
 
   test('should add apartment on submit', () => {
@@ -89,7 +144,16 @@ describe('CreateApartmentModal', () => {
     // Assert
     expect(addApartmentMock).toHaveBeenCalledTimes(1);
     expect(addApartmentMock).toHaveBeenCalledWith(
-      expect.objectContaining(validInputValues),
+      expect.objectContaining({
+        ..._.pick(validInputValues, ['floor', 'location']),
+        rooms: {
+          generic: validInputValues.genericRooms,
+          kitchen: validInputValues.kitchenRooms,
+          basement: validInputValues.basementRooms,
+          bath: validInputValues.bathRooms,
+          hallway: validInputValues.hallwayRooms,
+        },
+      }),
     );
   });
 });
