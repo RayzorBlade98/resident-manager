@@ -1,6 +1,7 @@
 import AddressBuilder from './address.builder';
 import Address from '_/models/address';
 import Apartment from '_/models/property/apartment';
+import ParkingSpace from '_/models/property/parkingSpace';
 import Property from '_/models/property/property';
 
 class PropertyBuilder {
@@ -25,8 +26,13 @@ class PropertyBuilder {
     return this;
   }
 
-  public addApartment(apartments: Apartment): PropertyBuilder {
-    this.property.apartments.push(apartments);
+  public addApartment(apartment: Apartment): PropertyBuilder {
+    this.property.apartments.push(apartment);
+    return this;
+  }
+
+  public addParkingSpace(parkingSpace: ParkingSpace): PropertyBuilder {
+    this.property.parkingSpaces.push(parkingSpace);
     return this;
   }
 

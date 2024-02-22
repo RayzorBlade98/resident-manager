@@ -11,6 +11,7 @@ import propertyState from '_/states/property/property.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import AddressBuilder from '_/test/builders/address.builder';
 import ApartmentBuilder from '_/test/builders/apartment.builder';
+import ParkingSpaceBuilder from '_/test/builders/parkingSpace.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 
 describe('ResidentView', () => {
@@ -43,6 +44,12 @@ describe('ResidentView', () => {
         .withRooms({ generic: 4 })
         .build(),
     )
+    .addParkingSpace(
+      new ParkingSpaceBuilder().withName('Parking Space 1').build(),
+    )
+    .addParkingSpace(
+      new ParkingSpaceBuilder().withName('Parking Space 2').build(),
+    )
     .build();
   let renderResult: RenderResult;
 
@@ -67,6 +74,15 @@ describe('ResidentView', () => {
     // Act
     const tabs = renderResult.getAllByRole('tab');
     fireEvent.click(tabs[1]);
+
+    // Assert
+    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+  });
+
+  test('should match image snapshot (parking space information)', async () => {
+    // Act
+    const tabs = renderResult.getAllByRole('tab');
+    fireEvent.click(tabs[2]);
 
     // Assert
     expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();

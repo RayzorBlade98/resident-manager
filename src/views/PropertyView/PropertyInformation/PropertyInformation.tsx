@@ -1,9 +1,11 @@
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import { Box, Tabs, Tab } from '@mui/material';
 import React, { useState } from 'react';
 import ApartmentsInformation from './ApartmentsInformation/ApartmentsInformation';
 import GeneralPropertyInformation from './GeneralPropertyInformation/GeneralPropertyInformation';
+import ParkingSpaceInformation from './ParkingSpaceInformation/ParkingSpaceInformation';
 
 /**
  * Enum containing all tabs of this component
@@ -11,6 +13,7 @@ import GeneralPropertyInformation from './GeneralPropertyInformation/GeneralProp
 enum PropertyTab {
   General = 0,
   Apartments = 1,
+  ParkingSpace = 2,
 }
 
 const styles = {
@@ -33,6 +36,11 @@ function PropertyInformation() {
         >
           <Tab icon={<InfoIcon />} iconPosition="start" label="Informationen" />
           <Tab icon={<HomeIcon />} iconPosition="start" label="Wohnungen" />
+          <Tab
+            icon={<DirectionsCarIcon />}
+            iconPosition="start"
+            label="Garagen / Stellplätze"
+          />
         </Tabs>
       </Box>
       <div hidden={activeTab !== PropertyTab.General}>
@@ -40,6 +48,9 @@ function PropertyInformation() {
       </div>
       <div hidden={activeTab !== PropertyTab.Apartments}>
         <ApartmentsInformation />
+      </div>
+      <div hidden={activeTab !== PropertyTab.ParkingSpace}>
+        <ParkingSpaceInformation />
       </div>
     </>
   );
