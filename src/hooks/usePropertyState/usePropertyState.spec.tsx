@@ -6,6 +6,7 @@ import usePropertyState from './usePropertyState';
 import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 import ApartmentBuilder from '_/test/builders/apartment.builder';
+import ParkingSpaceBuilder from '_/test/builders/parkingSpace.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import useInitializedRecoilState from '_/test/hooks/useInitializedRecoilState';
@@ -16,6 +17,8 @@ describe('usePropertyState', () => {
     .addApartment(new ApartmentBuilder().withId('id2').build())
     .addApartment(new ApartmentBuilder().withId('id3').build())
     .addApartment(new ApartmentBuilder().withId('id4').build())
+    .addParkingSpace(new ParkingSpaceBuilder().build())
+    .addParkingSpace(new ParkingSpaceBuilder().build())
     .build();
 
   describe('property', () => {
@@ -91,6 +94,34 @@ describe('usePropertyState', () => {
       expect(result.current.property.apartments).toEqual([
         ...property.apartments,
         apartment,
+      ]);
+    });
+  });
+
+  describe('addParkingSpace', () => {
+    test('should set state correctly', () => {
+      // Arrange
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: propertyState,
+          stateValue: property,
+          hook: usePropertyState,
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+      const parkingSpace = new ParkingSpaceBuilder().build();
+
+      // Act
+      act(() => {
+        result.current.addParkingSpace(parkingSpace);
+      });
+
+      // Assert
+      expect(result.current.property.parkingSpaces).toEqual([
+        ...property.parkingSpaces,
+        parkingSpace,
       ]);
     });
   });

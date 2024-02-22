@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Apartment from '_/models/property/apartment';
+import ParkingSpace from '_/models/property/parkingSpace';
 import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 
@@ -28,6 +29,16 @@ function usePropertyState() {
     [setProperty],
   );
 
+  const addParkingSpace = useCallback(
+    (parkingSpace: ParkingSpace) => {
+      setProperty((state) => ({
+        ...state,
+        parkingSpaces: [...state.parkingSpaces, parkingSpace],
+      }));
+    },
+    [setProperty],
+  );
+
   return {
     /**
      * Property object
@@ -43,6 +54,11 @@ function usePropertyState() {
      * Adds a new apartment to the property
      */
     addApartment,
+
+    /**
+     * Adds a new parking space to the property
+     */
+    addParkingSpace,
   };
 }
 

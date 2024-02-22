@@ -94,6 +94,7 @@ describe('CreateApartmentModal', () => {
       property: new PropertyBuilder().build(),
       emptyApartments: [],
       addApartment: addApartmentMock,
+      addParkingSpace: jest.fn(),
     });
 
     baseElement = render(
