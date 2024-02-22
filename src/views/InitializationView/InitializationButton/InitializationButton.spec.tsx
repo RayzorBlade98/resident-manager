@@ -116,6 +116,7 @@ describe('InitializationButton', () => {
         houseNumber: validInputValues.houseNumberProperty,
       },
       apartments: [],
+      parkingSpaces: [],
     });
     expect(getRecoil(waterCostsState)).toEqual({
       waterUsageCosts: [

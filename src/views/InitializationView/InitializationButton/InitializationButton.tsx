@@ -38,7 +38,8 @@ function InitializationButton(): JSX.Element {
         zipCode: formValidationState.formInput.zipCodeLandlord as number,
         city: formValidationState.formInput.cityLandlord,
         street: formValidationState.formInput.streetLandlord,
-        houseNumber: formValidationState.formInput.houseNumberLandlord as number,
+        houseNumber: formValidationState.formInput
+          .houseNumberLandlord as number,
       },
     });
     setPropertyState({
@@ -52,6 +53,7 @@ function InitializationButton(): JSX.Element {
           .houseNumberProperty as number,
       },
       apartments: [],
+      parkingSpaces: [],
     });
     setWaterCostState({
       waterUsageCosts: [

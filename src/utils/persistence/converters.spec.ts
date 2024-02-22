@@ -267,6 +267,16 @@ describe('convertImportedProperty', () => {
           },
         },
       ],
+      parkingSpaces: [
+        {
+          id: 'id1',
+          name: 'Parkingspace 1',
+        },
+        {
+          id: 'id2',
+          name: 'Parkingspace 2',
+        },
+      ],
     };
     const propertyJson = JSON.parse(JSON.stringify(property));
 
