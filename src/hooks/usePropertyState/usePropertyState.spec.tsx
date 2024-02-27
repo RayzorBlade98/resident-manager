@@ -27,12 +27,11 @@ describe('usePropertyState', () => {
     test('should return right property', () => {
       // Arrange
       const { result } = renderHook(
-        () =>
-          useInitializedRecoilState({
-            state: propertyState,
-            stateValue: property,
-            hook: usePropertyState,
-          }),
+        () => useInitializedRecoilState({
+          state: propertyState,
+          stateValue: property,
+          hook: usePropertyState,
+        }),
         {
           wrapper: RecoilRoot,
         },
@@ -47,26 +46,22 @@ describe('usePropertyState', () => {
     test('should return right apartments', () => {
       // Arrange
       const rentedApartments = [property.apartments[1], property.apartments[3]];
-      const residents = rentedApartments.map((apartment) =>
-        new ResidentBuilder().withApartment(apartment.id).build(),
-      );
+      const residents = rentedApartments.map((apartment) => new ResidentBuilder().withApartment(apartment.id).build());
       const expectedEmptyApartments = [
         property.apartments[0],
         property.apartments[2],
       ];
 
       const { result } = renderHook(
-        () =>
-          useInitializedRecoilState({
-            state: propertyState,
-            stateValue: property,
-            hook: () =>
-              useInitializedRecoilState({
-                state: residentState,
-                stateValue: residents,
-                hook: usePropertyState,
-              }),
+        () => useInitializedRecoilState({
+          state: propertyState,
+          stateValue: property,
+          hook: () => useInitializedRecoilState({
+            state: residentState,
+            stateValue: residents,
+            hook: usePropertyState,
           }),
+        }),
         {
           wrapper: RecoilRoot,
         },
@@ -84,26 +79,22 @@ describe('usePropertyState', () => {
         property.parkingSpaces[0],
         property.parkingSpaces[2],
       ];
-      const residents = rentedParkingSpaces.map((parkingSpace) =>
-        new ResidentBuilder().withParkingSpace(parkingSpace.id).build(),
-      );
+      const residents = rentedParkingSpaces.map((parkingSpace) => new ResidentBuilder().withParkingSpace(parkingSpace.id).build());
       const expectedEmptyParkingSpaces = [
         property.parkingSpaces[1],
         property.parkingSpaces[3],
       ];
 
       const { result } = renderHook(
-        () =>
-          useInitializedRecoilState({
-            state: propertyState,
-            stateValue: property,
-            hook: () =>
-              useInitializedRecoilState({
-                state: residentState,
-                stateValue: residents,
-                hook: usePropertyState,
-              }),
+        () => useInitializedRecoilState({
+          state: propertyState,
+          stateValue: property,
+          hook: () => useInitializedRecoilState({
+            state: residentState,
+            stateValue: residents,
+            hook: usePropertyState,
           }),
+        }),
         {
           wrapper: RecoilRoot,
         },
@@ -118,12 +109,11 @@ describe('usePropertyState', () => {
     test('should set state correctly', () => {
       // Arrange
       const { result } = renderHook(
-        () =>
-          useInitializedRecoilState({
-            state: propertyState,
-            stateValue: property,
-            hook: usePropertyState,
-          }),
+        () => useInitializedRecoilState({
+          state: propertyState,
+          stateValue: property,
+          hook: usePropertyState,
+        }),
         {
           wrapper: RecoilRoot,
         },
@@ -147,12 +137,11 @@ describe('usePropertyState', () => {
     test('should set state correctly', () => {
       // Arrange
       const { result } = renderHook(
-        () =>
-          useInitializedRecoilState({
-            state: propertyState,
-            stateValue: property,
-            hook: usePropertyState,
-          }),
+        () => useInitializedRecoilState({
+          state: propertyState,
+          stateValue: property,
+          hook: usePropertyState,
+        }),
         {
           wrapper: RecoilRoot,
         },

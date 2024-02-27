@@ -121,9 +121,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     label="Vorname"
                     variant="outlined"
                     value={formInput.firstName}
-                    onChange={(event) =>
-                      formInputSetters.firstName(event.target.value)
-                    }
+                    onChange={(event) => formInputSetters.firstName(event.target.value)}
                     error={!!formErrors.firstName}
                     helperText={formErrors.firstName}
                   />
@@ -135,9 +133,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     label="Nachname"
                     variant="outlined"
                     value={formInput.lastName}
-                    onChange={(event) =>
-                      formInputSetters.lastName(event.target.value)
-                    }
+                    onChange={(event) => formInputSetters.lastName(event.target.value)}
                     error={!!formErrors.lastName}
                     helperText={formErrors.lastName}
                   />
