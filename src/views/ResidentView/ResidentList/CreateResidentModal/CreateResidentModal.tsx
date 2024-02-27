@@ -38,7 +38,7 @@ interface CreateResidentModalProps {
  */
 function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
   const { addResident } = useResidentState();
-  const { emptyApartments } = usePropertyState();
+  const { emptyApartments, emptyParkingSpaces } = usePropertyState();
 
   const { formValidationConfig, formGroupConfig } = useMemo(
     () => getCreateResidentModalConfig({ emptyApartments }),
@@ -77,6 +77,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
           },
         ],
         apartmentId: values.apartmentId,
+        parkingSpaceId: values.parkingSpaceId,
         keys: {
           apartment: values.apartmentKeys,
           basement: values.basementKeys,
@@ -120,7 +121,9 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     label="Vorname"
                     variant="outlined"
                     value={formInput.firstName}
-                    onChange={(event) => formInputSetters.firstName(event.target.value)}
+                    onChange={(event) =>
+                      formInputSetters.firstName(event.target.value)
+                    }
                     error={!!formErrors.firstName}
                     helperText={formErrors.firstName}
                   />
@@ -132,7 +135,9 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     label="Nachname"
                     variant="outlined"
                     value={formInput.lastName}
-                    onChange={(event) => formInputSetters.lastName(event.target.value)}
+                    onChange={(event) =>
+                      formInputSetters.lastName(event.target.value)
+                    }
                     error={!!formErrors.lastName}
                     helperText={formErrors.lastName}
                   />
@@ -175,6 +180,22 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                       emptyApartments.map((apartment) => [
                         apartment.id,
                         convertApartmentToDisplayString(apartment),
+                      ]),
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <SelectField
+                    required
+                    id="parkingSpaceId"
+                    label="Stellplatz"
+                    value={formInput.parkingSpaceId}
+                    onChange={formInputSetters.parkingSpaceId}
+                    errorMessage={formErrors.parkingSpaceId}
+                    values={Object.fromEntries(
+                      emptyParkingSpaces.map((parkingSpace) => [
+                        parkingSpace.id,
+                        parkingSpace.name,
                       ]),
                     )}
                   />

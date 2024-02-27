@@ -93,6 +93,7 @@ describe('CreateApartmentModal', () => {
     jest.spyOn(usePropertyStateModule, 'default').mockReturnValue({
       property: new PropertyBuilder().build(),
       emptyApartments: [],
+      emptyParkingSpaces: [],
       addApartment: addApartmentMock,
       addParkingSpace: jest.fn(),
     });

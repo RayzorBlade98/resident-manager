@@ -211,6 +211,7 @@ describe('convertImportedResidents', () => {
         ],
         contractStart: new MonthYear(9, 2023),
         apartmentId: 'apartment1',
+        parkingSpaceId: 'parkingSpace1',
         keys: {
           apartment: 1,
           basement: 2,

@@ -60,6 +60,11 @@ export interface CreateResidentInput {
   apartmentId: string;
 
   /**
+   * Id of the parking space the resident rented
+   */
+  parkingSpaceId: string | undefined;
+
+  /**
    * Number of apartment keys the resident has
    */
   apartmentKeys: number;
@@ -124,6 +129,7 @@ export function getCreateResidentModalConfig(args: {
         waterMeter: undefined,
         numberOfResidents: undefined,
         apartmentId: args.emptyApartments.at(0)?.id,
+        parkingSpaceId: undefined,
         apartmentKeys: undefined,
         basementKeys: undefined,
         atticKeys: undefined,
@@ -143,6 +149,7 @@ export function getCreateResidentModalConfig(args: {
         incidentals: 'apartment',
         waterMeter: 'apartment',
         apartmentId: 'apartment',
+        parkingSpaceId: 'apartment',
         apartmentKeys: 'keys',
         basementKeys: 'keys',
         atticKeys: 'keys',

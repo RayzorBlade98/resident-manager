@@ -43,6 +43,11 @@ export interface Resident {
   apartmentId: string;
 
   /**
+   * Id of the parking space the resident rented
+   */
+  parkingSpaceId: string | undefined;
+
+  /**
    * Information about the keys the resident has
    */
   keys: {
@@ -70,5 +75,5 @@ export interface Resident {
      * Number of mailbox keys the resident has
      */
     mailbox: number;
-  }
+  };
 }

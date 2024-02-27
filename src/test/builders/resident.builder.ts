@@ -18,6 +18,7 @@ class ResidentBuilder {
       contractStart: new MonthYear(2, 2023),
       waterMeterReadings: [],
       apartmentId: '',
+      parkingSpaceId: undefined,
       keys: {
         apartment: 1,
         basement: 1,
@@ -60,6 +61,11 @@ class ResidentBuilder {
 
   public withApartment(apartmentId: string): ResidentBuilder {
     this.resident.apartmentId = apartmentId;
+    return this;
+  }
+
+  public withParkingSpace(parkingSpaceId: string): ResidentBuilder {
+    this.resident.parkingSpaceId = parkingSpaceId;
     return this;
   }
 

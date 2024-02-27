@@ -45,6 +45,7 @@ describe('CreateParkingSpaceModal', () => {
     jest.spyOn(usePropertyStateModule, 'default').mockReturnValue({
       property: new PropertyBuilder().build(),
       emptyApartments: [],
+      emptyParkingSpaces: [],
       addApartment: jest.fn(),
       addParkingSpace: addParkingSpaceMock,
     });

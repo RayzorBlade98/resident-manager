@@ -19,6 +19,13 @@ function usePropertyState() {
     [property, residents],
   );
 
+  const emptyParkingSpaces = useMemo(
+    () => property.parkingSpaces.filter(
+      (parkingSpace) => !residents.find((resident) => resident.parkingSpaceId === parkingSpace.id),
+    ),
+    [property, residents],
+  );
+
   const addApartment = useCallback(
     (apartment: Apartment) => {
       setProperty((state) => ({
@@ -49,6 +56,11 @@ function usePropertyState() {
      * List of apartments that aren't connected to a resident
      */
     emptyApartments,
+
+    /**
+     * List of parking spaces that aren't connected to a resident
+     */
+    emptyParkingSpaces,
 
     /**
      * Adds a new apartment to the property
