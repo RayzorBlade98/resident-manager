@@ -28,6 +28,15 @@ const placeholderLabels = {
   residentPhone: 'RESIDENT_PHONE', // Todo
   propertyStreet: 'PROPERTY_STREET',
   propertyCity: 'PROPERTY_CITY',
+  apartmentFloor: 'APARTMENT_FLOOR',
+  apartmentLocation: 'APARTMENT_LOCATION',
+  apartmentRoomsGeneric: 'APARTMENT_ROOMS_GENERIC',
+  apartmentRoomsKitchen: 'APARTMENT_ROOMS_KITCHEN',
+  apartmentRoomsBath: 'APARTMENT_ROOMS_BATH',
+  apartmentRoomsHallway: 'APARTMENT_ROOMS_HALLWAY',
+  apartmentRoomsBasement: 'APARTMENT_ROOMS_BASEMENT',
+  apartmentRoomsGarden: 'APARTMENT_ROOMS_GARDEN', // Todo
+  parkingSpaceCount: 'PARKING_SPACE_COUNT',
 } satisfies Record<string, string>;
 
 const blockPlaceholderLabels = {
@@ -39,6 +48,10 @@ const blockPlaceholderLabels = {
  * @returns markdown string of the generated contract
  */
 export function generateContractMarkdown(args: ContractGenerationArgs): string {
+  const apartment = args.property.apartments.find(
+    (a) => a.id === args.resident.apartmentId,
+  )!;
+
   const placeholders = {
     [placeholderLabels.landlordName]: convertNameToString(
       args.landlord.representative,
@@ -57,6 +70,18 @@ export function generateContractMarkdown(args: ContractGenerationArgs): string {
     [placeholderLabels.propertyCity]: convertAddressToCityString(
       args.property.address,
     ),
+    [placeholderLabels.apartmentFloor]: apartment.floor,
+    [placeholderLabels.apartmentLocation]: apartment.location,
+    [placeholderLabels.apartmentRoomsGeneric]:
+      apartment.rooms.generic.toString(),
+    [placeholderLabels.apartmentRoomsKitchen]:
+      apartment.rooms.kitchen.toString(),
+    [placeholderLabels.apartmentRoomsBath]: apartment.rooms.bath.toString(),
+    [placeholderLabels.apartmentRoomsBasement]:
+      apartment.rooms.basement.toString(),
+    [placeholderLabels.apartmentRoomsHallway]:
+      apartment.rooms.hallway.toString(),
+    [placeholderLabels.parkingSpaceCount]: args.resident.parkingSpaceId ? '1' : '0',
   };
 
   let contract = contractTemplate;

@@ -14,4 +14,15 @@ Resident phone = {{RESIDENT_PHONE}}
 Property street = Propertystreet 13
 Property city = 55555 Propertycity
 
+Apartment floor = 1 OG
+Apartment location = right
+Apartment rooms generic = 5
+Apartment rooms kitchen = 4
+Apartment rooms bath = 3
+Apartment rooms hallway = 2
+Apartment rooms basement = 1
+Apartment rooms garden = {{APARTMENT_ROOMS_GARDEN}}
+
+Parking space count = 1
+
 Landlord company block = Landlord company template

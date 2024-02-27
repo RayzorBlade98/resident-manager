@@ -17,3 +17,13 @@
 **1.1** Der Vermieter vermietet dem Mieter zu Wohnzwecken folgende Wohnung im Anwesen
 
 <center> {{PROPERTY_STREET}}, {{PROPERTY_CITY}} </center>
+
+im *{{APARTMENT_FLOOR}}* Geschoss *{{APARTMENT_LOCATION}}* bestehend aus
+
+- {{APARTMENT_ROOMS_GENERIC}} Zimmer
+- {{APARTMENT_ROOMS_KITCHEN}} Küche
+- {{APARTMENT_ROOMS_BATH}} Bad / Dusche / Toilette
+- {{APARTMENT_ROOMS_HALLWAY}} Flur / Diele
+- {{APARTMENT_ROOMS_BASEMENT}} Keller
+- {{APARTMENT_ROOMS_GARDEN}} Garten / Gartenabteil
+- {{PARKING_SPACE_COUNT}} Garage / Stellplatz
