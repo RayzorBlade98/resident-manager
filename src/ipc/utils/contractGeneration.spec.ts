@@ -65,6 +65,13 @@ describe('generateContractMarkdown', () => {
       )
       .withApartment(property.apartments[0].id)
       .withParkingSpace(property.parkingSpaces[0].id)
+      .withKeys({
+        apartment: 11,
+        basement: 12,
+        attic: 13,
+        frontDoor: 14,
+        mailbox: 15,
+      })
       .build();
 
     // Act

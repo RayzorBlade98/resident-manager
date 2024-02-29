@@ -11,6 +11,12 @@ Resident street = {{RESIDENT_STREET}}
 Resident city = {{RESIDENT_CITY}}
 Resident phone = {{RESIDENT_PHONE}}
 
+Keys apartment = 11
+Keys basement = 12
+Keys attic = 13
+Keys frontdoor = 14
+Keys mailbox = 15
+
 Property street = Propertystreet 13
 Property city = 55555 Propertycity
 

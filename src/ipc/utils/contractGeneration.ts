@@ -37,6 +37,11 @@ const placeholderLabels = {
   apartmentRoomsBasement: 'APARTMENT_ROOMS_BASEMENT',
   apartmentRoomsGarden: 'APARTMENT_ROOMS_GARDEN', // Todo
   parkingSpaceCount: 'PARKING_SPACE_COUNT',
+  keysApartment: 'KEYS_APARTMENT',
+  keysBasement: 'KEYS_BASEMENT',
+  keysAttic: 'KEYS_ATTIC',
+  keysFrontdoor: 'KEYS_FRONTDOOR',
+  keysMailbox: 'KEYS_MAILBOX',
 } satisfies Record<string, string>;
 
 const blockPlaceholderLabels = {
@@ -82,6 +87,11 @@ export function generateContractMarkdown(args: ContractGenerationArgs): string {
     [placeholderLabels.apartmentRoomsHallway]:
       apartment.rooms.hallway.toString(),
     [placeholderLabels.parkingSpaceCount]: args.resident.parkingSpaceId ? '1' : '0',
+    [placeholderLabels.keysApartment]: args.resident.keys.apartment.toString(),
+    [placeholderLabels.keysBasement]: args.resident.keys.basement.toString(),
+    [placeholderLabels.keysAttic]: args.resident.keys.attic.toString(),
+    [placeholderLabels.keysFrontdoor]: args.resident.keys.frontDoor.toString(),
+    [placeholderLabels.keysMailbox]: args.resident.keys.mailbox.toString(),
   };
 
   let contract = contractTemplate;

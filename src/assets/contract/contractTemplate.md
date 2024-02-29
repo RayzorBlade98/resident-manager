@@ -27,3 +27,13 @@ im *{{APARTMENT_FLOOR}}* Geschoss *{{APARTMENT_LOCATION}}* bestehend aus
 - {{APARTMENT_ROOMS_BASEMENT}} Keller
 - {{APARTMENT_ROOMS_GARDEN}} Garten / Gartenabteil
 - {{PARKING_SPACE_COUNT}} Garage / Stellplatz
+
+**1.2** Dem Mieter werden zu Beginn des Mietverhältnisses folgende Schlüssel ausgehändigt:
+
+- {{KEYS_APARTMENT}} Wohnungsschlüssel
+- {{KEYS_BASEMENT}} Keller
+- {{KEYS_ATTIC}} Dachboden
+- {{KEYS_FRONTDOOR}} Haustür
+- {{KEYS_MAILBOX}} Briefkasten
+
+Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüsseln nicht berechtigt.

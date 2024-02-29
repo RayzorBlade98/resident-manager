@@ -69,6 +69,14 @@ class ResidentBuilder {
     return this;
   }
 
+  public withKeys(keys: Partial<Resident['keys']>): ResidentBuilder {
+    this.resident.keys = {
+      ...this.resident.keys,
+      ...keys,
+    };
+    return this;
+  }
+
   public withConditionalSetup(
     condition: boolean,
     setup: (rb: ResidentBuilder) => void,

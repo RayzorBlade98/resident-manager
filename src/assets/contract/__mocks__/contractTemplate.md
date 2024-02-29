@@ -11,6 +11,12 @@ Resident street = {{RESIDENT_STREET}}
 Resident city = {{RESIDENT_CITY}}
 Resident phone = {{RESIDENT_PHONE}}
 
+Keys apartment = {{KEYS_APARTMENT}}
+Keys basement = {{KEYS_BASEMENT}}
+Keys attic = {{KEYS_ATTIC}}
+Keys frontdoor = {{KEYS_FRONTDOOR}}
+Keys mailbox = {{KEYS_MAILBOX}}
+
 Property street = {{PROPERTY_STREET}}
 Property city = {{PROPERTY_CITY}}
 
