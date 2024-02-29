@@ -37,3 +37,7 @@ im *{{APARTMENT_FLOOR}}* Geschoss *{{APARTMENT_LOCATION}}* bestehend aus
 - {{KEYS_MAILBOX}} Briefkasten
 
 Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüsseln nicht berechtigt.
+
+## §2 Mietzeit
+
+**2.1** Das Mietverhältnis beginnt am {{CONTRACT_START}} und läuft auf unbestimmte Zeit.

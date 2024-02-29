@@ -5,9 +5,11 @@ import {
 import { convertNameToString } from '../../utils/name/name.utils';
 import contractTemplate from '_/assets/contract/contractTemplate.md';
 import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.md';
+import MonthYear from '_/extensions/date/month_year.extension';
 import Landlord from '_/models/landlord/landlord';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
+import Imported from '_/types/Imported';
 
 export type ContractGenerationArgs = {
   landlord: Landlord;
@@ -42,6 +44,7 @@ const placeholderLabels = {
   keysAttic: 'KEYS_ATTIC',
   keysFrontdoor: 'KEYS_FRONTDOOR',
   keysMailbox: 'KEYS_MAILBOX',
+  contractStart: 'CONTRACT_START',
 } satisfies Record<string, string>;
 
 const blockPlaceholderLabels = {
@@ -52,7 +55,9 @@ const blockPlaceholderLabels = {
  * Generates the contract as markdown string
  * @returns markdown string of the generated contract
  */
-export function generateContractMarkdown(args: ContractGenerationArgs): string {
+export function generateContractMarkdown(
+  args: Imported<ContractGenerationArgs>,
+): string {
   const apartment = args.property.apartments.find(
     (a) => a.id === args.resident.apartmentId,
   )!;
@@ -86,12 +91,17 @@ export function generateContractMarkdown(args: ContractGenerationArgs): string {
       apartment.rooms.basement.toString(),
     [placeholderLabels.apartmentRoomsHallway]:
       apartment.rooms.hallway.toString(),
-    [placeholderLabels.parkingSpaceCount]: args.resident.parkingSpaceId ? '1' : '0',
+    [placeholderLabels.parkingSpaceCount]: args.resident.parkingSpaceId
+      ? '1'
+      : '0',
     [placeholderLabels.keysApartment]: args.resident.keys.apartment.toString(),
     [placeholderLabels.keysBasement]: args.resident.keys.basement.toString(),
     [placeholderLabels.keysAttic]: args.resident.keys.attic.toString(),
     [placeholderLabels.keysFrontdoor]: args.resident.keys.frontDoor.toString(),
     [placeholderLabels.keysMailbox]: args.resident.keys.mailbox.toString(),
+    [placeholderLabels.contractStart]: MonthYear.fromString(
+      args.resident.contractStart,
+    ).toPreferredString(),
   };
 
   let contract = contractTemplate;

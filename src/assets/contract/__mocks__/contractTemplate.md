@@ -1,5 +1,7 @@
 Test
 
+Contract start = {{CONTRACT_START}}
+
 Landlord name = {{LANDLORD_NAME}}
 Landlord street = {{LANDLORD_STREET}}
 Landlord city = {{LANDLORD_CITY}}

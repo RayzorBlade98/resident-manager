@@ -1,4 +1,8 @@
-import { generateContractMarkdown } from './contractGeneration';
+import {
+  ContractGenerationArgs,
+  generateContractMarkdown,
+} from './contractGeneration';
+import MonthYear from '_/extensions/date/month_year.extension';
 import AddressBuilder from '_/test/builders/address.builder';
 import ApartmentBuilder from '_/test/builders/apartment.builder';
 import LandlordBuilder from '_/test/builders/landlord.builder';
@@ -7,6 +11,7 @@ import ParkingSpaceBuilder from '_/test/builders/parkingSpace.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import expectedContract from '_/test/data/contractGeneration/expectedContract.md';
+import Imported from '_/types/Imported';
 
 jest.mock('../../assets/contract/contractTemplate.md');
 jest.mock('../../assets/contract/landlordCompanyTemplate.md');
@@ -72,10 +77,19 @@ describe('generateContractMarkdown', () => {
         frontDoor: 14,
         mailbox: 15,
       })
+      .withContractStart(new MonthYear(2, 2024))
       .build();
 
+    const args: ContractGenerationArgs = {
+      landlord,
+      resident,
+      property,
+    };
+
     // Act
-    const contract = generateContractMarkdown({ landlord, resident, property });
+    const contract = generateContractMarkdown(
+      JSON.parse(JSON.stringify(args)) as Imported<ContractGenerationArgs>,
+    );
 
     // Assert
     expect(contract).toBe(expectedContract);

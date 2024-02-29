@@ -1,5 +1,7 @@
 Test
 
+Contract start = 01.03.2024
+
 Landlord name = Landlordfirst Landlordlast
 Landlord street = Landlordstreet 42
 Landlord city = 88888 Landlordcity
