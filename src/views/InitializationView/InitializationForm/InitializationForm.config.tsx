@@ -52,6 +52,16 @@ export interface InitializationInput {
   houseNumberLandlord: number;
 
   /**
+   * Holder of the landlord's banking account
+   */
+  bankaccountHolderLandlord: string;
+
+  /**
+   * IBAN of the landlord's banking account
+   */
+  bankaccountIBANLandlord: string;
+
+  /**
    * Number of aparments that get rented in the property
    */
   numberOfApartments: number;
@@ -107,6 +117,8 @@ InitializationGroups
       cityLandlord: ValidationConstraint.NoEmptyString,
       streetLandlord: ValidationConstraint.NoEmptyString,
       houseNumberLandlord: ValidationConstraint.Defined,
+      bankaccountHolderLandlord: ValidationConstraint.NoEmptyString,
+      bankaccountIBANLandlord: ValidationConstraint.NoEmptyString,
       numberOfApartments: ValidationConstraint.Defined,
       zipCodeProperty: ValidationConstraint.Defined,
       cityProperty: ValidationConstraint.NoEmptyString,
@@ -124,6 +136,8 @@ InitializationGroups
       cityLandlord: '',
       streetLandlord: '',
       houseNumberLandlord: undefined,
+      bankaccountHolderLandlord: '',
+      bankaccountIBANLandlord: '',
       numberOfApartments: undefined,
       zipCodeProperty: undefined,
       cityProperty: '',
@@ -144,6 +158,8 @@ InitializationGroups
       cityLandlord: 'landlord',
       streetLandlord: 'landlord',
       houseNumberLandlord: 'landlord',
+      bankaccountHolderLandlord: 'landlord',
+      bankaccountIBANLandlord: 'landlord',
       numberOfApartments: 'property',
       zipCodeProperty: 'property',
       cityProperty: 'property',

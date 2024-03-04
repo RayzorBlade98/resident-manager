@@ -159,6 +159,10 @@ describe('convertImportedInvoices', () => {
             street: 'street',
             houseNumber: 42,
           },
+          bankAccount: {
+            holder: 'holder',
+            iban: 'DE 1234 56789 00000',
+          },
         },
       } as Invoice,
     ];
@@ -331,6 +335,10 @@ describe('convertImportedLandlord', () => {
         city: 'city',
         street: 'street',
         houseNumber: 42,
+      },
+      bankAccount: {
+        holder: 'holder',
+        iban: 'DE 1234 5678 9000',
       },
     };
     const landlordJson = JSON.parse(JSON.stringify(landlord));

@@ -35,6 +35,8 @@ describe('InitializationForm', () => {
     cityLandlord: 'Landlord-City',
     streetLandlord: 'Landlord-Stret',
     houseNumberLandlord: 42,
+    bankaccountHolderLandlord: 'Holder',
+    bankaccountIBANLandlord: 'DE12345',
     numberOfApartments: 8,
     zipCodeProperty: 54321,
     cityProperty: 'Property-City',
@@ -53,6 +55,8 @@ describe('InitializationForm', () => {
     cityLandlord: '',
     streetLandlord: '',
     houseNumberLandlord: undefined,
+    bankaccountHolderLandlord: '',
+    bankaccountIBANLandlord: '',
     numberOfApartments: undefined,
     zipCodeProperty: undefined,
     cityProperty: '',
@@ -70,6 +74,8 @@ describe('InitializationForm', () => {
     cityLandlord: string;
     streetLandlord: string;
     houseNumberLandlord: number | undefined;
+    bankaccountHolderLandlord: string;
+    bankaccountIBANLandlord: string;
     numberOfApartments: number | undefined;
     zipCodeProperty: number | undefined;
     cityProperty: string;
@@ -140,6 +146,14 @@ describe('InitializationForm', () => {
       input(
         baseElement.querySelector('#houseNumberLandlord'),
         inputValues.houseNumberLandlord?.toString(),
+      );
+      input(
+        baseElement.querySelector('#bankaccountHolderLandlord'),
+        inputValues.bankaccountHolderLandlord,
+      );
+      input(
+        baseElement.querySelector('#bankaccountIBANLandlord'),
+        inputValues.bankaccountIBANLandlord,
       );
 
       fireEvent.click(tabs.item(2));
@@ -220,20 +234,20 @@ describe('InitializationForm', () => {
 
     for (const tab of tabs) {
       fireEvent.click(tab);
-      expect(await generateImage()).toMatchImageSnapshot();
+      expect(
+        await generateImage({
+          viewport: {
+            width: 800,
+            height: 700,
+          },
+        }),
+      ).toMatchImageSnapshot();
     }
   });
 
   test('should initialize states on submit', () => {
     // Arrange
-    inputToForm(validInputValues);
-
-    // Act
-    submitForm();
-
-    // Assert
-    expect(setLandlordStateMock).toHaveBeenCalledTimes(1);
-    expect(setLandlordStateMock).toHaveBeenLastCalledWith({
+    const expectedLandlord: Landlord = {
       company: validInputValues.companyLandlord,
       representative: {
         salutation: validInputValues.salutationLandlord,
@@ -246,10 +260,13 @@ describe('InitializationForm', () => {
         street: validInputValues.streetLandlord,
         houseNumber: validInputValues.houseNumberLandlord,
       },
-    } as Landlord);
+      bankAccount: {
+        holder: validInputValues.bankaccountHolderLandlord,
+        iban: validInputValues.bankaccountIBANLandlord,
+      },
+    };
 
-    expect(setPropertyStateMock).toHaveBeenCalledTimes(1);
-    expect(setPropertyStateMock).toHaveBeenLastCalledWith({
+    const expectedProperty: Property = {
       address: {
         zipCode: validInputValues.zipCodeProperty,
         city: validInputValues.cityProperty,
@@ -259,10 +276,9 @@ describe('InitializationForm', () => {
       numberOfApartments: validInputValues.numberOfApartments,
       apartments: [],
       parkingSpaces: [],
-    } as Property);
+    };
 
-    expect(setWaterCostStateMock).toHaveBeenCalledTimes(1);
-    expect(setWaterCostStateMock).toHaveBeenLastCalledWith({
+    const expectedWaterCosts: WaterCostsState = {
       waterUsageCosts: [
         {
           costPerCubicMeter: validInputValues.waterUsageCost,
@@ -275,6 +291,20 @@ describe('InitializationForm', () => {
           date: mockedSystemTime,
         },
       ],
-    } as WaterCostsState);
+    };
+
+    // Act
+    inputToForm(validInputValues);
+    submitForm();
+
+    // Assert
+    expect(setLandlordStateMock).toHaveBeenCalledTimes(1);
+    expect(setLandlordStateMock).toHaveBeenLastCalledWith(expectedLandlord);
+
+    expect(setPropertyStateMock).toHaveBeenCalledTimes(1);
+    expect(setPropertyStateMock).toHaveBeenLastCalledWith(expectedProperty);
+
+    expect(setWaterCostStateMock).toHaveBeenCalledTimes(1);
+    expect(setWaterCostStateMock).toHaveBeenLastCalledWith(expectedWaterCosts);
   });
 });

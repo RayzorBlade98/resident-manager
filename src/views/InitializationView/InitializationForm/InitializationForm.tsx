@@ -50,6 +50,10 @@ function InitializationForm() {
           street: values.streetLandlord,
           houseNumber: values.houseNumberLandlord,
         },
+        bankAccount: {
+          holder: values.bankaccountHolderLandlord,
+          iban: values.bankaccountIBANLandlord,
+        },
       });
       setPropertyState({
         numberOfApartments: values.numberOfApartments,
@@ -266,6 +270,40 @@ function InitializationForm() {
                     errorMessage={formErrors.houseNumberLandlord}
                     min={1}
                     onlyInteger
+                  />
+                </Grid>
+              </Grid>
+              <h3>Kontoinformation</h3>
+              <Grid
+                container
+                columnSpacing={2}
+                rowSpacing={2}
+                sx={styles.container}
+              >
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    id="bankaccountHolderLandlord"
+                    label="Kontoinhaber"
+                    value={formInput.bankaccountHolderLandlord}
+                    onChange={(event) => formInputSetters.bankaccountHolderLandlord(
+                      event.target.value,
+                    )}
+                    error={!!formErrors.bankaccountHolderLandlord}
+                    helperText={formErrors.bankaccountHolderLandlord}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    id="bankaccountIBANLandlord"
+                    label="IBAN"
+                    value={formInput.bankaccountIBANLandlord}
+                    onChange={(event) => formInputSetters.bankaccountIBANLandlord(
+                      event.target.value,
+                    )}
+                    error={!!formErrors.bankaccountIBANLandlord}
+                    helperText={formErrors.bankaccountIBANLandlord}
                   />
                 </Grid>
               </Grid>
