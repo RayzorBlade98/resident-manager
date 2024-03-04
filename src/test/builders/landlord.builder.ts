@@ -29,6 +29,16 @@ class LandlordBuilder {
     return this;
   }
 
+  public withBankAccount(
+    bankAccount: Partial<Landlord['bankAccount']>,
+  ): LandlordBuilder {
+    this.landlord.bankAccount = {
+      ...this.landlord.bankAccount,
+      ...bankAccount,
+    };
+    return this;
+  }
+
   public build(): Landlord {
     return this.landlord;
   }

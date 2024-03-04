@@ -41,3 +41,18 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 ## §2 Mietzeit
 
 **2.1** Das Mietverhältnis beginnt am {{CONTRACT_START}} und läuft auf unbestimmte Zeit.
+
+## §3 Miete & Betriebskosten
+
+Todo
+
+## §4 Mietzahlungen
+
+**4.1** Die Gesamtmiete (inklusive Nebenkostenvorauszahlungen / Nebenkostenpauschale) ist monatlich im Voraus, spätenstens am dritten Werktag des Monats an den Vermieter auf nachfolgendes Konto zu bezahlen:
+
+**Kontoinhaber:** {{LANDLORD_BANKACCOUNT_HOLDER}}
+**IBAN:** {{LANDLORD_BANKACCOUNT_IBAN}}
+
+**4.2** Für die Rechtzeitigkeit der Zahlung kommt es darauf an, dass der Zahlungsauftrag am dritten Werktag eines Monats erteilt ist.
+
+**4.3** Bei verspäteter Mietzahlung ist der Vermieter berechtigt, Verzugszinsen im Rahmen der gesetzlichen Regelung zu erheben.

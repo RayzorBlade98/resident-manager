@@ -24,6 +24,8 @@ const placeholderLabels = {
   landlordPhone: 'LANDLORD_PHONE', // Todo
   landlordEmail: 'LANDLORD_EMAIL', // Todo
   landlordCompany: 'LANDLORD_COMPANY',
+  landlordBankaccountHolder: 'LANDLORD_BANKACCOUNT_HOLDER',
+  landlordBankaccountIBAN: 'LANDLORD_BANKACCOUNT_IBAN',
   residentName: 'RESIDENT_NAME',
   residentStreet: 'RESIDENT_STREET', // Todo
   residentCity: 'RESIDENT_CITY', // Todo
@@ -73,6 +75,9 @@ export function generateContractMarkdown(
       args.landlord.address,
     ),
     [placeholderLabels.landlordCompany]: args.landlord.company ?? '',
+    [placeholderLabels.landlordBankaccountHolder]:
+      args.landlord.bankAccount.holder,
+    [placeholderLabels.landlordBankaccountIBAN]: args.landlord.bankAccount.iban,
     [placeholderLabels.residentName]: convertNameToString(args.resident.name),
     [placeholderLabels.propertyStreet]: convertAddressToStreetString(
       args.property.address,

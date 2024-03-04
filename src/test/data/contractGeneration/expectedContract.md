@@ -7,6 +7,8 @@ Landlord street = Landlordstreet 42
 Landlord city = 88888 Landlordcity
 Landlord phone = {{LANDLORD_PHONE}}
 Landlord email = {{LANDLORD_EMAIL}}
+Landlord bankaccount holder = Landlord Holder
+Landlord bankaccount IBAN = DE12 3456 7890
 
 Resident name = Residentfirst Residentlast
 Resident street = {{RESIDENT_STREET}}

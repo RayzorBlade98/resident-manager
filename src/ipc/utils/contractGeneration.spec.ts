@@ -34,6 +34,10 @@ describe('generateContractMarkdown', () => {
           .withCity('Landlordcity')
           .build(),
       )
+      .withBankAccount({
+        holder: 'Landlord Holder',
+        iban: 'DE12 3456 7890',
+      })
       .build();
 
     const property = new PropertyBuilder()

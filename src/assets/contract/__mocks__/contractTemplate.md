@@ -7,6 +7,8 @@ Landlord street = {{LANDLORD_STREET}}
 Landlord city = {{LANDLORD_CITY}}
 Landlord phone = {{LANDLORD_PHONE}}
 Landlord email = {{LANDLORD_EMAIL}}
+Landlord bankaccount holder = {{LANDLORD_BANKACCOUNT_HOLDER}}
+Landlord bankaccount IBAN = {{LANDLORD_BANKACCOUNT_IBAN}}
 
 Resident name = {{RESIDENT_NAME}}
 Resident street = {{RESIDENT_STREET}}
