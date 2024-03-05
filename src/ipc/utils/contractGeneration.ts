@@ -31,6 +31,7 @@ const placeholderLabels = {
   residentStreet: 'RESIDENT_STREET', // Todo
   residentCity: 'RESIDENT_CITY', // Todo
   residentPhone: 'RESIDENT_PHONE', // Todo
+  numberOfResidents: 'NUMBER_OF_RESIDENTS',
   propertyStreet: 'PROPERTY_STREET',
   propertyCity: 'PROPERTY_CITY',
   apartmentFloor: 'APARTMENT_FLOOR',
@@ -81,6 +82,7 @@ export function generateContractMarkdown(
       args.landlord.bankAccount.holder,
     [placeholderLabels.landlordBankaccountIBAN]: args.landlord.bankAccount.iban,
     [placeholderLabels.residentName]: convertNameToString(args.resident.name),
+    [placeholderLabels.numberOfResidents]: args.resident.numberOfResidents.toString(),
     [placeholderLabels.propertyStreet]: convertAddressToStreetString(
       args.property.address,
     ),

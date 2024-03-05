@@ -90,3 +90,11 @@ Todo
 **9.1** Der Vermieter gewährt den Gebrauch der Mietsache in dem Zustand bei Übergabe.
 
 **9.2** Die verschuldensunabhängige Haftung des Vermieters für anfängliche Sachmängel wird ausgeschlossen. Im Übrigen kann der Mieter vom Vermieter Schadensersatz wegen Mängel der Mietsache nur verlangen, soweit dem Vermieter Vorsatz oder grobe Fahrlässigkeit zur Last fällt. Dieser Haftungsausschluss gilt nicht für Schäden aus der Verletzung von Leben, Körper oder Gesundheit. Das Recht des Mieters zur Mietminderung oder zur fristlosen Kündigung bleibt unberührt.
+
+## §10 Benutzung der Mieträume
+
+**10.1** Der Mieter darf die Mietsache nur zu den im Vertrag bestimmten Zwecken nutzen. Die Wohnung wird bei Mietvertragsbeginn von {{NUMBER_OF_RESIDENTS}} Personen genutzt.
+
+**10.2** Der Mieter ist ohne vorherige Erlaubnis des Vermieters nicht berechtigt die Mietsache unterzuvermieten oder einem Dritten zu überlassen. Der Vermieter kann seine Zustimmung zur Untervermietung oder Gebrauchsüberlassung an einen Dritten von der Zahlung eines angemessenen Zuschlages abhängig machen.
+
+**10.3** Die installierten Versorgungsleitungen für Elektrizität, Gas und Wasser dürfen vom Mieter nur im Rahmen der vorhandenen Kapazität genutzt werden. Der Mieter hat dafür Sorge zu leisten, dass keine Überlastung eintritt.

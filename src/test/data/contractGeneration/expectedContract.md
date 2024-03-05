@@ -14,6 +14,7 @@ Resident name = Residentfirst Residentlast
 Resident street = {{RESIDENT_STREET}}
 Resident city = {{RESIDENT_CITY}}
 Resident phone = {{RESIDENT_PHONE}}
+Number of residents = 5
 
 Rent deposit = 1500.00 €
 

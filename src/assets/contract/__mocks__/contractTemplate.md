@@ -14,6 +14,7 @@ Resident name = {{RESIDENT_NAME}}
 Resident street = {{RESIDENT_STREET}}
 Resident city = {{RESIDENT_CITY}}
 Resident phone = {{RESIDENT_PHONE}}
+Number of residents = {{NUMBER_OF_RESIDENTS}}
 
 Rent deposit = {{RENT_DEPOSIT}}
 
