@@ -98,3 +98,47 @@ Todo
 **10.2** Der Mieter ist ohne vorherige Erlaubnis des Vermieters nicht berechtigt die Mietsache unterzuvermieten oder einem Dritten zu überlassen. Der Vermieter kann seine Zustimmung zur Untervermietung oder Gebrauchsüberlassung an einen Dritten von der Zahlung eines angemessenen Zuschlages abhängig machen.
 
 **10.3** Die installierten Versorgungsleitungen für Elektrizität, Gas und Wasser dürfen vom Mieter nur im Rahmen der vorhandenen Kapazität genutzt werden. Der Mieter hat dafür Sorge zu leisten, dass keine Überlastung eintritt.
+
+## §11 Tierhaltung
+
+**11.1** Die Haltung von Kleintieren (bspw. Wellensittiche, Zierfische, Hamster) ist zulässig.
+
+**11.2** Andere Tiere dürfen nur mit vorheriger Erlaubnis des Vermieters gehalten oder zeitweilig aufgenommen werden. Die Zustimmung kann jederzeit widerrufen werden, wenn Unzuträglichkeiten eintreten. Die Erlaubnis des Vermieters kann nur aus triftigem Grund unter Berücksichtigung sämtlicher Umstände des Einzelfalles verweigert werden.
+
+## §12 Bauliche Veränderung durch den Mieter
+
+**12.1** Zu baulichen Veränderungen an und insbesondere in der Mietsach, wie Um- und Einbauten, ist der Mieter erst nach ausdrücklicher Erlaubnis durch den Vermieter berechtigt. Der Vermieter kann die Erlaubnis davon abhängig machen, dass der ursprüngliche Zustand bei Beendigung des Mietverhältnisses wieder herzustellen ist. Dies betrifft auch die Beseitigung von Dekorationsschäden.
+
+**12.2** Möchte der Mieter bei Beendigung der Mietsache Einrichtungen, die er selbst eingebracht, entfernen, so hat er diese zunächst dem Vermieter zur Übernahme anzubieten, es sei denn der Mieter hat ein berechtigtes Interesse an der Wegnahme.
+
+**12.3** Der Mieter haftet für alle Schäden, die im Zusammenhang mit den von ihm ausgeführten Baumaßnahmen entstehen.
+
+## §13 Betreten der Mieträume durch den Vermieter
+
+**13.1** Dem Vermieter sowie dessen Hilfsperson ist die Besichtigung des Mietgegenstandes bei konkretem Anlass (insbesondere bei Beendigung des Mietvertrages zum Zwecke der Anschlussvermittlung oder bei einem beabsichtigtem Verkauf) nach rechtzeitiger Ankündigung zu angemessener Tageszeit gestattet.
+
+**13.2** Bei längerer Abwesenheit des Mieters hat dieser Sorge zu leisten, dass der Vermieter sein Recht zum Betreten der Mieträume weiterhin ausüben kann.
+
+## §14 Rückgabe der Mieträume
+
+**14.1** Bei Ende des Mietvertrages hat der Mieter die Mieträume vollständig geräumt und in sauberem und vertragsgemäßen Zustand zurückzugeben. Alle Schlüssel, auch vom Mieter selbst beschaffte, sind dem Vermieter zu übergeben. Der Mieter haftet für alle Schäden, die dem Vermieter oder einem Mietnachfolger aus der Nichtbefolgung dieser Pflicht entstehen.
+
+## §15 Personenmehrheit als Mieter
+
+**15.1** Sind mehrere Personen Mieter, so haften sie für alle Verpflichtungen aus dem Mietverhältnis als Gesamtschuldner.
+
+**15.2** Erklärungen, deren Wirkung die Mieter berühren, müssen von und gegenüber allen Mietern abgegeben werden. Die Mieter bevollmächtigen sich gegenseitig zur Entgegennahme von Erklärungen des Vermieters und zur Abgabe von Erklärungen. Die Bevollmächtigung ist jederzeit widerruflich. Die Vollmacht erstreckt sich nicht auf die Erklärung einer Kündigung oder die Aufhebung eines Mietvertrags.
+
+## §16 Hausordnung
+
+**16.1** Vermieter und Mieter verpflichten sich zur Wahrung des Hausfriedens und zur gegenseitigen Rücksichtsnahme.
+
+**16.2** Zur Aufrechterhaltung der Ordnung im Hause und für die Benutzung der Gemeinschaftsanlagen gilt die diesem Vertrag als Anhang 1 beigefügte Hausordnung. Der Vermieter behält sich bei Vorliegen von berechtigten Gründen eine Änderung der Hausordnung vor. Entsprechende Gründe werden dem Mieter mit der Übergabe der neuen Hausordnung mitgeteilt.
+
+## §17 Änderungen und Ergänzungen
+
+**17.1** Änderungen und Ergänzungen sowie weitere Vereinbarungen dieses Vertragen bedürfen der Schriftform.
+
+## §18 Salvatorische Klausel
+
+**18.1** Sollte eine der vorstehenden Vertragsabreden unwirksam sein, so wird die Rechtswirksamkeit der übrigen Klauseln des Mietvertrages hiervon nicht berührt.
