@@ -34,7 +34,7 @@ Apartment rooms kitchen = 4
 Apartment rooms bath = 3
 Apartment rooms hallway = 2
 Apartment rooms basement = 1
-Apartment rooms garden = {{APARTMENT_ROOMS_GARDEN}}
+Apartment rooms garden = 0
 
 Parking space count = 1
 

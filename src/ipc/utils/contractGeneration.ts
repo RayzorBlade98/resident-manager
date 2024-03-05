@@ -41,7 +41,7 @@ const placeholderLabels = {
   apartmentRoomsBath: 'APARTMENT_ROOMS_BATH',
   apartmentRoomsHallway: 'APARTMENT_ROOMS_HALLWAY',
   apartmentRoomsBasement: 'APARTMENT_ROOMS_BASEMENT',
-  apartmentRoomsGarden: 'APARTMENT_ROOMS_GARDEN', // Todo
+  apartmentRoomsGarden: 'APARTMENT_ROOMS_GARDEN',
   parkingSpaceCount: 'PARKING_SPACE_COUNT',
   keysApartment: 'KEYS_APARTMENT',
   keysBasement: 'KEYS_BASEMENT',
@@ -102,6 +102,7 @@ export function generateContractMarkdown(
       apartment.rooms.basement.toString(),
     [placeholderLabels.apartmentRoomsHallway]:
       apartment.rooms.hallway.toString(),
+    [placeholderLabels.apartmentRoomsGarden]: apartment.rooms.garden.toString(),
     [placeholderLabels.parkingSpaceCount]: args.resident.parkingSpaceId
       ? '1'
       : '0',

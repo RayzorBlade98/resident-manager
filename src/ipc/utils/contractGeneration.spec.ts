@@ -61,6 +61,7 @@ describe('generateContractMarkdown', () => {
             bath: 3,
             hallway: 2,
             basement: 1,
+            garden: 0,
           })
           .build(),
       )
