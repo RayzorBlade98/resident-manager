@@ -282,6 +282,7 @@ function InitializationForm() {
               >
                 <Grid item xs={6}>
                   <TextField
+                    required
                     fullWidth
                     id="bankaccountHolderLandlord"
                     label="Kontoinhaber"
@@ -295,6 +296,7 @@ function InitializationForm() {
                 </Grid>
                 <Grid item xs={6}>
                   <TextField
+                    required
                     fullWidth
                     id="bankaccountIBANLandlord"
                     label="IBAN"
