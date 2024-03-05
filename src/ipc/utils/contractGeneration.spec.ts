@@ -82,6 +82,7 @@ describe('generateContractMarkdown', () => {
         mailbox: 15,
       })
       .withContractStart(new MonthYear(2, 2024))
+      .withRentDeposit(150000)
       .build();
 
     const args: ContractGenerationArgs = {

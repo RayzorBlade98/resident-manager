@@ -2,6 +2,7 @@ import {
   convertAddressToCityString,
   convertAddressToStreetString,
 } from '../../utils/address/address.utils';
+import { convertCurrencyCentsToString } from '../../utils/currency/currency.utils';
 import { convertNameToString } from '../../utils/name/name.utils';
 import contractTemplate from '_/assets/contract/contractTemplate.md';
 import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.md';
@@ -47,6 +48,7 @@ const placeholderLabels = {
   keysFrontdoor: 'KEYS_FRONTDOOR',
   keysMailbox: 'KEYS_MAILBOX',
   contractStart: 'CONTRACT_START',
+  rentDeposit: 'RENT_DEPOSIT',
 } satisfies Record<string, string>;
 
 const blockPlaceholderLabels = {
@@ -107,6 +109,7 @@ export function generateContractMarkdown(
     [placeholderLabels.contractStart]: MonthYear.fromString(
       args.resident.contractStart,
     ).toPreferredString(),
+    [placeholderLabels.rentDeposit]: convertCurrencyCentsToString(args.resident.rentDeposit),
   };
 
   let contract = contractTemplate;

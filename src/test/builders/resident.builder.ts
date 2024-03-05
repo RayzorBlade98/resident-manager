@@ -5,6 +5,7 @@ import Name from '_/models/name';
 import { RentInformation } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 class ResidentBuilder {
   private resident: Resident;
@@ -75,6 +76,11 @@ class ResidentBuilder {
       ...this.resident.keys,
       ...keys,
     };
+    return this;
+  }
+
+  public withRentDeposit(rentDeposit: CurrencyInCents): ResidentBuilder {
+    this.resident.rentDeposit = rentDeposit;
     return this;
   }
 

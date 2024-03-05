@@ -15,6 +15,8 @@ Resident street = {{RESIDENT_STREET}}
 Resident city = {{RESIDENT_CITY}}
 Resident phone = {{RESIDENT_PHONE}}
 
+Rent deposit = {{RENT_DEPOSIT}}
+
 Keys apartment = {{KEYS_APARTMENT}}
 Keys basement = {{KEYS_BASEMENT}}
 Keys attic = {{KEYS_ATTIC}}

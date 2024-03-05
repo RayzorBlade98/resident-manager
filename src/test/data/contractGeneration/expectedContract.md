@@ -15,6 +15,8 @@ Resident street = {{RESIDENT_STREET}}
 Resident city = {{RESIDENT_CITY}}
 Resident phone = {{RESIDENT_PHONE}}
 
+Rent deposit = 1500.00 €
+
 Keys apartment = 11
 Keys basement = 12
 Keys attic = 13

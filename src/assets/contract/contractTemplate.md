@@ -56,3 +56,9 @@ Todo
 **4.2** Für die Rechtzeitigkeit der Zahlung kommt es darauf an, dass der Zahlungsauftrag am dritten Werktag eines Monats erteilt ist.
 
 **4.3** Bei verspäteter Mietzahlung ist der Vermieter berechtigt, Verzugszinsen im Rahmen der gesetzlichen Regelung zu erheben.
+
+## §5 Mietsicherheit / Kaution
+
+**5.1** Der Mieter leistet zu Beginn des Mietverhältnisses dem Vermieter zur Sicherheit der Erfüllung seiner Pflichten eine Kaution (höchstens 3 Monatskaltmieten) in Höhe von {{RENT_DEPOSIT}}. Der Mieter ist berechtigt die Kaution in drei gleichen Teilzahlungen zu leisten.
+
+**5.2?** Der Vermieter verpflichtet sich die Kaution getrennt von seinem Vermögen bei einer öffentlichen Sparkasse oder Bank, zu dem für Spareinlagen mit dreimonatiger Kündigungsfrist üblichen Zinssatz, anzulegen.
