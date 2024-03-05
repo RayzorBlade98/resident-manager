@@ -41,6 +41,16 @@ class LandlordBuilder {
     return this;
   }
 
+  public withEmail(email: string): LandlordBuilder {
+    this.landlord.email = email;
+    return this;
+  }
+
+  public withPhone(phone: string): LandlordBuilder {
+    this.landlord.phone = phone;
+    return this;
+  }
+
   public build(): Landlord {
     return this.landlord;
   }

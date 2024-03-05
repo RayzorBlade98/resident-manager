@@ -38,6 +38,8 @@ describe('generateContractMarkdown', () => {
         holder: 'Landlord Holder',
         iban: 'DE12 3456 7890',
       })
+      .withEmail('landlord@example.org')
+      .withPhone('0152 12345678')
       .build();
 
     const property = new PropertyBuilder()

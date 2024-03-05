@@ -5,8 +5,8 @@ Contract start = 01.03.2024
 Landlord name = Landlordfirst Landlordlast
 Landlord street = Landlordstreet 42
 Landlord city = 88888 Landlordcity
-Landlord phone = {{LANDLORD_PHONE}}
-Landlord email = {{LANDLORD_EMAIL}}
+Landlord phone = 0152 12345678
+Landlord email = landlord@example.org
 Landlord bankaccount holder = Landlord Holder
 Landlord bankaccount IBAN = DE12 3456 7890
 
