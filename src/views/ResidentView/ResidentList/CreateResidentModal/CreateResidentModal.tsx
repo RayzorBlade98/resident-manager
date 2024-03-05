@@ -78,6 +78,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
         ],
         apartmentId: values.apartmentId,
         parkingSpaceId: values.parkingSpaceId,
+        rentDeposit: values.rentDeposit,
         keys: {
           apartment: values.apartmentKeys,
           basement: values.basementKeys,
@@ -214,6 +215,16 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
                     value={formInput.incidentals}
                     onChange={formInputSetters.incidentals}
                     errorMessage={formErrors.incidentals}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <CurrencyInputField
+                    required
+                    id="rentDeposit"
+                    label="Kaution"
+                    value={formInput.rentDeposit}
+                    onChange={formInputSetters.rentDeposit}
+                    errorMessage={formErrors.rentDeposit}
                   />
                 </Grid>
                 <Grid item xs={6}>

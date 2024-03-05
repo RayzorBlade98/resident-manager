@@ -40,6 +40,11 @@ export interface CreateResidentInput {
   incidentals: CurrencyInCents;
 
   /**
+   * Rent deposit that the resident payed at contract start
+   */
+  rentDeposit: CurrencyInCents;
+
+  /**
    * First month and year the contract of the new resident starts
    */
   contractStart: MonthYear;
@@ -109,6 +114,7 @@ export function getCreateResidentModalConfig(args: {
         lastName: ValidationConstraint.NoEmptyString,
         rent: ValidationConstraint.Currency,
         incidentals: ValidationConstraint.Currency,
+        rentDeposit: ValidationConstraint.Currency,
         contractStart: ValidationConstraint.Defined,
         waterMeter: ValidationConstraint.Defined,
         numberOfResidents: ValidationConstraint.Defined,
@@ -125,6 +131,7 @@ export function getCreateResidentModalConfig(args: {
         lastName: '',
         rent: undefined,
         incidentals: undefined,
+        rentDeposit: undefined,
         contractStart: new MonthYear(),
         waterMeter: undefined,
         numberOfResidents: undefined,
@@ -147,6 +154,7 @@ export function getCreateResidentModalConfig(args: {
         numberOfResidents: 'resident',
         rent: 'apartment',
         incidentals: 'apartment',
+        rentDeposit: 'apartment',
         waterMeter: 'apartment',
         apartmentId: 'apartment',
         parkingSpaceId: 'apartment',

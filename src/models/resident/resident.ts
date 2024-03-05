@@ -2,6 +2,7 @@ import Name from '../name';
 import { RentInformation } from './rent';
 import WaterMeterReading from './water_meter_reading';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
  * Object containing information about a specific resident
@@ -46,6 +47,11 @@ export interface Resident {
    * Id of the parking space the resident rented
    */
   parkingSpaceId: string | undefined;
+
+  /**
+   * Rent deposit that the resident payed at contract start
+   */
+  rentDeposit: CurrencyInCents;
 
   /**
    * Information about the keys the resident has

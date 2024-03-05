@@ -33,6 +33,7 @@ describe('CreateResidentModal', () => {
     lastName: 'Mustermann',
     rent: 50000,
     incidentals: 10000,
+    rentDeposit: 150000,
     contractStart: new MonthYear(0, 2024),
     waterMeter: 12345,
     numberOfResidents: 5,
@@ -49,6 +50,7 @@ describe('CreateResidentModal', () => {
     lastName: '',
     rent: undefined,
     incidentals: undefined,
+    rentDeposit: undefined,
     contractStart: undefined,
     waterMeter: undefined,
     numberOfResidents: undefined,
@@ -64,6 +66,7 @@ describe('CreateResidentModal', () => {
     lastName: string;
     rent: number | undefined;
     incidentals: number | undefined;
+    rentDeposit: number | undefined;
     contractStart: MonthYear | undefined;
     waterMeter: number | undefined;
     numberOfResidents: number | undefined;
@@ -106,6 +109,12 @@ describe('CreateResidentModal', () => {
         baseElement.querySelector('#incidentals'),
         inputValues.incidentals
           ? (inputValues.incidentals / 100).toString()
+          : undefined,
+      );
+      input(
+        baseElement.querySelector('#rentDeposit'),
+        inputValues.rentDeposit
+          ? (inputValues.rentDeposit / 100).toString()
           : undefined,
       );
       input(
@@ -239,6 +248,7 @@ describe('CreateResidentModal', () => {
           },
         ],
         apartmentId: property.apartments[0].id,
+        rentDeposit: validInputValues.rentDeposit,
         keys: {
           apartment: validInputValues.apartmentKeys,
           basement: validInputValues.basementKeys,

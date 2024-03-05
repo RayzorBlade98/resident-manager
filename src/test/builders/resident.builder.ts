@@ -19,6 +19,7 @@ class ResidentBuilder {
       waterMeterReadings: [],
       apartmentId: '',
       parkingSpaceId: undefined,
+      rentDeposit: 0,
       keys: {
         apartment: 1,
         basement: 1,
