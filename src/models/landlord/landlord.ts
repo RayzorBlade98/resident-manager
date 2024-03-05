@@ -21,6 +21,16 @@ interface Landlord {
   address: Address;
 
   /**
+   * Email of the landlord
+   */
+  email: string;
+
+  /**
+   * Phone number of the landlord
+   */
+  phone: string;
+
+  /**
    * Banking account information of the landlord
    */
   bankAccount: {

@@ -159,6 +159,8 @@ describe('convertImportedInvoices', () => {
             street: 'street',
             houseNumber: 42,
           },
+          email: 'landlord@example.org',
+          phone: '0152 544444',
           bankAccount: {
             holder: 'holder',
             iban: 'DE 1234 56789 00000',
@@ -337,6 +339,8 @@ describe('convertImportedLandlord', () => {
         street: 'street',
         houseNumber: 42,
       },
+      email: 'landlord@example.org',
+      phone: '0152 3333333',
       bankAccount: {
         holder: 'holder',
         iban: 'DE 1234 5678 9000',

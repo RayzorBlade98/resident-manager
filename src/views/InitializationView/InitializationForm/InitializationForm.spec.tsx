@@ -35,6 +35,8 @@ describe('InitializationForm', () => {
     cityLandlord: 'Landlord-City',
     streetLandlord: 'Landlord-Stret',
     houseNumberLandlord: 42,
+    emailLandlord: 'landlord@exmaple.org',
+    phoneLandlord: '0152 12345',
     bankaccountHolderLandlord: 'Holder',
     bankaccountIBANLandlord: 'DE12345',
     numberOfApartments: 8,
@@ -55,6 +57,8 @@ describe('InitializationForm', () => {
     cityLandlord: '',
     streetLandlord: '',
     houseNumberLandlord: undefined,
+    emailLandlord: '',
+    phoneLandlord: '',
     bankaccountHolderLandlord: '',
     bankaccountIBANLandlord: '',
     numberOfApartments: undefined,
@@ -74,6 +78,8 @@ describe('InitializationForm', () => {
     cityLandlord: string;
     streetLandlord: string;
     houseNumberLandlord: number | undefined;
+    emailLandlord: string;
+    phoneLandlord: string;
     bankaccountHolderLandlord: string;
     bankaccountIBANLandlord: string;
     numberOfApartments: number | undefined;
@@ -146,6 +152,14 @@ describe('InitializationForm', () => {
       input(
         baseElement.querySelector('#houseNumberLandlord'),
         inputValues.houseNumberLandlord?.toString(),
+      );
+      input(
+        baseElement.querySelector('#emailLandlord'),
+        inputValues.emailLandlord,
+      );
+      input(
+        baseElement.querySelector('#phoneLandlord'),
+        inputValues.phoneLandlord,
       );
       input(
         baseElement.querySelector('#bankaccountHolderLandlord'),
@@ -260,6 +274,8 @@ describe('InitializationForm', () => {
         street: validInputValues.streetLandlord,
         houseNumber: validInputValues.houseNumberLandlord,
       },
+      email: validInputValues.emailLandlord,
+      phone: validInputValues.phoneLandlord,
       bankAccount: {
         holder: validInputValues.bankaccountHolderLandlord,
         iban: validInputValues.bankaccountIBANLandlord,

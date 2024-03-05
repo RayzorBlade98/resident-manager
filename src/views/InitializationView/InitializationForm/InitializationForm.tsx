@@ -50,6 +50,8 @@ function InitializationForm() {
           street: values.streetLandlord,
           houseNumber: values.houseNumberLandlord,
         },
+        email: values.emailLandlord,
+        phone: values.phoneLandlord,
         bankAccount: {
           holder: values.bankaccountHolderLandlord,
           iban: values.bankaccountIBANLandlord,
@@ -180,13 +182,6 @@ function InitializationForm() {
                     helperText={formErrors.companyLandlord}
                   />
                 </Grid>
-              </Grid>
-              <Grid
-                container
-                columnSpacing={2}
-                rowSpacing={2}
-                sx={styles.container}
-              >
                 <Grid item xs={3}>
                   <SalutationSelect
                     value={formInput.salutationLandlord as Salutation}
@@ -210,20 +205,13 @@ function InitializationForm() {
                     required
                     fullWidth
                     id="lastNameLandlord"
-                    label="Vorname"
+                    label="Nachname"
                     value={formInput.lastNameLandlord}
                     onChange={(event) => formInputSetters.lastNameLandlord(event.target.value)}
                     error={!!formErrors.lastNameLandlord}
                     helperText={formErrors.lastNameLandlord}
                   />
                 </Grid>
-              </Grid>
-              <Grid
-                container
-                columnSpacing={2}
-                rowSpacing={2}
-                sx={styles.container}
-              >
                 <Grid item xs={3}>
                   <NumberTextField
                     required
@@ -270,6 +258,30 @@ function InitializationForm() {
                     errorMessage={formErrors.houseNumberLandlord}
                     min={1}
                     onlyInteger
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="emailLandlord"
+                    label="Email"
+                    value={formInput.emailLandlord}
+                    onChange={(event) => formInputSetters.emailLandlord(event.target.value)}
+                    error={!!formErrors.emailLandlord}
+                    helperText={formErrors.emailLandlord}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="phoneLandlord"
+                    label="Telefonnummer"
+                    value={formInput.phoneLandlord}
+                    onChange={(event) => formInputSetters.phoneLandlord(event.target.value)}
+                    error={!!formErrors.phoneLandlord}
+                    helperText={formErrors.phoneLandlord}
                   />
                 </Grid>
               </Grid>

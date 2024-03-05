@@ -12,6 +12,8 @@ class LandlordBuilder {
       company: 'test company',
       representative: new NameBuilder().build(),
       address: new AddressBuilder().build(),
+      email: 'landlord@example.org',
+      phone: '0152 111111',
       bankAccount: {
         holder: 'test holder',
         iban: 'DE 1111',
