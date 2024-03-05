@@ -48,6 +48,7 @@ function CreateApartmentModal(props: CreateApartmentModalProps) {
           basement: values.basementRooms,
           bath: values.bathRooms,
           hallway: values.hallwayRooms,
+          garden: values.gardenRooms,
         },
       });
       props.onCloseModal();
@@ -163,6 +164,18 @@ function CreateApartmentModal(props: CreateApartmentModalProps) {
                     value={formInput.basementRooms}
                     onChange={formInputSetters.basementRooms}
                     errorMessage={formErrors.basementRooms}
+                    onlyInteger
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <NumberTextField
+                    required
+                    id="gardenRooms"
+                    label="Gärten / Gartenabteile"
+                    min={0}
+                    value={formInput.gardenRooms}
+                    onChange={formInputSetters.gardenRooms}
+                    errorMessage={formErrors.gardenRooms}
                     onlyInteger
                   />
                 </Grid>

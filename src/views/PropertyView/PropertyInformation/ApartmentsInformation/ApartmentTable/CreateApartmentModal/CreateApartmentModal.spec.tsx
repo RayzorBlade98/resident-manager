@@ -22,6 +22,7 @@ describe('CreateApartmentModal', () => {
     bathRooms: 2,
     hallwayRooms: 1,
     basementRooms: 0,
+    gardenRooms: 5,
   };
 
   const invalidInputValues = {
@@ -32,6 +33,7 @@ describe('CreateApartmentModal', () => {
     bathRooms: undefined,
     hallwayRooms: undefined,
     basementRooms: undefined,
+    gardenRooms: undefined,
   };
 
   function inputToForm(inputValues: {
@@ -42,6 +44,7 @@ describe('CreateApartmentModal', () => {
     bathRooms: number | undefined;
     hallwayRooms: number | undefined;
     basementRooms: number | undefined;
+    gardenRooms: number | undefined;
   }) {
     function input(element: Element | null, value: string | undefined) {
       if (!element) {
@@ -78,6 +81,10 @@ describe('CreateApartmentModal', () => {
       input(
         baseElement.querySelector('#hallwayRooms'),
         inputValues.hallwayRooms?.toString(),
+      );
+      input(
+        baseElement.querySelector('#gardenRooms'),
+        inputValues.gardenRooms?.toString(),
       );
     });
   }
@@ -154,6 +161,7 @@ describe('CreateApartmentModal', () => {
           basement: validInputValues.basementRooms,
           bath: validInputValues.bathRooms,
           hallway: validInputValues.hallwayRooms,
+          garden: validInputValues.gardenRooms,
         },
       }),
     );

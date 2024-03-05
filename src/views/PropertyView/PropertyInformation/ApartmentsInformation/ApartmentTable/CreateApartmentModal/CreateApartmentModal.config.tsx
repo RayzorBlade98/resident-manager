@@ -43,6 +43,11 @@ export interface CreateApartmentInput {
    * Number of basement rooms in the apartment
    */
   basementRooms: number;
+
+  /**
+   * Number of gardens in the apartment
+   */
+  gardenRooms: number;
 }
 
 /**
@@ -66,6 +71,7 @@ CreateApartmentGroups
       basementRooms: ValidationConstraint.Defined,
       hallwayRooms: ValidationConstraint.Defined,
       bathRooms: ValidationConstraint.Defined,
+      gardenRooms: ValidationConstraint.Defined,
     }),
     defaultFormInput: {
       floor: '',
@@ -75,6 +81,7 @@ CreateApartmentGroups
       basementRooms: 1,
       hallwayRooms: 1,
       bathRooms: 1,
+      gardenRooms: 1,
     },
     submitButtonLabel: 'Erstellen',
   },
@@ -87,6 +94,7 @@ CreateApartmentGroups
       basementRooms: 'rooms',
       hallwayRooms: 'rooms',
       bathRooms: 'rooms',
+      gardenRooms: 'rooms',
     },
     groupConfigs: {
       location: {

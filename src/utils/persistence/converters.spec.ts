@@ -260,6 +260,7 @@ describe('convertImportedProperty', () => {
             bath: 2,
             basement: 1,
             hallway: 2,
+            garden: 1,
           },
         },
         {
@@ -272,6 +273,7 @@ describe('convertImportedProperty', () => {
             bath: 1,
             basement: 2,
             hallway: 1,
+            garden: 0,
           },
         },
       ],

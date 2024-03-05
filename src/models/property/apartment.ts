@@ -45,6 +45,11 @@ interface Apartment {
      * Number of basement rooms
      */
     basement: number;
+
+    /**
+     * Number of gardens
+     */
+    garden: number
   };
 }
 

@@ -15,6 +15,7 @@ class ApartmentBuilder {
         bath: 2,
         basement: 1,
         hallway: 2,
+        garden: 0,
       },
     };
   }
