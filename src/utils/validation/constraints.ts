@@ -10,6 +10,11 @@ export enum ValidationConstraint {
   NoEmptyString,
 
   /**
+   * ValidationConstraint that checks if the tested array is not empty
+   */
+  NoEmptyArray,
+
+  /**
    * ValidationConstraint that checks if the tested value is between `1` and `12`.
    */
   Month,
@@ -42,6 +47,7 @@ export const CONSTRAINT_FUNCTIONS: {
   [ValidationConstraint.NoEmptyString]: noEmptyStringConstraint,
   [ValidationConstraint.Currency]: currencyConstraint,
   [ValidationConstraint.Defined]: definedConstraint,
+  [ValidationConstraint.NoEmptyArray]: noEmptyArrayConstraint,
 };
 
 /**
@@ -97,6 +103,16 @@ function currencyConstraint(value: number | undefined): string | undefined {
  */
 function noEmptyStringConstraint(value: string): string | undefined {
   if (value === '') {
+    return ERROR_MESSAGES.EMPTY;
+  }
+  return undefined;
+}
+
+/**
+ *
+ */
+function noEmptyArrayConstraint<T>(value: T[] | undefined): string | undefined {
+  if (!value || !value.length) {
     return ERROR_MESSAGES.EMPTY;
   }
   return undefined;

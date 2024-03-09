@@ -1,16 +1,20 @@
-/* eslint-disable no-await-in-loop */
+/* eslint-disable no-await-in-loop, react/jsx-no-useless-fragment */
 
 import { act, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { setRecoil } from 'recoil-nexus';
+import * as createContractResidentModalModule from './CreateContractResidentModal/CreateContractResidentModal';
 import CreateResidentModal from './CreateResidentModal';
 import MonthYear from '_/extensions/date/month_year.extension';
 import * as useResidentStateModule from '_/hooks/useResidentState/useResidentState';
 import { Salutation } from '_/models/name';
+import { ContractResident } from '_/models/resident/contractResident';
 import propertyState from '_/states/property/property.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import ApartmentBuilder from '_/test/builders/apartment.builder';
+import ContractResidentBuilder from '_/test/builders/contractResident.builder';
+import NameBuilder from '_/test/builders/name.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 
 describe('CreateResidentModal', () => {
@@ -27,10 +31,17 @@ describe('CreateResidentModal', () => {
     )
     .build();
 
+  const contractResident = new ContractResidentBuilder()
+    .withName(
+      new NameBuilder()
+        .withSalutation(Salutation.Male)
+        .withFirstName('Max')
+        .withLastName('Mustermann')
+        .build(),
+    )
+    .build();
+
   const validInputValues = {
-    salutation: Salutation.Male,
-    firstName: 'Max',
-    lastName: 'Mustermann',
     rent: 50000,
     incidentals: 10000,
     rentDeposit: 150000,
@@ -61,21 +72,22 @@ describe('CreateResidentModal', () => {
     mailboxKeys: undefined,
   };
 
-  function inputToForm(inputValues: {
-    firstName: string;
-    lastName: string;
-    rent: number | undefined;
-    incidentals: number | undefined;
-    rentDeposit: number | undefined;
-    contractStart: MonthYear | undefined;
-    waterMeter: number | undefined;
-    numberOfResidents: number | undefined;
-    apartmentKeys: number | undefined;
-    basementKeys: number | undefined;
-    atticKeys: number | undefined;
-    frontDoorKeys: number | undefined;
-    mailboxKeys: number | undefined;
-  }) {
+  function inputToForm(
+    inputValues: {
+      rent: number | undefined;
+      incidentals: number | undefined;
+      rentDeposit: number | undefined;
+      contractStart: MonthYear | undefined;
+      waterMeter: number | undefined;
+      numberOfResidents: number | undefined;
+      apartmentKeys: number | undefined;
+      basementKeys: number | undefined;
+      atticKeys: number | undefined;
+      frontDoorKeys: number | undefined;
+      mailboxKeys: number | undefined;
+    },
+    createContractResident?: boolean,
+  ) {
     function input(element: Element | null, value: string | undefined) {
       if (!element) {
         throw new Error(`Missing element for value ${value}`);
@@ -89,8 +101,6 @@ describe('CreateResidentModal', () => {
 
     act(() => {
       fireEvent.click(tabs.item(0));
-      input(baseElement.querySelector('#firstName'), inputValues.firstName);
-      input(baseElement.querySelector('#lastName'), inputValues.lastName);
       input(
         baseElement.querySelector('#numberOfResidents'),
         inputValues.numberOfResidents?.toString(),
@@ -99,6 +109,12 @@ describe('CreateResidentModal', () => {
         baseElement.querySelector('#contractStart'),
         inputValues.contractStart?.toPreferredString().slice(3) ?? '',
       );
+
+      if (createContractResident) {
+        fireEvent.click(
+          baseElement.querySelector("[data-testid='AddCircleOutlineIcon']")!,
+        );
+      }
 
       fireEvent.click(tabs.item(1));
       input(
@@ -153,6 +169,21 @@ describe('CreateResidentModal', () => {
     });
   }
 
+  function CreateContractResidentModalMock(props: {
+    show: boolean;
+    onClose: () => void;
+    onSubmit: (resident: ContractResident) => void;
+  }) {
+    useEffect(() => {
+      if (props.show) {
+        props.onSubmit(contractResident);
+        props.onClose();
+      }
+    }, [props]);
+
+    return props.show ? <p>CreateContractResidentModalMock</p> : <></>;
+  }
+
   beforeAll(() => {
     jest.useFakeTimers();
     jest.setSystemTime(validInputValues.contractStart.addMonths(1));
@@ -163,6 +194,9 @@ describe('CreateResidentModal', () => {
       residents: [],
       addResident: addResidentSpy,
     });
+    jest
+      .spyOn(createContractResidentModalModule, 'default')
+      .mockImplementation(CreateContractResidentModalMock);
 
     baseElement = render(
       <ReactTestWrapper
@@ -175,7 +209,7 @@ describe('CreateResidentModal', () => {
 
   test('should match image snapshot (valid inputs)', async () => {
     // Act
-    inputToForm(validInputValues);
+    inputToForm(validInputValues, true);
 
     // Assert
     const tabs = baseElement.querySelectorAll('.MuiTab-root');
@@ -206,7 +240,7 @@ describe('CreateResidentModal', () => {
 
   test('should add incidentals on submit', () => {
     // Arrange
-    inputToForm(validInputValues);
+    inputToForm(validInputValues, true);
 
     // Act
     submitForm();
@@ -215,15 +249,7 @@ describe('CreateResidentModal', () => {
     expect(addResidentSpy).toHaveBeenCalledTimes(1);
     expect(addResidentSpy).toHaveBeenCalledWith(
       expect.objectContaining({
-        contractResidents: [
-          {
-            name: {
-              salutation: validInputValues.salutation,
-              firstName: validInputValues.firstName,
-              lastName: validInputValues.lastName,
-            },
-          },
-        ],
+        contractResidents: [contractResident],
         rentInformation: [
           {
             dueDate: validInputValues.contractStart,

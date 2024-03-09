@@ -5,8 +5,8 @@ import React from 'react';
 import { ValidationConstraint } from '../../../../utils/validation/constraints';
 import Validator from '../../../../utils/validation/validator';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { Salutation } from '_/models/name';
 import Apartment from '_/models/property/apartment';
+import { ContractResident } from '_/models/resident/contractResident';
 import { FormConfig } from '_/types/FormConfig';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
@@ -14,21 +14,6 @@ import { CurrencyInCents } from '_/utils/currency/currency.utils';
  * All values that can be submitted in the form
  */
 export interface CreateResidentInput {
-  /**
-   * Salutation of the new resident
-   */
-  salutation: Salutation;
-
-  /**
-   * First name of the new resident
-   */
-  firstName: string;
-
-  /**
-   * Last name of the new resident
-   */
-  lastName: string;
-
   /**
    * Rent that the new resident needs to pay
    */
@@ -53,6 +38,11 @@ export interface CreateResidentInput {
    * Current water meter count
    */
   waterMeter: number;
+
+  /**
+   * Residents included in the contract
+   */
+  contractResidents: ContractResident[];
 
   /**
    * Number of residents living in the appartment
@@ -110,13 +100,12 @@ export function getCreateResidentModalConfig(args: {
   return {
     formValidationConfig: {
       formValidator: new Validator<CreateResidentInput>({
-        firstName: ValidationConstraint.NoEmptyString,
-        lastName: ValidationConstraint.NoEmptyString,
         rent: ValidationConstraint.Currency,
         incidentals: ValidationConstraint.Currency,
         rentDeposit: ValidationConstraint.Currency,
         contractStart: ValidationConstraint.Defined,
         waterMeter: ValidationConstraint.Defined,
+        contractResidents: ValidationConstraint.NoEmptyArray,
         numberOfResidents: ValidationConstraint.Defined,
         apartmentId: ValidationConstraint.Defined,
         apartmentKeys: ValidationConstraint.Defined,
@@ -126,14 +115,12 @@ export function getCreateResidentModalConfig(args: {
         mailboxKeys: ValidationConstraint.Defined,
       }),
       defaultFormInput: {
-        salutation: Salutation.Male,
-        firstName: '',
-        lastName: '',
         rent: undefined,
         incidentals: undefined,
         rentDeposit: undefined,
         contractStart: new MonthYear(),
         waterMeter: undefined,
+        contractResidents: [],
         numberOfResidents: undefined,
         apartmentId: args.emptyApartments.at(0)?.id,
         parkingSpaceId: undefined,
@@ -147,10 +134,8 @@ export function getCreateResidentModalConfig(args: {
     },
     formGroupConfig: {
       groupMappings: {
-        salutation: 'resident',
-        firstName: 'resident',
-        lastName: 'resident',
         contractStart: 'resident',
+        contractResidents: 'resident',
         numberOfResidents: 'resident',
         rent: 'apartment',
         incidentals: 'apartment',
