@@ -83,8 +83,11 @@ export function generateContractMarkdown(
     [placeholderLabels.landlordBankaccountHolder]:
       args.landlord.bankAccount.holder,
     [placeholderLabels.landlordBankaccountIBAN]: args.landlord.bankAccount.iban,
-    [placeholderLabels.residentName]: convertNameToString(args.resident.name),
-    [placeholderLabels.numberOfResidents]: args.resident.numberOfResidents.toString(),
+    [placeholderLabels.residentName]: convertNameToString(
+      args.resident.contractResidents[0].name,
+    ),
+    [placeholderLabels.numberOfResidents]:
+      args.resident.numberOfResidents.toString(),
     [placeholderLabels.propertyStreet]: convertAddressToStreetString(
       args.property.address,
     ),
@@ -114,7 +117,9 @@ export function generateContractMarkdown(
     [placeholderLabels.contractStart]: MonthYear.fromString(
       args.resident.contractStart,
     ).toPreferredString(),
-    [placeholderLabels.rentDeposit]: convertCurrencyCentsToString(args.resident.rentDeposit),
+    [placeholderLabels.rentDeposit]: convertCurrencyCentsToString(
+      args.resident.rentDeposit,
+    ),
   };
 
   let contract = contractTemplate;

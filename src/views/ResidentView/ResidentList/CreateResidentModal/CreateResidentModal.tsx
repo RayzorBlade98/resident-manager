@@ -56,11 +56,15 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
     onSubmitSuccess: (values) => {
       addResident({
         id: uuid(),
-        name: {
-          salutation: values.salutation,
-          firstName: values.firstName,
-          lastName: values.lastName,
-        },
+        contractResidents: [
+          {
+            name: {
+              salutation: values.salutation,
+              firstName: values.firstName,
+              lastName: values.lastName,
+            },
+          },
+        ],
         rentInformation: RentInformationUtils.timespan(
           values.contractStart,
           new MonthYear(),

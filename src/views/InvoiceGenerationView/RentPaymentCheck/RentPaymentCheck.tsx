@@ -16,7 +16,15 @@ import { PaymentStatus } from '_/models/resident/rent';
 
 const styles = {
   tabsBox: { borderBottom: 1, borderColor: 'divider' },
-};
+  tabContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  tabResidentName: {
+    marginBottom: 0,
+    textAlign: 'left',
+  },
+} as const;
 
 /**
  * Component to check and edit all rent payments included into the invoice
@@ -60,7 +68,15 @@ function RentPaymentCheck(): JSX.Element {
                   )
                 }
                 iconPosition="start"
-                label={convertNameToString(resident.name)}
+                label={(
+                  <div style={styles.tabContainer}>
+                    {resident.contractResidents.map((r) => (
+                      <p style={styles.tabResidentName}>
+                        {convertNameToString(r.name)}
+                      </p>
+                    ))}
+                  </div>
+                )}
               />
             );
           })}

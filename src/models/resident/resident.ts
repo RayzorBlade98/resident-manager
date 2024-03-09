@@ -1,4 +1,4 @@
-import Name from '../name';
+import { ContractResident } from './contractResident';
 import { RentInformation } from './rent';
 import WaterMeterReading from './water_meter_reading';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -14,9 +14,9 @@ export interface Resident {
   id: string;
 
   /**
-   * Name of the resident
+   * Residents included in the contract
    */
-  name: Name;
+  contractResidents: ContractResident[];
 
   /**
    * Number of residents living in the appartment

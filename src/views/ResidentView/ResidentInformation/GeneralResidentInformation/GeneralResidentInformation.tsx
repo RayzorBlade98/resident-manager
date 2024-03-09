@@ -20,7 +20,9 @@ function GeneralResidentInformation(): JSX.Element {
 
   return (
     <>
-      <p>{convertNameToString(selectedResident.name, true)}</p>
+      {selectedResident.contractResidents.map((contractResident) => (
+        <p>{convertNameToString(contractResident.name, true)}</p>
+      ))}
       <p>
         {convertCurrencyCentsToString(selectedResident.rentInformation[0].rent)}
       </p>

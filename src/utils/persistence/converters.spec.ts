@@ -184,11 +184,22 @@ describe('convertImportedResidents', () => {
     const residents: ResidentState = [
       {
         id: 'id',
-        name: {
-          salutation: Salutation.Male,
-          firstName: 'first',
-          lastName: 'last',
-        },
+        contractResidents: [
+          {
+            name: {
+              salutation: Salutation.Male,
+              firstName: 'first',
+              lastName: 'last',
+            },
+          },
+          {
+            name: {
+              salutation: Salutation.Female,
+              firstName: 'first second',
+              lastName: 'last second',
+            },
+          },
+        ],
         numberOfResidents: 8,
         rentInformation: [
           {

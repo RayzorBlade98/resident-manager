@@ -215,11 +215,15 @@ describe('CreateResidentModal', () => {
     expect(addResidentSpy).toHaveBeenCalledTimes(1);
     expect(addResidentSpy).toHaveBeenCalledWith(
       expect.objectContaining({
-        name: {
-          salutation: validInputValues.salutation,
-          firstName: validInputValues.firstName,
-          lastName: validInputValues.lastName,
-        },
+        contractResidents: [
+          {
+            name: {
+              salutation: validInputValues.salutation,
+              firstName: validInputValues.firstName,
+              lastName: validInputValues.lastName,
+            },
+          },
+        ],
         rentInformation: [
           {
             dueDate: validInputValues.contractStart,

@@ -1,16 +1,21 @@
 import MonthYear from '_/extensions/date/month_year.extension';
 import { Salutation } from '_/models/name';
+import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
 export const standardResident = new ResidentBuilder()
-  .withName(
-    new NameBuilder()
-      .withSalutation(Salutation.Male)
-      .withFirstName('Max')
-      .withLastName('Mustermann')
+  .addContractResident(
+    new ContractResidentBuilder()
+      .withName(
+        new NameBuilder()
+          .withSalutation(Salutation.Male)
+          .withFirstName('Max')
+          .withLastName('Mustermann')
+          .build(),
+      )
       .build(),
   )
   .withContractStart(new MonthYear(11, 2022))
@@ -93,11 +98,15 @@ export const standardResident = new ResidentBuilder()
  * Resident which is not included in the complete invoice timespan
  */
 export const residentLaterInvoiceStart = new ResidentBuilder()
-  .withName(
-    new NameBuilder()
-      .withSalutation(Salutation.Female)
-      .withFirstName('Maxine')
-      .withLastName('Musterfrau')
+  .addContractResident(
+    new ContractResidentBuilder()
+      .withName(
+        new NameBuilder()
+          .withSalutation(Salutation.Female)
+          .withFirstName('Maxine')
+          .withLastName('Musterfrau')
+          .build(),
+      )
       .build(),
   )
   .withContractStart(new MonthYear(1, 2023))

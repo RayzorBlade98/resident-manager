@@ -5,6 +5,7 @@ import {
 import MonthYear from '_/extensions/date/month_year.extension';
 import AddressBuilder from '_/test/builders/address.builder';
 import ApartmentBuilder from '_/test/builders/apartment.builder';
+import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import LandlordBuilder from '_/test/builders/landlord.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import ParkingSpaceBuilder from '_/test/builders/parkingSpace.builder';
@@ -69,10 +70,14 @@ describe('generateContractMarkdown', () => {
       .build();
 
     const resident = new ResidentBuilder()
-      .withName(
-        new NameBuilder()
-          .withFirstName('Residentfirst')
-          .withLastName('Residentlast')
+      .addContractResident(
+        new ContractResidentBuilder()
+          .withName(
+            new NameBuilder()
+              .withFirstName('Residentfirst')
+              .withLastName('Residentlast')
+              .build(),
+          )
           .build(),
       )
       .withApartment(property.apartments[0].id)

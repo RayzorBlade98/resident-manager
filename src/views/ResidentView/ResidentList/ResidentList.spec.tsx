@@ -12,15 +12,20 @@ import residentViewState, {
 import ResidentList from './ResidentList';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('ResidentList', () => {
   const residents = range(0, 5).map((i) => new ResidentBuilder()
-    .withName(
-      new NameBuilder()
-        .withFirstName('Max')
-        .withLastName(`Mustermann${i}`)
+    .addContractResident(
+      new ContractResidentBuilder()
+        .withName(
+          new NameBuilder()
+            .withFirstName('Max')
+            .withLastName(`Mustermann${i}`)
+            .build(),
+        )
         .build(),
     )
     .build());

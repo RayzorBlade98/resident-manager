@@ -1,7 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import NameBuilder from './name.builder';
 import MonthYear from '_/extensions/date/month_year.extension';
-import Name from '_/models/name';
+import { ContractResident } from '_/models/resident/contractResident';
 import { RentInformation } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
@@ -13,7 +12,7 @@ class ResidentBuilder {
   constructor() {
     this.resident = {
       id: uuid(),
-      name: new NameBuilder().build(),
+      contractResidents: [],
       numberOfResidents: 2,
       rentInformation: [],
       contractStart: new MonthYear(2, 2023),
@@ -36,8 +35,8 @@ class ResidentBuilder {
     return this;
   }
 
-  public withName(name: Name): ResidentBuilder {
-    this.resident.name = name;
+  public addContractResident(resident: ContractResident): ResidentBuilder {
+    this.resident.contractResidents.push(resident);
     return this;
   }
 

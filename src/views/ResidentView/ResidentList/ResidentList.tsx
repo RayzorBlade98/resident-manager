@@ -30,7 +30,14 @@ const styles = {
   listItemButton: {
     height: '11.028%',
   },
-};
+  listItemTextContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  listItemTextEntry: {
+    marginBottom: '-3px',
+  },
+} as const;
 
 /**
  * Component that displays a list of provided residents
@@ -70,7 +77,17 @@ function ResidentList(): JSX.Element {
                 <ListItemIcon>
                   <PersonIcon />
                 </ListItemIcon>
-                <ListItemText primary={convertNameToString(resident.name)} />
+                <ListItemText
+                  primary={(
+                    <div style={styles.listItemTextContainer}>
+                      {resident.contractResidents.map((r) => (
+                        <p style={styles.listItemTextEntry}>
+                          {convertNameToString(r.name)}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                />
               </ListItemButton>
               {i !== residents.length - 1 && <Divider />}
             </>
