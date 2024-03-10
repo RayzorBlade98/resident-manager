@@ -8,7 +8,7 @@
 
 ## Mieter
 
-{{RESIDENT_NAME}} <br> {{RESIDENT_STREET}} <br> {{RESIDENT_CITY}} <br> Tel. {{RESIDENT_PHONE}}
+{{RESIDENT_BLOCK}}
 
 <div style="page-break-after: always;"></div>
 

@@ -16,6 +16,7 @@ import Imported from '_/types/Imported';
 
 jest.mock('../../assets/contract/contractTemplate.md');
 jest.mock('../../assets/contract/landlordCompanyTemplate.md');
+jest.mock('../../assets/contract/residentTemplate.md');
 
 describe('generateContractMarkdown', () => {
   test('should return right markdown string', () => {
@@ -76,6 +77,16 @@ describe('generateContractMarkdown', () => {
             new NameBuilder()
               .withFirstName('Residentfirst')
               .withLastName('Residentlast')
+              .build(),
+          )
+          .build(),
+      )
+      .addContractResident(
+        new ContractResidentBuilder()
+          .withName(
+            new NameBuilder()
+              .withFirstName('Resident2first')
+              .withLastName('Resident2last')
               .build(),
           )
           .build(),

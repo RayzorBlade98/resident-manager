@@ -6,6 +6,7 @@ import { convertCurrencyCentsToString } from '../../utils/currency/currency.util
 import { convertNameToString } from '../../utils/name/name.utils';
 import contractTemplate from '_/assets/contract/contractTemplate.md';
 import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.md';
+import residentTemplate from '_/assets/contract/residentTemplate.md';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Landlord from '_/models/landlord/landlord';
 import Property from '_/models/property/property';
@@ -54,6 +55,7 @@ const placeholderLabels = {
 
 const blockPlaceholderLabels = {
   landlordCompany: 'LANDLORD_COMPANY_BLOCK',
+  residentBlock: 'RESIDENT_BLOCK',
 } satisfies Record<string, string>;
 
 /**
@@ -83,9 +85,6 @@ export function generateContractMarkdown(
     [placeholderLabels.landlordBankaccountHolder]:
       args.landlord.bankAccount.holder,
     [placeholderLabels.landlordBankaccountIBAN]: args.landlord.bankAccount.iban,
-    [placeholderLabels.residentName]: convertNameToString(
-      args.resident.contractResidents[0].name,
-    ),
     [placeholderLabels.numberOfResidents]:
       args.resident.numberOfResidents.toString(),
     [placeholderLabels.propertyStreet]: convertAddressToStreetString(
@@ -125,12 +124,33 @@ export function generateContractMarkdown(
   let contract = contractTemplate;
 
   // Landlord company
-  contract = contract.replace(
-    getPlaceholder(blockPlaceholderLabels.landlordCompany),
+  contract = replaceSinglePlacehoder(
+    contract,
+    blockPlaceholderLabels.landlordCompany,
     args.landlord.company ? landlordCompanyTemplate : '',
   );
 
+  // Residents
+  const residents = args.resident.contractResidents
+    .map((r) => replaceAllPlaceholders(residentTemplate, {
+      [placeholderLabels.residentName]: convertNameToString(r.name),
+    }))
+    .join('');
+  contract = replaceSinglePlacehoder(
+    contract,
+    blockPlaceholderLabels.residentBlock,
+    residents,
+  );
+
   return replaceAllPlaceholders(contract, placeholders);
+}
+
+function replaceSinglePlacehoder(
+  contract: string,
+  placeholderLabel: string,
+  replacement: string,
+) {
+  return contract.replace(getPlaceholder(placeholderLabel), replacement);
 }
 
 function replaceAllPlaceholders(
@@ -138,7 +158,7 @@ function replaceAllPlaceholders(
   replacements: Record<string, string>,
 ): string {
   Object.entries(replacements).forEach(([label, replacement]) => {
-    contract = contract.replace(getPlaceholder(label), replacement);
+    contract = replaceSinglePlacehoder(contract, label, replacement);
   });
   return contract;
 }

@@ -10,10 +10,6 @@ Landlord email = landlord@example.org
 Landlord bankaccount holder = Landlord Holder
 Landlord bankaccount IBAN = DE12 3456 7890
 
-Resident name = Residentfirst Residentlast
-Resident street = {{RESIDENT_STREET}}
-Resident city = {{RESIDENT_CITY}}
-Resident phone = {{RESIDENT_PHONE}}
 Number of residents = 5
 
 Rent deposit = 1500.00 €
@@ -38,4 +34,24 @@ Apartment rooms garden = 0
 
 Parking space count = 1
 
+---
+
 Landlord company block = Landlord company template
+
+---
+
+Resident block
+
+Resident name = Residentfirst Residentlast
+Resident street = {{RESIDENT_STREET}}
+Resident city = {{RESIDENT_CITY}}
+Resident phone = {{RESIDENT_PHONE}}
+
+Resident name = Resident2first Resident2last
+Resident street = {{RESIDENT_STREET}}
+Resident city = {{RESIDENT_CITY}}
+Resident phone = {{RESIDENT_PHONE}}
+
+
+
+---

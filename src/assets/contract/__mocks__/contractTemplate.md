@@ -10,10 +10,6 @@ Landlord email = {{LANDLORD_EMAIL}}
 Landlord bankaccount holder = {{LANDLORD_BANKACCOUNT_HOLDER}}
 Landlord bankaccount IBAN = {{LANDLORD_BANKACCOUNT_IBAN}}
 
-Resident name = {{RESIDENT_NAME}}
-Resident street = {{RESIDENT_STREET}}
-Resident city = {{RESIDENT_CITY}}
-Resident phone = {{RESIDENT_PHONE}}
 Number of residents = {{NUMBER_OF_RESIDENTS}}
 
 Rent deposit = {{RENT_DEPOSIT}}
@@ -38,4 +34,14 @@ Apartment rooms garden = {{APARTMENT_ROOMS_GARDEN}}
 
 Parking space count = {{PARKING_SPACE_COUNT}}
 
+---
+
 Landlord company block = {{LANDLORD_COMPANY_BLOCK}}
+
+---
+
+Resident block
+
+{{RESIDENT_BLOCK}}
+
+---
