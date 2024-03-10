@@ -43,13 +43,13 @@ Landlord company block = Landlord company template
 Resident block
 
 Resident name = Residentfirst Residentlast
-Resident street = {{RESIDENT_STREET}}
-Resident city = {{RESIDENT_CITY}}
+Resident street = Residentstreet 1
+Resident city = 11111 Residentcity
 Resident phone = {{RESIDENT_PHONE}}
 
 Resident name = Resident2first Resident2last
-Resident street = {{RESIDENT_STREET}}
-Resident city = {{RESIDENT_CITY}}
+Resident street = Resident2street 2
+Resident city = 22222 Resident2city
 Resident phone = {{RESIDENT_PHONE}}
 
 

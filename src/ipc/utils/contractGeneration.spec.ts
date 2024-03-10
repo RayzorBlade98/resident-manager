@@ -79,6 +79,14 @@ describe('generateContractMarkdown', () => {
               .withLastName('Residentlast')
               .build(),
           )
+          .withOldAdress(
+            new AddressBuilder()
+              .withZipCode(11111)
+              .withCity('Residentcity')
+              .withStreet('Residentstreet')
+              .withHouseNumber(1)
+              .build(),
+          )
           .build(),
       )
       .addContractResident(
@@ -87,6 +95,14 @@ describe('generateContractMarkdown', () => {
             new NameBuilder()
               .withFirstName('Resident2first')
               .withLastName('Resident2last')
+              .build(),
+          )
+          .withOldAdress(
+            new AddressBuilder()
+              .withZipCode(22222)
+              .withCity('Resident2city')
+              .withStreet('Resident2street')
+              .withHouseNumber(2)
               .build(),
           )
           .build(),

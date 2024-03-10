@@ -190,6 +190,12 @@ class ContractGenerator {
     const residents = this.args.resident.contractResidents
       .map((r) => replaceAllPlaceholders(residentTemplate, {
         [placeholderLabels.residentName]: convertNameToString(r.name),
+        [placeholderLabels.residentStreet]: convertAddressToStreetString(
+          r.oldAddress,
+        ),
+        [placeholderLabels.residentCity]: convertAddressToCityString(
+          r.oldAddress,
+        ),
       }))
       .join('');
     this.replaceSinglePlacehoder(

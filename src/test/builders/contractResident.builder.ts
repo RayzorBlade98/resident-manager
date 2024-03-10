@@ -1,5 +1,6 @@
 import AddressBuilder from './address.builder';
 import NameBuilder from './name.builder';
+import Address from '_/models/address';
 import Name from '_/models/name';
 import { ContractResident } from '_/models/resident/contractResident';
 
@@ -15,6 +16,11 @@ class ContractResidentBuilder {
 
   public withName(name: Name): ContractResidentBuilder {
     this.resident.name = name;
+    return this;
+  }
+
+  public withOldAdress(address: Address): ContractResidentBuilder {
+    this.resident.oldAddress = address;
     return this;
   }
 
