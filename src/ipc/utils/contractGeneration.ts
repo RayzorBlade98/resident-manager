@@ -9,6 +9,7 @@ import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.m
 import residentTemplate from '_/assets/contract/residentTemplate.md';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Landlord from '_/models/landlord/landlord';
+import Apartment from '_/models/property/apartment';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
 import Imported from '_/types/Imported';
@@ -18,6 +19,16 @@ export type ContractGenerationArgs = {
   resident: Resident;
   property: Property;
 };
+
+/**
+ * Generates the contract as markdown string
+ * @returns markdown string of the generated contract
+ */
+export function generateContractMarkdown(
+  args: Imported<ContractGenerationArgs>,
+): string {
+  return new ContractGenerator(args).generateContract();
+}
 
 const placeholderLabels = {
   landlordName: 'LANDLORD_NAME',
@@ -59,90 +70,133 @@ const blockPlaceholderLabels = {
 } satisfies Record<string, string>;
 
 /**
- * Generates the contract as markdown string
- * @returns markdown string of the generated contract
+ *
  */
-export function generateContractMarkdown(
-  args: Imported<ContractGenerationArgs>,
-): string {
-  const apartment = args.property.apartments.find(
-    (a) => a.id === args.resident.apartmentId,
-  )!;
+class ContractGenerator {
+  private contract = '';
 
-  const placeholders = {
-    [placeholderLabels.landlordName]: convertNameToString(
-      args.landlord.representative,
-    ),
-    [placeholderLabels.landlordStreet]: convertAddressToStreetString(
-      args.landlord.address,
-    ),
-    [placeholderLabels.landlordCity]: convertAddressToCityString(
-      args.landlord.address,
-    ),
-    [placeholderLabels.landlordPhone]: args.landlord.phone,
-    [placeholderLabels.landlordEmail]: args.landlord.email,
-    [placeholderLabels.landlordCompany]: args.landlord.company ?? '',
-    [placeholderLabels.landlordBankaccountHolder]:
-      args.landlord.bankAccount.holder,
-    [placeholderLabels.landlordBankaccountIBAN]: args.landlord.bankAccount.iban,
-    [placeholderLabels.numberOfResidents]:
-      args.resident.numberOfResidents.toString(),
-    [placeholderLabels.propertyStreet]: convertAddressToStreetString(
-      args.property.address,
-    ),
-    [placeholderLabels.propertyCity]: convertAddressToCityString(
-      args.property.address,
-    ),
-    [placeholderLabels.apartmentFloor]: apartment.floor,
-    [placeholderLabels.apartmentLocation]: apartment.location,
-    [placeholderLabels.apartmentRoomsGeneric]:
-      apartment.rooms.generic.toString(),
-    [placeholderLabels.apartmentRoomsKitchen]:
-      apartment.rooms.kitchen.toString(),
-    [placeholderLabels.apartmentRoomsBath]: apartment.rooms.bath.toString(),
-    [placeholderLabels.apartmentRoomsBasement]:
-      apartment.rooms.basement.toString(),
-    [placeholderLabels.apartmentRoomsHallway]:
-      apartment.rooms.hallway.toString(),
-    [placeholderLabels.apartmentRoomsGarden]: apartment.rooms.garden.toString(),
-    [placeholderLabels.parkingSpaceCount]: args.resident.parkingSpaceId
-      ? '1'
-      : '0',
-    [placeholderLabels.keysApartment]: args.resident.keys.apartment.toString(),
-    [placeholderLabels.keysBasement]: args.resident.keys.basement.toString(),
-    [placeholderLabels.keysAttic]: args.resident.keys.attic.toString(),
-    [placeholderLabels.keysFrontdoor]: args.resident.keys.frontDoor.toString(),
-    [placeholderLabels.keysMailbox]: args.resident.keys.mailbox.toString(),
-    [placeholderLabels.contractStart]: MonthYear.fromString(
-      args.resident.contractStart,
-    ).toPreferredString(),
-    [placeholderLabels.rentDeposit]: convertCurrencyCentsToString(
-      args.resident.rentDeposit,
-    ),
-  };
+  private apartment: Apartment;
 
-  let contract = contractTemplate;
+  public constructor(private args: Imported<ContractGenerationArgs>) {
+    const apartment = args.property.apartments.find(
+      (a) => a.id === args.resident.apartmentId,
+    );
 
-  // Landlord company
-  contract = replaceSinglePlacehoder(
-    contract,
-    blockPlaceholderLabels.landlordCompany,
-    args.landlord.company ? landlordCompanyTemplate : '',
-  );
+    if (!apartment) {
+      throw new Error(
+        `Apartment with id ${args.resident.apartmentId} wasn't found in the property!`,
+      );
+    }
 
-  // Residents
-  const residents = args.resident.contractResidents
-    .map((r) => replaceAllPlaceholders(residentTemplate, {
-      [placeholderLabels.residentName]: convertNameToString(r.name),
-    }))
-    .join('');
-  contract = replaceSinglePlacehoder(
-    contract,
-    blockPlaceholderLabels.residentBlock,
-    residents,
-  );
+    this.apartment = apartment;
+  }
 
-  return replaceAllPlaceholders(contract, placeholders);
+  public generateContract(): string {
+    this.contract = contractTemplate;
+
+    this.replaceAllBasicPlaceholders();
+    this.replaceLandlordCompanyBlock();
+    this.replaceResidentBlock();
+
+    return this.contract;
+  }
+
+  private replaceSinglePlacehoder(
+    placeholderLabel: string,
+    replacement: string,
+  ) {
+    this.contract = replaceSinglePlacehoder(
+      this.contract,
+      placeholderLabel,
+      replacement,
+    );
+  }
+
+  private replaceAllPlaceholders(replacements: Record<string, string>) {
+    this.contract = replaceAllPlaceholders(this.contract, replacements);
+  }
+
+  private replaceAllBasicPlaceholders() {
+    const replacements = {
+      [placeholderLabels.landlordName]: convertNameToString(
+        this.args.landlord.representative,
+      ),
+      [placeholderLabels.landlordStreet]: convertAddressToStreetString(
+        this.args.landlord.address,
+      ),
+      [placeholderLabels.landlordCity]: convertAddressToCityString(
+        this.args.landlord.address,
+      ),
+      [placeholderLabels.landlordPhone]: this.args.landlord.phone,
+      [placeholderLabels.landlordEmail]: this.args.landlord.email,
+      [placeholderLabels.landlordCompany]: this.args.landlord.company ?? '',
+      [placeholderLabels.landlordBankaccountHolder]:
+        this.args.landlord.bankAccount.holder,
+      [placeholderLabels.landlordBankaccountIBAN]:
+        this.args.landlord.bankAccount.iban,
+      [placeholderLabels.numberOfResidents]:
+        this.args.resident.numberOfResidents.toString(),
+      [placeholderLabels.propertyStreet]: convertAddressToStreetString(
+        this.args.property.address,
+      ),
+      [placeholderLabels.propertyCity]: convertAddressToCityString(
+        this.args.property.address,
+      ),
+      [placeholderLabels.apartmentFloor]: this.apartment.floor,
+      [placeholderLabels.apartmentLocation]: this.apartment.location,
+      [placeholderLabels.apartmentRoomsGeneric]:
+        this.apartment.rooms.generic.toString(),
+      [placeholderLabels.apartmentRoomsKitchen]:
+        this.apartment.rooms.kitchen.toString(),
+      [placeholderLabels.apartmentRoomsBath]:
+        this.apartment.rooms.bath.toString(),
+      [placeholderLabels.apartmentRoomsBasement]:
+        this.apartment.rooms.basement.toString(),
+      [placeholderLabels.apartmentRoomsHallway]:
+        this.apartment.rooms.hallway.toString(),
+      [placeholderLabels.apartmentRoomsGarden]:
+        this.apartment.rooms.garden.toString(),
+      [placeholderLabels.parkingSpaceCount]: this.args.resident.parkingSpaceId
+        ? '1'
+        : '0',
+      [placeholderLabels.keysApartment]:
+        this.args.resident.keys.apartment.toString(),
+      [placeholderLabels.keysBasement]:
+        this.args.resident.keys.basement.toString(),
+      [placeholderLabels.keysAttic]: this.args.resident.keys.attic.toString(),
+      [placeholderLabels.keysFrontdoor]:
+        this.args.resident.keys.frontDoor.toString(),
+      [placeholderLabels.keysMailbox]:
+        this.args.resident.keys.mailbox.toString(),
+      [placeholderLabels.contractStart]: MonthYear.fromString(
+        this.args.resident.contractStart,
+      ).toPreferredString(),
+      [placeholderLabels.rentDeposit]: convertCurrencyCentsToString(
+        this.args.resident.rentDeposit,
+      ),
+    };
+
+    this.replaceAllPlaceholders(replacements);
+  }
+
+  private replaceLandlordCompanyBlock() {
+    this.replaceSinglePlacehoder(
+      blockPlaceholderLabels.landlordCompany,
+      this.args.landlord.company ? landlordCompanyTemplate : '',
+    );
+  }
+
+  private replaceResidentBlock() {
+    const residents = this.args.resident.contractResidents
+      .map((r) => replaceAllPlaceholders(residentTemplate, {
+        [placeholderLabels.residentName]: convertNameToString(r.name),
+      }))
+      .join('');
+    this.replaceSinglePlacehoder(
+      blockPlaceholderLabels.residentBlock,
+      residents,
+    );
+  }
 }
 
 function replaceSinglePlacehoder(
@@ -150,7 +204,7 @@ function replaceSinglePlacehoder(
   placeholderLabel: string,
   replacement: string,
 ) {
-  return contract.replace(getPlaceholder(placeholderLabel), replacement);
+  return contract.replace(`{{${placeholderLabel}}}`, replacement);
 }
 
 function replaceAllPlaceholders(
@@ -161,8 +215,4 @@ function replaceAllPlaceholders(
     contract = replaceSinglePlacehoder(contract, label, replacement);
   });
   return contract;
-}
-
-function getPlaceholder(label: string): string {
-  return `{{${label}}}`;
 }
