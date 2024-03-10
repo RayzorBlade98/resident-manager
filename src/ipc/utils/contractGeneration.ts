@@ -40,9 +40,9 @@ const placeholderLabels = {
   landlordBankaccountHolder: 'LANDLORD_BANKACCOUNT_HOLDER',
   landlordBankaccountIBAN: 'LANDLORD_BANKACCOUNT_IBAN',
   residentName: 'RESIDENT_NAME',
-  residentStreet: 'RESIDENT_STREET', // Todo
-  residentCity: 'RESIDENT_CITY', // Todo
-  residentPhone: 'RESIDENT_PHONE', // Todo
+  residentStreet: 'RESIDENT_STREET',
+  residentCity: 'RESIDENT_CITY',
+  residentPhone: 'RESIDENT_PHONE',
   numberOfResidents: 'NUMBER_OF_RESIDENTS',
   propertyStreet: 'PROPERTY_STREET',
   propertyCity: 'PROPERTY_CITY',
@@ -196,6 +196,7 @@ class ContractGenerator {
         [placeholderLabels.residentCity]: convertAddressToCityString(
           r.oldAddress,
         ),
+        [placeholderLabels.residentPhone]: r.phone,
       }))
       .join('');
     this.replaceSinglePlacehoder(

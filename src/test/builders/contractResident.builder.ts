@@ -25,6 +25,11 @@ class ContractResidentBuilder {
     return this;
   }
 
+  public withPhone(phone: string): ContractResidentBuilder {
+    this.resident.phone = phone;
+    return this;
+  }
+
   public build(): ContractResident {
     return this.resident;
   }

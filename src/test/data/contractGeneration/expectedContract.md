@@ -45,12 +45,12 @@ Resident block
 Resident name = Residentfirst Residentlast
 Resident street = Residentstreet 1
 Resident city = 11111 Residentcity
-Resident phone = {{RESIDENT_PHONE}}
+Resident phone = 0151 12345
 
 Resident name = Resident2first Resident2last
 Resident street = Resident2street 2
 Resident city = 22222 Resident2city
-Resident phone = {{RESIDENT_PHONE}}
+Resident phone = 0152 54321
 
 
 
