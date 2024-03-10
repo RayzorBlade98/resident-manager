@@ -55,6 +55,7 @@ function CreateContractResidentModal(props: CreateContractResidentModalProps) {
           street: values.street,
           houseNumber: values.houseNumber,
         },
+        phone: values.phone,
       });
       props.onClose();
     },
@@ -106,6 +107,18 @@ function CreateContractResidentModal(props: CreateContractResidentModalProps) {
                     onChange={(event) => formInputSetters.lastName(event.target.value)}
                     error={!!formErrors.lastName}
                     helperText={formErrors.lastName}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    id="phone"
+                    label="Telefonnummer"
+                    variant="outlined"
+                    value={formInput.phone}
+                    onChange={(event) => formInputSetters.phone(event.target.value)}
+                    error={!!formErrors.phone}
+                    helperText={formErrors.phone}
                   />
                 </Grid>
               </Grid>

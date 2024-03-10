@@ -18,6 +18,7 @@ describe('CreateContractResidentModal', () => {
     salutation: Salutation.Male,
     firstName: 'Max',
     lastName: 'Mustermann',
+    phone: '0151 12345',
     zipCode: 12345,
     city: 'Resident City',
     street: 'Resident Street',
@@ -28,6 +29,7 @@ describe('CreateContractResidentModal', () => {
     salutation: Salutation.Female,
     firstName: '',
     lastName: '',
+    phone: '',
     zipCode: undefined,
     city: '',
     street: '',
@@ -37,6 +39,7 @@ describe('CreateContractResidentModal', () => {
   function inputToForm(inputValues: {
     firstName: string;
     lastName: string;
+    phone: string;
     zipCode: number | undefined;
     city: string;
     street: string;
@@ -57,6 +60,7 @@ describe('CreateContractResidentModal', () => {
       fireEvent.click(tabs.item(0));
       input(baseElement.querySelector('#firstName'), inputValues.firstName);
       input(baseElement.querySelector('#lastName'), inputValues.lastName);
+      input(baseElement.querySelector('#phone'), inputValues.phone);
 
       fireEvent.click(tabs.item(1));
       input(
@@ -131,6 +135,7 @@ describe('CreateContractResidentModal', () => {
 
     // Assert
     const expectedResident: ContractResident = {
+      ..._.pick(validInputValues, ['phone']),
       name: {
         ..._.pick(validInputValues, ['salutation', 'firstName', 'lastName']),
       },

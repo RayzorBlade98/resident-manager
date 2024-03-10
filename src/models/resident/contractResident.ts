@@ -14,4 +14,9 @@ export interface ContractResident {
    * Old address of the resident
    */
   oldAddress: Address;
+
+  /**
+   * Phone number of the resident
+   */
+  phone: string
 }

@@ -197,6 +197,7 @@ describe('convertImportedResidents', () => {
               street: 'resident street',
               houseNumber: 15,
             },
+            phone: '0152 12345',
           },
           {
             name: {
@@ -210,6 +211,7 @@ describe('convertImportedResidents', () => {
               street: 'resident 2 street',
               houseNumber: 51,
             },
+            phone: '0152 54321',
           },
         ],
         numberOfResidents: 8,

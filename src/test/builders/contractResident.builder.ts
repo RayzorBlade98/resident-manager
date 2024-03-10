@@ -11,6 +11,7 @@ class ContractResidentBuilder {
     this.resident = {
       name: new NameBuilder().build(),
       oldAddress: new AddressBuilder().build(),
+      phone: '1234567890',
     };
   }
 
