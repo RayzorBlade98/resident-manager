@@ -191,12 +191,24 @@ describe('convertImportedResidents', () => {
               firstName: 'first',
               lastName: 'last',
             },
+            oldAddress: {
+              zipCode: 1337,
+              city: 'resident city',
+              street: 'resident street',
+              houseNumber: 15,
+            },
           },
           {
             name: {
               salutation: Salutation.Female,
               firstName: 'first second',
               lastName: 'last second',
+            },
+            oldAddress: {
+              zipCode: 1338,
+              city: 'resident 2 city',
+              street: 'resident 2 street',
+              houseNumber: 51,
             },
           },
         ],

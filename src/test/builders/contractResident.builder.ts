@@ -1,3 +1,4 @@
+import AddressBuilder from './address.builder';
 import NameBuilder from './name.builder';
 import Name from '_/models/name';
 import { ContractResident } from '_/models/resident/contractResident';
@@ -8,6 +9,7 @@ class ContractResidentBuilder {
   constructor() {
     this.resident = {
       name: new NameBuilder().build(),
+      oldAddress: new AddressBuilder().build(),
     };
   }
 

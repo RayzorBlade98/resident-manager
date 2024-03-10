@@ -1,3 +1,4 @@
+import Address from '../address';
 import Name from '../name';
 
 /**
@@ -8,4 +9,9 @@ export interface ContractResident {
    * Name of the resident
    */
   name: Name;
+
+  /**
+   * Old address of the resident
+   */
+  oldAddress: Address;
 }
