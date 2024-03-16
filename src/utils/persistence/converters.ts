@@ -88,7 +88,16 @@ export function convertImportedResidents(
 export function convertImportedProperty(
   imported: Imported<Property>,
 ): Property {
-  return imported;
+  return {
+    ...imported,
+    parkingSpaces: imported.parkingSpaces.map((p) => ({
+      ...p,
+      costs: p.costs.map((c) => ({
+        ...c,
+        date: MonthYear.fromString(c.date),
+      })),
+    })),
+  };
 }
 
 /**

@@ -306,10 +306,26 @@ describe('convertImportedProperty', () => {
         {
           id: 'id1',
           name: 'Parkingspace 1',
+          costs: [
+            {
+              cost: 2,
+              date: new MonthYear(3, 2024),
+            },
+            {
+              cost: 1,
+              date: new MonthYear(1, 2024),
+            },
+          ],
         },
         {
           id: 'id2',
           name: 'Parkingspace 2',
+          costs: [
+            {
+              cost: 3,
+              date: new MonthYear(11, 2023),
+            },
+          ],
         },
       ],
     };

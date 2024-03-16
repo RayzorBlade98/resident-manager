@@ -8,6 +8,7 @@ class ParkingSpaceBuilder {
     this.parkingSpace = {
       id: uuid(),
       name: 'parking space 1',
+      costs: [],
     };
   }
 
@@ -18,6 +19,11 @@ class ParkingSpaceBuilder {
 
   public withId(id: string): ParkingSpaceBuilder {
     this.parkingSpace.id = id;
+    return this;
+  }
+
+  public addCosts(costs: ParkingSpace['costs'][number]): ParkingSpaceBuilder {
+    this.parkingSpace.costs.push(costs);
     return this;
   }
 

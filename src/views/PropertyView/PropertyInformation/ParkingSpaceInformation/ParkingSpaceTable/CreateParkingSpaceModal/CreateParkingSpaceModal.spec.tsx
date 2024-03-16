@@ -2,6 +2,7 @@ import { act, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import CreateParkingSpaceModal from './CreateParkingSpaceModal';
+import MonthYear from '_/extensions/date/month_year.extension';
 import * as usePropertyStateModule from '_/hooks/usePropertyState/usePropertyState';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import PropertyBuilder from '_/test/builders/property.builder';
@@ -13,13 +14,18 @@ describe('CreateParkingSpaceModal', () => {
 
   const validInputValues = {
     name: 'Parking Space 1',
+    cost: 12345,
   };
 
   const invalidInputValues = {
     name: '',
+    cost: undefined,
   };
 
-  function inputToForm(inputValues: { name: string }) {
+  function inputToForm(inputValues: {
+    name: string;
+    cost: number | undefined;
+  }) {
     function input(element: Element | null, value: string | undefined) {
       if (!element) {
         throw new Error(`Missing element for value ${value}`);
@@ -31,6 +37,10 @@ describe('CreateParkingSpaceModal', () => {
 
     act(() => {
       input(baseElement.querySelector('#name'), inputValues.name);
+      input(
+        baseElement.querySelector('#cost'),
+        inputValues.cost ? (inputValues.cost / 100).toString() : undefined,
+      );
     });
   }
 
@@ -89,7 +99,13 @@ describe('CreateParkingSpaceModal', () => {
     expect(addParkingSpaceMock).toHaveBeenCalledTimes(1);
     expect(addParkingSpaceMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        ...validInputValues,
+        name: validInputValues.name,
+        costs: [
+          {
+            cost: validInputValues.cost,
+            date: MonthYear.fromDate(new Date(0)),
+          },
+        ],
       }),
     );
   });
