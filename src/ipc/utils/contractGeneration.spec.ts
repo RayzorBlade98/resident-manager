@@ -10,6 +10,7 @@ import LandlordBuilder from '_/test/builders/landlord.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import ParkingSpaceBuilder from '_/test/builders/parkingSpace.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
+import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import expectedContract from '_/test/data/contractGeneration/expectedContract.md';
 import Imported from '_/types/Imported';
@@ -21,6 +22,15 @@ jest.mock('../../assets/contract/residentTemplate.md');
 describe('generateContractMarkdown', () => {
   test('should return right markdown string', () => {
     // Arrange
+    const contractStart = new MonthYear(2, 2024);
+    const parkingSpace = new ParkingSpaceBuilder()
+      .addCosts({ cost: 0, date: contractStart.addMonths(2) })
+      .addCosts({ cost: 0, date: contractStart.addMonths(1) })
+      .addCosts({ cost: 2500, date: contractStart })
+      .addCosts({ cost: 0, date: contractStart.addMonths(-1) })
+      .addCosts({ cost: 0, date: contractStart.addMonths(-2) })
+      .build();
+
     const landlord = new LandlordBuilder()
       .withRepresentative(
         new NameBuilder()
@@ -67,7 +77,7 @@ describe('generateContractMarkdown', () => {
           })
           .build(),
       )
-      .addParkingSpace(new ParkingSpaceBuilder().build())
+      .addParkingSpace(parkingSpace)
       .build();
 
     const resident = new ResidentBuilder()
@@ -118,9 +128,27 @@ describe('generateContractMarkdown', () => {
         frontDoor: 14,
         mailbox: 15,
       })
-      .withContractStart(new MonthYear(2, 2024))
+      .withContractStart(contractStart)
       .withRentDeposit(150000)
       .withNumberOfResidents(5)
+      .addRentInformation(
+        new RentInformationBuilder()
+          .withDueDate(contractStart.addMonths(-1))
+          .withRent(0)
+          .build(),
+      )
+      .addRentInformation(
+        new RentInformationBuilder()
+          .withDueDate(contractStart)
+          .withRent(50000)
+          .build(),
+      )
+      .addRentInformation(
+        new RentInformationBuilder()
+          .withDueDate(contractStart.addMonths(1))
+          .withRent(0)
+          .build(),
+      )
       .build();
 
     const args: ContractGenerationArgs = {

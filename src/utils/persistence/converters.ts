@@ -1,6 +1,7 @@
 import MonthYear from '_/extensions/date/month_year.extension';
 import Landlord from '_/models/landlord/landlord';
 import Property from '_/models/property/property';
+import { Resident } from '_/models/resident/resident';
 import { IncidentalsState } from '_/states/incidentals/incidentals.state';
 import { InvoiceState } from '_/states/invoice/invoice.state';
 import { ResidentState } from '_/states/resident/resident.state';
@@ -65,19 +66,30 @@ export function convertImportedInvoices(
 export function convertImportedResidents(
   imported: Imported<ResidentState>,
 ): ResidentState {
-  return imported.map((r) => ({
-    ...r,
-    contractStart: MonthYear.fromString(r.contractStart),
-    rentInformation: r.rentInformation.map((ri) => ({
+  return imported.map((r) => convertImportedResident(r));
+}
+
+/**
+ * Converts a single imported resident to the right format
+ * @param imported resident that was imported from a file
+ * @returns resident converted to the right format
+ */
+export function convertImportedResident(
+  imported: Imported<Resident>,
+): Resident {
+  return {
+    ...imported,
+    contractStart: MonthYear.fromString(imported.contractStart),
+    rentInformation: imported.rentInformation.map((ri) => ({
       ...ri,
       dueDate: MonthYear.fromString(ri.dueDate),
       paymentDate: ri.paymentDate ? new Date(ri.paymentDate) : undefined,
     })),
-    waterMeterReadings: r.waterMeterReadings.map((w) => ({
+    waterMeterReadings: imported.waterMeterReadings.map((w) => ({
       ...w,
       readingDate: new Date(w.readingDate),
     })),
-  }));
+  };
 }
 
 /**

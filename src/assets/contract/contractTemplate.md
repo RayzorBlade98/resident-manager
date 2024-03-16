@@ -44,6 +44,8 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 ## §3 Miete & Betriebskosten
 
+**3.1** Die monatliche Grundmiete beträgt {{RENT}} zzgl. Stellplatz / Garage {{PARKING_SPACE_COST}}
+
 Todo
 
 ## §4 Mietzahlungen

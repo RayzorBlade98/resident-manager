@@ -4,10 +4,15 @@ import {
 } from '../../utils/address/address.utils';
 import { convertCurrencyCentsToString } from '../../utils/currency/currency.utils';
 import { convertNameToString } from '../../utils/name/name.utils';
+import { getCostForParkingSpace } from '../../utils/parkingSpace/parkingSpace.utils';
+import {
+  convertImportedLandlord,
+  convertImportedProperty,
+  convertImportedResident,
+} from '../../utils/persistence/converters';
 import contractTemplate from '_/assets/contract/contractTemplate.md';
 import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.md';
 import residentTemplate from '_/assets/contract/residentTemplate.md';
-import MonthYear from '_/extensions/date/month_year.extension';
 import Landlord from '_/models/landlord/landlord';
 import Apartment from '_/models/property/apartment';
 import Property from '_/models/property/property';
@@ -61,6 +66,8 @@ const placeholderLabels = {
   keysFrontdoor: 'KEYS_FRONTDOOR',
   keysMailbox: 'KEYS_MAILBOX',
   contractStart: 'CONTRACT_START',
+  rent: 'RENT',
+  parkingSpaceCost: 'PARKING_SPACE_COST',
   rentDeposit: 'RENT_DEPOSIT',
 } satisfies Record<string, string>;
 
@@ -77,7 +84,13 @@ class ContractGenerator {
 
   private apartment: Apartment;
 
-  public constructor(private args: Imported<ContractGenerationArgs>) {
+  private resident: Resident;
+
+  private landlord: Landlord;
+
+  private property: Property;
+
+  public constructor(args: Imported<ContractGenerationArgs>) {
     const apartment = args.property.apartments.find(
       (a) => a.id === args.resident.apartmentId,
     );
@@ -89,6 +102,9 @@ class ContractGenerator {
     }
 
     this.apartment = apartment;
+    this.landlord = convertImportedLandlord(args.landlord);
+    this.property = convertImportedProperty(args.property);
+    this.resident = convertImportedResident(args.resident);
   }
 
   public generateContract(): string {
@@ -117,30 +133,34 @@ class ContractGenerator {
   }
 
   private replaceAllBasicPlaceholders() {
+    const parkingSpace = this.property.parkingSpaces.find(
+      (p) => p.id === this.resident.parkingSpaceId,
+    );
+
     const replacements = {
       [placeholderLabels.landlordName]: convertNameToString(
-        this.args.landlord.representative,
+        this.landlord.representative,
       ),
       [placeholderLabels.landlordStreet]: convertAddressToStreetString(
-        this.args.landlord.address,
+        this.landlord.address,
       ),
       [placeholderLabels.landlordCity]: convertAddressToCityString(
-        this.args.landlord.address,
+        this.landlord.address,
       ),
-      [placeholderLabels.landlordPhone]: this.args.landlord.phone,
-      [placeholderLabels.landlordEmail]: this.args.landlord.email,
-      [placeholderLabels.landlordCompany]: this.args.landlord.company ?? '',
+      [placeholderLabels.landlordPhone]: this.landlord.phone,
+      [placeholderLabels.landlordEmail]: this.landlord.email,
+      [placeholderLabels.landlordCompany]: this.landlord.company ?? '',
       [placeholderLabels.landlordBankaccountHolder]:
-        this.args.landlord.bankAccount.holder,
+        this.landlord.bankAccount.holder,
       [placeholderLabels.landlordBankaccountIBAN]:
-        this.args.landlord.bankAccount.iban,
+        this.landlord.bankAccount.iban,
       [placeholderLabels.numberOfResidents]:
-        this.args.resident.numberOfResidents.toString(),
+        this.resident.numberOfResidents.toString(),
       [placeholderLabels.propertyStreet]: convertAddressToStreetString(
-        this.args.property.address,
+        this.property.address,
       ),
       [placeholderLabels.propertyCity]: convertAddressToCityString(
-        this.args.property.address,
+        this.property.address,
       ),
       [placeholderLabels.apartmentFloor]: this.apartment.floor,
       [placeholderLabels.apartmentLocation]: this.apartment.location,
@@ -156,23 +176,28 @@ class ContractGenerator {
         this.apartment.rooms.hallway.toString(),
       [placeholderLabels.apartmentRoomsGarden]:
         this.apartment.rooms.garden.toString(),
-      [placeholderLabels.parkingSpaceCount]: this.args.resident.parkingSpaceId
+      [placeholderLabels.parkingSpaceCount]: this.resident.parkingSpaceId
         ? '1'
         : '0',
       [placeholderLabels.keysApartment]:
-        this.args.resident.keys.apartment.toString(),
-      [placeholderLabels.keysBasement]:
-        this.args.resident.keys.basement.toString(),
-      [placeholderLabels.keysAttic]: this.args.resident.keys.attic.toString(),
+        this.resident.keys.apartment.toString(),
+      [placeholderLabels.keysBasement]: this.resident.keys.basement.toString(),
+      [placeholderLabels.keysAttic]: this.resident.keys.attic.toString(),
       [placeholderLabels.keysFrontdoor]:
-        this.args.resident.keys.frontDoor.toString(),
-      [placeholderLabels.keysMailbox]:
-        this.args.resident.keys.mailbox.toString(),
-      [placeholderLabels.contractStart]: MonthYear.fromString(
-        this.args.resident.contractStart,
-      ).toPreferredString(),
+        this.resident.keys.frontDoor.toString(),
+      [placeholderLabels.keysMailbox]: this.resident.keys.mailbox.toString(),
+      [placeholderLabels.contractStart]:
+        this.resident.contractStart.toPreferredString(),
+      [placeholderLabels.rent]: convertCurrencyCentsToString(
+        this.resident.rentInformation.find((r) => r.dueDate.equals(this.resident.contractStart))!.rent,
+      ),
+      [placeholderLabels.parkingSpaceCost]: convertCurrencyCentsToString(
+        parkingSpace
+          ? getCostForParkingSpace(parkingSpace, this.resident.contractStart)
+          : 0,
+      ),
       [placeholderLabels.rentDeposit]: convertCurrencyCentsToString(
-        this.args.resident.rentDeposit,
+        this.resident.rentDeposit,
       ),
     };
 
@@ -182,12 +207,12 @@ class ContractGenerator {
   private replaceLandlordCompanyBlock() {
     this.replaceSinglePlacehoder(
       blockPlaceholderLabels.landlordCompany,
-      this.args.landlord.company ? landlordCompanyTemplate : '',
+      this.landlord.company ? landlordCompanyTemplate : '',
     );
   }
 
   private replaceResidentBlock() {
-    const residents = this.args.resident.contractResidents
+    const residents = this.resident.contractResidents
       .map((r) => replaceAllPlaceholders(residentTemplate, {
         [placeholderLabels.residentName]: convertNameToString(r.name),
         [placeholderLabels.residentStreet]: convertAddressToStreetString(
