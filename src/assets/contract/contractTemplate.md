@@ -46,6 +46,25 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **3.1** Die monatliche Grundmiete beträgt {{RENT}} zzgl. Stellplatz / Garage {{PARKING_SPACE_COST}}
 
+**3.2** Zusätzlich zu der Grundmiete trägt der Mieter anteilig sämtliche Betriebskosten wie in §2 der Betriebskostenverordnung (BetrKV) in der jeweils gültigen Fassung aufgeführt. Es handelt sich hierbei um folgende Betriebskostenpositionen:
+
+- Laufende öffentliche Lasten des Grundstücks
+- Die Kosten der Wasserversorgung und Entwässerung
+- Straßenreinigung und Müllbeseitigung
+- Gebäudereinigung und Ungezieferbekämpfung
+- Gartenpflege
+- Hausstrom und Beleuchtung
+- Schornsteinreinigung
+- Sach- und Haftpflichtversicherung
+- Hauswart
+- Winterdienst
+- Gemeinschaftliche Antennenanlage oder Betrieb der mit einem Breitbandkabelnetz verbundenen privaten Verteileranlage
+- sonstige Betriebskosten (insbes. die Wartung von Rauchmeldern; Legionellenprüfung)
+
+**3.3** Sollte der Gesetzgeber weitere Betriebskosten einführen oder sollten diese aus einem anderen Grund entstehen, ist der Vermieter berechtigt, vom Mieter die Zustimmung zu verlangen, diese zusammen bereits vereinbarten Betriebskosten als Umlage geltend zu machen.
+
+**3.4** Der Mieter zahlt, vorbehaltlich anderslautender zwingend gesetzlicher Bestimmungen eine Nebenkostenpauschale von {{INCIDENTALS}}
+
 Todo
 
 ## §4 Mietzahlungen

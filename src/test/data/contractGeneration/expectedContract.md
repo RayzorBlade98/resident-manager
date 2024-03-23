@@ -13,6 +13,7 @@ Landlord bankaccount IBAN = DE12 3456 7890
 Number of residents = 5
 
 Rent = 500.00 €
+Incidentals = 100.00 €
 Parking space cost = 25.00 €
 Rent deposit = 1500.00 €
 

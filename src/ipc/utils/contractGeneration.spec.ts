@@ -135,18 +135,21 @@ describe('generateContractMarkdown', () => {
         new RentInformationBuilder()
           .withDueDate(contractStart.addMonths(-1))
           .withRent(0)
+          .withIncidentals(0)
           .build(),
       )
       .addRentInformation(
         new RentInformationBuilder()
           .withDueDate(contractStart)
           .withRent(50000)
+          .withIncidentals(10000)
           .build(),
       )
       .addRentInformation(
         new RentInformationBuilder()
           .withDueDate(contractStart.addMonths(1))
           .withRent(0)
+          .withIncidentals(0)
           .build(),
       )
       .build();

@@ -13,6 +13,7 @@ Landlord bankaccount IBAN = {{LANDLORD_BANKACCOUNT_IBAN}}
 Number of residents = {{NUMBER_OF_RESIDENTS}}
 
 Rent = {{RENT}}
+Incidentals = {{INCIDENTALS}}
 Parking space cost = {{PARKING_SPACE_COST}}
 Rent deposit = {{RENT_DEPOSIT}}
 

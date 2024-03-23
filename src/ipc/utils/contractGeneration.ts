@@ -67,6 +67,7 @@ const placeholderLabels = {
   keysMailbox: 'KEYS_MAILBOX',
   contractStart: 'CONTRACT_START',
   rent: 'RENT',
+  incidentals: 'INCIDENTALS',
   parkingSpaceCost: 'PARKING_SPACE_COST',
   rentDeposit: 'RENT_DEPOSIT',
 } satisfies Record<string, string>;
@@ -133,6 +134,14 @@ class ContractGenerator {
   }
 
   private replaceAllBasicPlaceholders() {
+    const rentInformation = this.resident.rentInformation.find((r) => r.dueDate.equals(this.resident.contractStart));
+
+    if (!rentInformation) {
+      throw new Error(
+        `Missing rent informatin for month ${this.resident.contractStart}`,
+      );
+    }
+
     const parkingSpace = this.property.parkingSpaces.find(
       (p) => p.id === this.resident.parkingSpaceId,
     );
@@ -189,7 +198,10 @@ class ContractGenerator {
       [placeholderLabels.contractStart]:
         this.resident.contractStart.toPreferredString(),
       [placeholderLabels.rent]: convertCurrencyCentsToString(
-        this.resident.rentInformation.find((r) => r.dueDate.equals(this.resident.contractStart))!.rent,
+        rentInformation.rent,
+      ),
+      [placeholderLabels.incidentals]: convertCurrencyCentsToString(
+        rentInformation.incidentals,
       ),
       [placeholderLabels.parkingSpaceCost]: convertCurrencyCentsToString(
         parkingSpace
