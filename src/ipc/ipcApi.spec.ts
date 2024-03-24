@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import ipcAPI from './ipcApi';
 import ipcCommands from './ipcCommands';
+import MonthYear from '_/extensions/date/month_year.extension';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import LandlordBuilder from '_/test/builders/landlord.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
@@ -77,7 +78,10 @@ describe('ipcAPI', () => {
     const landlord = new LandlordBuilder().build();
     const resident = new ResidentBuilder().build();
     const property = new PropertyBuilder().build();
-    const args = { landlord, resident, property };
+    const contractStart = new MonthYear(2, 2024);
+    const args = {
+      landlord, resident, property, contractStart,
+    };
 
     // Act
     await ipcAPI.generateContractPdf(args);

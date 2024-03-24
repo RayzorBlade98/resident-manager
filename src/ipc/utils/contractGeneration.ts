@@ -13,6 +13,7 @@ import {
 import contractTemplate from '_/assets/contract/contractTemplate.md';
 import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.md';
 import residentTemplate from '_/assets/contract/residentTemplate.md';
+import MonthYear from '_/extensions/date/month_year.extension';
 import Landlord from '_/models/landlord/landlord';
 import Apartment from '_/models/property/apartment';
 import Property from '_/models/property/property';
@@ -20,6 +21,7 @@ import { Resident } from '_/models/resident/resident';
 import Imported from '_/types/Imported';
 
 export type ContractGenerationArgs = {
+  contractStart: MonthYear;
   landlord: Landlord;
   resident: Resident;
   property: Property;
@@ -84,6 +86,8 @@ const blockPlaceholderLabels = {
 class ContractGenerator {
   private contract = '';
 
+  private contractStart: MonthYear;
+
   private apartment: Apartment;
 
   private resident: Resident;
@@ -104,6 +108,7 @@ class ContractGenerator {
     }
 
     this.apartment = apartment;
+    this.contractStart = MonthYear.fromString(args.contractStart);
     this.landlord = convertImportedLandlord(args.landlord);
     this.property = convertImportedProperty(args.property);
     this.resident = convertImportedResident(args.resident);
@@ -135,11 +140,11 @@ class ContractGenerator {
   }
 
   private replaceAllBasicPlaceholders() {
-    const rentInformation = this.resident.rentInformation.find((r) => r.dueDate.equals(this.resident.contractStart));
+    const rentInformation = this.resident.rentInformation.find((r) => r.dueDate.equals(this.contractStart));
 
     if (!rentInformation) {
       throw new Error(
-        `Missing rent informatin for month ${this.resident.contractStart}`,
+        `Missing rent informatin for month ${this.contractStart}`,
       );
     }
 
@@ -147,7 +152,7 @@ class ContractGenerator {
       (p) => p.id === this.resident.parkingSpaceId,
     );
     const parkingSpaceCost = parkingSpace
-      ? getCostForParkingSpace(parkingSpace, this.resident.contractStart)
+      ? getCostForParkingSpace(parkingSpace, this.contractStart)
       : 0;
     const totalRent = rentInformation.rent + rentInformation.incidentals + parkingSpaceCost;
 
@@ -201,7 +206,7 @@ class ContractGenerator {
         this.resident.keys.frontDoor.toString(),
       [placeholderLabels.keysMailbox]: this.resident.keys.mailbox.toString(),
       [placeholderLabels.contractStart]:
-        this.resident.contractStart.toPreferredString(),
+        this.contractStart.toPreferredString(),
       [placeholderLabels.rent]: convertCurrencyCentsToString(
         rentInformation.rent,
       ),

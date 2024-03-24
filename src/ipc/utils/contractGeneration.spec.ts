@@ -128,7 +128,7 @@ describe('generateContractMarkdown', () => {
         frontDoor: 14,
         mailbox: 15,
       })
-      .withContractStart(contractStart)
+      .withContractStart(contractStart.addMonths(-1))
       .withRentDeposit(150000)
       .withNumberOfResidents(5)
       .addRentInformation(
@@ -155,6 +155,7 @@ describe('generateContractMarkdown', () => {
       .build();
 
     const args: ContractGenerationArgs = {
+      contractStart,
       landlord,
       resident,
       property,

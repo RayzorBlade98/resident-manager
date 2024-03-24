@@ -1,37 +1,21 @@
 import { fireEvent, render, RenderResult } from '@testing-library/react';
 import React from 'react';
-import { setRecoil } from 'recoil-nexus';
-import residentViewState from '../../states/resident_view_state';
 import DocumentInformation from './DocumentInformation';
-import landlordState from '_/states/landlord/landlord.state';
-import propertyState from '_/states/property/property.state';
-import residentState from '_/states/resident/resident.state';
+import * as GenerateContractModalModule from './GenerateContractModal/GenerateContractModal';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
-import LandlordBuilder from '_/test/builders/landlord.builder';
-import PropertyBuilder from '_/test/builders/property.builder';
-import ResidentBuilder from '_/test/builders/resident.builder';
-import { mockedIpcAPIFunctions } from '_/test/ipcApiMock';
 
 describe('DocumentInformation', () => {
-  const resident = new ResidentBuilder().build();
-  const landlord = new LandlordBuilder().build();
-  const property = new PropertyBuilder().build();
+  const generateContractModalMock = 'GenerateContractModal';
 
   let renderResult: RenderResult;
 
   beforeEach(() => {
+    jest
+      .spyOn(GenerateContractModalModule, 'default')
+      .mockReturnValue(<p>{generateContractModalMock}</p>);
+
     renderResult = render(
-      <ReactTestWrapper
-        initializationFunction={() => {
-          setRecoil(residentState, [resident]);
-          setRecoil(residentViewState, (state) => ({
-            ...state,
-            selectedResident: resident.id,
-          }));
-          setRecoil(propertyState, property);
-          setRecoil(landlordState, landlord);
-        }}
-      >
+      <ReactTestWrapper>
         <DocumentInformation />
       </ReactTestWrapper>,
     );
@@ -43,11 +27,7 @@ describe('DocumentInformation', () => {
     fireEvent.click(button);
 
     // Assert
-    expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenCalledTimes(1);
-    expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenLastCalledWith({
-      resident,
-      landlord,
-      property,
-    });
+    const modal = renderResult.getByText(generateContractModalMock);
+    expect(modal).toBeDefined();
   });
 });
