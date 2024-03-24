@@ -1,5 +1,3 @@
-/* eslint-disable no-await-in-loop */
-
 import { act, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';

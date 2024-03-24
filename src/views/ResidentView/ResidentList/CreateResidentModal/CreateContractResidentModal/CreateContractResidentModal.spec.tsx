@@ -1,4 +1,4 @@
-/* eslint-disable no-await-in-loop, react/jsx-no-useless-fragment */
+/* eslint-disable react/jsx-no-useless-fragment */
 
 import { act, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
