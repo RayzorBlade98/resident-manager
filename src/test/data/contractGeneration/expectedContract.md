@@ -15,6 +15,7 @@ Number of residents = 5
 Rent = 500.00 €
 Incidentals = 100.00 €
 Parking space cost = 25.00 €
+Total Rent = 625.00 €
 Rent deposit = 1500.00 €
 
 Keys apartment = 11

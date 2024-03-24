@@ -63,9 +63,15 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **3.3** Sollte der Gesetzgeber weitere Betriebskosten einführen oder sollten diese aus einem anderen Grund entstehen, ist der Vermieter berechtigt, vom Mieter die Zustimmung zu verlangen, diese zusammen bereits vereinbarten Betriebskosten als Umlage geltend zu machen.
 
-**3.4** Der Mieter zahlt, vorbehaltlich anderslautender zwingend gesetzlicher Bestimmungen eine Nebenkostenpauschale von {{INCIDENTALS}}
+**3.4** Der Mieter zahlt, vorbehaltlich anderslautender zwingend gesetzlicher Bestimmungen eine Betriebskostenvorauszahlung von {{INCIDENTALS}}
 
-Todo
+**3.5** Sind Betriebskostenvorauszahlungen vereinbart, so ist der Vermieter zur jährlichen Abrechnung verpflichtet. Die Betriebskostenabrechnung ist dem Mieter spätestens zum Ablauf des zwölften Monats nach Ende eines Abrechnungszeitraums mitzuteilen.
+
+**3.6** Sowohl Mieter als auch Vermieter sind nach einer vorangegangenen Betriebskostenabrechnung durch Erklärung in Textform zu einer Anpassung der Betriebskostenvorauszahlung berechtigt.
+
+**3.7** Bei Beendigung des Mieterverhältnisses während des laufenden Abrechnungszeitraums hat der Mieter die Kosten der Zwischenablesung und die Nutzerwechselgebühr zu tragen.
+
+**3.8** Die monatliche Gesamtmiete inlusive Betriebskostenvorauszahlungen beläuft sich auf {{RENT_TOTAL}}
 
 ## §4 Mietzahlungen
 

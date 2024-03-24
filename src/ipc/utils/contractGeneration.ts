@@ -69,6 +69,7 @@ const placeholderLabels = {
   rent: 'RENT',
   incidentals: 'INCIDENTALS',
   parkingSpaceCost: 'PARKING_SPACE_COST',
+  rentTotal: 'RENT_TOTAL',
   rentDeposit: 'RENT_DEPOSIT',
 } satisfies Record<string, string>;
 
@@ -145,6 +146,10 @@ class ContractGenerator {
     const parkingSpace = this.property.parkingSpaces.find(
       (p) => p.id === this.resident.parkingSpaceId,
     );
+    const parkingSpaceCost = parkingSpace
+      ? getCostForParkingSpace(parkingSpace, this.resident.contractStart)
+      : 0;
+    const totalRent = rentInformation.rent + rentInformation.incidentals + parkingSpaceCost;
 
     const replacements = {
       [placeholderLabels.landlordName]: convertNameToString(
@@ -203,11 +208,9 @@ class ContractGenerator {
       [placeholderLabels.incidentals]: convertCurrencyCentsToString(
         rentInformation.incidentals,
       ),
-      [placeholderLabels.parkingSpaceCost]: convertCurrencyCentsToString(
-        parkingSpace
-          ? getCostForParkingSpace(parkingSpace, this.resident.contractStart)
-          : 0,
-      ),
+      [placeholderLabels.parkingSpaceCost]:
+        convertCurrencyCentsToString(parkingSpaceCost),
+      [placeholderLabels.rentTotal]: convertCurrencyCentsToString(totalRent),
       [placeholderLabels.rentDeposit]: convertCurrencyCentsToString(
         this.resident.rentDeposit,
       ),

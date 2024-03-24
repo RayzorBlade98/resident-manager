@@ -15,6 +15,7 @@ Number of residents = {{NUMBER_OF_RESIDENTS}}
 Rent = {{RENT}}
 Incidentals = {{INCIDENTALS}}
 Parking space cost = {{PARKING_SPACE_COST}}
+Total Rent = {{RENT_TOTAL}}
 Rent deposit = {{RENT_DEPOSIT}}
 
 Keys apartment = {{KEYS_APARTMENT}}
