@@ -1,8 +1,10 @@
+import DescriptionIcon from '@mui/icons-material/Description';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import { Box, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
+import DocumentInformation from './DocumentInformation/DocumentInformation';
 import GeneralResidentInformation from './GeneralResidentInformation/GeneralResidentInformation';
 import RentInformation from './RentInformation/RentInformation';
 import WaterMeterReadingInformation from './WaterMeterReadingInformation/WaterMeterReadingInformation';
@@ -14,6 +16,7 @@ enum ResidentTab {
   General = 0,
   Rent = 1,
   WaterReading = 2,
+  Documents = 3,
 }
 
 const styles = {
@@ -41,6 +44,11 @@ function ResidentInformation(): JSX.Element {
             iconPosition="start"
             label="Wasserzähler"
           />
+          <Tab
+            icon={<DescriptionIcon />}
+            iconPosition="start"
+            label="Dokumente"
+          />
         </Tabs>
       </Box>
       <div hidden={activeTab !== ResidentTab.General}>
@@ -51,6 +59,9 @@ function ResidentInformation(): JSX.Element {
       </div>
       <div hidden={activeTab !== ResidentTab.WaterReading}>
         <WaterMeterReadingInformation />
+      </div>
+      <div hidden={activeTab !== ResidentTab.Documents}>
+        <DocumentInformation />
       </div>
     </>
   );

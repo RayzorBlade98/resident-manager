@@ -94,26 +94,12 @@ describe('ResidentView', () => {
     fireEvent.click(selectedInvoice);
   });
 
-  test('should match image snapshot (general information)', async () => {
-    // Assert
-    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
-  });
-
-  test('should match image snapshot (rent information)', async () => {
-    // Act
+  test('should match image snapshot', async () => {
+    // Act + Assert
     const tabs = renderResult.getAllByRole('tab');
-    fireEvent.click(tabs[1]);
-
-    // Assert
-    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
-  });
-
-  test('should match image snapshot (water reading information)', async () => {
-    // Act
-    const tabs = renderResult.getAllByRole('tab');
-    fireEvent.click(tabs[2]);
-
-    // Assert
-    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+    for (const tab of tabs) {
+      fireEvent.click(tab);
+      expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+    }
   });
 });
