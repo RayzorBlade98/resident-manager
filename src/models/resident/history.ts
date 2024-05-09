@@ -13,6 +13,10 @@ export interface ResidentHistoryElement {
 
   contractResidents?: Resident['contractResidents'];
   numberOfResidents?: Resident['numberOfResidents'];
-  parkingSpaceId?: Resident['parkingSpaceId'];
   keys?: Prettify<Partial<Resident['keys']>>;
+
+  /**
+   * Null indicates that the parking space got removed
+   */
+  parkingSpaceId?: Resident['parkingSpaceId'] | null;
 }

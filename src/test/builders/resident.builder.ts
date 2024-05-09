@@ -66,7 +66,7 @@ class ResidentBuilder {
     return this;
   }
 
-  public withParkingSpace(parkingSpaceId: string): ResidentBuilder {
+  public withParkingSpace(parkingSpaceId: string | undefined): ResidentBuilder {
     this.resident.parkingSpaceId = parkingSpaceId;
     return this;
   }
