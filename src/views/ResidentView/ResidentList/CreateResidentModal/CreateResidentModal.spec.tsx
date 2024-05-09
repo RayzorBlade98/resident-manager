@@ -5,7 +5,7 @@ import { generateImage } from 'jsdom-screenshot';
 import React, { useEffect } from 'react';
 import { setRecoil } from 'recoil-nexus';
 import CreateResidentModal from './CreateResidentModal';
-import * as createContractResidentModalModule from '_/components/shared/CreateContractResidentModal/CreateContractResidentModal';
+import ContractResidentDisplay, * as contractResidentDisplayModule from '_/components/shared/ContractResidentDisplay/ContractResidentDisplay';
 import MonthYear from '_/extensions/date/month_year.extension';
 import * as useResidentStateModule from '_/hooks/useResidentState/useResidentState';
 import { Salutation } from '_/models/name';
@@ -16,6 +16,11 @@ import ApartmentBuilder from '_/test/builders/apartment.builder';
 import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+const ActualContractResidentDisplay = jest.requireActual(
+  '_/components/shared/ContractResidentDisplay/ContractResidentDisplay',
+).default as typeof ContractResidentDisplay;
 
 describe('CreateResidentModal', () => {
   let baseElement: HTMLElement;
@@ -72,22 +77,19 @@ describe('CreateResidentModal', () => {
     mailboxKeys: undefined,
   };
 
-  function inputToForm(
-    inputValues: {
-      rent: number | undefined;
-      incidentals: number | undefined;
-      rentDeposit: number | undefined;
-      contractStart: MonthYear | undefined;
-      waterMeter: number | undefined;
-      numberOfResidents: number | undefined;
-      apartmentKeys: number | undefined;
-      basementKeys: number | undefined;
-      atticKeys: number | undefined;
-      frontDoorKeys: number | undefined;
-      mailboxKeys: number | undefined;
-    },
-    createContractResident?: boolean,
-  ) {
+  function inputToForm(inputValues: {
+    rent: number | undefined;
+    incidentals: number | undefined;
+    rentDeposit: number | undefined;
+    contractStart: MonthYear | undefined;
+    waterMeter: number | undefined;
+    numberOfResidents: number | undefined;
+    apartmentKeys: number | undefined;
+    basementKeys: number | undefined;
+    atticKeys: number | undefined;
+    frontDoorKeys: number | undefined;
+    mailboxKeys: number | undefined;
+  }) {
     function input(element: Element | null, value: string | undefined) {
       if (!element) {
         throw new Error(`Missing element for value ${value}`);
@@ -109,12 +111,6 @@ describe('CreateResidentModal', () => {
         baseElement.querySelector('#contractStart'),
         inputValues.contractStart?.toPreferredString().slice(3) ?? '',
       );
-
-      if (createContractResident) {
-        fireEvent.click(
-          baseElement.querySelector("[data-testid='AddCircleOutlineIcon']")!,
-        );
-      }
 
       fireEvent.click(tabs.item(1));
       input(
@@ -169,19 +165,41 @@ describe('CreateResidentModal', () => {
     });
   }
 
-  function CreateContractResidentModalMock(props: {
-    show: boolean;
-    onClose: () => void;
-    onSubmit: (resident: ContractResident) => void;
-  }) {
-    useEffect(() => {
-      if (props.show) {
-        props.onSubmit(contractResident);
-        props.onClose();
-      }
-    }, [props]);
+  function generateContractResidentDisplayMock(
+    generateContractResident: boolean,
+  ) {
+    function ContractResidentDisplayMock(props: {
+      contractResidents: ContractResident[] | undefined;
+      onSubmitContractResident: (resident: ContractResident) => void;
+      error: string | undefined;
+    }) {
+      useEffect(() => {
+        if (generateContractResident) {
+          props.onSubmitContractResident(contractResident);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
 
-    return props.show ? <p>CreateContractResidentModalMock</p> : <></>;
+      return <ActualContractResidentDisplay {...props} />;
+    }
+
+    return ContractResidentDisplayMock;
+  }
+
+  function renderModal(generateContractResident: boolean) {
+    jest
+      .spyOn(contractResidentDisplayModule, 'default')
+      .mockImplementation(
+        generateContractResidentDisplayMock(generateContractResident),
+      );
+
+    baseElement = render(
+      <ReactTestWrapper
+        initializationFunction={() => setRecoil(propertyState, property)}
+      >
+        <CreateResidentModal showModal onCloseModal={onCloseModalMock} />
+      </ReactTestWrapper>,
+    ).baseElement;
   }
 
   beforeAll(() => {
@@ -194,22 +212,14 @@ describe('CreateResidentModal', () => {
       residents: [],
       addResident: addResidentSpy,
     });
-    jest
-      .spyOn(createContractResidentModalModule, 'default')
-      .mockImplementation(CreateContractResidentModalMock);
-
-    baseElement = render(
-      <ReactTestWrapper
-        initializationFunction={() => setRecoil(propertyState, property)}
-      >
-        <CreateResidentModal showModal onCloseModal={onCloseModalMock} />
-      </ReactTestWrapper>,
-    ).baseElement;
   });
 
   test('should match image snapshot (valid inputs)', async () => {
+    // Arrange
+    renderModal(true);
+
     // Act
-    inputToForm(validInputValues, true);
+    inputToForm(validInputValues);
 
     // Assert
     const tabs = baseElement.querySelectorAll('.MuiTab-root');
@@ -223,6 +233,9 @@ describe('CreateResidentModal', () => {
   });
 
   test('should match image snapshot (invalid inputs)', async () => {
+    // Arrange
+    renderModal(false);
+
     // Act
     inputToForm(invalidInputValues);
     submitForm();
@@ -238,9 +251,10 @@ describe('CreateResidentModal', () => {
     }
   });
 
-  test('should add incidentals on submit', () => {
+  test('should add resident on submit', () => {
     // Arrange
-    inputToForm(validInputValues, true);
+    renderModal(true);
+    inputToForm(validInputValues);
 
     // Act
     submitForm();
