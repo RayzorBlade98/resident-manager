@@ -6,7 +6,6 @@ import GenericModal from '../../../../components/generic/GenericModal/GenericMod
 import { convertApartmentToDisplayString } from '../../../../utils/apartment/apartment.utils';
 import { convertNameToString } from '../../../../utils/name/name.utils';
 import RentInformationUtils from '../../../../utils/rent/rent.utils';
-import CreateContractResidentModal from './CreateContractResidentModal/CreateContractResidentModal';
 import {
   CreateResidentGroups,
   CreateResidentInput,
@@ -17,6 +16,7 @@ import GroupedForm from '_/components/form/GroupedForm/GroupedForm';
 import MonthYearDateField from '_/components/form/MonthYearDateField/MonthYearDateField';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 import SelectField from '_/components/form/SelectField/SelectField';
+import CreateContractResidentModal from '_/components/shared/CreateContractResidentModal/CreateContractResidentModal';
 import MonthYear from '_/extensions/date/month_year.extension';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import usePropertyState from '_/hooks/usePropertyState/usePropertyState';
@@ -108,7 +108,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
         show={props.showModal && showContractResidentModal}
         onClose={() => setShowContractResidentModal(false)}
         onSubmit={(resident) => formInputSetters.contractResidents([
-          ...formInput.contractResidents as ContractResident[],
+          ...(formInput.contractResidents as ContractResident[]),
           resident,
         ])}
       />

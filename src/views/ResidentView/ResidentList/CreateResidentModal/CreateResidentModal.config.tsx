@@ -91,88 +91,102 @@ export interface CreateResidentInput {
 export type CreateResidentGroups = 'resident' | 'apartment' | 'keys';
 
 /**
- * Returns all configs for the create resident modal
- * @param emptyApartments list of all empty apartments
+ * Config of the edit resident form
  */
+export const genericCreateResidentFormConfig: FormConfig<
+CreateResidentInput,
+CreateResidentGroups
+> = {
+  formValidationConfig: {
+    formValidator: new Validator<CreateResidentInput>({
+      rent: ValidationConstraint.Currency,
+      incidentals: ValidationConstraint.Currency,
+      rentDeposit: ValidationConstraint.Currency,
+      contractStart: ValidationConstraint.Defined,
+      waterMeter: ValidationConstraint.Defined,
+      contractResidents: ValidationConstraint.NoEmptyArray,
+      numberOfResidents: ValidationConstraint.Defined,
+      apartmentId: ValidationConstraint.Defined,
+      apartmentKeys: ValidationConstraint.Defined,
+      basementKeys: ValidationConstraint.Defined,
+      atticKeys: ValidationConstraint.Defined,
+      frontDoorKeys: ValidationConstraint.Defined,
+      mailboxKeys: ValidationConstraint.Defined,
+    }),
+    defaultFormInput: {
+      rent: undefined,
+      incidentals: undefined,
+      rentDeposit: undefined,
+      contractStart: new MonthYear(),
+      waterMeter: undefined,
+      contractResidents: [],
+      numberOfResidents: undefined,
+      apartmentId: undefined,
+      parkingSpaceId: undefined,
+      apartmentKeys: undefined,
+      basementKeys: undefined,
+      atticKeys: undefined,
+      frontDoorKeys: undefined,
+      mailboxKeys: undefined,
+    },
+    submitButtonLabel: 'Erstellen',
+  },
+  formGroupConfig: {
+    groupMappings: {
+      contractStart: 'resident',
+      contractResidents: 'resident',
+      numberOfResidents: 'resident',
+      rent: 'apartment',
+      incidentals: 'apartment',
+      rentDeposit: 'apartment',
+      waterMeter: 'apartment',
+      apartmentId: 'apartment',
+      parkingSpaceId: 'apartment',
+      apartmentKeys: 'keys',
+      basementKeys: 'keys',
+      atticKeys: 'keys',
+      frontDoorKeys: 'keys',
+      mailboxKeys: 'keys',
+    },
+    groupConfigs: {
+      resident: {
+        label: 'Mieter',
+        icon: {
+          component: <PersonIcon />,
+          iconPosition: 'start',
+        },
+      },
+      apartment: {
+        label: 'Wohnung',
+        icon: {
+          component: <HomeIcon />,
+          iconPosition: 'start',
+        },
+      },
+      keys: {
+        label: 'Schlüssel',
+        icon: {
+          component: <KeyIcon />,
+          iconPosition: 'start',
+        },
+      },
+    },
+    defaultGroup: 'resident',
+  },
+};
+
 export function getCreateResidentModalConfig(args: {
   emptyApartments: Apartment[];
 }): FormConfig<CreateResidentInput, CreateResidentGroups> {
   return {
+    ...genericCreateResidentFormConfig,
     formValidationConfig: {
-      formValidator: new Validator<CreateResidentInput>({
-        rent: ValidationConstraint.Currency,
-        incidentals: ValidationConstraint.Currency,
-        rentDeposit: ValidationConstraint.Currency,
-        contractStart: ValidationConstraint.Defined,
-        waterMeter: ValidationConstraint.Defined,
-        contractResidents: ValidationConstraint.NoEmptyArray,
-        numberOfResidents: ValidationConstraint.Defined,
-        apartmentId: ValidationConstraint.Defined,
-        apartmentKeys: ValidationConstraint.Defined,
-        basementKeys: ValidationConstraint.Defined,
-        atticKeys: ValidationConstraint.Defined,
-        frontDoorKeys: ValidationConstraint.Defined,
-        mailboxKeys: ValidationConstraint.Defined,
-      }),
+      ...genericCreateResidentFormConfig.formValidationConfig,
       defaultFormInput: {
-        rent: undefined,
-        incidentals: undefined,
-        rentDeposit: undefined,
-        contractStart: new MonthYear(),
-        waterMeter: undefined,
-        contractResidents: [],
-        numberOfResidents: undefined,
+        ...genericCreateResidentFormConfig.formValidationConfig
+          .defaultFormInput,
         apartmentId: args.emptyApartments.at(0)?.id,
-        parkingSpaceId: undefined,
-        apartmentKeys: undefined,
-        basementKeys: undefined,
-        atticKeys: undefined,
-        frontDoorKeys: undefined,
-        mailboxKeys: undefined,
       },
-      submitButtonLabel: 'Erstellen',
-    },
-    formGroupConfig: {
-      groupMappings: {
-        contractStart: 'resident',
-        contractResidents: 'resident',
-        numberOfResidents: 'resident',
-        rent: 'apartment',
-        incidentals: 'apartment',
-        rentDeposit: 'apartment',
-        waterMeter: 'apartment',
-        apartmentId: 'apartment',
-        parkingSpaceId: 'apartment',
-        apartmentKeys: 'keys',
-        basementKeys: 'keys',
-        atticKeys: 'keys',
-        frontDoorKeys: 'keys',
-        mailboxKeys: 'keys',
-      },
-      groupConfigs: {
-        resident: {
-          label: 'Mieter',
-          icon: {
-            component: <PersonIcon />,
-            iconPosition: 'start',
-          },
-        },
-        apartment: {
-          label: 'Wohnung',
-          icon: {
-            component: <HomeIcon />,
-            iconPosition: 'start',
-          },
-        },
-        keys: {
-          label: 'Schlüssel',
-          icon: {
-            component: <KeyIcon />,
-            iconPosition: 'start',
-          },
-        },
-      },
-      defaultGroup: 'resident',
     },
   };
 }

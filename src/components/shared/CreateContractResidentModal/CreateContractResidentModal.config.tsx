@@ -1,8 +1,8 @@
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import React from 'react';
-import { ValidationConstraint } from '../../../../../utils/validation/constraints';
-import Validator from '../../../../../utils/validation/validator';
+import { ValidationConstraint } from '../../../utils/validation/constraints';
+import Validator from '../../../utils/validation/validator';
 import { Salutation } from '_/models/name';
 import { FormConfig } from '_/types/FormConfig';
 
