@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+
 import { fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import { range } from 'lodash';
@@ -31,7 +33,7 @@ describe('ContractResidentDisplay', () => {
       }
     }, [props]);
 
-    return props.show ? <p>CreateContractResidentModalMock</p> : null;
+    return props.show ? <p>CreateContractResidentModalMock</p> : <></>;
   }
 
   function renderComponent(showResidents: boolean, showError: boolean) {

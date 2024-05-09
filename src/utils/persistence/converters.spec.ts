@@ -251,6 +251,50 @@ describe('convertImportedResidents', () => {
           frontDoor: 4,
           mailbox: 5,
         },
+        history: [
+          {
+            invalidSince: new MonthYear(4, 2024),
+            contractResidents: [
+              {
+                name: {
+                  salutation: Salutation.Male,
+                  firstName: 'first old',
+                  lastName: 'last old',
+                },
+                oldAddress: {
+                  zipCode: 13371,
+                  city: 'resident city old',
+                  street: 'resident street old',
+                  houseNumber: 151,
+                },
+                phone: '0152 12345 old',
+              },
+            ],
+            numberOfResidents: 51,
+            parkingSpaceId: '11-11-11 old',
+          },
+          {
+            invalidSince: new MonthYear(1, 2024),
+            contractResidents: [
+              {
+                name: {
+                  salutation: Salutation.Male,
+                  firstName: 'first older',
+                  lastName: 'last older',
+                },
+                oldAddress: {
+                  zipCode: 13372,
+                  city: 'resident city older',
+                  street: 'resident street older',
+                  houseNumber: 152,
+                },
+                phone: '0152 12345 older',
+              },
+            ],
+            numberOfResidents: 5,
+            parkingSpaceId: '11-11-11 older',
+          },
+        ],
       },
     ];
     const residentsJson = JSON.parse(JSON.stringify(residents));

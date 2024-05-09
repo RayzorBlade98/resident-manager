@@ -82,6 +82,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
           frontDoor: values.frontDoorKeys,
           mailbox: values.mailboxKeys,
         },
+        history: [],
       });
       props.onCloseModal();
     },

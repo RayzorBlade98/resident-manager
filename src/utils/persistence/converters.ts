@@ -89,6 +89,10 @@ export function convertImportedResident(
       ...w,
       readingDate: new Date(w.readingDate),
     })),
+    history: imported.history.map((history) => ({
+      ...history,
+      invalidSince: MonthYear.fromString(history.invalidSince),
+    })),
   };
 }
 

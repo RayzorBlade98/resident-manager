@@ -27,6 +27,7 @@ class ResidentBuilder {
         frontDoor: 1,
         mailbox: 1,
       },
+      history: [],
     };
   }
 

@@ -1,4 +1,5 @@
 import { ContractResident } from './contractResident';
+import { ResidentHistoryElement } from './history';
 import { RentInformation } from './rent';
 import WaterMeterReading from './water_meter_reading';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -82,4 +83,9 @@ export interface Resident {
      */
     mailbox: number;
   };
+
+  /**
+   * Historic information of the resident
+   */
+  history: ResidentHistoryElement[];
 }
