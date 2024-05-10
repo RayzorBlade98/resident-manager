@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -86,6 +87,10 @@ function useResident(residentId: string) {
             newHistoryEntry.keys.mailbox = _resident.keys.mailbox;
             _resident.keys.mailbox = newValues.keys.mailbox;
           }
+
+          if (_.isEmpty(newHistoryEntry.keys)) {
+            delete newHistoryEntry.keys;
+          }
         }
 
         if (newValues.parkingSpaceId !== _resident.parkingSpaceId) {
@@ -93,7 +98,9 @@ function useResident(residentId: string) {
           _resident.parkingSpaceId = newValues.parkingSpaceId;
         }
 
-        _resident.history = [newHistoryEntry, ..._resident.history];
+        if (Object.keys(newHistoryEntry).length > 1) {
+          _resident.history = [newHistoryEntry, ..._resident.history];
+        }
 
         return _resident;
       }

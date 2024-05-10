@@ -241,5 +241,82 @@ describe('useResident', () => {
         ],
       });
     });
+
+    test('should set state correctly (no keys update)', () => {
+      // Arrange
+      const newValues = {
+        ..._.pick(selectedResident, [
+          'contractResidents',
+          'parkingSpaceId',
+          'keys',
+        ]),
+        numberOfResidents: 8,
+      };
+      const validSince = new MonthYear(4, 2024);
+
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useResident(selectedResident.id),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      // Act
+      act(() => {
+        result.current.editResident(newValues, validSince);
+      });
+
+      // Assert
+      expect(result.current.resident).toEqual({
+        ...selectedResident,
+        numberOfResidents: newValues.numberOfResidents,
+        keys: {
+          ...selectedResident.keys,
+          apartment: newValues.keys.apartment,
+        },
+        history: [
+          {
+            invalidSince: validSince,
+            numberOfResidents: selectedResident.numberOfResidents,
+          },
+        ],
+      });
+    });
+
+    test("shouldn't change the state for no update", () => {
+      // Arrange
+      const newValues = {
+        ..._.pick(selectedResident, [
+          'contractResidents',
+          'parkingSpaceId',
+          'keys',
+          'numberOfResidents',
+        ]),
+      };
+      const validSince = new MonthYear(4, 2024);
+
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useResident(selectedResident.id),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      // Act
+      act(() => {
+        result.current.editResident(newValues, validSince);
+      });
+
+      // Assert
+      expect(result.current.resident).toEqual(selectedResident);
+    });
   });
 });
