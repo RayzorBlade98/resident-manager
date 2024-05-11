@@ -11,6 +11,7 @@ import MonthYear from '_/extensions/date/month_year.extension';
 import App from '_/renderer/App';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
@@ -24,12 +25,26 @@ describe('ResidentView', () => {
     },
   };
   const residents = range(0, 8).map((i) => new ResidentBuilder()
-    .withName(
-      new NameBuilder()
-        .withFirstName('Max')
-        .withLastName(`Mustermann ${i}`)
+    .addContractResident(
+      new ContractResidentBuilder()
+        .withName(
+          new NameBuilder()
+            .withFirstName('Max')
+            .withLastName(`Mustermann ${i}`)
+            .build(),
+        )
         .build(),
     )
+    .withConditionalSetup(i % 2 === 0, (b) => b.addContractResident(
+      new ContractResidentBuilder()
+        .withName(
+          new NameBuilder()
+            .withFirstName('Mona')
+            .withLastName(`Musterfrau ${i}`)
+            .build(),
+        )
+        .build(),
+    ))
     .addRentInformation(
       new RentInformationBuilder()
         .withDueDate(new MonthYear(2, 2023))
@@ -79,26 +94,12 @@ describe('ResidentView', () => {
     fireEvent.click(selectedInvoice);
   });
 
-  test('should match image snapshot (general information)', async () => {
-    // Assert
-    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
-  });
-
-  test('should match image snapshot (rent information)', async () => {
-    // Act
+  test('should match image snapshot', async () => {
+    // Act + Assert
     const tabs = renderResult.getAllByRole('tab');
-    fireEvent.click(tabs[1]);
-
-    // Assert
-    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
-  });
-
-  test('should match image snapshot (water reading information)', async () => {
-    // Act
-    const tabs = renderResult.getAllByRole('tab');
-    fireEvent.click(tabs[2]);
-
-    // Assert
-    expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+    for (const tab of tabs) {
+      fireEvent.click(tab);
+      expect(await generateImage(screenshotSettings)).toMatchImageSnapshot();
+    }
   });
 });

@@ -19,6 +19,11 @@ describe('Validator', () => {
     value4: ValidationConstraint.Defined,
   });
 
+  test('should freeze constraints', () => {
+    // Assert
+    expect(Object.isFrozen(validator.constraints)).toBeTruthy();
+  });
+
   describe('validate', () => {
     test('should return right values with invalidOnly = true', () => {
       // Arrange

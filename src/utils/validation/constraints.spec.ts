@@ -35,6 +35,23 @@ describe('ValidationConstraint.NoEmptyString', () => {
   );
 });
 
+describe('ValidationConstraint.NoEmptyArray', () => {
+  test.each([
+    [undefined, ERROR_MESSAGES.EMPTY],
+    [[], ERROR_MESSAGES.EMPTY],
+    [['not empty'], undefined],
+  ])(
+    'input "%s" should return "%s"',
+    (input: string[] | undefined, expectedResult: string | undefined) => {
+      testValidationConstraint(
+        ValidationConstraint.NoEmptyArray,
+        input,
+        expectedResult,
+      );
+    },
+  );
+});
+
 describe('ValidationConstraint.Month', () => {
   test.each([
     [undefined, ERROR_MESSAGES.EMPTY],

@@ -28,7 +28,7 @@ import PropertyBuilder from '_/test/builders/property.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import WaterCostsBuilder from '_/test/builders/waterCosts.builder';
-import { exportObjectMock, importObjectMock } from '_/test/ipcApiMock';
+import { mockedIpcAPIFunctions } from '_/test/ipcApiMock';
 
 const incidentals: IncidentalsState = {
   ongoingIncidentals: [
@@ -74,24 +74,26 @@ afterEach(() => {
 describe('importSaveStates', () => {
   test('should import states correctly', async () => {
     // Arrange
-    importObjectMock.mockImplementation((filename: string) => {
-      switch (filename) {
-        case persistenceFilenames.incidentals:
-          return JSON.parse(JSON.stringify(incidentals));
-        case persistenceFilenames.invoices:
-          return JSON.parse(JSON.stringify(invoices));
-        case persistenceFilenames.residents:
-          return JSON.parse(JSON.stringify(residents));
-        case persistenceFilenames.property:
-          return JSON.parse(JSON.stringify(property));
-        case persistenceFilenames.waterCosts:
-          return JSON.parse(JSON.stringify(waterCosts));
-        case persistenceFilenames.landlord:
-          return JSON.parse(JSON.stringify(landlord));
-        default:
-          throw new Error('Missing filename in mock implementation');
-      }
-    });
+    mockedIpcAPIFunctions.importObject.mockImplementation(
+      (filename: string) => {
+        switch (filename) {
+          case persistenceFilenames.incidentals:
+            return JSON.parse(JSON.stringify(incidentals));
+          case persistenceFilenames.invoices:
+            return JSON.parse(JSON.stringify(invoices));
+          case persistenceFilenames.residents:
+            return JSON.parse(JSON.stringify(residents));
+          case persistenceFilenames.property:
+            return JSON.parse(JSON.stringify(property));
+          case persistenceFilenames.waterCosts:
+            return JSON.parse(JSON.stringify(waterCosts));
+          case persistenceFilenames.landlord:
+            return JSON.parse(JSON.stringify(landlord));
+          default:
+            throw new Error('Missing filename in mock implementation');
+        }
+      },
+    );
 
     // Act
     await act(async () => {
@@ -124,6 +126,7 @@ describe('exportSaveStates', () => {
     exportSaveStates();
 
     // Assert
+    const exportObjectMock = mockedIpcAPIFunctions.exportObject;
     expect(exportObjectMock).toHaveBeenNthCalledWith(
       1,
       incidentals,

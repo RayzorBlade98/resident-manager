@@ -1,7 +1,5 @@
-import {
-  FormControl, InputLabel, MenuItem, Select,
-} from '@mui/material';
 import React from 'react';
+import SelectField from '../SelectField/SelectField';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 
 interface DeductionTypeSelectProps {
@@ -21,23 +19,18 @@ interface DeductionTypeSelectProps {
  */
 function DeductionTypeSelect(props: DeductionTypeSelectProps): JSX.Element {
   return (
-    <FormControl fullWidth>
-      <InputLabel id="deductionTypeLabel">Abrechnungsart</InputLabel>
-      <Select
-        required
-        labelId="deductionTypeLabel"
-        id="deductionType"
-        label="Abrechnungsart"
-        value={props.value}
-        onChange={(event) => props.onChange(event.target.value as DeductionType)}
-      >
-        {Object.values(DeductionType).map((type) => (
-          <MenuItem key={type} value={type}>
-            {type}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <SelectField
+      required
+      id="deductionType"
+      label="Abrechnungsart"
+      value={props.value}
+      onChange={props.onChange}
+      values={
+        Object.fromEntries(
+          Object.values(DeductionType).map((s) => [s, s]),
+        ) as Record<DeductionType, DeductionType>
+      }
+    />
   );
 }
 

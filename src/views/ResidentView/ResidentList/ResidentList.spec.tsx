@@ -10,18 +10,22 @@ import residentViewState, {
   residentViewSelectedResidentState,
 } from '../states/resident_view_state';
 import ResidentList from './ResidentList';
-import createResidentState from './states/create_resident_state';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('ResidentList', () => {
   const residents = range(0, 5).map((i) => new ResidentBuilder()
-    .withName(
-      new NameBuilder()
-        .withFirstName('Max')
-        .withLastName(`Mustermann${i}`)
+    .addContractResident(
+      new ContractResidentBuilder()
+        .withName(
+          new NameBuilder()
+            .withFirstName('Max')
+            .withLastName(`Mustermann${i}`)
+            .build(),
+        )
         .build(),
     )
     .build());
@@ -44,19 +48,13 @@ describe('ResidentList', () => {
   });
 
   test('should open modal when clicking create resident button', () => {
-    // Arrange
-    const expectedState = {
-      ...getRecoil(createResidentState),
-      showModal: true,
-    };
-
     // Act
     const createButton = renderResult.getAllByRole('button').at(0)!;
     fireEvent.click(createButton);
 
     // Assert
-    const newState = getRecoil(createResidentState);
-    expect(newState).toEqual(expectedState);
+    const modal = renderResult.baseElement.querySelector('[role=dialog]');
+    expect(modal).toBeDefined();
   });
 
   test('should select resident when clicking', () => {

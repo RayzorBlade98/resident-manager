@@ -12,13 +12,13 @@ import OptionallyDefined from '_/types/OptionallyDefined';
  */
 
 export default class Validator<T extends object> {
-  private constraints: ValidationConstraints<T>;
+  public constraints: ValidationConstraints<T>;
 
   /**
    * @param constraints constraints that the object values need to fulfill
    */
   public constructor(constraints: ValidationConstraints<T>) {
-    this.constraints = constraints;
+    this.constraints = Object.freeze(constraints);
   }
 
   /**

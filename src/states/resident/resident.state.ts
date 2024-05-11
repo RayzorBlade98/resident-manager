@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import {
+  sortHistoryEffect,
   sortRentInformationEffect,
   sortWaterMeterReadingsEffect,
 } from './resident.state.effects';
@@ -16,7 +17,7 @@ export type ResidentState = Resident[];
 const residentState = atom<ResidentState>({
   key: 'residentState',
   default: [],
-  effects: [sortRentInformationEffect, sortWaterMeterReadingsEffect],
+  effects: [sortRentInformationEffect, sortWaterMeterReadingsEffect, sortHistoryEffect],
 });
 
 export default residentState;

@@ -15,6 +15,7 @@ import * as PropertyInitializationView from '_/views/InitializationView/Initiali
 import * as InvoiceGenerationView from '_/views/InvoiceGenerationView/InvoiceGenerationView';
 import * as InvoiceView from '_/views/InvoiceView/InvoiceView';
 import * as MainView from '_/views/MainView/MainView';
+import * as PropertyView from '_/views/PropertyView/PropertyView';
 import * as ResidentView from '_/views/ResidentView/ResidentView';
 
 describe('App', () => {
@@ -38,6 +39,9 @@ describe('App', () => {
     jest
       .spyOn(InvoiceGenerationView, 'default')
       .mockReturnValue(<div>{View.InvoiceGeneration}</div>);
+    jest
+      .spyOn(PropertyView, 'default')
+      .mockReturnValue(<div>{View.Property}</div>);
   });
 
   beforeEach(() => {

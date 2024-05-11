@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcRenderer } from 'electron';
 import ipcCommands from './ipcCommands';
+import { ContractGenerationArgs } from './utils/contractGeneration';
 import Invoice from '_/models/invoice/invoice';
 
 const ipcAPI = {
@@ -35,6 +36,11 @@ const ipcAPI = {
     ipcCommands.generateInvoicePdfs,
     invoice,
   ) as Promise<void>,
+
+  /**
+   * Generates the contract as pdf file
+   */
+  generateContractPdf: (args: ContractGenerationArgs) => ipcRenderer.invoke(ipcCommands.generateContractPdf, args) as Promise<void>,
 };
 
 export default ipcAPI;

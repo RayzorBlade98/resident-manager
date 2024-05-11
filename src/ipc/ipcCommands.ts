@@ -3,6 +3,7 @@ const ipcCommands = {
   exportObject: 'exportObject',
   importObject: 'importObject',
   generateInvoicePdfs: 'generateInvoicePdfs',
+  generateContractPdf: 'generateContractPdf',
 };
 
 export default ipcCommands;

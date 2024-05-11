@@ -1,18 +1,22 @@
 /**
- * Mock function for the `importObject`
+ * Mock functions for the ipcAPI
  */
-export const importObjectMock = jest.fn();
+export const mockedIpcAPIFunctions: Record<
+keyof typeof window.ipcAPI,
+jest.Mock
+> = {
+  rendererReady: jest.fn(),
+  importObject: jest.fn(),
+  exportObject: jest.fn(),
+  generateInvoicePdfs: jest.fn(),
+  generateContractPdf: jest.fn(),
+};
 
 /**
- * Mock function for the `exportObject`
+ * Mocked ipcAPI
  */
-export const exportObjectMock = jest.fn();
-
 const mockedIpcAPI: typeof window.ipcAPI = {
-  rendererReady: jest.fn(),
-  importObject: importObjectMock,
-  exportObject: exportObjectMock,
-  generateInvoicePdfs: jest.fn(),
-};
+  ...mockedIpcAPIFunctions,
+} as const;
 
 export default mockedIpcAPI;

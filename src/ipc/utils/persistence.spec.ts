@@ -71,4 +71,8 @@ describe('persistence', () => {
   describe('openDirectoryDialog', () => {
     test.todo('missing test');
   });
+
+  describe('openFileDialog', () => {
+    test.todo('missing test');
+  });
 });

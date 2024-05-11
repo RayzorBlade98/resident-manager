@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { RecoilState, useSetRecoilState } from 'recoil';
 
 function useInitializedRecoilState<S, H>(args: {
@@ -8,12 +8,15 @@ function useInitializedRecoilState<S, H>(args: {
   stateValue: S;
   hook: () => H;
 }): H {
+  const [isInitialized, setIsInitialized] = useState(false);
   const stateSetter = useSetRecoilState(args.state);
-  const hook = args.hook();
 
-  useEffect(() => {
+  if (!isInitialized) {
     stateSetter(args.stateValue);
-  }, []);
+    setIsInitialized(true);
+  }
+
+  const hook = args.hook();
 
   return hook;
 }

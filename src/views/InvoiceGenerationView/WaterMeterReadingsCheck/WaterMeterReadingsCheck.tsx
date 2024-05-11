@@ -18,6 +18,16 @@ import AddWaterMeterReadingIcon from './AddWaterMeterReadingIcon/AddWaterMeterRe
 import AddWaterMeterReadingModal from '_/components/shared/AddWaterMeterReadingModal/AddWaterMeterReadingModal';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
 
+const styles = {
+  residentNameContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  residentName: {
+    marginBottom: 0,
+  },
+} as const;
+
 /**
  * Table thats shows alle the water readings that will be included into the invoice generation
  */
@@ -51,7 +61,13 @@ function WaterMeterReadingsCheck(): JSX.Element {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell>
-                    {convertNameToString(resident.name)}
+                    {resident.contractResidents.map((r) => (
+                      <div style={styles.residentNameContainer}>
+                        <p style={styles.residentName}>
+                          {convertNameToString(r.name)}
+                        </p>
+                      </div>
+                    ))}
                   </TableCell>
                   <>
                     <TableCell>

@@ -7,6 +7,7 @@ enum View {
   Incidentals = '/incidentals',
   Invoice = '/invoices',
   InvoiceGeneration = '/invoices/generation',
+  Property = '/property',
 }
 
 export default View;

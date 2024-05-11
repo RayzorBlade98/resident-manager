@@ -1,18 +1,32 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
+import { mdToPdfFile } from 'electron-md-to-pdf';
 import { range } from 'lodash';
 import { v4 } from 'uuid';
 import ipcCommands from './ipcCommands';
 import addIpcHandlers from './ipcHandlers';
+import { generateContractMarkdown } from './utils/contractGeneration';
 import * as persistenceModule from './utils/persistence';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
+import LandlordBuilder from '_/test/builders/landlord.builder';
+import PropertyBuilder from '_/test/builders/property.builder';
+import ResidentBuilder from '_/test/builders/resident.builder';
 import ResidentInvoiceInformationBuilder from '_/test/builders/residentInvoiceInformation.builder';
 import { ipcMain, ipcRenderer } from '_/test/electronModuleMock';
+
+jest.mock('electron-md-to-pdf', () => ({
+  mdToPdfFile: jest.fn().mockReturnValue(Promise.resolve()),
+}));
+
+jest.mock('./utils/contractGeneration', () => ({
+  generateContractMarkdown: jest.fn(),
+}));
 
 describe('addIpcHandlers', () => {
   let exportObjectSpy: jest.SpyInstance;
   let importObjectSpy: jest.SpyInstance;
   let openDirectoryDialogSpy: jest.SpyInstance;
+  let openFileDialogSpy: jest.SpyInstance;
   let exportJsPdfSpy: jest.SpyInstance;
 
   beforeEach(() => {
@@ -24,6 +38,7 @@ describe('addIpcHandlers', () => {
       persistenceModule,
       'openDirectoryDialog',
     );
+    openFileDialogSpy = jest.spyOn(persistenceModule, 'openFileDialog');
     exportJsPdfSpy = jest.spyOn(persistenceModule, 'exportJsPdf');
 
     addIpcHandlers();
@@ -114,5 +129,46 @@ describe('addIpcHandlers', () => {
     // Assert
     expect(openDirectoryDialogSpy).toHaveBeenCalledTimes(1);
     expect(exportJsPdfSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('generateContractPdf should be handled correctly', async () => {
+    // Arrange
+    const file = 'contract.pdf';
+    const markdown = 'test markdown';
+    openFileDialogSpy.mockReturnValueOnce(file);
+    (generateContractMarkdown as jest.Mock).mockReturnValueOnce(markdown);
+
+    const landlord = new LandlordBuilder().build();
+    const resident = new ResidentBuilder().build();
+    const property = new PropertyBuilder().build();
+    const args = { landlord, resident, property };
+
+    // Act
+    await ipcRenderer.invoke(ipcCommands.generateContractPdf, args);
+
+    // Assert
+    expect(openFileDialogSpy).toHaveBeenCalledTimes(1);
+    expect(generateContractMarkdown).toHaveBeenCalledTimes(1);
+    expect(generateContractMarkdown).toHaveBeenLastCalledWith(args);
+    expect(mdToPdfFile).toHaveBeenCalledTimes(1);
+    expect(mdToPdfFile).toHaveBeenLastCalledWith(markdown, file, {});
+  });
+
+  test('generateContractPdf should be handled correctly if no file is selected', async () => {
+    // Arrange
+    openFileDialogSpy.mockReturnValueOnce(undefined);
+
+    const landlord = new LandlordBuilder().build();
+    const resident = new ResidentBuilder().build();
+    const property = new PropertyBuilder().build();
+    const args = { landlord, resident, property };
+
+    // Act
+    await ipcRenderer.invoke(ipcCommands.generateContractPdf, args);
+
+    // Assert
+    expect(openFileDialogSpy).toHaveBeenCalledTimes(1);
+    expect(generateContractMarkdown).toHaveBeenCalledTimes(0);
+    expect(mdToPdfFile).toHaveBeenCalledTimes(0);
   });
 });

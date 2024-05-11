@@ -41,6 +41,7 @@ const baseConfig = {
     '@typescript-eslint/no-use-before-define': 'off',
     'no-void': ['error', { allowAsStatement: true }],
     'new-cap': ['error', { newIsCapExceptions: ['jsPDF'] }],
+    'no-await-in-loop': 'off',
   },
 };
 

@@ -9,6 +9,7 @@ import MonthYear from '_/extensions/date/month_year.extension';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
+import ResidentHistoryElementBuilder from '_/test/builders/residentHistoryElement.builder';
 import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
 beforeEach(() => {
@@ -20,6 +21,11 @@ const expectedRentInformation = [...rentInformation].reverse();
 
 const waterMeterReadings = range(0, 5).map((i) => new WaterMeterReadingBuilder().withReadingDate(new Date(2023, i, 1)).build());
 const expectedWaterMeterReadings = [...waterMeterReadings].reverse();
+
+const history = range(0, 5).map((i) => new ResidentHistoryElementBuilder()
+  .withInvalidSince(new MonthYear(i, 2024))
+  .build());
+const expectedHistory = [...history].reverse();
 
 const residents = range(0, 5).map((_) => new ResidentBuilder().build());
 
@@ -75,6 +81,23 @@ describe('sortWaterMeterReadingsEffect', () => {
     // Assert
     getRecoil(residentState).forEach((r) => {
       expect(r.waterMeterReadings).toStrictEqual(expectedWaterMeterReadings);
+    });
+  });
+});
+
+describe('sortHistoryEffect', () => {
+  test('should sort history on set recoil', () => {
+    // Arrange
+    const newState = residents.map((r) => ({ ...r, history }));
+
+    // Act
+    act(() => {
+      setRecoil(residentState, newState);
+    });
+
+    // Assert
+    getRecoil(residentState).forEach((r) => {
+      expect(r.history).toStrictEqual(expectedHistory);
     });
   });
 });

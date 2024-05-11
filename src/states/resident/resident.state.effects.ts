@@ -41,3 +41,23 @@ export const sortWaterMeterReadingsEffect: AtomEffect<ResidentState> = ({
     }
   });
 };
+
+/**
+ * Effect that sorts the history of the reisdents by invalidSince date in descending order
+ */
+export const sortHistoryEffect: AtomEffect<ResidentState> = ({
+  onSet,
+  setSelf,
+}) => {
+  onSet((newValue) => {
+    const sorted = newValue.map((r) => ({
+      ...r,
+      history: [...r.history].sort(
+        (a, b) => b.invalidSince.getTime() - a.invalidSince.getTime(),
+      ),
+    }));
+    if (!_.isEqual(newValue, sorted)) {
+      setSelf(sorted);
+    }
+  });
+};

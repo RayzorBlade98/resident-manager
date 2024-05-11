@@ -58,6 +58,7 @@ export default {
     ],
     '^.+\\.css$': 'jest-transform-css',
     '\\.(jpg|jpeg|png|gif|webp|svg)$': 'jest-transform-file',
+    '\\.md$': '@glen/jest-raw-loader',
   },
   testMatch: ['**/*.(spec|test).([jt]s?(x))'],
   snapshotSerializers: ['jest-glamor-react'],

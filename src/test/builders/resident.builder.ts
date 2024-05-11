@@ -1,10 +1,10 @@
 import { v4 as uuid } from 'uuid';
-import NameBuilder from './name.builder';
 import MonthYear from '_/extensions/date/month_year.extension';
-import Name from '_/models/name';
+import { ContractResident } from '_/models/resident/contractResident';
 import { RentInformation } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 class ResidentBuilder {
   private resident: Resident;
@@ -12,11 +12,22 @@ class ResidentBuilder {
   constructor() {
     this.resident = {
       id: uuid(),
-      name: new NameBuilder().build(),
+      contractResidents: [],
       numberOfResidents: 2,
       rentInformation: [],
       contractStart: new MonthYear(2, 2023),
       waterMeterReadings: [],
+      apartmentId: '',
+      parkingSpaceId: undefined,
+      rentDeposit: 0,
+      keys: {
+        apartment: 1,
+        basement: 1,
+        attic: 1,
+        frontDoor: 1,
+        mailbox: 1,
+      },
+      history: [],
     };
   }
 
@@ -25,8 +36,8 @@ class ResidentBuilder {
     return this;
   }
 
-  public withName(name: Name): ResidentBuilder {
-    this.resident.name = name;
+  public addContractResident(resident: ContractResident): ResidentBuilder {
+    this.resident.contractResidents.push(resident);
     return this;
   }
 
@@ -47,6 +58,29 @@ class ResidentBuilder {
 
   public addWaterMeterReading(reading: WaterMeterReading): ResidentBuilder {
     this.resident.waterMeterReadings.push(reading);
+    return this;
+  }
+
+  public withApartment(apartmentId: string): ResidentBuilder {
+    this.resident.apartmentId = apartmentId;
+    return this;
+  }
+
+  public withParkingSpace(parkingSpaceId: string | undefined): ResidentBuilder {
+    this.resident.parkingSpaceId = parkingSpaceId;
+    return this;
+  }
+
+  public withKeys(keys: Partial<Resident['keys']>): ResidentBuilder {
+    this.resident.keys = {
+      ...this.resident.keys,
+      ...keys,
+    };
+    return this;
+  }
+
+  public withRentDeposit(rentDeposit: CurrencyInCents): ResidentBuilder {
+    this.resident.rentDeposit = rentDeposit;
     return this;
   }
 

@@ -8,11 +8,10 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import React from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import React, { useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { convertNameToString } from '../../../utils/name/name.utils';
 import { residentViewSelectedResidentState } from '../states/resident_view_state';
-import createResidentState from './states/create_resident_state';
 import { Resident } from '_/models/resident/resident';
 import residentState from '_/states/resident/resident.state';
 import CreateResidentModal from '_/views/ResidentView/ResidentList/CreateResidentModal/CreateResidentModal';
@@ -31,28 +30,37 @@ const styles = {
   listItemButton: {
     height: '11.028%',
   },
-};
+  listItemTextContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  listItemTextEntry: {
+    marginBottom: '-3px',
+  },
+} as const;
 
 /**
  * Component that displays a list of provided residents
  */
 function ResidentList(): JSX.Element {
-  const setCreateResidentState = useSetRecoilState(createResidentState);
+  const [showModal, setShowModal] = useState(false);
   const residents = useRecoilValue(residentState);
   const [selectedResident, setSelectedResident] = useRecoilState(
     residentViewSelectedResidentState,
   );
 
-  const onCreateResident = () => {
-    setCreateResidentState((state) => ({ ...state, showModal: true }));
-  };
-
   return (
     <>
-      <CreateResidentModal />
+      <CreateResidentModal
+        showModal={showModal}
+        onCloseModal={() => setShowModal(false)}
+      />
       <Box sx={styles.box}>
         <List sx={styles.list}>
-          <ListItemButton onClick={onCreateResident} sx={styles.listItemButton}>
+          <ListItemButton
+            onClick={() => setShowModal(true)}
+            sx={styles.listItemButton}
+          >
             <ListItemIcon>
               <PersonAddIcon />
             </ListItemIcon>
@@ -70,7 +78,15 @@ function ResidentList(): JSX.Element {
                   <PersonIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary={convertNameToString(resident.name)}
+                  primary={(
+                    <div style={styles.listItemTextContainer}>
+                      {resident.contractResidents.map((r) => (
+                        <p style={styles.listItemTextEntry}>
+                          {convertNameToString(r.name)}
+                        </p>
+                      ))}
+                    </div>
+                  )}
                 />
               </ListItemButton>
               {i !== residents.length - 1 && <Divider />}
