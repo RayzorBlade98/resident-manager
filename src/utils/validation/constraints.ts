@@ -51,7 +51,7 @@ export const CONSTRAINT_FUNCTIONS: {
   [ValidationConstraint.Month]: monthConstraint,
   [ValidationConstraint.NoEmptyString]: noEmptyStringConstraint,
   [ValidationConstraint.Currency]: currencyConstraint,
-  [ValidationConstraint.CurrencyWithZero]: currencyWithZeroConstraint, 
+  [ValidationConstraint.CurrencyWithZero]: currencyWithZeroConstraint,
   [ValidationConstraint.Defined]: definedConstraint,
   [ValidationConstraint.NoEmptyArray]: noEmptyArrayConstraint,
 };
