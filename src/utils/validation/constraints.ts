@@ -20,9 +20,14 @@ export enum ValidationConstraint {
   Month,
 
   /**
-   * ValidationConstraint that checks if the tested number is a valid currency value.
+   * ValidationConstraint that checks if the tested number is a valid currency value (excluding 0).
    */
   Currency,
+
+  /**
+   * ValidationConstraint that checks if the tested number is a valid currency value (including 0).
+   */
+  CurrencyWithZero,
 
   /**
    * ValidationConstraint that checks if the tested value is defined
@@ -46,6 +51,7 @@ export const CONSTRAINT_FUNCTIONS: {
   [ValidationConstraint.Month]: monthConstraint,
   [ValidationConstraint.NoEmptyString]: noEmptyStringConstraint,
   [ValidationConstraint.Currency]: currencyConstraint,
+  [ValidationConstraint.CurrencyWithZero]: currencyWithZeroConstraint, 
   [ValidationConstraint.Defined]: definedConstraint,
   [ValidationConstraint.NoEmptyArray]: noEmptyArrayConstraint,
 };
@@ -56,6 +62,7 @@ export const CONSTRAINT_FUNCTIONS: {
 export const ERROR_MESSAGES = {
   EMPTY: 'Darf nicht leer sein!',
   LTE_ZERO: 'Muss größer als 0 sein!',
+  LT_ZERO: 'Muss mindestens 0 sein!',
   NO_INTEGER: 'Muss eine ganze Zahl sein!',
   NO_MONTH: 'Muss zwischen 1 und 12 sein!',
   NO_NUMBER: 'Muss eine Zahl sein!',
@@ -94,6 +101,21 @@ function currencyConstraint(value: number | undefined): string | undefined {
   }
   if (value <= 0) {
     return ERROR_MESSAGES.LTE_ZERO;
+  }
+  return undefined;
+}
+
+/**
+ * Constraint function for the `CurrencyWithZero` constraint
+ */
+function currencyWithZeroConstraint(
+  value: number | undefined,
+): string | undefined {
+  if (value === undefined) {
+    return ERROR_MESSAGES.EMPTY;
+  }
+  if (value < 0) {
+    return ERROR_MESSAGES.LT_ZERO;
   }
   return undefined;
 }

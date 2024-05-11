@@ -101,6 +101,25 @@ describe('ValidationConstraint.Currency', () => {
   );
 });
 
+describe('ValidationConstraint.CurrencyWithZero', () => {
+  test.each([
+    [undefined, ERROR_MESSAGES.EMPTY],
+    [0, undefined],
+    [-1.5, ERROR_MESSAGES.LT_ZERO],
+    [100, undefined],
+    [200.5, undefined],
+  ])(
+    'input "%s" should return "%s"',
+    (input: number | undefined, expectedResult: string | undefined) => {
+      testValidationConstraint(
+        ValidationConstraint.CurrencyWithZero,
+        input,
+        expectedResult,
+      );
+    },
+  );
+});
+
 describe('ValidationConstraint.Defined', () => {
   test.each([
     [undefined, ERROR_MESSAGES.EMPTY],

@@ -62,7 +62,7 @@ function CurrencyInputField(props: CurrencyInputFieldProps): JSX.Element {
       label={props.label}
       type="number"
       value={
-        props.value ? convertCurrencyCentsToEuros(props.value).toString() : ''
+        props.value !== undefined ? convertCurrencyCentsToEuros(props.value).toString() : ''
       }
       onChange={onChange}
       InputProps={{
