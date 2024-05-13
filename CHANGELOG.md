@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Validation constraint for currency including 0 €
+- Generic `TextInputField` component
 
 ### Changed
 
