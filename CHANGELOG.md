@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Resident
     - Optional email field for contract resident
+- Contract
+    - Display resident email    
 - Validation constraint for currency including 0 €
 - Generic `TextInputField` component    
 

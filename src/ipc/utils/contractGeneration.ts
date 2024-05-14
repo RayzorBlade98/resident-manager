@@ -50,6 +50,7 @@ const placeholderLabels = {
   residentStreet: 'RESIDENT_STREET',
   residentCity: 'RESIDENT_CITY',
   residentPhone: 'RESIDENT_PHONE',
+  residentEmail: 'RESIDENT_EMAIL',
   numberOfResidents: 'NUMBER_OF_RESIDENTS',
   propertyStreet: 'PROPERTY_STREET',
   propertyCity: 'PROPERTY_CITY',
@@ -205,8 +206,7 @@ class ContractGenerator {
       [placeholderLabels.keysFrontdoor]:
         this.resident.keys.frontDoor.toString(),
       [placeholderLabels.keysMailbox]: this.resident.keys.mailbox.toString(),
-      [placeholderLabels.contractStart]:
-        this.contractStart.toPreferredString(),
+      [placeholderLabels.contractStart]: this.contractStart.toPreferredString(),
       [placeholderLabels.rent]: convertCurrencyCentsToString(
         rentInformation.rent,
       ),
@@ -242,6 +242,7 @@ class ContractGenerator {
           r.oldAddress,
         ),
         [placeholderLabels.residentPhone]: r.phone,
+        [placeholderLabels.residentEmail]: r.email ?? '-',
       }))
       .join('');
     this.replaceSinglePlacehoder(

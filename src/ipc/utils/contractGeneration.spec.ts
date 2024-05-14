@@ -98,6 +98,7 @@ describe('generateContractMarkdown', () => {
               .build(),
           )
           .withPhone('0151 12345')
+          .withEmail('email@example.com')
           .build(),
       )
       .addContractResident(

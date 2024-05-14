@@ -31,6 +31,11 @@ class ContractResidentBuilder {
     return this;
   }
 
+  public withEmail(email: string): ContractResidentBuilder {
+    this.resident.email = email;
+    return this;
+  }
+
   public build(): ContractResident {
     return this.resident;
   }
