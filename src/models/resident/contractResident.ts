@@ -19,4 +19,9 @@ export interface ContractResident {
    * Phone number of the resident
    */
   phone: string
+
+  /**
+   * Email of the resident
+   */
+  email: string | undefined
 }

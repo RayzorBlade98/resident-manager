@@ -198,6 +198,7 @@ describe('convertImportedResidents', () => {
               houseNumber: 15,
             },
             phone: '0152 12345',
+            email: 'email@example.com',
           },
           {
             name: {
@@ -212,6 +213,7 @@ describe('convertImportedResidents', () => {
               houseNumber: 51,
             },
             phone: '0152 54321',
+            email: undefined,
           },
         ],
         numberOfResidents: 8,
@@ -268,6 +270,7 @@ describe('convertImportedResidents', () => {
                   houseNumber: 151,
                 },
                 phone: '0152 12345 old',
+                email: 'email@example.com',
               },
             ],
             numberOfResidents: 51,
@@ -289,6 +292,7 @@ describe('convertImportedResidents', () => {
                   houseNumber: 152,
                 },
                 phone: '0152 12345 older',
+                email: undefined,
               },
             ],
             numberOfResidents: 5,

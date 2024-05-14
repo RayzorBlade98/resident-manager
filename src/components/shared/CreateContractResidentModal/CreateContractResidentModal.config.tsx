@@ -31,6 +31,11 @@ export interface CreateContractResidentInput {
   phone: string;
 
   /**
+   * Email of the resident
+   */
+  email: string;
+
+  /**
    * Zip code of the new resident
    */
   zipCode: number;
@@ -72,6 +77,7 @@ CreateContractResidentGroups
       firstName: '',
       lastName: '',
       phone: '',
+      email: undefined,
       zipCode: undefined,
       city: '',
       street: '',
@@ -85,6 +91,7 @@ CreateContractResidentGroups
       firstName: 'resident',
       lastName: 'resident',
       phone: 'resident',
+      email: 'resident',
       zipCode: 'oldAdress',
       city: 'oldAdress',
       street: 'oldAdress',

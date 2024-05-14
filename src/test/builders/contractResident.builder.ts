@@ -12,6 +12,7 @@ class ContractResidentBuilder {
       name: new NameBuilder().build(),
       oldAddress: new AddressBuilder().build(),
       phone: '1234567890',
+      email: undefined,
     };
   }
 
