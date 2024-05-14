@@ -112,15 +112,12 @@ function CreateContractResidentModal(props: CreateContractResidentModalProps) {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
-                    required
+                  <TextInputField
                     id="phone"
                     label="Telefonnummer"
-                    variant="outlined"
                     value={formInput.phone}
-                    onChange={(event) => formInputSetters.phone(event.target.value)}
-                    error={!!formErrors.phone}
-                    helperText={formErrors.phone}
+                    onChange={formInputSetters.phone}
+                    errorMessage={formErrors.phone}
                   />
                 </Grid>
                 <Grid item xs={6}>

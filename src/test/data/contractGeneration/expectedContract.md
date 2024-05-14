@@ -55,7 +55,7 @@ Resident email = email@example.com
 Resident name = Resident2first Resident2last
 Resident street = Resident2street 2
 Resident city = 22222 Resident2city
-Resident phone = 0152 54321
+Resident phone = -
 Resident email = -
 
 

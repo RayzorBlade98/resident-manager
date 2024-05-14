@@ -28,12 +28,12 @@ export interface CreateContractResidentInput {
   /**
    * Phone number of the resident
    */
-  phone: string;
+  phone: string | undefined;
 
   /**
    * Email of the resident
    */
-  email: string;
+  email: string | undefined;
 
   /**
    * Zip code of the new resident
@@ -66,7 +66,6 @@ CreateContractResidentGroups
     formValidator: new Validator<CreateContractResidentInput>({
       firstName: ValidationConstraint.NoEmptyString,
       lastName: ValidationConstraint.NoEmptyString,
-      phone: ValidationConstraint.NoEmptyString,
       zipCode: ValidationConstraint.Defined,
       city: ValidationConstraint.NoEmptyString,
       street: ValidationConstraint.NoEmptyString,
@@ -76,7 +75,7 @@ CreateContractResidentGroups
       salutation: Salutation.Male,
       firstName: '',
       lastName: '',
-      phone: '',
+      phone: undefined,
       email: undefined,
       zipCode: undefined,
       city: '',

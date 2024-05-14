@@ -241,7 +241,7 @@ class ContractGenerator {
         [placeholderLabels.residentCity]: convertAddressToCityString(
           r.oldAddress,
         ),
-        [placeholderLabels.residentPhone]: r.phone,
+        [placeholderLabels.residentPhone]: r.phone ?? '-',
         [placeholderLabels.residentEmail]: r.email ?? '-',
       }))
       .join('');

@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Resident
     - Allow rent deposit of 0 €
+    - Made phone number optional
 
 ### Fixed
 

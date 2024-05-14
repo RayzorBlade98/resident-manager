@@ -117,7 +117,6 @@ describe('generateContractMarkdown', () => {
               .withHouseNumber(2)
               .build(),
           )
-          .withPhone('0152 54321')
           .build(),
       )
       .withApartment(property.apartments[0].id)
