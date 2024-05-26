@@ -169,3 +169,9 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 ## §18 Salvatorische Klausel
 
 **18.1** Sollte eine der vorstehenden Vertragsabreden unwirksam sein, so wird die Rechtswirksamkeit der übrigen Klauseln des Mietvertrages hiervon nicht berührt.
+
+## §19 Zusätzliche Vereinbarungen
+
+**19.1** Der Mieter verpflichtet sich eine Haftpflichtversicherung, welche Haftung für Mietschäden beinhaltet, abzuschließen. Der Mieter verpflichtet sich zudem auf Nachfrage des Vermieters eine Bescheinigung zum aktuellen Versicherungsschutz auszuhändigen.
+
+**19.2** Der Mieter verpflichtet sich kleinere Reparaturen, z.B. Streichen des Balkongeländers, selbst durchzuführen.
