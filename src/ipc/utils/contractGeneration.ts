@@ -12,7 +12,9 @@ import {
 } from '../../utils/persistence/converters';
 import contractTemplate from '_/assets/contract/contractTemplate.md';
 import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.md';
+import residentSignatureTemplate from '_/assets/contract/residentSignatureTemplate.md';
 import residentTemplate from '_/assets/contract/residentTemplate.md';
+import signatureTemplate from '_/assets/contract/signatureTemplate.md';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Landlord from '_/models/landlord/landlord';
 import Apartment from '_/models/property/apartment';
@@ -79,6 +81,8 @@ const placeholderLabels = {
 const blockPlaceholderLabels = {
   landlordCompany: 'LANDLORD_COMPANY_BLOCK',
   residentBlock: 'RESIDENT_BLOCK',
+  signatureBlock: 'SIGNATURE_BLOCK',
+  residentSignatureBlock: 'RESIDENT_SIGNATURE_BLOCK',
 } satisfies Record<string, string>;
 
 /**
@@ -121,6 +125,9 @@ class ContractGenerator {
     this.replaceAllBasicPlaceholders();
     this.replaceLandlordCompanyBlock();
     this.replaceResidentBlock();
+    this.replaceResidentSignatureBlock();
+
+    this.replaceSignatureBlock();
 
     return this.contract;
   }
@@ -250,6 +257,23 @@ class ContractGenerator {
       residents,
     );
   }
+
+  private replaceResidentSignatureBlock() {
+    const residentSignatures = this.resident.contractResidents
+      .map((_) => residentSignatureTemplate)
+      .join('');
+    this.replaceSinglePlacehoder(
+      blockPlaceholderLabels.residentSignatureBlock,
+      residentSignatures,
+    );
+  }
+
+  private replaceSignatureBlock() {
+    this.replaceSinglePlacehoder(
+      blockPlaceholderLabels.signatureBlock,
+      signatureTemplate,
+    );
+  }
 }
 
 function replaceSinglePlacehoder(
@@ -257,7 +281,7 @@ function replaceSinglePlacehoder(
   placeholderLabel: string,
   replacement: string,
 ) {
-  return contract.replace(`{{${placeholderLabel}}}`, replacement);
+  return contract.replaceAll(`{{${placeholderLabel}}}`, replacement);
 }
 
 function replaceAllPlaceholders(

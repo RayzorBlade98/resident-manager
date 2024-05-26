@@ -18,6 +18,8 @@ import Imported from '_/types/Imported';
 jest.mock('../../assets/contract/contractTemplate.md');
 jest.mock('../../assets/contract/landlordCompanyTemplate.md');
 jest.mock('../../assets/contract/residentTemplate.md');
+jest.mock('../../assets/contract/signatureTemplate.md');
+jest.mock('../../assets/contract/residentSignatureTemplate.md');
 
 describe('generateContractMarkdown', () => {
   test('should return right markdown string', () => {

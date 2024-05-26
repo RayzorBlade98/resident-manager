@@ -49,3 +49,13 @@ Resident block
 {{RESIDENT_BLOCK}}
 
 ---
+
+Signature Block = {{SIGNATURE_BLOCK}}
+
+---
+
+Resident signature block
+
+{{RESIDENT_SIGNATURE_BLOCK}}
+
+---

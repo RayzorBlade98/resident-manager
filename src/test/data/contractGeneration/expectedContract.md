@@ -61,3 +61,17 @@ Resident email = -
 
 
 ---
+
+Signature Block = Signature template
+
+---
+
+Resident signature block
+
+Resident = Signature template
+
+Resident = Signature template
+
+
+
+---

@@ -175,3 +175,11 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 **19.1** Der Mieter verpflichtet sich eine Haftpflichtversicherung, welche Haftung für Mietschäden beinhaltet, abzuschließen. Der Mieter verpflichtet sich zudem auf Nachfrage des Vermieters eine Bescheinigung zum aktuellen Versicherungsschutz auszuhändigen.
 
 **19.2** Der Mieter verpflichtet sich kleinere Reparaturen, z.B. Streichen des Balkongeländers, selbst durchzuführen.
+
+<div style="page-break-after: always;"></div>
+
+Vermieter
+
+{{SIGNATURE_BLOCK}}
+
+{{RESIDENT_SIGNATURE_BLOCK}}
