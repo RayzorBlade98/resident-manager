@@ -11,6 +11,7 @@ import {
   convertImportedResident,
 } from '../../utils/persistence/converters';
 import contractTemplate from '_/assets/contract/contractTemplate.md';
+import houseRulesTemplate from '_/assets/contract/houseRulesTemplate.md';
 import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.md';
 import residentSignatureTemplate from '_/assets/contract/residentSignatureTemplate.md';
 import residentTemplate from '_/assets/contract/residentTemplate.md';
@@ -76,6 +77,7 @@ const placeholderLabels = {
   parkingSpaceCost: 'PARKING_SPACE_COST',
   rentTotal: 'RENT_TOTAL',
   rentDeposit: 'RENT_DEPOSIT',
+  houseRules: 'HOUSE_RULES',
 } satisfies Record<string, string>;
 
 const blockPlaceholderLabels = {
@@ -226,6 +228,7 @@ class ContractGenerator {
       [placeholderLabels.rentDeposit]: convertCurrencyCentsToString(
         this.resident.rentDeposit,
       ),
+      [placeholderLabels.houseRules]: houseRulesTemplate,
     };
 
     this.replaceAllPlaceholders(replacements);

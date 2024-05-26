@@ -183,3 +183,7 @@ Vermieter
 {{SIGNATURE_BLOCK}}
 
 {{RESIDENT_SIGNATURE_BLOCK}}
+
+<div style="page-break-after: always;"></div>
+
+{{HOUSE_RULES}}

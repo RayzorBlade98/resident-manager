@@ -20,6 +20,7 @@ jest.mock('../../assets/contract/landlordCompanyTemplate.md');
 jest.mock('../../assets/contract/residentTemplate.md');
 jest.mock('../../assets/contract/signatureTemplate.md');
 jest.mock('../../assets/contract/residentSignatureTemplate.md');
+jest.mock('../../assets/contract/houseRulesTemplate.md');
 
 describe('generateContractMarkdown', () => {
   test('should return right markdown string', () => {

@@ -38,6 +38,8 @@ Apartment rooms garden = 0
 
 Parking space count = 1
 
+House rules = House rules
+
 ---
 
 Landlord company block = Landlord company template

@@ -38,6 +38,8 @@ Apartment rooms garden = {{APARTMENT_ROOMS_GARDEN}}
 
 Parking space count = {{PARKING_SPACE_COUNT}}
 
+House rules = {{HOUSE_RULES}}
+
 ---
 
 Landlord company block = {{LANDLORD_COMPANY_BLOCK}}
