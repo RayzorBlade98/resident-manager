@@ -93,6 +93,10 @@ export function convertImportedResident(
       ...history,
       invalidSince: MonthYear.fromString(history.invalidSince),
     })),
+    documents: imported.documents.map((document) => ({
+      ...document,
+      date: new Date(document.date),
+    })),
   };
 }
 

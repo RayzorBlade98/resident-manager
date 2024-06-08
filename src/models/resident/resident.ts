@@ -1,4 +1,5 @@
 import { ContractResident } from './contractResident';
+import { LinkedDocument } from './document';
 import { ResidentHistoryElement } from './history';
 import { RentInformation } from './rent';
 import WaterMeterReading from './water_meter_reading';
@@ -88,4 +89,9 @@ export interface Resident {
    * Historic information of the resident
    */
   history: ResidentHistoryElement[];
+
+  /**
+   * Documents linked to the resident
+   */
+  documents: LinkedDocument[];
 }

@@ -13,6 +13,7 @@ import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
 import Landlord from '_/models/landlord/landlord';
 import { Salutation } from '_/models/name';
+import { DocumentType } from '_/models/resident/document';
 import { IncidentalsState } from '_/states/incidentals/incidentals.state';
 import { InvoiceState } from '_/states/invoice/invoice.state';
 import { PropertyState } from '_/states/property/property.state';
@@ -297,6 +298,22 @@ describe('convertImportedResidents', () => {
             ],
             numberOfResidents: 5,
             parkingSpaceId: '11-11-11 older',
+          },
+        ],
+        documents: [
+          {
+            id: 'document1',
+            type: DocumentType.Contract,
+            name: 'Document 1',
+            file: 'files/document1',
+            date: new Date(2023, 5, 8),
+          },
+          {
+            id: 'document2',
+            type: DocumentType.Contract,
+            name: 'Document 2',
+            file: 'files/document2',
+            date: new Date(2023, 5, 7),
           },
         ],
       },

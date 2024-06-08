@@ -28,6 +28,7 @@ class ResidentBuilder {
         mailbox: 1,
       },
       history: [],
+      documents: [],
     };
   }
 
