@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import ipcAPI from './ipcApi';
 import ipcCommands from './ipcCommands';
+import { DocumentTarget } from './utils/persistence/documentTarget';
 import MonthYear from '_/extensions/date/month_year.extension';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import LandlordBuilder from '_/test/builders/landlord.builder';
@@ -80,7 +81,10 @@ describe('ipcAPI', () => {
     const property = new PropertyBuilder().build();
     const contractStart = new MonthYear(2, 2024);
     const args = {
-      landlord, resident, property, contractStart,
+      landlord,
+      resident,
+      property,
+      contractStart,
     };
 
     // Act
@@ -90,6 +94,35 @@ describe('ipcAPI', () => {
     expect(invokeSpy).toHaveBeenLastCalledWith(
       ipcCommands.generateContractPdf,
       args,
+    );
+  });
+
+  test('selectFile should invoke selectFile event', async () => {
+    // Act
+    await ipcAPI.selectFile();
+
+    // Assert
+    expect(invokeSpy).toHaveBeenLastCalledWith(ipcCommands.selectFile);
+  });
+
+  test('uploadDocument should invoke uploadDocument event', async () => {
+    // Arrange
+    const uploadedFile = 'test/file.txt';
+    const fileName = 'test.txt';
+    const target: DocumentTarget = {
+      type: 'resident',
+      residentId: 'resident1',
+    };
+
+    // Act
+    await ipcAPI.uploadDocument(uploadedFile, fileName, target);
+
+    // Assert
+    expect(invokeSpy).toHaveBeenLastCalledWith(
+      ipcCommands.uploadDocument,
+      uploadedFile,
+      fileName,
+      target,
     );
   });
 });

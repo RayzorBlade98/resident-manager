@@ -15,6 +15,8 @@ import {
   openDirectoryDialog,
   openFileDialog,
 } from './utils/persistence';
+import { DocumentTarget } from './utils/persistence/documentTarget';
+import uploadDocument from './utils/persistence/uploadDocument';
 import Invoice from '_/models/invoice/invoice';
 import Imported from '_/types/Imported';
 
@@ -55,7 +57,7 @@ export default function addIpcHandlers(): void {
   ipcMain.handle(
     ipcCommands.generateContractPdf,
     async (_, args: Imported<ContractGenerationArgs>) => {
-      const file = openFileDialog();
+      const file = openFileDialog({ createFile: true, fileFilters: ['pdf'] });
 
       if (!file) {
         return;
@@ -64,5 +66,12 @@ export default function addIpcHandlers(): void {
       const contract = generateContractMarkdown(args);
       await mdToPdfFile(contract, file, {});
     },
+  );
+
+  ipcMain.handle(ipcCommands.selectFile, () => openFileDialog());
+
+  ipcMain.handle(
+    ipcCommands.uploadDocument,
+    (_, uploadedFile: string, fileName: string, target: DocumentTarget) => uploadDocument(uploadedFile, fileName, target),
   );
 }

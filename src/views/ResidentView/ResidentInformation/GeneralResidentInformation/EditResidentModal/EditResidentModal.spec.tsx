@@ -212,6 +212,7 @@ describe('EditResidentModal', () => {
       editResident: editResidentSpy,
       addRentPayment: jest.fn(),
       addWaterMeterReading: jest.fn(),
+      addDocument: jest.fn(),
     });
   });
 

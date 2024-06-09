@@ -4,6 +4,8 @@ const ipcCommands = {
   importObject: 'importObject',
   generateInvoicePdfs: 'generateInvoicePdfs',
   generateContractPdf: 'generateContractPdf',
+  selectFile: 'selectFile',
+  uploadDocument: 'uploadDocument',
 };
 
 export default ipcCommands;

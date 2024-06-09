@@ -42,6 +42,7 @@ const baseConfig = {
     'no-void': ['error', { allowAsStatement: true }],
     'new-cap': ['error', { newIsCapExceptions: ['jsPDF'] }],
     'no-await-in-loop': 'off',
+    'no-case-declarations': 'off',
   },
 };
 

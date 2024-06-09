@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { LinkedDocument } from '_/models/resident/document';
 import { ResidentHistoryElement } from '_/models/resident/history';
 import { Resident } from '_/models/resident/resident';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
@@ -26,66 +27,89 @@ function useResident(residentId: string) {
     [residentId, residents],
   );
 
-  function addWaterMeterReading(reading: WaterMeterReading) {
-    setResidents((state) => state.map((r) => (r.id === residentId
-      ? { ...r, waterMeterReadings: [...r.waterMeterReadings, reading] }
-      : r)));
-  }
+  /**
+   * Applies the specified changes to the selected resident and updates the state
+   */
+  const applyChangesToResident = useCallback(
+    (changeFunction: (resident: Resident) => Resident) => {
+      setResidents((state) => state.map((r) => (r.id === residentId ? changeFunction(r) : r)));
+    },
+    [residentId, setResidents],
+  );
 
-  function addRentPayment(payment: {
-    dueDate: MonthYear;
-    paymentAmount: CurrencyInCents;
-    paymentDate: Date;
-  }) {
-    setResidents((state) => state.map((r) => (r.id === residentId
-      ? {
+  const addWaterMeterReading = useCallback(
+    (reading: WaterMeterReading) => {
+      applyChangesToResident((r) => ({
         ...r,
-        rentInformation: r.rentInformation.map((rent) => (rent.dueDate.equals(payment.dueDate)
-          ? { ...rent, ...payment }
-          : rent)),
-      }
-      : r)));
-  }
+        waterMeterReadings: [...r.waterMeterReadings, reading],
+      }));
+    },
+    [applyChangesToResident],
+  );
+
+  const addRentPayment = useCallback(
+    (payment: {
+      dueDate: MonthYear;
+      paymentAmount: CurrencyInCents;
+      paymentDate: Date;
+    }) => {
+      applyChangesToResident((r) => ({
+        ...r,
+        rentInformation: r.rentInformation.map((rent) => (rent.dueDate.equals(payment.dueDate) ? { ...rent, ...payment } : rent)),
+      }));
+    },
+    [applyChangesToResident],
+  );
+
+  const addDocument = useCallback(
+    (document: LinkedDocument) => {
+      applyChangesToResident((r) => ({
+        ...r,
+        documents: [...r.documents, document],
+      }));
+    },
+    [applyChangesToResident],
+  );
 
   const editResident = useCallback(
     (newValues: EditResidentArgs, validSince: MonthYear) => {
-      function applyChangesToResident(_resident: Resident) {
-        _resident = { ..._resident };
+      applyChangesToResident((r) => {
+        r = { ...r };
         const newHistoryEntry: ResidentHistoryElement = {
           invalidSince: validSince,
         };
 
-        if (newValues.contractResidents !== _resident.contractResidents) {
-          newHistoryEntry.contractResidents = _resident.contractResidents;
-          _resident.contractResidents = newValues.contractResidents;
+        if (newValues.contractResidents !== r.contractResidents) {
+          newHistoryEntry.contractResidents = r.contractResidents;
+          r.contractResidents = newValues.contractResidents;
         }
-        if (newValues.numberOfResidents !== _resident.numberOfResidents) {
-          newHistoryEntry.numberOfResidents = _resident.numberOfResidents;
-          _resident.numberOfResidents = newValues.numberOfResidents;
+        if (newValues.numberOfResidents !== r.numberOfResidents) {
+          newHistoryEntry.numberOfResidents = r.numberOfResidents;
+          r.numberOfResidents = newValues.numberOfResidents;
         }
         if (newValues.keys) {
           newHistoryEntry.keys = {};
-          _resident.keys = { ..._resident.keys };
+          r.keys = { ...r.keys };
 
-          if (newValues.keys.apartment !== _resident.keys.apartment) {
-            newHistoryEntry.keys.apartment = _resident.keys.apartment;
-            _resident.keys.apartment = newValues.keys.apartment;
+          if (newValues.keys.apartment !== r.keys.apartment) {
+            newHistoryEntry.keys.apartment = r.keys.apartment;
+            r.keys.apartment = newValues.keys.apartment;
           }
-          if (newValues.keys.basement !== _resident.keys.basement) {
-            newHistoryEntry.keys.basement = _resident.keys.basement;
-            _resident.keys.basement = newValues.keys.basement;
+          if (newValues.keys.basement !== r.keys.basement) {
+            newHistoryEntry.keys.basement = r.keys.basement;
+            r.keys.basement = newValues.keys.basement;
           }
-          if (newValues.keys.attic !== _resident.keys.attic) {
-            newHistoryEntry.keys.attic = _resident.keys.attic;
-            _resident.keys.attic = newValues.keys.attic;
+          if (newValues.keys.attic !== r.keys.attic) {
+            newHistoryEntry.keys.attic = r.keys.attic;
+            r.keys.attic = newValues.keys.attic;
           }
-          if (newValues.keys.frontDoor !== _resident.keys.frontDoor) {
-            newHistoryEntry.keys.frontDoor = _resident.keys.frontDoor;
-            _resident.keys.frontDoor = newValues.keys.frontDoor;
+          if (newValues.keys.frontDoor !== r.keys.frontDoor) {
+            newHistoryEntry.keys.frontDoor = r.keys.frontDoor;
+            r.keys.frontDoor = newValues.keys.frontDoor;
           }
-          if (newValues.keys.mailbox !== _resident.keys.mailbox) {
-            newHistoryEntry.keys.mailbox = _resident.keys.mailbox;
-            _resident.keys.mailbox = newValues.keys.mailbox;
+          if (newValues.keys.mailbox !== r.keys.mailbox) {
+            newHistoryEntry.keys.mailbox = r.keys.mailbox;
+            r.keys.mailbox = newValues.keys.mailbox;
           }
 
           if (_.isEmpty(newHistoryEntry.keys)) {
@@ -93,21 +117,19 @@ function useResident(residentId: string) {
           }
         }
 
-        if (newValues.parkingSpaceId !== _resident.parkingSpaceId) {
-          newHistoryEntry.parkingSpaceId = _resident.parkingSpaceId ?? null;
-          _resident.parkingSpaceId = newValues.parkingSpaceId;
+        if (newValues.parkingSpaceId !== r.parkingSpaceId) {
+          newHistoryEntry.parkingSpaceId = r.parkingSpaceId ?? null;
+          r.parkingSpaceId = newValues.parkingSpaceId;
         }
 
         if (Object.keys(newHistoryEntry).length > 1) {
-          _resident.history = [newHistoryEntry, ..._resident.history];
+          r.history = [newHistoryEntry, ...r.history];
         }
 
-        return _resident;
-      }
-
-      setResidents((state) => state.map((r) => (r.id === residentId ? applyChangesToResident(r) : r)));
+        return r;
+      });
     },
-    [residentId, setResidents],
+    [applyChangesToResident],
   );
 
   return {
@@ -125,6 +147,11 @@ function useResident(residentId: string) {
      * Function to add a rent payment to the selcted resident
      */
     addRentPayment,
+
+    /**
+     * Function to add a document to the selected resident
+     */
+    addDocument,
 
     /**
      * Function to update some resident values

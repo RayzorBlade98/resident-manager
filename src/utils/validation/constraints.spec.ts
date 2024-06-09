@@ -139,3 +139,20 @@ describe('ValidationConstraint.Defined', () => {
     },
   );
 });
+
+describe('ValidationConstraint.DefinedFile', () => {
+  test.each([
+    [undefined, ERROR_MESSAGES.NO_FILE],
+    [null, ERROR_MESSAGES.NO_FILE],
+    ['test', undefined],
+  ])(
+    'input "%s" should return "%s"',
+    (input: any, expectedResult: string | undefined) => {
+      testValidationConstraint(
+        ValidationConstraint.DefinedFile,
+        input,
+        expectedResult,
+      );
+    },
+  );
+});

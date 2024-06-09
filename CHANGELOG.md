@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Resident
     - Optional email field for contract resident
+    - Document management
+        - Link documents to a resident and save them withing the app data
 - Contract
     - Display resident email
     - Additional agreements section

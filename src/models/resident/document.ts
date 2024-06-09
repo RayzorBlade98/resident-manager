@@ -28,11 +28,6 @@ export interface LinkedDocument {
   type: DocumentType;
 
   /**
-   * Path to the file
-   */
-  file: string;
-
-  /**
    * Date the document is about (e.g. contract start for contracts, invoice date for invoices)
    */
   date: Date;

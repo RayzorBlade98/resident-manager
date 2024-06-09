@@ -7,6 +7,8 @@ import ipcCommands from './ipcCommands';
 import addIpcHandlers from './ipcHandlers';
 import { generateContractMarkdown } from './utils/contractGeneration';
 import * as persistenceModule from './utils/persistence';
+import { DocumentTarget } from './utils/persistence/documentTarget';
+import * as uploadDocumentModule from './utils/persistence/uploadDocument';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import LandlordBuilder from '_/test/builders/landlord.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
@@ -148,6 +150,10 @@ describe('addIpcHandlers', () => {
 
     // Assert
     expect(openFileDialogSpy).toHaveBeenCalledTimes(1);
+    expect(openFileDialogSpy).toHaveBeenLastCalledWith({
+      createFile: true,
+      fileFilters: ['pdf'],
+    });
     expect(generateContractMarkdown).toHaveBeenCalledTimes(1);
     expect(generateContractMarkdown).toHaveBeenLastCalledWith(args);
     expect(mdToPdfFile).toHaveBeenCalledTimes(1);
@@ -170,5 +176,47 @@ describe('addIpcHandlers', () => {
     expect(openFileDialogSpy).toHaveBeenCalledTimes(1);
     expect(generateContractMarkdown).toHaveBeenCalledTimes(0);
     expect(mdToPdfFile).toHaveBeenCalledTimes(0);
+  });
+
+  test('selectFile should be handled correctly', async () => {
+    // Arrange
+    const expectedFile = 'test/file.pdf';
+    openFileDialogSpy.mockReturnValueOnce(expectedFile);
+
+    // Act
+    const file = await ipcRenderer.invoke(ipcCommands.selectFile);
+
+    // Assert
+    expect(file).toBe(expectedFile);
+  });
+
+  test('uploadDocument should be handled correctly', async () => {
+    // Arrange
+    const uploadedFile = 'test/file.txt';
+    const fileName = 'test.txt';
+    const target: DocumentTarget = {
+      type: 'resident',
+      residentId: 'resident1',
+    };
+
+    const uploadDocumentMock = jest
+      .spyOn(uploadDocumentModule, 'default')
+      .mockReturnValue();
+
+    // Act
+    await ipcRenderer.invoke(
+      ipcCommands.uploadDocument,
+      uploadedFile,
+      fileName,
+      target,
+    );
+
+    // Act
+    expect(uploadDocumentMock).toHaveBeenCalledTimes(1);
+    expect(uploadDocumentMock).toHaveBeenLastCalledWith(
+      uploadedFile,
+      fileName,
+      target,
+    );
   });
 });
