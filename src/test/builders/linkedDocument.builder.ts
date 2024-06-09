@@ -17,6 +17,11 @@ class LinkedDocumentBuilder {
     this.document.date = date;
     return this;
   }
+
+  public withName(name: string): LinkedDocumentBuilder {
+    this.document.name = name;
+    return this;
+  }
 }
 
 export default LinkedDocumentBuilder;

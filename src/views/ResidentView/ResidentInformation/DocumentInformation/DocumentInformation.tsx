@@ -1,5 +1,6 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
+import DocumentTable from './DocumentTable/DocumentTable';
 import GenerateContractModal from './GenerateContractModal/GenerateContractModal';
 import UploadDocumentModal from './UploadDocumentModal/UploadDocumentModal';
 
@@ -26,6 +27,7 @@ function DocumentInformation() {
       <Button onClick={() => setShowUploadDocumentModal(true)}>
         Dokument hinzufügen
       </Button>
+      <DocumentTable />
     </>
   );
 }
