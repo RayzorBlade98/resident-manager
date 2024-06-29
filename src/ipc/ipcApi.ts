@@ -40,8 +40,9 @@ const ipcAPI = {
 
   /**
    * Generates the contract as pdf file
+   * @returns id of the generated document
    */
-  generateContractPdf: (args: ContractGenerationArgs) => ipcRenderer.invoke(ipcCommands.generateContractPdf, args) as Promise<void>,
+  generateContractPdf: (args: ContractGenerationArgs) => ipcRenderer.invoke(ipcCommands.generateContractPdf, args) as Promise<string>,
 
   /**
    * Opens a file dialog to select a single file

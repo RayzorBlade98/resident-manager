@@ -1,12 +1,9 @@
 import path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcMain } from 'electron';
-import { mdToPdfFile } from 'electron-md-to-pdf';
 import ipcCommands from './ipcCommands';
-import {
-  ContractGenerationArgs,
-  generateContractMarkdown,
-} from './utils/contractGeneration';
+import { ContractGenerationArgs } from './utils/contractGeneration';
+import generateContract from './utils/contractGeneration/generateContract';
 import InvoicePdfGenerator from './utils/invoicePdf';
 import {
   exportJsPdf,
@@ -56,16 +53,7 @@ export default function addIpcHandlers(): void {
 
   ipcMain.handle(
     ipcCommands.generateContractPdf,
-    async (_, args: Imported<ContractGenerationArgs>) => {
-      const file = openFileDialog({ createFile: true, fileFilters: ['pdf'] });
-
-      if (!file) {
-        return;
-      }
-
-      const contract = generateContractMarkdown(args);
-      await mdToPdfFile(contract, file, {});
-    },
+    async (_, args: Imported<ContractGenerationArgs>) => generateContract(args),
   );
 
   ipcMain.handle(ipcCommands.selectFile, () => openFileDialog());

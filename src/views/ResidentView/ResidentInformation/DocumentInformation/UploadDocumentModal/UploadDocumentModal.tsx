@@ -80,25 +80,26 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
       type: DocumentType.Contract,
       date: undefined,
     },
-    onSubmitSuccess: async (values) => {
+    onSubmitSuccess: (values) => {
       const documentId = uuid();
 
       const fileEnding = values.file.split('.').pop();
       const documentFile = `${documentId}.${fileEnding}`;
 
-      await window.ipcAPI.uploadDocument(values.file, documentFile, {
-        type: 'resident',
-        residentId: selectedResident.id,
-      });
-
-      addDocument({
-        name: values.name,
-        type: values.type,
-        date: values.date,
-        id: documentId,
-      });
-
-      props.onCloseModal();
+      void window.ipcAPI
+        .uploadDocument(values.file, documentFile, {
+          type: 'resident',
+          residentId: selectedResident.id,
+        })
+        .then(() => {
+          addDocument({
+            name: values.name,
+            type: values.type,
+            date: values.date,
+            id: documentId,
+          });
+          props.onCloseModal();
+        });
     },
     submitButtonLabel: 'Hinzufügen',
   });

@@ -122,6 +122,7 @@ describe('UploadDocumentModal', () => {
       date: validInputValues.date,
       type: DocumentType.Contract,
     };
+    mockedIpcAPIFunctions.uploadDocument.mockResolvedValue(undefined);
 
     await inputToForm(validInputValues);
 

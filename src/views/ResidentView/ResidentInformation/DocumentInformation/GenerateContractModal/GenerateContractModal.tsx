@@ -7,6 +7,8 @@ import MonthYearDateField from '_/components/form/MonthYearDateField/MonthYearDa
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import MonthYear from '_/extensions/date/month_year.extension';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
+import useResident from '_/hooks/useResident/useResident';
+import { DocumentType } from '_/models/resident/document';
 import { Resident } from '_/models/resident/resident';
 import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
@@ -43,6 +45,7 @@ function GenerateContractModal(props: GenerateContractModalProps) {
   const selectedResident = useRecoilValue(
     residentViewSelectedResidentState,
   ) as Resident;
+  const { addDocument } = useResident(selectedResident.id);
 
   const {
     formInput,
@@ -59,12 +62,22 @@ function GenerateContractModal(props: GenerateContractModalProps) {
     },
     submitButtonLabel: 'Generieren',
     onSubmitSuccess: (values) => {
-      void window.ipcAPI.generateContractPdf({
-        contractStart: values.contractStart,
-        landlord,
-        property,
-        resident: selectedResident,
-      });
+      void window.ipcAPI
+        .generateContractPdf({
+          contractStart: values.contractStart,
+          landlord,
+          property,
+          resident: selectedResident,
+        })
+        .then((documentId) => {
+          addDocument({
+            id: documentId,
+            type: DocumentType.Contract,
+            date: values.contractStart,
+            name: `Mietvertrag ${values.contractStart.toString()}`,
+          });
+          props.onClose();
+        });
     },
   });
 

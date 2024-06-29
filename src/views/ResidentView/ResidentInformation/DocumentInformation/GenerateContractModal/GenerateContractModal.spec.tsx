@@ -1,9 +1,13 @@
-import { act, fireEvent, render } from '@testing-library/react';
+import {
+  act, fireEvent, render, waitFor,
+} from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import GenerateContractModal from './GenerateContractModal';
 import MonthYear from '_/extensions/date/month_year.extension';
+import * as useResidentModule from '_/hooks/useResident/useResident';
+import { DocumentType } from '_/models/resident/document';
 import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
@@ -20,6 +24,7 @@ describe('GenerateContractModal', () => {
   const property = new PropertyBuilder().build();
 
   const onCloseMock = jest.fn();
+  const addDocumentSpy = jest.fn();
 
   let baseElement: HTMLElement;
 
@@ -57,6 +62,14 @@ describe('GenerateContractModal', () => {
   }
 
   beforeEach(() => {
+    jest.spyOn(useResidentModule, 'default').mockReturnValue({
+      resident,
+      editResident: jest.fn(),
+      addRentPayment: jest.fn(),
+      addWaterMeterReading: jest.fn(),
+      addDocument: addDocumentSpy,
+    });
+
     baseElement = render(
       <ReactTestWrapper
         initializationFunction={() => {
@@ -99,20 +112,32 @@ describe('GenerateContractModal', () => {
     ).toMatchImageSnapshot();
   });
 
-  test('should submit created resident', () => {
+  test('should submit created resident', async () => {
     // Arrange
+    const documentId = 'documentId';
+    mockedIpcAPIFunctions.generateContractPdf.mockResolvedValue(documentId);
+
     inputToForm(validInputValues);
 
     // Act
     submitForm();
 
     // Assert
+    await waitFor(() => expect(addDocumentSpy).toHaveBeenCalledTimes(1));
+
     expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenCalledTimes(1);
     expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenLastCalledWith({
       contractStart: validInputValues.contractStart,
       resident,
       landlord,
       property,
+    });
+
+    expect(addDocumentSpy).toHaveBeenLastCalledWith({
+      id: documentId,
+      type: DocumentType.Contract,
+      date: validInputValues.contractStart,
+      name: 'Mietvertrag März 2024',
     });
   });
 });
