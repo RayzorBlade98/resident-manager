@@ -63,7 +63,7 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **3.3** Sollte der Gesetzgeber weitere Betriebskosten einführen oder sollten diese aus einem anderen Grund entstehen, ist der Vermieter berechtigt, vom Mieter die Zustimmung zu verlangen, diese zusammen bereits vereinbarten Betriebskosten als Umlage geltend zu machen.
 
-**3.4** Der Mieter zahlt, vorbehaltlich anderslautender zwingend gesetzlicher Bestimmungen eine Betriebskostenvorauszahlung von {{INCIDENTALS}}
+**3.4** Der Mieter zahlt, vorbehaltlich anderslautender zwingend gesetzlicher Bestimmungen eine Betriebskostenvorauszahlung von {{INCIDENTALS}}. Der Vermieter ist im Rahmen der gesetzlichen Voraussetzung zur Anpassung (Erhöhung / Reduzierung) der Pauschale berechtigt.
 
 **3.5** Sind Betriebskostenvorauszahlungen vereinbart, so ist der Vermieter zur jährlichen Abrechnung verpflichtet. Die Betriebskostenabrechnung ist dem Mieter spätestens zum Ablauf des zwölften Monats nach Ende eines Abrechnungszeitraums mitzuteilen.
 
@@ -75,7 +75,7 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 ## §4 Mietzahlungen
 
-**4.1** Die Gesamtmiete (inklusive Nebenkostenvorauszahlungen / Nebenkostenpauschale) ist monatlich im Voraus, spätenstens am dritten Werktag des Monats an den Vermieter auf nachfolgendes Konto zu bezahlen:
+**4.1** Die Gesamtmiete (inklusive Nebenkostenvorauszahlungen) ist monatlich im Voraus, spätenstens am dritten Werktag des Monats an den Vermieter auf nachfolgendes Konto zu bezahlen:
 
 **Kontoinhaber:** {{LANDLORD_BANKACCOUNT_HOLDER}}
 **IBAN:** {{LANDLORD_BANKACCOUNT_IBAN}}
@@ -88,7 +88,7 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **5.1** Der Mieter leistet zu Beginn des Mietverhältnisses dem Vermieter zur Sicherheit der Erfüllung seiner Pflichten eine Kaution (höchstens 3 Monatskaltmieten) in Höhe von {{RENT_DEPOSIT}}. Der Mieter ist berechtigt die Kaution in drei gleichen Teilzahlungen zu leisten.
 
-**5.2?** Der Vermieter verpflichtet sich die Kaution getrennt von seinem Vermögen bei einer öffentlichen Sparkasse oder Bank, zu dem für Spareinlagen mit dreimonatiger Kündigungsfrist üblichen Zinssatz, anzulegen.
+**5.2** Der Vermieter verpflichtet sich die Kaution getrennt von seinem Vermögen bei einer öffentlichen Sparkasse oder Bank, zu dem für Spareinlagen mit dreimonatiger Kündigungsfrist üblichen Zinssatz, anzulegen.
 
 ## §6 Schönheitsreparaturen
 
