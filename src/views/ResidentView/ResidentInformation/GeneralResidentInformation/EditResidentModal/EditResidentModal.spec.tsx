@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 
 import { act, fireEvent, render } from '@testing-library/react';
+import { mock } from 'jest-mock-extended';
 import { generateImage } from 'jsdom-screenshot';
 import _ from 'lodash';
 import React, { useEffect } from 'react';
@@ -8,7 +9,7 @@ import { setRecoil } from 'recoil-nexus';
 import EditResidentModal from './EditResidentModal';
 import ContractResidentDisplay, * as contractResidentDisplayModule from '_/components/shared/ContractResidentDisplay/ContractResidentDisplay';
 import MonthYear from '_/extensions/date/month_year.extension';
-import * as useResidentModule from '_/hooks/useResident/useResident';
+import useResident, * as useResidentModule from '_/hooks/useResident/useResident';
 import { Salutation } from '_/models/name';
 import { ContractResident } from '_/models/resident/contractResident';
 import propertyState from '_/states/property/property.state';
@@ -27,7 +28,7 @@ const ActualContractResidentDisplay = jest.requireActual(
 
 describe('EditResidentModal', () => {
   let baseElement: HTMLElement;
-  const editResidentSpy = jest.fn();
+  const useResidentMock = mock<ReturnType<typeof useResident>>();
   const onCloseModalMock = jest.fn();
   const property = new PropertyBuilder()
     .addApartment(
@@ -207,13 +208,7 @@ describe('EditResidentModal', () => {
   });
 
   beforeEach(() => {
-    jest.spyOn(useResidentModule, 'default').mockReturnValue({
-      resident,
-      editResident: editResidentSpy,
-      addRentPayment: jest.fn(),
-      addWaterMeterReading: jest.fn(),
-      addDocument: jest.fn(),
-    });
+    jest.spyOn(useResidentModule, 'default').mockReturnValue(useResidentMock);
   });
 
   test('should match image snapshot (default values)', async () => {
@@ -277,8 +272,8 @@ describe('EditResidentModal', () => {
     submitForm();
 
     // Assert
-    expect(editResidentSpy).toHaveBeenCalledTimes(1);
-    expect(editResidentSpy).toHaveBeenCalledWith(
+    expect(useResidentMock.editResident).toHaveBeenCalledTimes(1);
+    expect(useResidentMock.editResident).toHaveBeenCalledWith(
       {
         ..._.pick(validInputValues, ['numberOfResidents']),
         contractResidents: [...resident.contractResidents, contractResident],

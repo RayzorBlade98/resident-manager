@@ -98,6 +98,7 @@
     "jest-environment-jsdom": "^29.4.3",
     "jest-glamor-react": "^4.3.1",
     "jest-image-snapshot": "^6.1.0",
+    "jest-mock-extended": "^3.0.7",
     "jest-transform-css": "^6.0.1",
     "jest-transform-file": "^1.1.1",
     "jsdom-screenshot": "^4.0.0",

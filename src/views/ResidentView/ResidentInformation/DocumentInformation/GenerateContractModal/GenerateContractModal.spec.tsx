@@ -1,12 +1,14 @@
 import {
   act, fireEvent, render, waitFor,
 } from '@testing-library/react';
+import { mock } from 'jest-mock-extended';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import GenerateContractModal from './GenerateContractModal';
 import MonthYear from '_/extensions/date/month_year.extension';
 import * as useResidentModule from '_/hooks/useResident/useResident';
+import useResident from '_/hooks/useResident/useResident';
 import { DocumentType } from '_/models/resident/document';
 import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
@@ -24,7 +26,7 @@ describe('GenerateContractModal', () => {
   const property = new PropertyBuilder().build();
 
   const onCloseMock = jest.fn();
-  const addDocumentSpy = jest.fn();
+  const useResidentMock = mock<ReturnType<typeof useResident>>();
 
   let baseElement: HTMLElement;
 
@@ -62,13 +64,7 @@ describe('GenerateContractModal', () => {
   }
 
   beforeEach(() => {
-    jest.spyOn(useResidentModule, 'default').mockReturnValue({
-      resident,
-      editResident: jest.fn(),
-      addRentPayment: jest.fn(),
-      addWaterMeterReading: jest.fn(),
-      addDocument: addDocumentSpy,
-    });
+    jest.spyOn(useResidentModule, 'default').mockReturnValue(useResidentMock);
 
     baseElement = render(
       <ReactTestWrapper
@@ -123,7 +119,7 @@ describe('GenerateContractModal', () => {
     submitForm();
 
     // Assert
-    await waitFor(() => expect(addDocumentSpy).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(useResidentMock.addDocument).toHaveBeenCalledTimes(1));
 
     expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenCalledTimes(1);
     expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenLastCalledWith({
@@ -133,7 +129,7 @@ describe('GenerateContractModal', () => {
       property,
     });
 
-    expect(addDocumentSpy).toHaveBeenLastCalledWith({
+    expect(useResidentMock.addDocument).toHaveBeenLastCalledWith({
       id: documentId,
       type: DocumentType.Contract,
       date: validInputValues.contractStart,

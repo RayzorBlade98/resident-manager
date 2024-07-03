@@ -23,11 +23,13 @@ describe('useResident', () => {
     )
     .addRentInformation(
       new RentInformationBuilder()
+        .withRent(50000)
         .withDueDate(new MonthYear(8, 2023))
         .build(),
     )
     .addRentInformation(
       new RentInformationBuilder()
+        .withRent(50000)
         .withDueDate(new MonthYear(7, 2023))
         .build(),
     )
@@ -142,6 +144,84 @@ describe('useResident', () => {
           selectedResident.rentInformation[0],
           { ...selectedResident.rentInformation[1], ...rentPayment },
         ],
+      });
+    });
+  });
+
+  describe('increaseRent', () => {
+    test('should set state correctly', () => {
+      // Arrange
+      const rentIncrease = {
+        newRent: 600,
+        monthForIncrease: new MonthYear(11, 2023),
+      };
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useResident(selectedResident.id),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      // Act
+      act(() => {
+        result.current.increaseRent(rentIncrease);
+      });
+
+      // Assert
+      expect(result.current.resident).toEqual({
+        ...selectedResident,
+        rentInformation: [
+          {
+            ...selectedResident.rentInformation[0],
+            dueDate: new MonthYear(11, 2023),
+            rent: rentIncrease.newRent,
+          },
+          {
+            ...selectedResident.rentInformation[0],
+            dueDate: new MonthYear(10, 2023),
+          },
+          {
+            ...selectedResident.rentInformation[0],
+            dueDate: new MonthYear(9, 2023),
+          },
+          ...selectedResident.rentInformation,
+        ],
+      });
+    });
+
+    test('should set state correctly for existing rent info', () => {
+      // Arrange
+      const rentIncrease = {
+        newRent: 600,
+        monthForIncrease: new MonthYear(7, 2023),
+      };
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useResident(selectedResident.id),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      // Act
+      act(() => {
+        result.current.increaseRent(rentIncrease);
+      });
+
+      // Assert
+      expect(result.current.resident).toEqual({
+        ...selectedResident,
+        rentInformation: selectedResident.rentInformation.map((r) => ({
+          ...r,
+          rent: rentIncrease.newRent,
+        })),
       });
     });
   });

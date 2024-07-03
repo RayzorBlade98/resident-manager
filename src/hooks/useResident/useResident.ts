@@ -1,13 +1,14 @@
 import _ from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { useRecoilState } from 'recoil';
+import { CurrencyInCents } from '../../utils/currency/currency.utils';
+import RentInformationUtils from '../../utils/rent/rent.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { LinkedDocument } from '_/models/resident/document';
 import { ResidentHistoryElement } from '_/models/resident/history';
 import { Resident } from '_/models/resident/resident';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
 import residentState from '_/states/resident/resident.state';
-import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 type EditResidentArgs = {
   contractResidents: Resident['contractResidents'];
@@ -56,6 +57,27 @@ function useResident(residentId: string) {
       applyChangesToResident((r) => ({
         ...r,
         rentInformation: r.rentInformation.map((rent) => (rent.dueDate.equals(payment.dueDate) ? { ...rent, ...payment } : rent)),
+      }));
+    },
+    [applyChangesToResident],
+  );
+
+  const increaseRent = useCallback(
+    (rentIncrease: {
+      newRent: CurrencyInCents;
+      monthForIncrease: MonthYear;
+    }) => {
+      applyChangesToResident((r) => ({
+        ...r,
+        rentInformation: RentInformationUtils.addUntilMonth(
+          [...r.rentInformation],
+          rentIncrease.monthForIncrease,
+        ).map((rentInfo) => (rentInfo.dueDate >= rentIncrease.monthForIncrease
+          ? {
+            ...rentInfo,
+            rent: rentIncrease.newRent,
+          }
+          : rentInfo)),
       }));
     },
     [applyChangesToResident],
@@ -147,6 +169,11 @@ function useResident(residentId: string) {
      * Function to add a rent payment to the selcted resident
      */
     addRentPayment,
+
+    /**
+     * Function to increase the rent of the selected resident
+     */
+    increaseRent,
 
     /**
      * Function to add a document to the selected resident

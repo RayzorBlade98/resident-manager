@@ -3,11 +3,12 @@
 import {
   act, fireEvent, render, waitFor,
 } from '@testing-library/react';
+import { mock } from 'jest-mock-extended';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import UploadDocumentModal from './UploadDocumentModal';
-import * as useResidentModule from '_/hooks/useResident/useResident';
+import useResident, * as useResidentModule from '_/hooks/useResident/useResident';
 import { DocumentType, LinkedDocument } from '_/models/resident/document';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
@@ -17,7 +18,7 @@ import residentViewState from '_/views/ResidentView/states/resident_view_state';
 
 describe('UploadDocumentModal', () => {
   let baseElement: HTMLElement;
-  const addDocumentSpy = jest.fn();
+  const useResidentMock = mock<ReturnType<typeof useResident>>();
   const onCloseModalMock = jest.fn();
 
   const resident = new ResidentBuilder().build();
@@ -70,13 +71,7 @@ describe('UploadDocumentModal', () => {
   }
 
   beforeEach(() => {
-    jest.spyOn(useResidentModule, 'default').mockReturnValue({
-      resident,
-      editResident: jest.fn(),
-      addRentPayment: jest.fn(),
-      addWaterMeterReading: jest.fn(),
-      addDocument: addDocumentSpy,
-    });
+    jest.spyOn(useResidentModule, 'default').mockReturnValue(useResidentMock);
 
     baseElement = render(
       <ReactTestWrapper
@@ -129,7 +124,7 @@ describe('UploadDocumentModal', () => {
     // Act
     submitForm();
 
-    await waitFor(() => expect(addDocumentSpy).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(useResidentMock.addDocument).toHaveBeenCalledTimes(1));
 
     // Assert
     expect(mockedIpcAPIFunctions.uploadDocument).toHaveBeenCalledTimes(1);
@@ -141,7 +136,7 @@ describe('UploadDocumentModal', () => {
         residentId: resident.id,
       },
     );
-    expect(addDocumentSpy).toHaveBeenCalledWith(
+    expect(useResidentMock.addDocument).toHaveBeenCalledWith(
       expect.objectContaining(expectedDocument),
     );
   });

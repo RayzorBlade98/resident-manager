@@ -17,7 +17,7 @@ import { residentViewSelectedResidentState } from '_/views/ResidentView/states/r
 /**
  * All values that can be submitted in the form
  */
-export interface GenerateContractInput {
+interface GenerateContractInput {
   /**
    * First month for which the contract should be applied
    */
