@@ -12,6 +12,7 @@ import { DocumentType } from '_/models/resident/document';
 import { Resident } from '_/models/resident/resident';
 import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
+import { applyHistoryToResident } from '_/utils/resident/applyHistoryToResident/applyHistoryToResident';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 
 /**
@@ -67,7 +68,7 @@ function GenerateContractModal(props: GenerateContractModalProps) {
           contractStart: values.contractStart,
           landlord,
           property,
-          resident: selectedResident,
+          resident: applyHistoryToResident(selectedResident, values.contractStart),
         })
         .then((documentId) => {
           addDocument({
