@@ -1,4 +1,4 @@
-/* eslint-disable default-case, max-len */
+/* eslint-disable default-case */
 
 import {
   RenderResult, act, fireEvent, render,

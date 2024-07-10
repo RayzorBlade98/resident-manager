@@ -1,5 +1,3 @@
-/* eslint-disable max-len, @typescript-eslint/ban-types, class-methods-use-this */
-
 import { RenderResult, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
@@ -40,7 +38,7 @@ class TestValidator extends Validator<TestValidationClass> {
 }
 
 describe('FormSubmitButton', () => {
-  const testState = atom<CompleteFormValidationState<{}, TestValidationClass>>({
+  const testState = atom<CompleteFormValidationState<object, TestValidationClass>>({
     key: 'FormSubmitButton-teststate',
     default: {
       formValidation: {
@@ -53,7 +51,7 @@ describe('FormSubmitButton', () => {
     },
   });
   const testStateValidationSelector = createFormValidationStateSelector<
-  {},
+  object,
   TestValidationClass
   >(testState);
 
@@ -110,7 +108,7 @@ describe('FormSubmitButton', () => {
     // Arrange
     invalidInput();
     const oldState = getRecoil(testState);
-    const expectedState: CompleteFormValidationState<{}, TestValidationClass> = {
+    const expectedState: CompleteFormValidationState<object, TestValidationClass> = {
       ...oldState,
       formValidation: {
         ...oldState.formValidation,

@@ -106,7 +106,6 @@ InvoiceGenerationInput
 /**
  * Selector for the invoice generation form validation
  */
-// eslint-disable-next-line max-len
 export const generateInvoiceFormValidationSelector = createFormValidationStateSelector<
 InvoiceGenerationViewState,
 InvoiceGenerationInput

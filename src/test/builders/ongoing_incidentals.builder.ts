@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import { v4 as uuid } from 'uuid';
 import { OngoingIncidentals, OngoingIncidentalsCost } from '../../models/incidentals/ongoing_incidentals';
 import MonthYear from '_/extensions/date/month_year.extension';

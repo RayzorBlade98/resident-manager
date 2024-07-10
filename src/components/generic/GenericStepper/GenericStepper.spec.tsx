@@ -1,5 +1,3 @@
-/* eslint-disable max-len, jest/no-conditional-expect */
-
 import { Box } from '@mui/material';
 import {
   RenderResult,

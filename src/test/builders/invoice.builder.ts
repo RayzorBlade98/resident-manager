@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import { v4 as uuid } from 'uuid';
 import AddressBuilder from './address.builder';
 import LandlordBuilder from './landlord.builder';

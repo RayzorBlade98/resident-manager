@@ -62,7 +62,6 @@ CompleteFormValidationState<WaterMeterReadingState, WaterMeterReadingInput>
 /**
  * Selector for the form validation state
  */
-// eslint-disable-next-line max-len
 export const addWaterMeterReadingFormValidationSelector = createFormValidationStateSelector<
 WaterMeterReadingState,
 WaterMeterReadingInput

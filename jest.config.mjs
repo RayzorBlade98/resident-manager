@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import { createRequire } from 'module';
 import { pathsToModuleNameMapper } from 'ts-jest';
 

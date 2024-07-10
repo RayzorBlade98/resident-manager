@@ -95,6 +95,9 @@ const jestConfig = {
     ...tsConfig.rules,
     'import/no-extraneous-dependencies': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
+    'class-methods-use-this': 'off',
+    'max-len': 'off',
+    'jest/no-conditional-expect': 'off',
   },
   settings: tsConfig.settings,
 };

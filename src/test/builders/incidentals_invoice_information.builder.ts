@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import { v4 as uuid } from 'uuid';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import { IncidentalsInvoiceInformation } from '_/models/invoice/incidentals_invoice';
