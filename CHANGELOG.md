@@ -34,5 +34,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Fixed
 
 - Allow 0 € as input for `CurrencyInputField`
+- Correctly display landlord company in contract
 
 

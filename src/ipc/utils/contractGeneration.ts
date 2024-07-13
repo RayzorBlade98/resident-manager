@@ -87,9 +87,6 @@ const blockPlaceholderLabels = {
   residentSignatureBlock: 'RESIDENT_SIGNATURE_BLOCK',
 } satisfies Record<string, string>;
 
-/**
- *
- */
 class ContractGenerator {
   private contract = '';
 
@@ -124,8 +121,8 @@ class ContractGenerator {
   public generateContract(): string {
     this.contract = contractTemplate;
 
-    this.replaceAllBasicPlaceholders();
     this.replaceLandlordCompanyBlock();
+    this.replaceAllBasicPlaceholders();
     this.replaceResidentBlock();
     this.replaceResidentSignatureBlock();
 

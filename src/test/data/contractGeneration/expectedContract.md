@@ -42,7 +42,7 @@ House rules = House rules
 
 ---
 
-Landlord company block = Landlord company template
+Landlord company block = Landlord Company
 
 ---
 

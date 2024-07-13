@@ -1,1 +1,1 @@
-Landlord company template
+{{LANDLORD_COMPANY}}

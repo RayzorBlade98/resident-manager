@@ -35,6 +35,7 @@ describe('generateContractMarkdown', () => {
       .build();
 
     const landlord = new LandlordBuilder()
+      .withCompany('Landlord Company')
       .withRepresentative(
         new NameBuilder()
           .withFirstName('Landlordfirst')
