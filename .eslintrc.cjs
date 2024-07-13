@@ -42,6 +42,8 @@ const baseConfig = {
     'no-void': ['error', { allowAsStatement: true }],
     'new-cap': ['error', { newIsCapExceptions: ['jsPDF'] }],
     'no-await-in-loop': 'off',
+    'no-case-declarations': 'off',
+    'import/prefer-default-export': 'off',
   },
 };
 
@@ -93,6 +95,9 @@ const jestConfig = {
     ...tsConfig.rules,
     'import/no-extraneous-dependencies': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
+    'class-methods-use-this': 'off',
+    'max-len': 'off',
+    'jest/no-conditional-expect': 'off',
   },
   settings: tsConfig.settings,
 };

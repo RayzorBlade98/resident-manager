@@ -1,12 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import { exportObject, importObject } from './persistence';
+import getAppDataDirectory from './persistence/getAppDataDirectory';
 
 describe('persistence', () => {
   const testObject = {};
   const testObjectJson = JSON.stringify(testObject, null, 4);
   const filename = 'test.json';
-  const expectedFilename = path.join(__dirname, filename);
+  const expectedFilename = path.join(getAppDataDirectory(), filename);
 
   let writeFileSyncSpy: jest.SpyInstance;
   let existsSyncSpy: jest.SpyInstance;

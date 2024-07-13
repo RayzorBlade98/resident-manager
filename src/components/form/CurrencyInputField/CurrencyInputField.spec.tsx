@@ -76,6 +76,20 @@ describe('CurrencyInputField', () => {
     expect(field.value).toBe(convertCurrencyCentsToEuros(value!).toString());
   });
 
+  test('should allow 0 as input', async () => {
+    // Arrange
+    value = undefined;
+    renderComponent();
+    const user = userEvent.setup();
+
+    // Act
+    const field = renderResult.container.querySelector('input')!;
+    await user.type(field, '0');
+
+    // Assert
+    expect(field.value).toBe('0');
+  });
+
   test('should call onChange for valid input', async () => {
     // Arrange
     value = undefined;

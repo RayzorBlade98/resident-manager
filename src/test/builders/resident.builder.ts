@@ -1,6 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { ContractResident } from '_/models/resident/contractResident';
+import { LinkedDocument } from '_/models/resident/document';
+import { ResidentHistoryElement } from '_/models/resident/history';
 import { RentInformation } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
@@ -28,6 +30,7 @@ class ResidentBuilder {
         mailbox: 1,
       },
       history: [],
+      documents: [],
     };
   }
 
@@ -81,6 +84,18 @@ class ResidentBuilder {
 
   public withRentDeposit(rentDeposit: CurrencyInCents): ResidentBuilder {
     this.resident.rentDeposit = rentDeposit;
+    return this;
+  }
+
+  public addDocument(document: LinkedDocument): ResidentBuilder {
+    this.resident.documents.push(document);
+    return this;
+  }
+
+  public addHistoryElement(
+    historyElement: ResidentHistoryElement,
+  ): ResidentBuilder {
+    this.resident.history.push(historyElement);
     return this;
   }
 

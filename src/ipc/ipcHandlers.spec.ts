@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { mdToPdfFile } from 'electron-md-to-pdf';
 import { range } from 'lodash';
 import { v4 } from 'uuid';
 import ipcCommands from './ipcCommands';
 import addIpcHandlers from './ipcHandlers';
-import { generateContractMarkdown } from './utils/contractGeneration';
+import { ContractGenerationArgs } from './utils/contractGeneration';
+import generateContract from './utils/contractGeneration/generateContract';
 import * as persistenceModule from './utils/persistence';
+import { DocumentTarget } from './utils/persistence/documentTarget';
+import * as uploadDocumentModule from './utils/persistence/uploadDocument';
+import MonthYear from '_/extensions/date/month_year.extension';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import LandlordBuilder from '_/test/builders/landlord.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
@@ -14,12 +17,9 @@ import ResidentBuilder from '_/test/builders/resident.builder';
 import ResidentInvoiceInformationBuilder from '_/test/builders/residentInvoiceInformation.builder';
 import { ipcMain, ipcRenderer } from '_/test/electronModuleMock';
 
-jest.mock('electron-md-to-pdf', () => ({
-  mdToPdfFile: jest.fn().mockReturnValue(Promise.resolve()),
-}));
-
-jest.mock('./utils/contractGeneration', () => ({
-  generateContractMarkdown: jest.fn(),
+jest.mock('./utils/contractGeneration/generateContract', () => ({
+  __esModule: true,
+  default: jest.fn(),
 }));
 
 describe('addIpcHandlers', () => {
@@ -133,42 +133,64 @@ describe('addIpcHandlers', () => {
 
   test('generateContractPdf should be handled correctly', async () => {
     // Arrange
-    const file = 'contract.pdf';
-    const markdown = 'test markdown';
-    openFileDialogSpy.mockReturnValueOnce(file);
-    (generateContractMarkdown as jest.Mock).mockReturnValueOnce(markdown);
-
     const landlord = new LandlordBuilder().build();
     const resident = new ResidentBuilder().build();
     const property = new PropertyBuilder().build();
-    const args = { landlord, resident, property };
+    const contractStart = new MonthYear();
+    const args: ContractGenerationArgs = {
+      landlord,
+      resident,
+      property,
+      contractStart,
+    };
 
     // Act
     await ipcRenderer.invoke(ipcCommands.generateContractPdf, args);
 
     // Assert
-    expect(openFileDialogSpy).toHaveBeenCalledTimes(1);
-    expect(generateContractMarkdown).toHaveBeenCalledTimes(1);
-    expect(generateContractMarkdown).toHaveBeenLastCalledWith(args);
-    expect(mdToPdfFile).toHaveBeenCalledTimes(1);
-    expect(mdToPdfFile).toHaveBeenLastCalledWith(markdown, file, {});
+    expect(generateContract).toHaveBeenCalledTimes(1);
+    expect(generateContract).toHaveBeenLastCalledWith(args);
   });
 
-  test('generateContractPdf should be handled correctly if no file is selected', async () => {
+  test('selectFile should be handled correctly', async () => {
     // Arrange
-    openFileDialogSpy.mockReturnValueOnce(undefined);
-
-    const landlord = new LandlordBuilder().build();
-    const resident = new ResidentBuilder().build();
-    const property = new PropertyBuilder().build();
-    const args = { landlord, resident, property };
+    const expectedFile = 'test/file.pdf';
+    openFileDialogSpy.mockReturnValueOnce(expectedFile);
 
     // Act
-    await ipcRenderer.invoke(ipcCommands.generateContractPdf, args);
+    const file = await ipcRenderer.invoke(ipcCommands.selectFile);
 
     // Assert
-    expect(openFileDialogSpy).toHaveBeenCalledTimes(1);
-    expect(generateContractMarkdown).toHaveBeenCalledTimes(0);
-    expect(mdToPdfFile).toHaveBeenCalledTimes(0);
+    expect(file).toBe(expectedFile);
+  });
+
+  test('uploadDocument should be handled correctly', async () => {
+    // Arrange
+    const uploadedFile = 'test/file.txt';
+    const fileName = 'test.txt';
+    const target: DocumentTarget = {
+      type: 'resident',
+      residentId: 'resident1',
+    };
+
+    const uploadDocumentMock = jest
+      .spyOn(uploadDocumentModule, 'default')
+      .mockReturnValue();
+
+    // Act
+    await ipcRenderer.invoke(
+      ipcCommands.uploadDocument,
+      uploadedFile,
+      fileName,
+      target,
+    );
+
+    // Act
+    expect(uploadDocumentMock).toHaveBeenCalledTimes(1);
+    expect(uploadDocumentMock).toHaveBeenLastCalledWith(
+      uploadedFile,
+      fileName,
+      target,
+    );
   });
 });

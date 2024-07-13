@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import {
   RenderResult, act, fireEvent, render,
 } from '@testing-library/react';

@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import { RenderResult, cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { generateImage } from 'jsdom-screenshot';

@@ -88,7 +88,7 @@ function WaterMeterReadingsCheck(): JSX.Element {
                       </Tooltip>
                     ) : (
                       <Tooltip
-                        title="Letzter Wasserzählerstand wurde bereits abgerechnet" // eslint-disable-line max-len
+                        title="Letzter Wasserzählerstand wurde bereits abgerechnet"
                         arrow
                       >
                         <HighlightOffIcon color="error" />

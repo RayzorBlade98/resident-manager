@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-/* eslint-disable max-len */
 
 import { range } from 'lodash';
 import { setRecoil } from 'recoil-nexus';

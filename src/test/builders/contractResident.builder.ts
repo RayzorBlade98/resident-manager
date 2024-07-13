@@ -11,7 +11,8 @@ class ContractResidentBuilder {
     this.resident = {
       name: new NameBuilder().build(),
       oldAddress: new AddressBuilder().build(),
-      phone: '1234567890',
+      phone: undefined,
+      email: undefined,
     };
   }
 
@@ -27,6 +28,11 @@ class ContractResidentBuilder {
 
   public withPhone(phone: string): ContractResidentBuilder {
     this.resident.phone = phone;
+    return this;
+  }
+
+  public withEmail(email: string): ContractResidentBuilder {
+    this.resident.email = email;
     return this;
   }
 

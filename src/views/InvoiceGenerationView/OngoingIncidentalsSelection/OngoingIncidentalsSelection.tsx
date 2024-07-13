@@ -22,7 +22,7 @@ function OngoingIncidentalsSelection(): JSX.Element {
   const { ongoingIncidentals } = useIncidentalsState();
   const selectedIncidentals = useRecoilValue(
     invoiceGenerationViewState,
-  ).selectedOngoingIncidentals; // eslint-disable-line max-len
+  ).selectedOngoingIncidentals;
 
   const handleToggle = (_incidentals: OngoingIncidentals) => () => {
     if (selectedIncidentals.find((i) => i.id === _incidentals.id)) {

@@ -1,0 +1,2 @@
+Resident = {{SIGNATURE_BLOCK}}
+

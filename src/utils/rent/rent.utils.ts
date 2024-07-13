@@ -14,20 +14,35 @@ export default abstract class RentInformationUtils {
    * @param rentInformation List of current rent information
    */
   public static addMissingMonths(rentInformation: RentInformation[]): void {
-    const lastRentInformation: RentInformation = rentInformation.at(-1)!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
-    if (lastRentInformation.dueDate >= new MonthYear()) {
-      // Last rent information isn't in the past
-      return;
+    this.addUntilMonth(rentInformation, new MonthYear());
+  }
+
+  /**
+   * Creates rent information for all months between the due date of the last provided rent information
+   * and the provided month and adds them to the list of rent information.
+   * If the due date of the last provided rent information is after the provided month, no new information will be added.
+   * @param rentInformation List of current rent information
+   * @param targetMonth Target month until the rent information should be filled
+   */
+  public static addUntilMonth(
+    rentInformation: RentInformation[],
+    targetMonth: MonthYear,
+  ): RentInformation[] {
+    const lastRentInformation: RentInformation = rentInformation[0];
+    if (lastRentInformation.dueDate >= targetMonth) {
+      // Target month is already exisiting
+      return rentInformation;
     }
 
     const firstMissingMonth = lastRentInformation.dueDate.addMonths();
     const missingRentInformation = RentInformationUtils.timespan(
       firstMissingMonth,
-      new MonthYear(),
+      targetMonth,
       lastRentInformation.rent,
       lastRentInformation.incidentals,
-    );
-    rentInformation.push(...missingRentInformation);
+    ).reverse();
+    rentInformation.unshift(...missingRentInformation);
+    return rentInformation;
   }
 
   /**

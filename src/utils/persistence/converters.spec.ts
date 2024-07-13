@@ -13,6 +13,7 @@ import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
 import Landlord from '_/models/landlord/landlord';
 import { Salutation } from '_/models/name';
+import { DocumentType } from '_/models/resident/document';
 import { IncidentalsState } from '_/states/incidentals/incidentals.state';
 import { InvoiceState } from '_/states/invoice/invoice.state';
 import { PropertyState } from '_/states/property/property.state';
@@ -198,6 +199,7 @@ describe('convertImportedResidents', () => {
               houseNumber: 15,
             },
             phone: '0152 12345',
+            email: 'email@example.com',
           },
           {
             name: {
@@ -212,6 +214,7 @@ describe('convertImportedResidents', () => {
               houseNumber: 51,
             },
             phone: '0152 54321',
+            email: undefined,
           },
         ],
         numberOfResidents: 8,
@@ -268,6 +271,7 @@ describe('convertImportedResidents', () => {
                   houseNumber: 151,
                 },
                 phone: '0152 12345 old',
+                email: 'email@example.com',
               },
             ],
             numberOfResidents: 51,
@@ -289,10 +293,25 @@ describe('convertImportedResidents', () => {
                   houseNumber: 152,
                 },
                 phone: '0152 12345 older',
+                email: undefined,
               },
             ],
             numberOfResidents: 5,
             parkingSpaceId: '11-11-11 older',
+          },
+        ],
+        documents: [
+          {
+            id: 'document1',
+            type: DocumentType.Contract,
+            name: 'Document 1',
+            date: new Date(2023, 5, 8),
+          },
+          {
+            id: 'document2',
+            type: DocumentType.Contract,
+            name: 'Document 2',
+            date: new Date(2023, 5, 7),
           },
         ],
       },

@@ -8,6 +8,7 @@ import {
 import GroupedForm from '_/components/form/GroupedForm/GroupedForm';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 import SalutationSelect from '_/components/form/SalutationSelect/SalutationSelect';
+import TextInputField from '_/components/form/TextInputField/TextInputField';
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import { Salutation } from '_/models/name';
@@ -56,6 +57,7 @@ function CreateContractResidentModal(props: CreateContractResidentModalProps) {
           houseNumber: values.houseNumber,
         },
         phone: values.phone,
+        email: values.email,
       });
       props.onClose();
     },
@@ -110,15 +112,21 @@ function CreateContractResidentModal(props: CreateContractResidentModalProps) {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
-                    required
+                  <TextInputField
                     id="phone"
                     label="Telefonnummer"
-                    variant="outlined"
                     value={formInput.phone}
-                    onChange={(event) => formInputSetters.phone(event.target.value)}
-                    error={!!formErrors.phone}
-                    helperText={formErrors.phone}
+                    onChange={formInputSetters.phone}
+                    errorMessage={formErrors.phone}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextInputField
+                    id="email"
+                    label="Email"
+                    value={formInput.email}
+                    onChange={formInputSetters.email}
+                    errorMessage={formErrors.email}
                   />
                 </Grid>
               </Grid>

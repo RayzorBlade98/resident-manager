@@ -58,7 +58,7 @@ function InvoiceList(): JSX.Element {
               sx={styles.listItemButton}
             >
               <ListItemText
-                primary={`${invoice.start.toString()} - ${invoice.end.toString()}`} // eslint-disable-line max-len
+                primary={`${invoice.start.toString()} - ${invoice.end.toString()}`}
               />
             </ListItemButton>
             {i !== invoices.length - 1 && <Divider />}

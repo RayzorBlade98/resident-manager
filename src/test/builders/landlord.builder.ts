@@ -21,6 +21,11 @@ class LandlordBuilder {
     };
   }
 
+  public withCompany(company: string): LandlordBuilder {
+    this.landlord.company = company;
+    return this;
+  }
+
   public withRepresentative(name: Name): LandlordBuilder {
     this.landlord.representative = name;
     return this;

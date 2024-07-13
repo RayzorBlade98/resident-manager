@@ -11,19 +11,48 @@ describe('RentInformationUtils', () => {
   });
 
   describe('addMissingMonths', () => {
+    test('should return the same as addUntilMonth(today)', () => {
+      // Arrange
+      const rents = [
+        new RentInformationBuilder()
+          .withDueDate(new MonthYear(3, 2023))
+          .build(),
+        new RentInformationBuilder()
+          .withDueDate(new MonthYear(2, 2023))
+          .build(),
+      ];
+      const expected = RentInformationUtils.addUntilMonth(
+        [...rents],
+        new MonthYear(),
+      );
+
+      // Act
+      RentInformationUtils.addMissingMonths(rents);
+
+      // Assert
+      expect(rents).toEqual(expected);
+    });
+  });
+
+  describe('addUntilMonth', () => {
     test('should add missing months if last rent is in the past', () => {
       // Arrange
       const rents = [
         new RentInformationBuilder()
           .withDueDate(new MonthYear(3, 2023))
           .build(),
+        new RentInformationBuilder()
+          .withDueDate(new MonthYear(2, 2023))
+          .build(),
       ];
-      const expectedRents = range(3, 6).map((m) => new RentInformationBuilder()
-        .withDueDate(new MonthYear(m, 2023))
-        .build());
+      const expectedRents = range(2, 6)
+        .reverse()
+        .map((m) => new RentInformationBuilder()
+          .withDueDate(new MonthYear(m, 2023))
+          .build());
 
       // Act
-      RentInformationUtils.addMissingMonths(rents);
+      RentInformationUtils.addUntilMonth(rents, new MonthYear(5, 2023));
 
       // Assert
       expect(rents).toEqual(expectedRents);
@@ -35,11 +64,14 @@ describe('RentInformationUtils', () => {
         new RentInformationBuilder()
           .withDueDate(new MonthYear(5, 2023))
           .build(),
+        new RentInformationBuilder()
+          .withDueDate(new MonthYear(4, 2023))
+          .build(),
       ];
       const expectedRents = [...rents];
 
       // Act
-      RentInformationUtils.addMissingMonths(rents);
+      RentInformationUtils.addUntilMonth(rents, new MonthYear(5, 2023));
 
       // Assert
       expect(rents).toEqual(expectedRents);

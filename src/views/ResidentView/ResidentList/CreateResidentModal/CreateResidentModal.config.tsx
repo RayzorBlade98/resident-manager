@@ -101,7 +101,7 @@ CreateResidentGroups
     formValidator: new Validator<CreateResidentInput>({
       rent: ValidationConstraint.Currency,
       incidentals: ValidationConstraint.Currency,
-      rentDeposit: ValidationConstraint.Currency,
+      rentDeposit: ValidationConstraint.CurrencyWithZero,
       contractStart: ValidationConstraint.Defined,
       waterMeter: ValidationConstraint.Defined,
       contractResidents: ValidationConstraint.NoEmptyArray,

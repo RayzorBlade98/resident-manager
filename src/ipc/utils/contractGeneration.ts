@@ -11,8 +11,11 @@ import {
   convertImportedResident,
 } from '../../utils/persistence/converters';
 import contractTemplate from '_/assets/contract/contractTemplate.md';
+import houseRulesTemplate from '_/assets/contract/houseRulesTemplate.md';
 import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.md';
+import residentSignatureTemplate from '_/assets/contract/residentSignatureTemplate.md';
 import residentTemplate from '_/assets/contract/residentTemplate.md';
+import signatureTemplate from '_/assets/contract/signatureTemplate.md';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Landlord from '_/models/landlord/landlord';
 import Apartment from '_/models/property/apartment';
@@ -50,6 +53,7 @@ const placeholderLabels = {
   residentStreet: 'RESIDENT_STREET',
   residentCity: 'RESIDENT_CITY',
   residentPhone: 'RESIDENT_PHONE',
+  residentEmail: 'RESIDENT_EMAIL',
   numberOfResidents: 'NUMBER_OF_RESIDENTS',
   propertyStreet: 'PROPERTY_STREET',
   propertyCity: 'PROPERTY_CITY',
@@ -73,16 +77,16 @@ const placeholderLabels = {
   parkingSpaceCost: 'PARKING_SPACE_COST',
   rentTotal: 'RENT_TOTAL',
   rentDeposit: 'RENT_DEPOSIT',
+  houseRules: 'HOUSE_RULES',
 } satisfies Record<string, string>;
 
 const blockPlaceholderLabels = {
   landlordCompany: 'LANDLORD_COMPANY_BLOCK',
   residentBlock: 'RESIDENT_BLOCK',
+  signatureBlock: 'SIGNATURE_BLOCK',
+  residentSignatureBlock: 'RESIDENT_SIGNATURE_BLOCK',
 } satisfies Record<string, string>;
 
-/**
- *
- */
 class ContractGenerator {
   private contract = '';
 
@@ -117,9 +121,12 @@ class ContractGenerator {
   public generateContract(): string {
     this.contract = contractTemplate;
 
-    this.replaceAllBasicPlaceholders();
     this.replaceLandlordCompanyBlock();
+    this.replaceAllBasicPlaceholders();
     this.replaceResidentBlock();
+    this.replaceResidentSignatureBlock();
+
+    this.replaceSignatureBlock();
 
     return this.contract;
   }
@@ -205,8 +212,7 @@ class ContractGenerator {
       [placeholderLabels.keysFrontdoor]:
         this.resident.keys.frontDoor.toString(),
       [placeholderLabels.keysMailbox]: this.resident.keys.mailbox.toString(),
-      [placeholderLabels.contractStart]:
-        this.contractStart.toPreferredString(),
+      [placeholderLabels.contractStart]: this.contractStart.toPreferredString(),
       [placeholderLabels.rent]: convertCurrencyCentsToString(
         rentInformation.rent,
       ),
@@ -219,6 +225,7 @@ class ContractGenerator {
       [placeholderLabels.rentDeposit]: convertCurrencyCentsToString(
         this.resident.rentDeposit,
       ),
+      [placeholderLabels.houseRules]: houseRulesTemplate,
     };
 
     this.replaceAllPlaceholders(replacements);
@@ -241,12 +248,30 @@ class ContractGenerator {
         [placeholderLabels.residentCity]: convertAddressToCityString(
           r.oldAddress,
         ),
-        [placeholderLabels.residentPhone]: r.phone,
+        [placeholderLabels.residentPhone]: r.phone ?? '-',
+        [placeholderLabels.residentEmail]: r.email ?? '-',
       }))
       .join('');
     this.replaceSinglePlacehoder(
       blockPlaceholderLabels.residentBlock,
       residents,
+    );
+  }
+
+  private replaceResidentSignatureBlock() {
+    const residentSignatures = this.resident.contractResidents
+      .map((_) => residentSignatureTemplate)
+      .join('');
+    this.replaceSinglePlacehoder(
+      blockPlaceholderLabels.residentSignatureBlock,
+      residentSignatures,
+    );
+  }
+
+  private replaceSignatureBlock() {
+    this.replaceSinglePlacehoder(
+      blockPlaceholderLabels.signatureBlock,
+      signatureTemplate,
     );
   }
 }
@@ -256,7 +281,7 @@ function replaceSinglePlacehoder(
   placeholderLabel: string,
   replacement: string,
 ) {
-  return contract.replace(`{{${placeholderLabel}}}`, replacement);
+  return contract.replaceAll(`{{${placeholderLabel}}}`, replacement);
 }
 
 function replaceAllPlaceholders(

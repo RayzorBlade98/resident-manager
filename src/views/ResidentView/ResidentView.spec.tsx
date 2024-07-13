@@ -12,6 +12,7 @@ import App from '_/renderer/App';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import ContractResidentBuilder from '_/test/builders/contractResident.builder';
+import LinkedDocumentBuilder from '_/test/builders/linkedDocument.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
@@ -74,6 +75,18 @@ describe('ResidentView', () => {
         .withReadingDate(new Date(2023, 4, 13))
         .withWaterMeterCount(420)
         .withWasDeductedInInvoice(false)
+        .build(),
+    )
+    .addDocument(
+      new LinkedDocumentBuilder()
+        .withName('Document 1')
+        .withDate(new Date(2024, 5, 9))
+        .build(),
+    )
+    .addDocument(
+      new LinkedDocumentBuilder()
+        .withName('Document 2')
+        .withDate(new Date(2024, 5, 8))
         .build(),
     )
     .build());

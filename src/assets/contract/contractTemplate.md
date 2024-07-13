@@ -63,7 +63,7 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **3.3** Sollte der Gesetzgeber weitere Betriebskosten einführen oder sollten diese aus einem anderen Grund entstehen, ist der Vermieter berechtigt, vom Mieter die Zustimmung zu verlangen, diese zusammen bereits vereinbarten Betriebskosten als Umlage geltend zu machen.
 
-**3.4** Der Mieter zahlt, vorbehaltlich anderslautender zwingend gesetzlicher Bestimmungen eine Betriebskostenvorauszahlung von {{INCIDENTALS}}
+**3.4** Der Mieter zahlt, vorbehaltlich anderslautender zwingend gesetzlicher Bestimmungen eine Betriebskostenvorauszahlung von {{INCIDENTALS}}. Der Vermieter ist im Rahmen der gesetzlichen Voraussetzung zur Anpassung (Erhöhung / Reduzierung) der Pauschale berechtigt.
 
 **3.5** Sind Betriebskostenvorauszahlungen vereinbart, so ist der Vermieter zur jährlichen Abrechnung verpflichtet. Die Betriebskostenabrechnung ist dem Mieter spätestens zum Ablauf des zwölften Monats nach Ende eines Abrechnungszeitraums mitzuteilen.
 
@@ -75,9 +75,9 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 ## §4 Mietzahlungen
 
-**4.1** Die Gesamtmiete (inklusive Nebenkostenvorauszahlungen / Nebenkostenpauschale) ist monatlich im Voraus, spätenstens am dritten Werktag des Monats an den Vermieter auf nachfolgendes Konto zu bezahlen:
+**4.1** Die Gesamtmiete (inklusive Nebenkostenvorauszahlungen) ist monatlich im Voraus, spätenstens am dritten Werktag des Monats an den Vermieter auf nachfolgendes Konto zu bezahlen:
 
-**Kontoinhaber:** {{LANDLORD_BANKACCOUNT_HOLDER}}
+**Kontoinhaber:** {{LANDLORD_BANKACCOUNT_HOLDER}} <br>
 **IBAN:** {{LANDLORD_BANKACCOUNT_IBAN}}
 
 **4.2** Für die Rechtzeitigkeit der Zahlung kommt es darauf an, dass der Zahlungsauftrag am dritten Werktag eines Monats erteilt ist.
@@ -88,7 +88,7 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **5.1** Der Mieter leistet zu Beginn des Mietverhältnisses dem Vermieter zur Sicherheit der Erfüllung seiner Pflichten eine Kaution (höchstens 3 Monatskaltmieten) in Höhe von {{RENT_DEPOSIT}}. Der Mieter ist berechtigt die Kaution in drei gleichen Teilzahlungen zu leisten.
 
-**5.2?** Der Vermieter verpflichtet sich die Kaution getrennt von seinem Vermögen bei einer öffentlichen Sparkasse oder Bank, zu dem für Spareinlagen mit dreimonatiger Kündigungsfrist üblichen Zinssatz, anzulegen.
+**5.2** Der Vermieter verpflichtet sich die Kaution getrennt von seinem Vermögen bei einer öffentlichen Sparkasse oder Bank, zu dem für Spareinlagen mit dreimonatiger Kündigungsfrist üblichen Zinssatz, anzulegen.
 
 ## §6 Schönheitsreparaturen
 
@@ -122,6 +122,8 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **10.1** Der Mieter darf die Mietsache nur zu den im Vertrag bestimmten Zwecken nutzen. Die Wohnung wird bei Mietvertragsbeginn von {{NUMBER_OF_RESIDENTS}} Personen genutzt.
 
+<div style="page-break-after: always;"></div>
+
 **10.2** Der Mieter ist ohne vorherige Erlaubnis des Vermieters nicht berechtigt die Mietsache unterzuvermieten oder einem Dritten zu überlassen. Der Vermieter kann seine Zustimmung zur Untervermietung oder Gebrauchsüberlassung an einen Dritten von der Zahlung eines angemessenen Zuschlages abhängig machen.
 
 **10.3** Die installierten Versorgungsleitungen für Elektrizität, Gas und Wasser dürfen vom Mieter nur im Rahmen der vorhandenen Kapazität genutzt werden. Der Mieter hat dafür Sorge zu leisten, dass keine Überlastung eintritt.
@@ -150,6 +152,8 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **14.1** Bei Ende des Mietvertrages hat der Mieter die Mieträume vollständig geräumt und in sauberem und vertragsgemäßen Zustand zurückzugeben. Alle Schlüssel, auch vom Mieter selbst beschaffte, sind dem Vermieter zu übergeben. Der Mieter haftet für alle Schäden, die dem Vermieter oder einem Mietnachfolger aus der Nichtbefolgung dieser Pflicht entstehen.
 
+<div style="page-break-after: always;"></div>
+
 ## §15 Personenmehrheit als Mieter
 
 **15.1** Sind mehrere Personen Mieter, so haften sie für alle Verpflichtungen aus dem Mietverhältnis als Gesamtschuldner.
@@ -169,3 +173,21 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 ## §18 Salvatorische Klausel
 
 **18.1** Sollte eine der vorstehenden Vertragsabreden unwirksam sein, so wird die Rechtswirksamkeit der übrigen Klauseln des Mietvertrages hiervon nicht berührt.
+
+## §19 Zusätzliche Vereinbarungen
+
+**19.1** Der Mieter verpflichtet sich eine Haftpflichtversicherung, welche Haftung für Mietschäden beinhaltet, abzuschließen. Der Mieter verpflichtet sich zudem auf Nachfrage des Vermieters eine Bescheinigung zum aktuellen Versicherungsschutz auszuhändigen.
+
+**19.2** Der Mieter verpflichtet sich kleinere Reparaturen, z.B. Streichen des Balkongeländers, selbst durchzuführen.
+
+<div style="page-break-after: always;"></div>
+
+Vermieter
+
+{{SIGNATURE_BLOCK}}
+
+{{RESIDENT_SIGNATURE_BLOCK}}
+
+<div style="page-break-after: always;"></div>
+
+{{HOUSE_RULES}}

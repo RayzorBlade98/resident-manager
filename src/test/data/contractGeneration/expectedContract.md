@@ -38,9 +38,11 @@ Apartment rooms garden = 0
 
 Parking space count = 1
 
+House rules = House rules
+
 ---
 
-Landlord company block = Landlord company template
+Landlord company block = Landlord Company
 
 ---
 
@@ -50,11 +52,27 @@ Resident name = Residentfirst Residentlast
 Resident street = Residentstreet 1
 Resident city = 11111 Residentcity
 Resident phone = 0151 12345
+Resident email = email@example.com
 
 Resident name = Resident2first Resident2last
 Resident street = Resident2street 2
 Resident city = 22222 Resident2city
-Resident phone = 0152 54321
+Resident phone = -
+Resident email = -
+
+
+
+---
+
+Signature Block = Signature template
+
+---
+
+Resident signature block
+
+Resident = Signature template
+
+Resident = Signature template
 
 
 

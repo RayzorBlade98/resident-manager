@@ -2,6 +2,7 @@
 import { ipcRenderer } from 'electron';
 import ipcCommands from './ipcCommands';
 import { ContractGenerationArgs } from './utils/contractGeneration';
+import { DocumentTarget } from './utils/persistence/documentTarget';
 import Invoice from '_/models/invoice/invoice';
 
 const ipcAPI = {
@@ -39,8 +40,32 @@ const ipcAPI = {
 
   /**
    * Generates the contract as pdf file
+   * @returns id of the generated document
    */
-  generateContractPdf: (args: ContractGenerationArgs) => ipcRenderer.invoke(ipcCommands.generateContractPdf, args) as Promise<void>,
+  generateContractPdf: (args: ContractGenerationArgs) => ipcRenderer.invoke(ipcCommands.generateContractPdf, args) as Promise<string>,
+
+  /**
+   * Opens a file dialog to select a single file
+   * @returns Selected file path or `undefined` if no file was selected
+   */
+  selectFile: () => ipcRenderer.invoke(ipcCommands.selectFile) as Promise<string | undefined>,
+
+  /**
+   * Copies the selected file to the documents
+   * @param uploadedFile File that should be copied to the documents
+   * @param fileName Filename the copied document should have
+   * @param target Target to which the document is linked to
+   */
+  uploadDocument: (
+    uploadedFile: string,
+    fileName: string,
+    target: DocumentTarget,
+  ) => ipcRenderer.invoke(
+    ipcCommands.uploadDocument,
+    uploadedFile,
+    fileName,
+    target,
+  ) as Promise<void>,
 };
 
 export default ipcAPI;

@@ -18,6 +18,9 @@ import Imported from '_/types/Imported';
 jest.mock('../../assets/contract/contractTemplate.md');
 jest.mock('../../assets/contract/landlordCompanyTemplate.md');
 jest.mock('../../assets/contract/residentTemplate.md');
+jest.mock('../../assets/contract/signatureTemplate.md');
+jest.mock('../../assets/contract/residentSignatureTemplate.md');
+jest.mock('../../assets/contract/houseRulesTemplate.md');
 
 describe('generateContractMarkdown', () => {
   test('should return right markdown string', () => {
@@ -32,6 +35,7 @@ describe('generateContractMarkdown', () => {
       .build();
 
     const landlord = new LandlordBuilder()
+      .withCompany('Landlord Company')
       .withRepresentative(
         new NameBuilder()
           .withFirstName('Landlordfirst')
@@ -98,6 +102,7 @@ describe('generateContractMarkdown', () => {
               .build(),
           )
           .withPhone('0151 12345')
+          .withEmail('email@example.com')
           .build(),
       )
       .addContractResident(
@@ -116,7 +121,6 @@ describe('generateContractMarkdown', () => {
               .withHouseNumber(2)
               .build(),
           )
-          .withPhone('0152 54321')
           .build(),
       )
       .withApartment(property.apartments[0].id)

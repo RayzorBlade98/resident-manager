@@ -10,6 +10,8 @@ jest.Mock
   exportObject: jest.fn(),
   generateInvoicePdfs: jest.fn(),
   generateContractPdf: jest.fn(),
+  selectFile: jest.fn(),
+  uploadDocument: jest.fn(),
 };
 
 /**

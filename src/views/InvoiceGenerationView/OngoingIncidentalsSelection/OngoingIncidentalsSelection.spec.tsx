@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import { RenderResult, fireEvent, render } from '@testing-library/react';
 import { range } from 'lodash';
 import React from 'react';

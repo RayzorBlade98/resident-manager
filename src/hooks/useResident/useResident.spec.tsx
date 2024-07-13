@@ -5,8 +5,10 @@ import _, { range } from 'lodash';
 import { RecoilRoot } from 'recoil';
 import useResident from './useResident';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { Resident } from '_/models/resident/resident';
 import residentState from '_/states/resident/resident.state';
 import ContractResidentBuilder from '_/test/builders/contractResident.builder';
+import LinkedDocumentBuilder from '_/test/builders/linkedDocument.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
@@ -22,11 +24,13 @@ describe('useResident', () => {
     )
     .addRentInformation(
       new RentInformationBuilder()
+        .withRent(50000)
         .withDueDate(new MonthYear(8, 2023))
         .build(),
     )
     .addRentInformation(
       new RentInformationBuilder()
+        .withRent(50000)
         .withDueDate(new MonthYear(7, 2023))
         .build(),
     )
@@ -49,6 +53,12 @@ describe('useResident', () => {
         .build(),
     )
     .withNumberOfResidents(5)
+    .addDocument(
+      new LinkedDocumentBuilder().withDate(new Date(2024, 5, 9)).build(),
+    )
+    .addDocument(
+      new LinkedDocumentBuilder().withDate(new Date(2024, 5, 8)).build(),
+    )
     .build());
   const selectedResident = residents[1];
 
@@ -136,6 +146,153 @@ describe('useResident', () => {
           { ...selectedResident.rentInformation[1], ...rentPayment },
         ],
       });
+    });
+  });
+
+  describe('increaseRent', () => {
+    test('should set state correctly', () => {
+      // Arrange
+      const rentIncrease = {
+        newRent: 600,
+        monthForIncrease: new MonthYear(11, 2023),
+      };
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useResident(selectedResident.id),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      // Act
+      act(() => {
+        result.current.increaseRent(rentIncrease);
+      });
+
+      // Assert
+      expect(result.current.resident).toEqual({
+        ...selectedResident,
+        rentInformation: [
+          {
+            ...selectedResident.rentInformation[0],
+            dueDate: new MonthYear(11, 2023),
+            rent: rentIncrease.newRent,
+          },
+          {
+            ...selectedResident.rentInformation[0],
+            dueDate: new MonthYear(10, 2023),
+          },
+          {
+            ...selectedResident.rentInformation[0],
+            dueDate: new MonthYear(9, 2023),
+          },
+          ...selectedResident.rentInformation,
+        ],
+      });
+    });
+
+    test('should set state correctly for existing rent info', () => {
+      // Arrange
+      const rentIncrease = {
+        newRent: 600,
+        monthForIncrease: new MonthYear(7, 2023),
+      };
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useResident(selectedResident.id),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      // Act
+      act(() => {
+        result.current.increaseRent(rentIncrease);
+      });
+
+      // Assert
+      expect(result.current.resident).toEqual({
+        ...selectedResident,
+        rentInformation: selectedResident.rentInformation.map((r) => ({
+          ...r,
+          rent: rentIncrease.newRent,
+        })),
+      });
+    });
+  });
+
+  describe('addDocument', () => {
+    test('should set state correctly', () => {
+      // Arrange
+      const document = new LinkedDocumentBuilder()
+        .withDate(new Date(2024, 5, 7))
+        .build();
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useResident(selectedResident.id),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      // Act
+      act(() => {
+        result.current.addDocument(document);
+      });
+
+      // Assert
+      expect(result.current.resident).toEqual({
+        ...selectedResident,
+        documents: [...selectedResident.documents, document],
+      });
+    });
+  });
+
+  describe('extendRentInformation', () => {
+    it('should set the state correctly', async () => {
+      // Arrange
+      const targetMonth = new MonthYear(10, 2023);
+      const expectedResident: Resident = {
+        ...selectedResident,
+        rentInformation: [
+          {
+            ...selectedResident.rentInformation[0],
+            dueDate: new MonthYear(10, 2023),
+          },
+          {
+            ...selectedResident.rentInformation[0],
+            dueDate: new MonthYear(9, 2023),
+          },
+          ...selectedResident.rentInformation,
+        ],
+      };
+
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useResident(selectedResident.id),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      // Act
+      const updatedResident = await act(() => result.current.extendRentInformation(targetMonth));
+
+      // Assert
+      expect(updatedResident).toEqual(expectedResident);
+      expect(result.current.resident).toEqual(expectedResident);
     });
   });
 

@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import { act, render } from '@testing-library/react';
 import { range } from 'lodash';
 import React from 'react';
@@ -7,6 +5,7 @@ import { getRecoil, setRecoil } from 'recoil-nexus';
 import residentState from './resident.state';
 import MonthYear from '_/extensions/date/month_year.extension';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
+import LinkedDocumentBuilder from '_/test/builders/linkedDocument.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import ResidentHistoryElementBuilder from '_/test/builders/residentHistoryElement.builder';
@@ -26,6 +25,9 @@ const history = range(0, 5).map((i) => new ResidentHistoryElementBuilder()
   .withInvalidSince(new MonthYear(i, 2024))
   .build());
 const expectedHistory = [...history].reverse();
+
+const documents = range(0, 5).map((i) => new LinkedDocumentBuilder().withDate(new Date(2024, 5, i)).build());
+const expectedDocuments = [...documents].reverse();
 
 const residents = range(0, 5).map((_) => new ResidentBuilder().build());
 
@@ -98,6 +100,23 @@ describe('sortHistoryEffect', () => {
     // Assert
     getRecoil(residentState).forEach((r) => {
       expect(r.history).toStrictEqual(expectedHistory);
+    });
+  });
+});
+
+describe('sortDocumentsEffect', () => {
+  test('should sort documents on set recoil', () => {
+    // Arrange
+    const newState = residents.map((r) => ({ ...r, documents }));
+
+    // Act
+    act(() => {
+      setRecoil(residentState, newState);
+    });
+
+    // Assert
+    getRecoil(residentState).forEach((r) => {
+      expect(r.documents).toStrictEqual(expectedDocuments);
     });
   });
 });

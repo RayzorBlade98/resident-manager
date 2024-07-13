@@ -1,9 +1,15 @@
-import { act, fireEvent, render } from '@testing-library/react';
+import {
+  act, fireEvent, render, waitFor,
+} from '@testing-library/react';
+import { mock } from 'jest-mock-extended';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import GenerateContractModal from './GenerateContractModal';
 import MonthYear from '_/extensions/date/month_year.extension';
+import * as useResidentModule from '_/hooks/useResident/useResident';
+import useResident from '_/hooks/useResident/useResident';
+import { DocumentType } from '_/models/resident/document';
 import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
@@ -12,7 +18,12 @@ import LandlordBuilder from '_/test/builders/landlord.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import { mockedIpcAPIFunctions } from '_/test/ipcApiMock';
+import { applyHistoryToResident } from '_/utils/resident/applyHistoryToResident/applyHistoryToResident';
 import residentViewState from '_/views/ResidentView/states/resident_view_state';
+
+jest.mock('_/utils/resident/applyHistoryToResident/applyHistoryToResident', () => ({
+  applyHistoryToResident: jest.fn(),
+}));
 
 describe('GenerateContractModal', () => {
   const resident = new ResidentBuilder().build();
@@ -20,6 +31,7 @@ describe('GenerateContractModal', () => {
   const property = new PropertyBuilder().build();
 
   const onCloseMock = jest.fn();
+  const useResidentMock = mock<ReturnType<typeof useResident>>();
 
   let baseElement: HTMLElement;
 
@@ -57,6 +69,8 @@ describe('GenerateContractModal', () => {
   }
 
   beforeEach(() => {
+    jest.spyOn(useResidentModule, 'default').mockReturnValue(useResidentMock);
+
     baseElement = render(
       <ReactTestWrapper
         initializationFunction={() => {
@@ -99,20 +113,44 @@ describe('GenerateContractModal', () => {
     ).toMatchImageSnapshot();
   });
 
-  test('should submit created resident', () => {
+  test('should submit created resident', async () => {
     // Arrange
+    const documentId = 'documentId';
+    mockedIpcAPIFunctions.generateContractPdf.mockResolvedValue(documentId);
+
+    const extendedRentInformationResident = new ResidentBuilder().build();
+    useResidentMock.extendRentInformation.mockReturnValue(extendedRentInformationResident);
+
+    const historicalResident = new ResidentBuilder().build();
+    (applyHistoryToResident as jest.Mock).mockReturnValue(historicalResident);
+
     inputToForm(validInputValues);
 
     // Act
     submitForm();
 
     // Assert
+    await waitFor(() => expect(useResidentMock.addDocument).toHaveBeenCalledTimes(1));
+
+    expect(useResidentMock.extendRentInformation).toHaveBeenCalledTimes(1);
+    expect(useResidentMock.extendRentInformation).toHaveBeenLastCalledWith(validInputValues.contractStart);
+
+    expect(applyHistoryToResident).toHaveBeenCalledTimes(1);
+    expect(applyHistoryToResident).toHaveBeenLastCalledWith(extendedRentInformationResident, validInputValues.contractStart);
+
     expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenCalledTimes(1);
     expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenLastCalledWith({
       contractStart: validInputValues.contractStart,
-      resident,
+      resident: historicalResident,
       landlord,
       property,
+    });
+
+    expect(useResidentMock.addDocument).toHaveBeenLastCalledWith({
+      id: documentId,
+      type: DocumentType.Contract,
+      date: validInputValues.contractStart,
+      name: 'Mietvertrag März 2024',
     });
   });
 });

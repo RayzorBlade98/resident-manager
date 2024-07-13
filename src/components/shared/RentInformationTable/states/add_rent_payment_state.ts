@@ -69,7 +69,6 @@ CompleteFormValidationState<AddRentPaymentState, RentPaymentInput>
 /**
  * Selector for the form validation state
  */
-// eslint-disable-next-line max-len
 export const addRentPaymentFormValidationSelector = createFormValidationStateSelector<AddRentPaymentState, RentPaymentInput>(
   addRentPaymentState,
 );
