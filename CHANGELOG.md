@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
     - Additional agreements section
     - Signature section
     - House rules attachment
+    - Css Stylesheet
 - Validation constraint for currency including 0 €
 - Generic `TextInputField` component    
 

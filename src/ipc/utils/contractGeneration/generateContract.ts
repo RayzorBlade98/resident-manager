@@ -16,7 +16,9 @@ async function generateContract(
   const contract = generateContractMarkdown(args);
 
   const tmpFile = path.join(getTmpDirectory(), getRandomPdfFile().fileName);
-  await mdToPdfFile(contract, tmpFile, {});
+  await mdToPdfFile(contract, tmpFile, {
+    cssFiles: ['src/assets/contract/style.css'],
+  });
 
   const { documentId, fileName } = getRandomPdfFile();
   uploadDocument(tmpFile, fileName, {
