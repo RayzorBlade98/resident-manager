@@ -77,7 +77,7 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **4.1** Die Gesamtmiete (inklusive Nebenkostenvorauszahlungen) ist monatlich im Voraus, spätenstens am dritten Werktag des Monats an den Vermieter auf nachfolgendes Konto zu bezahlen:
 
-**Kontoinhaber:** {{LANDLORD_BANKACCOUNT_HOLDER}}
+**Kontoinhaber:** {{LANDLORD_BANKACCOUNT_HOLDER}} <br>
 **IBAN:** {{LANDLORD_BANKACCOUNT_IBAN}}
 
 **4.2** Für die Rechtzeitigkeit der Zahlung kommt es darauf an, dass der Zahlungsauftrag am dritten Werktag eines Monats erteilt ist.
@@ -122,6 +122,8 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **10.1** Der Mieter darf die Mietsache nur zu den im Vertrag bestimmten Zwecken nutzen. Die Wohnung wird bei Mietvertragsbeginn von {{NUMBER_OF_RESIDENTS}} Personen genutzt.
 
+<div style="page-break-after: always;"></div>
+
 **10.2** Der Mieter ist ohne vorherige Erlaubnis des Vermieters nicht berechtigt die Mietsache unterzuvermieten oder einem Dritten zu überlassen. Der Vermieter kann seine Zustimmung zur Untervermietung oder Gebrauchsüberlassung an einen Dritten von der Zahlung eines angemessenen Zuschlages abhängig machen.
 
 **10.3** Die installierten Versorgungsleitungen für Elektrizität, Gas und Wasser dürfen vom Mieter nur im Rahmen der vorhandenen Kapazität genutzt werden. Der Mieter hat dafür Sorge zu leisten, dass keine Überlastung eintritt.
@@ -149,6 +151,8 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 ## §14 Rückgabe der Mieträume
 
 **14.1** Bei Ende des Mietvertrages hat der Mieter die Mieträume vollständig geräumt und in sauberem und vertragsgemäßen Zustand zurückzugeben. Alle Schlüssel, auch vom Mieter selbst beschaffte, sind dem Vermieter zu übergeben. Der Mieter haftet für alle Schäden, die dem Vermieter oder einem Mietnachfolger aus der Nichtbefolgung dieser Pflicht entstehen.
+
+<div style="page-break-after: always;"></div>
 
 ## §15 Personenmehrheit als Mieter
 
