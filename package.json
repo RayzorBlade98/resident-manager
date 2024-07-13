@@ -1,7 +1,6 @@
 {
   "name": "resident-manager",
   "version": "0.1.0",
-  "description": "TODO",
   "main": "./dist/main.bundle.js",
   "scripts": {
     "start": "electron ./dist/main.bundle.js",
