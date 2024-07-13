@@ -1,6 +1,6 @@
 {
   "name": "resident-manager",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "TODO",
   "main": "./dist/main.bundle.js",
   "scripts": {
