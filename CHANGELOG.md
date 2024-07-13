@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
         - Include generated contracts to the managed documents
     - Functionality to increase rent 
 - Contract
+    - Add missing rent information to resident before generation
     - Apply history to resident before generation
     - Display resident email
     - Additional agreements section

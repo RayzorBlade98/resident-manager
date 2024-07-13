@@ -93,6 +93,24 @@ function useResident(residentId: string) {
     [applyChangesToResident],
   );
 
+  const extendRentInformation = useCallback(
+    (targetMonth: MonthYear) => {
+      let updatedResident: Resident = resident as Resident;
+      applyChangesToResident((r) => {
+        updatedResident = {
+          ...r,
+          rentInformation: RentInformationUtils.addUntilMonth(
+            [...r.rentInformation],
+            targetMonth,
+          ),
+        };
+        return updatedResident;
+      });
+      return updatedResident;
+    },
+    [applyChangesToResident, resident],
+  );
+
   const editResident = useCallback(
     (newValues: EditResidentArgs, validSince: MonthYear) => {
       applyChangesToResident((r) => {
@@ -179,6 +197,13 @@ function useResident(residentId: string) {
      * Function to add a document to the selected resident
      */
     addDocument,
+
+    /**
+     * Function to extend the rent information of the selected resident up to the specified month
+     * @param targetMonth Target month until the rent information should be filled
+     * @returns Updated resident
+     */
+    extendRentInformation,
 
     /**
      * Function to update some resident values

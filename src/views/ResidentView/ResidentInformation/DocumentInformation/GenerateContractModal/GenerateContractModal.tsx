@@ -46,7 +46,7 @@ function GenerateContractModal(props: GenerateContractModalProps) {
   const selectedResident = useRecoilValue(
     residentViewSelectedResidentState,
   ) as Resident;
-  const { addDocument } = useResident(selectedResident.id);
+  const { addDocument, extendRentInformation } = useResident(selectedResident.id);
 
   const {
     formInput,
@@ -63,12 +63,13 @@ function GenerateContractModal(props: GenerateContractModalProps) {
     },
     submitButtonLabel: 'Generieren',
     onSubmitSuccess: (values) => {
+      const residentForContract = extendRentInformation(values.contractStart);
       void window.ipcAPI
         .generateContractPdf({
           contractStart: values.contractStart,
           landlord,
           property,
-          resident: applyHistoryToResident(selectedResident, values.contractStart),
+          resident: applyHistoryToResident(residentForContract, values.contractStart),
         })
         .then((documentId) => {
           addDocument({

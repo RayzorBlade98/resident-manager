@@ -5,6 +5,7 @@ import _, { range } from 'lodash';
 import { RecoilRoot } from 'recoil';
 import useResident from './useResident';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { Resident } from '_/models/resident/resident';
 import residentState from '_/states/resident/resident.state';
 import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import LinkedDocumentBuilder from '_/test/builders/linkedDocument.builder';
@@ -253,6 +254,45 @@ describe('useResident', () => {
         ...selectedResident,
         documents: [...selectedResident.documents, document],
       });
+    });
+  });
+
+  describe('extendRentInformation', () => {
+    it('should set the state correctly', async () => {
+      // Arrange
+      const targetMonth = new MonthYear(10, 2023);
+      const expectedResident: Resident = {
+        ...selectedResident,
+        rentInformation: [
+          {
+            ...selectedResident.rentInformation[0],
+            dueDate: new MonthYear(10, 2023),
+          },
+          {
+            ...selectedResident.rentInformation[0],
+            dueDate: new MonthYear(9, 2023),
+          },
+          ...selectedResident.rentInformation,
+        ],
+      };
+
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useResident(selectedResident.id),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      // Act
+      const updatedResident = await act(() => result.current.extendRentInformation(targetMonth));
+
+      // Assert
+      expect(updatedResident).toEqual(expectedResident);
+      expect(result.current.resident).toEqual(expectedResident);
     });
   });
 

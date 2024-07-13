@@ -118,6 +118,9 @@ describe('GenerateContractModal', () => {
     const documentId = 'documentId';
     mockedIpcAPIFunctions.generateContractPdf.mockResolvedValue(documentId);
 
+    const extendedRentInformationResident = new ResidentBuilder().build();
+    useResidentMock.extendRentInformation.mockReturnValue(extendedRentInformationResident);
+
     const historicalResident = new ResidentBuilder().build();
     (applyHistoryToResident as jest.Mock).mockReturnValue(historicalResident);
 
@@ -129,8 +132,11 @@ describe('GenerateContractModal', () => {
     // Assert
     await waitFor(() => expect(useResidentMock.addDocument).toHaveBeenCalledTimes(1));
 
+    expect(useResidentMock.extendRentInformation).toHaveBeenCalledTimes(1);
+    expect(useResidentMock.extendRentInformation).toHaveBeenLastCalledWith(validInputValues.contractStart);
+
     expect(applyHistoryToResident).toHaveBeenCalledTimes(1);
-    expect(applyHistoryToResident).toHaveBeenLastCalledWith(resident, validInputValues.contractStart);
+    expect(applyHistoryToResident).toHaveBeenLastCalledWith(extendedRentInformationResident, validInputValues.contractStart);
 
     expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenCalledTimes(1);
     expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenLastCalledWith({
