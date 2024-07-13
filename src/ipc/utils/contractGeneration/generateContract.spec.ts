@@ -80,7 +80,9 @@ describe('generateContract', () => {
     expect(generateContractMarkdown).toHaveBeenLastCalledWith(importedArgs);
 
     expect(mdToPdfFile).toHaveBeenCalledTimes(1);
-    expect(mdToPdfFile).toHaveBeenLastCalledWith(markdown, tmpFile, {});
+    expect(mdToPdfFile).toHaveBeenLastCalledWith(markdown, tmpFile, {
+      cssFiles: ['src/assets/contract/style.css'],
+    });
 
     expect(uploadDocument).toHaveBeenCalledTimes(1);
     expect(uploadDocument).toHaveBeenLastCalledWith(tmpFile, contractFile, {
