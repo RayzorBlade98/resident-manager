@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
     - Required assets are now correctly added to the bundle and handled in code
     - Added stylesheet for contract generation to bundled assets
 
+### Changed
+
+- Contract
+    - Minor adjustments to the template including fixed typos
+
 ## v0.1.0 - 2024-07-13
 
 ### Added

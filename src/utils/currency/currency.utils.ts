@@ -4,7 +4,7 @@ export type CurrencyInEuros = number;
 /**
  * Converts the currency to a formatted string
  * @param currency currency (in cents) that should be formatted
- * @returns string representation of the currency (Format: XXX.XX€)
+ * @returns string representation of the currency (Format: XXX.XX €)
  */
 export function convertCurrencyCentsToString(
   currency: CurrencyInCents,

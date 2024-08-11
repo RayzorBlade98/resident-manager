@@ -1,6 +1,6 @@
 # Hausordnung
 
-Zur Bildung und Erhaltung einer vertrauensvollen Hausgemeinschaft im Sinne der Mietvertragen haben alle Hausbewohner aufeinander Rücksicht zu nehmen, untereinander und im Verhältnis zum Vermieter den Hausfrieden zu bewahren und das ihnen im Rahmen des Vertrages zur Verfügung gestellten Eigentum sorgsam und sachgemäß zu behandeln.
+Zur Bildung und Erhaltung einer vertrauensvollen Hausgemeinschaft im Sinne des Mietvertrages haben alle Hausbewohner aufeinander Rücksicht zu nehmen, untereinander und im Verhältnis zum Vermieter den Hausfrieden zu bewahren und das ihnen im Rahmen des Vertrages zur Verfügung gestellten Eigentum sorgsam und sachgemäß zu behandeln.
 
 ## Allgemeines
 
@@ -10,7 +10,7 @@ Zur Bildung und Erhaltung einer vertrauensvollen Hausgemeinschaft im Sinne der M
 4. Auch die anderen zur Verfügung gestellten Geräte müssen vom Mieter gewartet bzw. bei Schäden repariert werden.
 5. Beschädigungen in der Wohnung wie auch im Treppenhaus durch Unachtsamkeit werden auf Kosten des Mieters wieder beseitigt.
 6. Fahrräder, Kinderwägen usw. sind aus dem Treppenhaus und Kellerflur zu entfernen. Dafür kann der Keller genutzt werden.
-7. Die Haustüre ist immer geschlossen zu halten. Einzige Ausnahmen sind Lüften oder das kurze Reintragen von Einkäufen oder Ähnlichem. Ab 22 Uhr ist die Haustür abzuschließen.
+7. Die Haustüre ist immer geschlossen zu halten. Einzige Ausnahmen sind Lüften oder das kurze Hineintragen von Einkäufen oder Ähnlichem. Ab 22 Uhr ist die Haustür abzuschließen.
 8. Die gesetzliche Nachtruhe von 22 bis 6 Uhr ist einzuhalten. Die empfohlene Mittagsruhe von 13 bis 15 Uhr ist bitte auch einzuhalten. Bitte nehmen Sie Rücksicht auf die anderen Mieter, damit es keinen Streit in der Hausgemeinschaft gibt. Sollte es Probleme geben, reden Sie miteinander.
 9. Auf dem Balkon dürfen keine Teppiche hingelegt werden, da sonst Staunässe entsteht und der Balkon beschädigt wird.
 10. Bei den Rauchmeldern im Treppenhaus muss bei Bedarf ohne Aufforderung die Batterien gewechselt werden. Die Mieter können sich hierfür untereinander absprechen.
