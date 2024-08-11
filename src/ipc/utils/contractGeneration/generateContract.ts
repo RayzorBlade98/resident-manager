@@ -6,7 +6,7 @@ import {
   ContractGenerationArgs,
   generateContractMarkdown,
 } from '../contractGeneration';
-import { getTmpDirectory } from '../persistence/getAppDataDirectory';
+import { getAssetDirectory, getTmpDirectory } from '../persistence/getAppDataDirectory';
 import uploadDocument from '../persistence/uploadDocument';
 import Imported from '_/types/Imported';
 
@@ -17,7 +17,10 @@ async function generateContract(
 
   const tmpFile = path.join(getTmpDirectory(), getRandomPdfFile().fileName);
   await mdToPdfFile(contract, tmpFile, {
-    cssFiles: ['src/assets/contract/style.css'],
+    cssFiles: [path.join(getAssetDirectory(), 'contract/style.css')],
+    showdownOptions: {
+      simplifiedAutoLink: false,
+    },
   });
 
   const { documentId, fileName } = getRandomPdfFile();

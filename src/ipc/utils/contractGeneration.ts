@@ -249,7 +249,7 @@ class ContractGenerator {
           r.oldAddress,
         ),
         [placeholderLabels.residentPhone]: r.phone ?? '-',
-        [placeholderLabels.residentEmail]: r.email ?? '-',
+        [placeholderLabels.residentEmail]: r.email ?? '',
       }))
       .join('');
     this.replaceSinglePlacehoder(

@@ -24,7 +24,7 @@ im *{{APARTMENT_FLOOR}}* Geschoss *{{APARTMENT_LOCATION}}* bestehend aus
 - {{APARTMENT_ROOMS_KITCHEN}} Küche
 - {{APARTMENT_ROOMS_BATH}} Bad / Dusche / Toilette
 - {{APARTMENT_ROOMS_HALLWAY}} Flur / Diele
-- {{APARTMENT_ROOMS_BASEMENT}} Keller
+- {{APARTMENT_ROOMS_BASEMENT}} Keller / Kellerabteil
 - {{APARTMENT_ROOMS_GARDEN}} Garten / Gartenabteil
 - {{PARKING_SPACE_COUNT}} Garage / Stellplatz
 
@@ -71,14 +71,13 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **3.7** Bei Beendigung des Mieterverhältnisses während des laufenden Abrechnungszeitraums hat der Mieter die Kosten der Zwischenablesung und die Nutzerwechselgebühr zu tragen.
 
-**3.8** Die monatliche Gesamtmiete inlusive Betriebskostenvorauszahlungen beläuft sich auf {{RENT_TOTAL}}
+**3.8** Die monatliche Gesamtmiete inklusive Betriebskostenvorauszahlungen beläuft sich auf {{RENT_TOTAL}}
 
 ## §4 Mietzahlungen
 
-**4.1** Die Gesamtmiete (inklusive Nebenkostenvorauszahlungen) ist monatlich im Voraus, spätenstens am dritten Werktag des Monats an den Vermieter auf nachfolgendes Konto zu bezahlen:
+**4.1** Die Gesamtmiete (inklusive Nebenkostenvorauszahlungen) ist monatlich im Voraus, spätestens am dritten Werktag des Monats an den Vermieter auf nachfolgendes Konto zu bezahlen:
 
-**Kontoinhaber:** {{LANDLORD_BANKACCOUNT_HOLDER}} <br>
-**IBAN:** {{LANDLORD_BANKACCOUNT_IBAN}}
+**Kontoinhaber:** {{LANDLORD_BANKACCOUNT_HOLDER}} <br> **IBAN:** {{LANDLORD_BANKACCOUNT_IBAN}}
 
 **4.2** Für die Rechtzeitigkeit der Zahlung kommt es darauf an, dass der Zahlungsauftrag am dritten Werktag eines Monats erteilt ist.
 
@@ -108,9 +107,9 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 ## §8 Kleinreparaturen
 
-**8.1** Der Mieter ist verpflichtet, die Kosten für kleinere Reparaturen an Gegenständen, wie unter Punkt 8.2 aufgeführt, an den Vermieter zu bezahlen. Die Kosten der einzelnen Reparatur für jeden einzeln abgrenzbaren Schaden dürfen 100€ nicht übersteigen und der jährliche Reparaturaufwand darf nicht mehr als 8% der Jahresgrundmiete betragen, höchstens jedoch 614€.
+**8.1** Der Mieter ist verpflichtet, die Kosten für kleinere Reparaturen an Gegenständen, wie unter Punkt 8.2 aufgeführt, an den Vermieter zu bezahlen. Die Kosten der einzelnen Reparatur für jeden einzeln abgrenzbaren Schaden dürfen 100 € nicht übersteigen und der jährliche Reparaturaufwand darf nicht mehr als 8 % der Jahresgrundmiete betragen, höchstens jedoch 614 €.
 
-**8.2** Die Kosten für kleinere Reparaturen beziehen sich nur auf Schäden an den Installationsgegenständen, die dem direkten und häufigen Zugriff des Mieters ausgesetzt sind, wie insbesondere für Elektrizität (Lichtschalter, Steckdosen etc.), Wassser und Gas, den Heiz- und Kocheinrichtungen, den Fenster- und Türverschlüssen sowie den Verschlussvorrichtungen für Fensterläden oder Rollläden.
+**8.2** Die Kosten für kleinere Reparaturen beziehen sich nur auf Schäden an den Installationsgegenständen, die dem direkten und häufigen Zugriff des Mieters ausgesetzt sind, wie insbesondere für Elektrizität (Lichtschalter, Steckdosen etc.), Wasser und Gas, den Heiz- und Kocheinrichtungen, den Fenster- und Türverschlüssen sowie den Verschlussvorrichtungen für Fensterläden oder Rollläden.
 
 ## §9 Zustand der Mieträume
 
@@ -136,7 +135,7 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 ## §12 Bauliche Veränderung durch den Mieter
 
-**12.1** Zu baulichen Veränderungen an und insbesondere in der Mietsach, wie Um- und Einbauten, ist der Mieter erst nach ausdrücklicher Erlaubnis durch den Vermieter berechtigt. Der Vermieter kann die Erlaubnis davon abhängig machen, dass der ursprüngliche Zustand bei Beendigung des Mietverhältnisses wieder herzustellen ist. Dies betrifft auch die Beseitigung von Dekorationsschäden.
+**12.1** Zu baulichen Veränderungen an und insbesondere in der Mietsache, wie Um- und Einbauten, ist der Mieter erst nach ausdrücklicher Erlaubnis durch den Vermieter berechtigt. Der Vermieter kann die Erlaubnis davon abhängig machen, dass der ursprüngliche Zustand bei Beendigung des Mietverhältnisses wieder herzustellen ist. Dies betrifft auch die Beseitigung von Dekorationsschäden.
 
 **12.2** Möchte der Mieter bei Beendigung der Mietsache Einrichtungen, die er selbst eingebracht, entfernen, so hat er diese zunächst dem Vermieter zur Übernahme anzubieten, es sei denn der Mieter hat ein berechtigtes Interesse an der Wegnahme.
 
@@ -158,11 +157,11 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **15.1** Sind mehrere Personen Mieter, so haften sie für alle Verpflichtungen aus dem Mietverhältnis als Gesamtschuldner.
 
-**15.2** Erklärungen, deren Wirkung die Mieter berühren, müssen von und gegenüber allen Mietern abgegeben werden. Die Mieter bevollmächtigen sich gegenseitig zur Entgegennahme von Erklärungen des Vermieters und zur Abgabe von Erklärungen. Die Bevollmächtigung ist jederzeit widerruflich. Die Vollmacht erstreckt sich nicht auf die Erklärung einer Kündigung oder die Aufhebung eines Mietvertrags.
+**15.2** Erklärungen, deren Wirkung die Mieter berühren, müssen von und gegenüber allen Mietern abgegeben werden. Die Mieter bevollmächtigen einander zur Entgegennahme von Erklärungen des Vermieters und zur Abgabe von Erklärungen. Die Bevollmächtigung ist jederzeit widerruflich. Die Vollmacht erstreckt sich nicht auf die Erklärung einer Kündigung oder die Aufhebung eines Mietvertrags.
 
 ## §16 Hausordnung
 
-**16.1** Vermieter und Mieter verpflichten sich zur Wahrung des Hausfriedens und zur gegenseitigen Rücksichtsnahme.
+**16.1** Vermieter und Mieter verpflichten sich zur Wahrung des Hausfriedens und zur gegenseitigen Rücksichtnahme.
 
 **16.2** Zur Aufrechterhaltung der Ordnung im Hause und für die Benutzung der Gemeinschaftsanlagen gilt die diesem Vertrag als Anhang 1 beigefügte Hausordnung. Der Vermieter behält sich bei Vorliegen von berechtigten Gründen eine Änderung der Hausordnung vor. Entsprechende Gründe werden dem Mieter mit der Übergabe der neuen Hausordnung mitgeteilt.
 

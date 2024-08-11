@@ -58,7 +58,7 @@ Resident name = Resident2first Resident2last
 Resident street = Resident2street 2
 Resident city = 22222 Resident2city
 Resident phone = -
-Resident email = -
+Resident email = 
 
 
 

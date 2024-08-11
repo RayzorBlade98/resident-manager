@@ -11,6 +11,12 @@ import { prod } from '_/utils/node-env';
 const getAppDataDirectory = () => (prod ? app.getPath('userData') : __dirname);
 
 /**
+ * Returns the directory which contains the asset files
+ */
+/* istanbul ignore next */
+export const getAssetDirectory = () => (prod ? path.join(__dirname, '../assets') : 'src/assets');
+
+/**
  * Returns a directory that can be used to store temporary app data
  */
 export const getTmpDirectory = () => {

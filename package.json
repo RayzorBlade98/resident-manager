@@ -1,7 +1,6 @@
 {
   "name": "resident-manager",
-  "version": "0.1.0",
-  "description": "TODO",
+  "version": "0.1.1",
   "main": "./dist/main.bundle.js",
   "scripts": {
     "start": "electron ./dist/main.bundle.js",
@@ -45,7 +44,16 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    }
+    },
+    "extraResources": [
+      {
+        "from": "src/assets",
+        "to": "assets",
+        "filter": [
+          "**/contract/style.css"
+        ]
+      }
+    ]
   },
   "author": "André Schweizer @RayzorBlade98",
   "license": "MIT",
