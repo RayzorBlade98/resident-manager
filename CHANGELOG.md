@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## Unreleased
 
+### Changed
+
+- Contract
+    - Minor adjustments to the template
+
 ### Fixed
 
 - Asset handling
@@ -14,11 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Contract
     - Fixed typos
     - Fixed bank information layout
-
-### Changed
-
-- Contract
-    - Minor adjustments to the template
+    - Don't display emails as link anymore
 
 ## v0.1.0 - 2024-07-13
 

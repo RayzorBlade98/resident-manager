@@ -18,6 +18,9 @@ async function generateContract(
   const tmpFile = path.join(getTmpDirectory(), getRandomPdfFile().fileName);
   await mdToPdfFile(contract, tmpFile, {
     cssFiles: [path.join(getAssetDirectory(), 'contract/style.css')],
+    showdownOptions: {
+      simplifiedAutoLink: false,
+    },
   });
 
   const { documentId, fileName } = getRandomPdfFile();

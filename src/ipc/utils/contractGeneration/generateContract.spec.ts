@@ -6,7 +6,10 @@ import {
   ContractGenerationArgs,
   generateContractMarkdown,
 } from '../contractGeneration';
-import { getAssetDirectory, getTmpDirectory } from '../persistence/getAppDataDirectory';
+import {
+  getAssetDirectory,
+  getTmpDirectory,
+} from '../persistence/getAppDataDirectory';
 import uploadDocument from '../persistence/uploadDocument';
 import generateContract from './generateContract';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -84,9 +87,13 @@ describe('generateContract', () => {
     expect(generateContractMarkdown).toHaveBeenLastCalledWith(importedArgs);
 
     expect(mdToPdfFile).toHaveBeenCalledTimes(1);
-    expect(mdToPdfFile).toHaveBeenLastCalledWith(markdown, tmpFile, {
-      cssFiles: [path.join(assetDir, 'contract/style.css')],
-    });
+    expect(mdToPdfFile).toHaveBeenLastCalledWith(
+      markdown,
+      tmpFile,
+      expect.objectContaining({
+        cssFiles: [path.join(assetDir, 'contract/style.css')],
+      }),
+    );
 
     expect(uploadDocument).toHaveBeenCalledTimes(1);
     expect(uploadDocument).toHaveBeenLastCalledWith(tmpFile, contractFile, {
