@@ -77,8 +77,7 @@ Ohne Zustimmung des Vermieters ist der Mieter zur Anfertigung von Ersatzschlüss
 
 **4.1** Die Gesamtmiete (inklusive Nebenkostenvorauszahlungen) ist monatlich im Voraus, spätestens am dritten Werktag des Monats an den Vermieter auf nachfolgendes Konto zu bezahlen:
 
-**Kontoinhaber:** {{LANDLORD_BANKACCOUNT_HOLDER}} <br>
-**IBAN:** {{LANDLORD_BANKACCOUNT_IBAN}}
+**Kontoinhaber:** {{LANDLORD_BANKACCOUNT_HOLDER}} <br> **IBAN:** {{LANDLORD_BANKACCOUNT_IBAN}}
 
 **4.2** Für die Rechtzeitigkeit der Zahlung kommt es darauf an, dass der Zahlungsauftrag am dritten Werktag eines Monats erteilt ist.
 
