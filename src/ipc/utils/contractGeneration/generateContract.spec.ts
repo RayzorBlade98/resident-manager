@@ -6,7 +6,7 @@ import {
   ContractGenerationArgs,
   generateContractMarkdown,
 } from '../contractGeneration';
-import { getTmpDirectory } from '../persistence/getAppDataDirectory';
+import { getAssetDirectory, getTmpDirectory } from '../persistence/getAppDataDirectory';
 import uploadDocument from '../persistence/uploadDocument';
 import generateContract from './generateContract';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -33,6 +33,7 @@ jest.mock('fs/promises', () => ({
 
 jest.mock('../persistence/getAppDataDirectory', () => ({
   getTmpDirectory: jest.fn(),
+  getAssetDirectory: jest.fn(),
 }));
 
 jest.mock('../persistence/uploadDocument', () => ({
@@ -69,6 +70,9 @@ describe('generateContract', () => {
     const tmpDir = 'tmp';
     (getTmpDirectory as jest.Mock).mockReturnValue(tmpDir);
 
+    const assetDir = 'assets';
+    (getAssetDirectory as jest.Mock).mockReturnValue(assetDir);
+
     const tmpFile = path.join(tmpDir, `${tmpId}.pdf`);
     const contractFile = `${documentId}.pdf`;
 
@@ -81,7 +85,7 @@ describe('generateContract', () => {
 
     expect(mdToPdfFile).toHaveBeenCalledTimes(1);
     expect(mdToPdfFile).toHaveBeenLastCalledWith(markdown, tmpFile, {
-      cssFiles: ['src/assets/contract/style.css'],
+      cssFiles: [path.join(assetDir, 'contract/style.css')],
     });
 
     expect(uploadDocument).toHaveBeenCalledTimes(1);

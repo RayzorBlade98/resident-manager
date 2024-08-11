@@ -44,7 +44,16 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    }
+    },
+    "extraResources": [
+      {
+        "from": "src/assets",
+        "to": "assets",
+        "filter": [
+          "**/contract/style.css"
+        ]
+      }
+    ]
   },
   "author": "André Schweizer @RayzorBlade98",
   "license": "MIT",
