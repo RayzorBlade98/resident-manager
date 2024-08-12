@@ -4,8 +4,8 @@ import { range } from 'lodash';
 import { v4 } from 'uuid';
 import ipcCommands from './ipcCommands';
 import addIpcHandlers from './ipcHandlers';
-import { ContractGenerationArgs } from './utils/contractGeneration';
-import generateContract from './utils/contractGeneration/generateContract';
+import generateContract from './utils/documentGeneration/contractGeneration/generateContract';
+import { ContractGenerationArgs } from './utils/documentGeneration/contractGeneration/generateContractMarkdown';
 import * as persistenceModule from './utils/persistence';
 import { DocumentTarget } from './utils/persistence/documentTarget';
 import * as uploadDocumentModule from './utils/persistence/uploadDocument';
@@ -17,7 +17,7 @@ import ResidentBuilder from '_/test/builders/resident.builder';
 import ResidentInvoiceInformationBuilder from '_/test/builders/residentInvoiceInformation.builder';
 import { ipcMain, ipcRenderer } from '_/test/electronModuleMock';
 
-jest.mock('./utils/contractGeneration/generateContract', () => ({
+jest.mock('./utils/documentGeneration/contractGeneration/generateContract', () => ({
   __esModule: true,
   default: jest.fn(),
 }));

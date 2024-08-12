@@ -3,22 +3,19 @@ import path from 'path';
 import { mdToPdfFile } from 'electron-md-to-pdf';
 import { v4 } from 'uuid';
 import {
-  ContractGenerationArgs,
-  generateContractMarkdown,
-} from '../contractGeneration';
-import {
   getAssetDirectory,
   getTmpDirectory,
-} from '../persistence/getAppDataDirectory';
-import uploadDocument from '../persistence/uploadDocument';
+} from '../../persistence/getAppDataDirectory';
+import uploadDocument from '../../persistence/uploadDocument';
 import generateContract from './generateContract';
+import { ContractGenerationArgs, generateContractMarkdown } from './generateContractMarkdown';
 import MonthYear from '_/extensions/date/month_year.extension';
 import LandlordBuilder from '_/test/builders/landlord.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import Imported from '_/types/Imported';
 
-jest.mock('../../utils/contractGeneration', () => ({
+jest.mock('./generateContractMarkdown', () => ({
   generateContractMarkdown: jest.fn(),
 }));
 
@@ -34,12 +31,12 @@ jest.mock('fs/promises', () => ({
   rm: jest.fn(),
 }));
 
-jest.mock('../persistence/getAppDataDirectory', () => ({
+jest.mock('../../persistence/getAppDataDirectory', () => ({
   getTmpDirectory: jest.fn(),
   getAssetDirectory: jest.fn(),
 }));
 
-jest.mock('../persistence/uploadDocument', () => ({
+jest.mock('../../persistence/uploadDocument', () => ({
   __esModule: true,
   default: jest.fn(),
 }));

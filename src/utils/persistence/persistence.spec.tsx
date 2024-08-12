@@ -74,7 +74,7 @@ afterEach(() => {
 describe('importSaveStates', () => {
   test('should import states correctly', async () => {
     // Arrange
-    mockedIpcAPIFunctions.importObject.mockImplementation(
+    mockedIpcAPIFunctions.persistence.importObject.mockImplementation(
       (filename: string) => {
         switch (filename) {
           case persistenceFilenames.incidentals:
@@ -126,7 +126,7 @@ describe('exportSaveStates', () => {
     exportSaveStates();
 
     // Assert
-    const exportObjectMock = mockedIpcAPIFunctions.exportObject;
+    const exportObjectMock = mockedIpcAPIFunctions.persistence.exportObject;
     expect(exportObjectMock).toHaveBeenNthCalledWith(
       1,
       incidentals,

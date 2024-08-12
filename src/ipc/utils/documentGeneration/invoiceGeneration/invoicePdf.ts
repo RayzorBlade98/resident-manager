@@ -3,9 +3,9 @@ import autoTable from 'jspdf-autotable';
 import {
   convertAddressToCityString,
   convertAddressToStreetString,
-} from '../../utils/address/address.utils';
-import { convertCurrencyCentsToString } from '../../utils/currency/currency.utils';
-import { convertNameToString } from '../../utils/name/name.utils';
+} from '../../../../utils/address/address.utils';
+import { convertCurrencyCentsToString } from '../../../../utils/currency/currency.utils';
+import { convertNameToString } from '../../../../utils/name/name.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Invoice from '_/models/invoice/invoice';
 import ResidentInvoiceInformation from '_/models/invoice/resident.invoice';

@@ -30,99 +30,105 @@ describe('ipcAPI', () => {
     expect(sendSpy).toHaveBeenLastCalledWith(ipcCommands.rendererReady);
   });
 
-  test('exportObject should invoke exportObject event', async () => {
-    // Arrange
-    const objectToExport = { id: v4() };
-    const filename = 'test.json';
+  describe('persistence', () => {
+    test('exportObject should invoke exportObject event', async () => {
+      // Arrange
+      const objectToExport = { id: v4() };
+      const filename = 'test.json';
 
-    // Act
-    await ipcAPI.exportObject(objectToExport, filename);
+      // Act
+      await ipcAPI.persistence.exportObject(objectToExport, filename);
 
-    // Assert
-    expect(invokeSpy).toHaveBeenLastCalledWith(
-      ipcCommands.exportObject,
-      objectToExport,
-      filename,
-    );
+      // Assert
+      expect(invokeSpy).toHaveBeenLastCalledWith(
+        ipcCommands.exportObject,
+        objectToExport,
+        filename,
+      );
+    });
+
+    test('importObject should invoke importObject event', async () => {
+      // Arrange
+      const filename = 'test.json';
+
+      // Act
+      await ipcAPI.persistence.importObject(filename);
+
+      // Assert
+      expect(invokeSpy).toHaveBeenLastCalledWith(
+        ipcCommands.importObject,
+        filename,
+      );
+    });
+
+    test('uploadDocument should invoke uploadDocument event', async () => {
+      // Arrange
+      const uploadedFile = 'test/file.txt';
+      const fileName = 'test.txt';
+      const target: DocumentTarget = {
+        type: 'resident',
+        residentId: 'resident1',
+      };
+
+      // Act
+      await ipcAPI.persistence.uploadDocument(uploadedFile, fileName, target);
+
+      // Assert
+      expect(invokeSpy).toHaveBeenLastCalledWith(
+        ipcCommands.uploadDocument,
+        uploadedFile,
+        fileName,
+        target,
+      );
+    });
   });
 
-  test('importObject should invoke importObject event', async () => {
-    // Arrange
-    const filename = 'test.json';
+  describe('documentGeneration', () => {
+    test('generateInvoicePdfs should invoke generateInvoicePdfs event', async () => {
+      // Arrange
+      const invoice = new InvoiceBuilder().build();
 
-    // Act
-    await ipcAPI.importObject(filename);
+      // Act
+      await ipcAPI.documentGeneration.generateInvoicePdfs(invoice);
 
-    // Assert
-    expect(invokeSpy).toHaveBeenLastCalledWith(
-      ipcCommands.importObject,
-      filename,
-    );
+      // Assert
+      expect(invokeSpy).toHaveBeenLastCalledWith(
+        ipcCommands.generateInvoicePdfs,
+        invoice,
+      );
+    });
+
+    test('generateContractPdf should invoke generateContractPdf event', async () => {
+      // Arrange
+      const landlord = new LandlordBuilder().build();
+      const resident = new ResidentBuilder().build();
+      const property = new PropertyBuilder().build();
+      const contractStart = new MonthYear(2, 2024);
+      const args = {
+        landlord,
+        resident,
+        property,
+        contractStart,
+      };
+
+      // Act
+      await ipcAPI.documentGeneration.generateContractPdf(args);
+
+      // Assert
+      expect(invokeSpy).toHaveBeenLastCalledWith(
+        ipcCommands.generateContractPdf,
+        args,
+      );
+    });
   });
 
-  test('generateInvoicePdfs should invoke generateInvoicePdfs event', async () => {
-    // Arrange
-    const invoice = new InvoiceBuilder().build();
+  describe('fileSystem', () => {
+    test('selectFile should invoke selectFile event', async () => {
+      // Act
+      await ipcAPI.fileSystem.selectFile();
 
-    // Act
-    await ipcAPI.generateInvoicePdfs(invoice);
-
-    // Assert
-    expect(invokeSpy).toHaveBeenLastCalledWith(
-      ipcCommands.generateInvoicePdfs,
-      invoice,
-    );
-  });
-
-  test('generateContractPdf should invoke generateContractPdf event', async () => {
-    // Arrange
-    const landlord = new LandlordBuilder().build();
-    const resident = new ResidentBuilder().build();
-    const property = new PropertyBuilder().build();
-    const contractStart = new MonthYear(2, 2024);
-    const args = {
-      landlord,
-      resident,
-      property,
-      contractStart,
-    };
-
-    // Act
-    await ipcAPI.generateContractPdf(args);
-
-    // Assert
-    expect(invokeSpy).toHaveBeenLastCalledWith(
-      ipcCommands.generateContractPdf,
-      args,
-    );
-  });
-
-  test('selectFile should invoke selectFile event', async () => {
-    // Act
-    await ipcAPI.selectFile();
-
-    // Assert
-    expect(invokeSpy).toHaveBeenLastCalledWith(ipcCommands.selectFile);
-  });
-
-  test('uploadDocument should invoke uploadDocument event', async () => {
-    // Arrange
-    const uploadedFile = 'test/file.txt';
-    const fileName = 'test.txt';
-    const target: DocumentTarget = {
-      type: 'resident',
-      residentId: 'resident1',
-    };
-
-    // Act
-    await ipcAPI.uploadDocument(uploadedFile, fileName, target);
-
-    // Assert
-    expect(invokeSpy).toHaveBeenLastCalledWith(
-      ipcCommands.uploadDocument,
-      uploadedFile,
-      fileName,
-      target,
-    );
+      // Assert
+      expect(invokeSpy).toHaveBeenLastCalledWith(ipcCommands.selectFile);
+    });
   });
 });

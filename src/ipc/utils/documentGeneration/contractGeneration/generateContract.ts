@@ -2,12 +2,9 @@ import { rm } from 'fs/promises';
 import path from 'path';
 import { mdToPdfFile } from 'electron-md-to-pdf';
 import { v4 as uuid } from 'uuid';
-import {
-  ContractGenerationArgs,
-  generateContractMarkdown,
-} from '../contractGeneration';
-import { getAssetDirectory, getTmpDirectory } from '../persistence/getAppDataDirectory';
-import uploadDocument from '../persistence/uploadDocument';
+import { getAssetDirectory, getTmpDirectory } from '../../persistence/getAppDataDirectory';
+import uploadDocument from '../../persistence/uploadDocument';
+import { ContractGenerationArgs, generateContractMarkdown } from './generateContractMarkdown';
 import Imported from '_/types/Imported';
 
 async function generateContract(

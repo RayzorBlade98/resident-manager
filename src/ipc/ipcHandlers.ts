@@ -2,9 +2,9 @@ import path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcMain } from 'electron';
 import ipcCommands from './ipcCommands';
-import { ContractGenerationArgs } from './utils/contractGeneration';
-import generateContract from './utils/contractGeneration/generateContract';
-import InvoicePdfGenerator from './utils/invoicePdf';
+import generateContract from './utils/documentGeneration/contractGeneration/generateContract';
+import { ContractGenerationArgs } from './utils/documentGeneration/contractGeneration/generateContractMarkdown';
+import InvoicePdfGenerator from './utils/documentGeneration/invoiceGeneration/invoicePdf';
 import {
   exportJsPdf,
   exportObject,

@@ -11,7 +11,9 @@ interface FileSelectProps {
 
 function FileSelect(props: FileSelectProps) {
   function onClick() {
-    void window.ipcAPI.selectFile().then((file) => props.onChange(file));
+    void window.ipcAPI.fileSystem
+      .selectFile()
+      .then((file) => props.onChange(file));
   }
 
   return (

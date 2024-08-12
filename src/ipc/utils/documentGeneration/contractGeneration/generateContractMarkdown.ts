@@ -1,15 +1,15 @@
 import {
   convertAddressToCityString,
   convertAddressToStreetString,
-} from '../../utils/address/address.utils';
-import { convertCurrencyCentsToString } from '../../utils/currency/currency.utils';
-import { convertNameToString } from '../../utils/name/name.utils';
-import { getCostForParkingSpace } from '../../utils/parkingSpace/parkingSpace.utils';
+} from '../../../../utils/address/address.utils';
+import { convertCurrencyCentsToString } from '../../../../utils/currency/currency.utils';
+import { convertNameToString } from '../../../../utils/name/name.utils';
+import { getCostForParkingSpace } from '../../../../utils/parkingSpace/parkingSpace.utils';
 import {
   convertImportedLandlord,
   convertImportedProperty,
   convertImportedResident,
-} from '../../utils/persistence/converters';
+} from '../../../../utils/persistence/converters';
 import contractTemplate from '_/assets/contract/contractTemplate.md';
 import houseRulesTemplate from '_/assets/contract/houseRulesTemplate.md';
 import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.md';

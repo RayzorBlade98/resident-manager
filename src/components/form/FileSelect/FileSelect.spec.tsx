@@ -43,7 +43,7 @@ describe('FileSelect', () => {
   it('should handle onClick correctly', async () => {
     // Arrange
     const fileMock = 'mock/file.pdf';
-    mockedIpcAPIFunctions.selectFile.mockResolvedValue(fileMock);
+    mockedIpcAPIFunctions.fileSystem.selectFile.mockResolvedValue(fileMock);
 
     // Act
     const button = renderResult.getByRole('button');

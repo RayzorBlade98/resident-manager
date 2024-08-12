@@ -49,7 +49,7 @@ describe('UploadDocumentModal', () => {
       });
     }
 
-    mockedIpcAPIFunctions.selectFile.mockResolvedValueOnce(inputValues.file);
+    mockedIpcAPIFunctions.fileSystem.selectFile.mockResolvedValueOnce(inputValues.file);
 
     act(() => {
       input(baseElement.querySelector('#name'), inputValues.name ?? '');
@@ -60,7 +60,7 @@ describe('UploadDocumentModal', () => {
       fireEvent.click(baseElement.querySelector('#file')!);
     });
 
-    await waitFor(() => expect(mockedIpcAPIFunctions.selectFile).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(mockedIpcAPIFunctions.fileSystem.selectFile).toHaveBeenCalledTimes(1));
   }
 
   function submitForm() {
@@ -117,7 +117,7 @@ describe('UploadDocumentModal', () => {
       date: validInputValues.date,
       type: DocumentType.Contract,
     };
-    mockedIpcAPIFunctions.uploadDocument.mockResolvedValue(undefined);
+    mockedIpcAPIFunctions.persistence.uploadDocument.mockResolvedValue(undefined);
 
     await inputToForm(validInputValues);
 
@@ -127,8 +127,8 @@ describe('UploadDocumentModal', () => {
     await waitFor(() => expect(useResidentMock.addDocument).toHaveBeenCalledTimes(1));
 
     // Assert
-    expect(mockedIpcAPIFunctions.uploadDocument).toHaveBeenCalledTimes(1);
-    expect(mockedIpcAPIFunctions.uploadDocument).toHaveBeenLastCalledWith(
+    expect(mockedIpcAPIFunctions.persistence.uploadDocument).toHaveBeenCalledTimes(1);
+    expect(mockedIpcAPIFunctions.persistence.uploadDocument).toHaveBeenLastCalledWith(
       validInputValues.file,
       expect.stringMatching(/^.*\.txt$/),
       {

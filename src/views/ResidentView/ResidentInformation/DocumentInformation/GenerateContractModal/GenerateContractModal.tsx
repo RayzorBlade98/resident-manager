@@ -64,7 +64,7 @@ function GenerateContractModal(props: GenerateContractModalProps) {
     submitButtonLabel: 'Generieren',
     onSubmitSuccess: (values) => {
       const residentForContract = extendRentInformation(values.contractStart);
-      void window.ipcAPI
+      void window.ipcAPI.documentGeneration
         .generateContractPdf({
           contractStart: values.contractStart,
           landlord,
