@@ -1,7 +1,7 @@
 import { copyFileSync, mkdirSync, existsSync } from 'fs';
 import path from 'path';
-import { DocumentTarget } from './documentTarget';
-import getAppDataDirectory from './getAppDataDirectory';
+import { DocumentTarget } from '../../../utils/persistence/documentTarget';
+import getAppDataDirectory from '../../../utils/persistence/getAppDataDirectory';
 
 /**
  * Copies the selected file to the documents

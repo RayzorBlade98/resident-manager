@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcRenderer } from 'electron';
 import ipcCommands from './ipcCommands';
-import { ContractGenerationArgs } from './utils/documentGeneration/contractGeneration/generateContractMarkdown';
-import { GenerateRentIncreasePdfArgs } from './utils/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
+import { ContractGenerationArgs } from './modules/documentGeneration/contractGeneration/generateContractMarkdown';
+import { GenerateRentIncreasePdfArgs } from './modules/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
 import { DocumentTarget } from './utils/persistence/documentTarget';
 import Invoice from '_/models/invoice/invoice';
 

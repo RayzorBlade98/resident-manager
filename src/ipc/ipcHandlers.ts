@@ -2,20 +2,20 @@ import path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcMain } from 'electron';
 import ipcCommands from './ipcCommands';
-import generateContract from './utils/documentGeneration/contractGeneration/generateContract';
-import { ContractGenerationArgs } from './utils/documentGeneration/contractGeneration/generateContractMarkdown';
-import InvoicePdfGenerator from './utils/documentGeneration/invoiceGeneration/invoicePdf';
-import { GenerateRentIncreasePdfArgs } from './utils/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
-import { generateRentIncreasePdf } from './utils/documentGeneration/rentIncrease/generateRentIncreasePdf';
+import generateContract from './modules/documentGeneration/contractGeneration/generateContract';
+import { ContractGenerationArgs } from './modules/documentGeneration/contractGeneration/generateContractMarkdown';
+import InvoicePdfGenerator from './modules/documentGeneration/invoiceGeneration/invoicePdf';
+import { GenerateRentIncreasePdfArgs } from './modules/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
+import { generateRentIncreasePdf } from './modules/documentGeneration/rentIncrease/generateRentIncreasePdf';
+import { exportObject } from './modules/persistence/exportObject/exportObject';
+import { importObject } from './modules/persistence/importObject/importObject';
+import uploadDocument from './modules/persistence/uploadDocument/uploadDocument';
 import {
   exportJsPdf,
-  exportObject,
-  importObject,
   openDirectoryDialog,
   openFileDialog,
 } from './utils/persistence';
 import { DocumentTarget } from './utils/persistence/documentTarget';
-import uploadDocument from './utils/persistence/uploadDocument';
 import Invoice from '_/models/invoice/invoice';
 import Imported from '_/types/Imported';
 
@@ -65,5 +65,8 @@ export default function addIpcHandlers(): void {
     (_, uploadedFile: string, fileName: string, target: DocumentTarget) => uploadDocument(uploadedFile, fileName, target),
   );
 
-  ipcMain.handle(ipcCommands.generateRentIncreasePdf, (_, args: GenerateRentIncreasePdfArgs) => generateRentIncreasePdf(args));
+  ipcMain.handle(
+    ipcCommands.generateRentIncreasePdf,
+    (_, args: GenerateRentIncreasePdfArgs) => generateRentIncreasePdf(args),
+  );
 }

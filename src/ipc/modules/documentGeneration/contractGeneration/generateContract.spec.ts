@@ -2,14 +2,14 @@ import { rm } from 'fs/promises';
 import path from 'path';
 import { mdToPdfFile } from 'electron-md-to-pdf';
 import { v4 } from 'uuid';
-import {
-  getAssetDirectory,
-  getTmpDirectory,
-} from '../../persistence/getAppDataDirectory';
-import uploadDocument from '../../persistence/uploadDocument';
 import generateContract from './generateContract';
-import { ContractGenerationArgs, generateContractMarkdown } from './generateContractMarkdown';
+import {
+  ContractGenerationArgs,
+  generateContractMarkdown,
+} from './generateContractMarkdown';
 import MonthYear from '_/extensions/date/month_year.extension';
+import * as uploadDocumentModule from '_/ipc/modules/persistence/uploadDocument/uploadDocument';
+import * as getAppDataDirectoryModule from '_/ipc/utils/persistence/getAppDataDirectory';
 import LandlordBuilder from '_/test/builders/landlord.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
@@ -29,16 +29,6 @@ jest.mock('uuid', () => ({
 
 jest.mock('fs/promises', () => ({
   rm: jest.fn(),
-}));
-
-jest.mock('../../persistence/getAppDataDirectory', () => ({
-  getTmpDirectory: jest.fn(),
-  getAssetDirectory: jest.fn(),
-}));
-
-jest.mock('../../persistence/uploadDocument', () => ({
-  __esModule: true,
-  default: jest.fn(),
 }));
 
 describe('generateContract', () => {
@@ -68,10 +58,18 @@ describe('generateContract', () => {
       .mockReturnValueOnce(documentId);
 
     const tmpDir = 'tmp';
-    (getTmpDirectory as jest.Mock).mockReturnValue(tmpDir);
+    jest
+      .spyOn(getAppDataDirectoryModule, 'getTmpDirectory')
+      .mockReturnValue(tmpDir);
 
     const assetDir = 'assets';
-    (getAssetDirectory as jest.Mock).mockReturnValue(assetDir);
+    jest
+      .spyOn(getAppDataDirectoryModule, 'getAssetDirectory')
+      .mockReturnValue(assetDir);
+
+    const uploadDocumentMock = jest
+      .spyOn(uploadDocumentModule, 'default')
+      .mockReturnValue();
 
     const tmpFile = path.join(tmpDir, `${tmpId}.pdf`);
     const contractFile = `${documentId}.pdf`;
@@ -92,8 +90,8 @@ describe('generateContract', () => {
       }),
     );
 
-    expect(uploadDocument).toHaveBeenCalledTimes(1);
-    expect(uploadDocument).toHaveBeenLastCalledWith(tmpFile, contractFile, {
+    expect(uploadDocumentMock).toHaveBeenCalledTimes(1);
+    expect(uploadDocumentMock).toHaveBeenLastCalledWith(tmpFile, contractFile, {
       type: 'resident',
       residentId: resident.id,
     });
