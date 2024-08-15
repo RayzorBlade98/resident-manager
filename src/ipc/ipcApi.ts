@@ -2,6 +2,7 @@
 import { ipcRenderer } from 'electron';
 import ipcCommands from './ipcCommands';
 import { ContractGenerationArgs } from './utils/documentGeneration/contractGeneration/generateContractMarkdown';
+import { GenerateRentIncreasePdfArgs } from './utils/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
 import { DocumentTarget } from './utils/persistence/documentTarget';
 import Invoice from '_/models/invoice/invoice';
 
@@ -73,6 +74,15 @@ const ipcAPI = {
      */
     generateContractPdf: (args: ContractGenerationArgs) => ipcRenderer.invoke(
       ipcCommands.generateContractPdf,
+      args,
+    ) as Promise<string>,
+
+    /**
+     * Generates the rent increase notification as pdf file
+     * @returns id of the generated document
+     */
+    generateRentIncreasePdf: (args: GenerateRentIncreasePdfArgs) => ipcRenderer.invoke(
+      ipcCommands.generateRentIncreasePdf,
       args,
     ) as Promise<string>,
   },

@@ -6,6 +6,8 @@ import ipcCommands from './ipcCommands';
 import addIpcHandlers from './ipcHandlers';
 import generateContract from './utils/documentGeneration/contractGeneration/generateContract';
 import { ContractGenerationArgs } from './utils/documentGeneration/contractGeneration/generateContractMarkdown';
+import { GenerateRentIncreasePdfArgs } from './utils/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
+import * as rentIncreaseModule from './utils/documentGeneration/rentIncrease/generateRentIncreasePdf';
 import * as persistenceModule from './utils/persistence';
 import { DocumentTarget } from './utils/persistence/documentTarget';
 import * as uploadDocumentModule from './utils/persistence/uploadDocument';
@@ -192,5 +194,21 @@ describe('addIpcHandlers', () => {
       fileName,
       target,
     );
+  });
+
+  test('generateRentIncreasePdf should be handled correctly', async () => {
+    // Arrange
+    const generateRentIncreasePdfMock = jest
+      .spyOn(rentIncreaseModule, 'generateRentIncreasePdf')
+      .mockReturnValue();
+
+    const args: GenerateRentIncreasePdfArgs = {};
+
+    // Act
+    await ipcRenderer.invoke(ipcCommands.generateRentIncreasePdf, args);
+
+    // Act
+    expect(generateRentIncreasePdfMock).toHaveBeenCalledTimes(1);
+    expect(generateRentIncreasePdfMock).toHaveBeenLastCalledWith(args);
   });
 });

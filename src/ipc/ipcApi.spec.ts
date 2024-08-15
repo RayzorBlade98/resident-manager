@@ -120,6 +120,20 @@ describe('ipcAPI', () => {
         args,
       );
     });
+
+    test('generateRentIncreasePdf should invoke generateContractPdf event', async () => {
+      // Arrange
+      const args = {};
+
+      // Act
+      await ipcAPI.documentGeneration.generateRentIncreasePdf(args);
+
+      // Assert
+      expect(invokeSpy).toHaveBeenLastCalledWith(
+        ipcCommands.generateRentIncreasePdf,
+        args,
+      );
+    });
   });
 
   describe('fileSystem', () => {

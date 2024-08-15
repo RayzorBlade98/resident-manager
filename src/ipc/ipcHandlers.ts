@@ -5,6 +5,8 @@ import ipcCommands from './ipcCommands';
 import generateContract from './utils/documentGeneration/contractGeneration/generateContract';
 import { ContractGenerationArgs } from './utils/documentGeneration/contractGeneration/generateContractMarkdown';
 import InvoicePdfGenerator from './utils/documentGeneration/invoiceGeneration/invoicePdf';
+import { GenerateRentIncreasePdfArgs } from './utils/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
+import { generateRentIncreasePdf } from './utils/documentGeneration/rentIncrease/generateRentIncreasePdf';
 import {
   exportJsPdf,
   exportObject,
@@ -62,4 +64,6 @@ export default function addIpcHandlers(): void {
     ipcCommands.uploadDocument,
     (_, uploadedFile: string, fileName: string, target: DocumentTarget) => uploadDocument(uploadedFile, fileName, target),
   );
+
+  ipcMain.handle(ipcCommands.generateRentIncreasePdf, (_, args: GenerateRentIncreasePdfArgs) => generateRentIncreasePdf(args));
 }
