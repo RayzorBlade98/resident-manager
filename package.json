@@ -50,7 +50,8 @@
         "from": "src/assets",
         "to": "assets",
         "filter": [
-          "**/contract/style.css"
+          "**/contract/style.css",
+          "**/rentIncrease/style.css"
         ]
       }
     ]

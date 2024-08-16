@@ -3,9 +3,14 @@
  */
 export enum DocumentType {
   /**
-   * document type representing a contract
+   * Document type representing a contract
    */
   Contract = 'Vertrag',
+
+  /**
+   * Document type representing a rent increase notification
+   */
+  RentIncrease = 'Mieterhöhung',
 }
 
 /**

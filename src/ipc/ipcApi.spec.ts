@@ -123,7 +123,8 @@ describe('ipcAPI', () => {
 
     test('generateRentIncreasePdf should invoke generateContractPdf event', async () => {
       // Arrange
-      const args = {};
+      const resident = new ResidentBuilder().build();
+      const args = { resident };
 
       // Act
       await ipcAPI.documentGeneration.generateRentIncreasePdf(args);

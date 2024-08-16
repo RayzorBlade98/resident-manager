@@ -67,6 +67,6 @@ export default function addIpcHandlers(): void {
 
   ipcMain.handle(
     ipcCommands.generateRentIncreasePdf,
-    (_, args: GenerateRentIncreasePdfArgs) => generateRentIncreasePdf(args),
+    (_, args: Imported<GenerateRentIncreasePdfArgs>) => generateRentIncreasePdf(args),
   );
 }

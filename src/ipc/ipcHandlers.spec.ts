@@ -7,7 +7,7 @@ import addIpcHandlers from './ipcHandlers';
 import generateContract from './modules/documentGeneration/contractGeneration/generateContract';
 import { ContractGenerationArgs } from './modules/documentGeneration/contractGeneration/generateContractMarkdown';
 import { GenerateRentIncreasePdfArgs } from './modules/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
-import * as rentIncreaseModule from './modules/documentGeneration/rentIncrease/generateRentIncreasePdf';
+import { generateRentIncreasePdf } from './modules/documentGeneration/rentIncrease/generateRentIncreasePdf';
 import * as exportObjectModule from './modules/persistence/exportObject/exportObject';
 import * as importObjectModule from './modules/persistence/importObject/importObject';
 import * as uploadDocumentModule from './modules/persistence/uploadDocument/uploadDocument';
@@ -26,6 +26,13 @@ jest.mock(
   () => ({
     __esModule: true,
     default: jest.fn(),
+  }),
+);
+
+jest.mock(
+  './modules/documentGeneration/rentIncrease/generateRentIncreasePdf',
+  () => ({
+    generateRentIncreasePdf: jest.fn(),
   }),
 );
 
@@ -203,17 +210,19 @@ describe('addIpcHandlers', () => {
 
   test('generateRentIncreasePdf should be handled correctly', async () => {
     // Arrange
-    const generateRentIncreasePdfMock = jest
-      .spyOn(rentIncreaseModule, 'generateRentIncreasePdf')
-      .mockReturnValue();
+    const documentId = 'rent increase id';
+    (generateRentIncreasePdf as jest.Mock).mockResolvedValue(documentId);
 
-    const args: GenerateRentIncreasePdfArgs = {};
-
-    // Act
-    await ipcRenderer.invoke(ipcCommands.generateRentIncreasePdf, args);
+    const resident = new ResidentBuilder().build();
+    const args: GenerateRentIncreasePdfArgs = { resident };
 
     // Act
-    expect(generateRentIncreasePdfMock).toHaveBeenCalledTimes(1);
-    expect(generateRentIncreasePdfMock).toHaveBeenLastCalledWith(args);
+    const actualDocumentId = await ipcRenderer.invoke(ipcCommands.generateRentIncreasePdf, args);
+
+    // Act
+    expect(generateRentIncreasePdf).toHaveBeenCalledTimes(1);
+    expect(generateRentIncreasePdf).toHaveBeenLastCalledWith(args);
+
+    expect(actualDocumentId).toEqual(documentId);
   });
 });

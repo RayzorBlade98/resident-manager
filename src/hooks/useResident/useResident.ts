@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { CurrencyInCents } from '../../utils/currency/currency.utils';
 import RentInformationUtils from '../../utils/rent/rent.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { LinkedDocument } from '_/models/resident/document';
+import { DocumentType, LinkedDocument } from '_/models/resident/document';
 import { ResidentHistoryElement } from '_/models/resident/history';
 import { Resident } from '_/models/resident/resident';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
@@ -62,11 +62,25 @@ function useResident(residentId: string) {
     [applyChangesToResident],
   );
 
+  const addDocument = useCallback(
+    (document: LinkedDocument) => {
+      applyChangesToResident((r) => ({
+        ...r,
+        documents: [...r.documents, document],
+      }));
+    },
+    [applyChangesToResident],
+  );
+
   const increaseRent = useCallback(
-    (rentIncrease: {
+    async (rentIncrease: {
       newRent: CurrencyInCents;
       monthForIncrease: MonthYear;
     }) => {
+      if (!resident) {
+        return;
+      }
+
       applyChangesToResident((r) => ({
         ...r,
         rentInformation: RentInformationUtils.addUntilMonth(
@@ -79,18 +93,17 @@ function useResident(residentId: string) {
           }
           : rentInfo)),
       }));
+      const documentId = await window.ipcAPI.documentGeneration.generateRentIncreasePdf({
+        resident,
+      });
+      addDocument({
+        id: documentId,
+        type: DocumentType.RentIncrease,
+        name: `Mieterhöhung ${rentIncrease.monthForIncrease.toString()}`,
+        date: rentIncrease.monthForIncrease,
+      });
     },
-    [applyChangesToResident],
-  );
-
-  const addDocument = useCallback(
-    (document: LinkedDocument) => {
-      applyChangesToResident((r) => ({
-        ...r,
-        documents: [...r.documents, document],
-      }));
-    },
-    [applyChangesToResident],
+    [applyChangesToResident, resident, addDocument],
   );
 
   const extendRentInformation = useCallback(
