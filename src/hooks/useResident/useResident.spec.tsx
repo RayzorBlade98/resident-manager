@@ -7,10 +7,12 @@ import useResident from './useResident';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { DocumentType } from '_/models/resident/document';
 import { Resident } from '_/models/resident/resident';
+import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import LinkedDocumentBuilder from '_/test/builders/linkedDocument.builder';
 import NameBuilder from '_/test/builders/name.builder';
+import PropertyBuilder from '_/test/builders/property.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
@@ -63,6 +65,8 @@ describe('useResident', () => {
     )
     .build());
   const selectedResident = residents[1];
+
+  const property = new PropertyBuilder().build();
 
   describe('residents', () => {
     test('should return right resident', () => {
@@ -166,7 +170,11 @@ describe('useResident', () => {
         () => useInitializedRecoilState({
           state: residentState,
           stateValue: residents,
-          hook: () => useResident(selectedResident.id),
+          hook: () => useInitializedRecoilState({
+            state: propertyState,
+            stateValue: property,
+            hook: () => useResident(selectedResident.id),
+          }),
         }),
         {
           wrapper: RecoilRoot,
@@ -181,7 +189,9 @@ describe('useResident', () => {
       // Assert
       expect(mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf).toHaveBeenCalledTimes(1);
       expect(mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf).toHaveBeenLastCalledWith({
+        ...rentIncrease,
         resident: selectedResident,
+        property,
       });
 
       expect(result.current.resident).toEqual({

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { useCallback, useMemo } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { CurrencyInCents } from '../../utils/currency/currency.utils';
 import RentInformationUtils from '../../utils/rent/rent.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -8,6 +8,7 @@ import { DocumentType, LinkedDocument } from '_/models/resident/document';
 import { ResidentHistoryElement } from '_/models/resident/history';
 import { Resident } from '_/models/resident/resident';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
+import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 
 type EditResidentArgs = {
@@ -23,6 +24,7 @@ type EditResidentArgs = {
  */
 function useResident(residentId: string) {
   const [residents, setResidents] = useRecoilState(residentState);
+  const property = useRecoilValue(propertyState);
   const resident = useMemo(
     () => residents.find((r) => r.id === residentId),
     [residentId, residents],
@@ -77,6 +79,7 @@ function useResident(residentId: string) {
       newRent: CurrencyInCents;
       monthForIncrease: MonthYear;
     }) => {
+      /* istanbul ignore next */
       if (!resident) {
         return;
       }
@@ -94,7 +97,9 @@ function useResident(residentId: string) {
           : rentInfo)),
       }));
       const documentId = await window.ipcAPI.documentGeneration.generateRentIncreasePdf({
+        ...rentIncrease,
         resident,
+        property,
       });
       addDocument({
         id: documentId,
@@ -103,7 +108,7 @@ function useResident(residentId: string) {
         date: rentIncrease.monthForIncrease,
       });
     },
-    [applyChangesToResident, resident, addDocument],
+    [applyChangesToResident, resident, addDocument, property],
   );
 
   const extendRentInformation = useCallback(

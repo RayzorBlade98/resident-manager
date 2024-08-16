@@ -214,7 +214,12 @@ describe('addIpcHandlers', () => {
     (generateRentIncreasePdf as jest.Mock).mockResolvedValue(documentId);
 
     const resident = new ResidentBuilder().build();
-    const args: GenerateRentIncreasePdfArgs = { resident };
+    const property = new PropertyBuilder().build();
+    const newRent = 100;
+    const monthForIncrease = new MonthYear(9, 2024);
+    const args: GenerateRentIncreasePdfArgs = {
+      resident, newRent, monthForIncrease, property,
+    };
 
     // Act
     const actualDocumentId = await ipcRenderer.invoke(ipcCommands.generateRentIncreasePdf, args);

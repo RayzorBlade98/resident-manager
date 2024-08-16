@@ -2,8 +2,10 @@ import path from 'path';
 import { GenerateRentIncreasePdfArgs } from './GenerateRentIncreasePdfArgs';
 import { generateRentIncreaseMarkdown } from './generateRentIncreaseMarkdown';
 import { generateRentIncreasePdf } from './generateRentIncreasePdf';
+import MonthYear from '_/extensions/date/month_year.extension';
 import * as getAppDataDirectoryModule from '_/ipc/utils/persistence/getAppDataDirectory';
 import { uploadMarkdownAsPdf } from '_/ipc/utils/persistence/uploadMarkdownAsPdf/uploadMarkdownAsPdf';
+import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import Imported from '_/types/Imported';
 
@@ -27,8 +29,11 @@ describe('generateRentIncreasePdf', () => {
     );
 
     const resident = new ResidentBuilder().build();
+    const property = new PropertyBuilder().build();
+    const newRent = 100;
+    const monthForIncrease = new MonthYear(9, 2024);
     const args: GenerateRentIncreasePdfArgs = {
-      resident,
+      resident, newRent, monthForIncrease, property,
     };
     const importedArgs = JSON.parse(
       JSON.stringify(args),

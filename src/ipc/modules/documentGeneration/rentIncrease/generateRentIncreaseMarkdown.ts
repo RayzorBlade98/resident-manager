@@ -1,8 +1,11 @@
+import { convertCurrencyCentsToString, CurrencyInCents } from '../../../../utils/currency/currency.utils';
+import { convertImportedProperty, convertImportedResident } from '../../../../utils/persistence/converters';
 import { GenerateRentIncreasePdfArgs } from './GenerateRentIncreasePdfArgs';
 import rentIncreaseTemplate from '_/assets/rentIncrease/rentIncreaseTemplate.md';
+import MonthYear from '_/extensions/date/month_year.extension';
+import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
 import Imported from '_/types/Imported';
-import { convertImportedResident } from '_/utils/persistence/converters';
 
 export function generateRentIncreaseMarkdown(
   args: Imported<GenerateRentIncreasePdfArgs>,
@@ -10,15 +13,31 @@ export function generateRentIncreaseMarkdown(
   return new RentIncreaseGenerator(args).generateRentIncrease();
 }
 
-const placeholderLabels: Record<string, string> = {};
+const placeholderLabels = {
+  rentIncreasePercentage: 'RENT_INCREASE_PERCENTAGE',
+  rentIncreaseMonth: 'RENT_INCREASE_MONTH',
+  newRentTotal: 'NEW_RENT_TOTAL',
+  incidentals: 'INCIDENTALS',
+  newRentCold: 'NEW_RENT_COLD',
+  city: 'CITY',
+} satisfies Record<string, string>;
 
 class RentIncreaseGenerator {
   private rentIncreaseMarkdown = '';
 
   private readonly resident: Resident;
 
+  private readonly property: Property;
+
+  private readonly newRent: CurrencyInCents;
+
+  private readonly monthForIncrease: MonthYear;
+
   constructor(args: Imported<GenerateRentIncreasePdfArgs>) {
     this.resident = convertImportedResident(args.resident);
+    this.property = convertImportedProperty(args.property);
+    this.newRent = args.newRent;
+    this.monthForIncrease = MonthYear.fromString(args.monthForIncrease);
   }
 
   public generateRentIncrease(): string {
@@ -30,8 +49,24 @@ class RentIncreaseGenerator {
   }
 
   private replaceAllBasicPlaceholders() {
-    const replacements = {
+    const lastRentInformation = this.resident.rentInformation.find((r) => r.dueDate <= this.monthForIncrease);
 
+    if (!lastRentInformation) {
+      throw new Error(
+        `Missing rent information for month before ${this.monthForIncrease.toString()}`,
+      );
+    }
+
+    const rentIncreasePercentage = (this.newRent - lastRentInformation.rent) / lastRentInformation.rent;
+    const newRentTotal = this.newRent + lastRentInformation.incidentals;
+
+    const replacements = {
+      [placeholderLabels.rentIncreasePercentage]: (rentIncreasePercentage * 100).toFixed(2),
+      [placeholderLabels.rentIncreaseMonth]: this.monthForIncrease.toPreferredString(),
+      [placeholderLabels.newRentTotal]: convertCurrencyCentsToString(newRentTotal),
+      [placeholderLabels.incidentals]: convertCurrencyCentsToString(lastRentInformation.incidentals),
+      [placeholderLabels.newRentCold]: convertCurrencyCentsToString(this.newRent),
+      [placeholderLabels.city]: this.property.address.city,
     };
 
     this.replaceAllPlaceholders(replacements);
