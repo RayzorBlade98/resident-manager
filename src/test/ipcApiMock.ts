@@ -16,6 +16,7 @@ export const mockedIpcAPIFunctions: DeepMock<typeof window.ipcAPI> = {
   documentGeneration: {
     generateInvoicePdfs: jest.fn(),
     generateContractPdf: jest.fn(),
+    generateRentIncreasePdf: jest.fn(),
   },
   fileSystem: {
     selectFile: jest.fn(),
