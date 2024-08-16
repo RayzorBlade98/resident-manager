@@ -1,45 +1,29 @@
-import { rm } from 'fs/promises';
 import path from 'path';
-import { mdToPdfFile } from 'electron-md-to-pdf';
-import { v4 as uuid } from 'uuid';
 import {
   ContractGenerationArgs,
   generateContractMarkdown,
 } from './generateContractMarkdown';
-import uploadDocument from '_/ipc/modules/persistence/uploadDocument/uploadDocument';
-import {
-  getAssetDirectory,
-  getTmpDirectory,
-} from '_/ipc/utils/persistence/getAppDataDirectory';
+import { getAssetDirectory } from '_/ipc/utils/persistence/getAppDataDirectory';
+import { uploadMarkdownAsPdf } from '_/ipc/utils/persistence/uploadMarkdownAsPdf/uploadMarkdownAsPdf';
 import Imported from '_/types/Imported';
 
+/**
+ * Generates the contract with the provided arguments and uploads it to the app data
+ * @returns id of the generated document
+ */
 async function generateContract(
   args: Imported<ContractGenerationArgs>,
 ): Promise<string> {
-  const contract = generateContractMarkdown(args);
-
-  const tmpFile = path.join(getTmpDirectory(), getRandomPdfFile().fileName);
-  await mdToPdfFile(contract, tmpFile, {
-    cssFiles: [path.join(getAssetDirectory(), 'contract/style.css')],
-    showdownOptions: {
-      simplifiedAutoLink: false,
+  return uploadMarkdownAsPdf({
+    markdownContent: generateContractMarkdown(args),
+    target: {
+      type: 'resident',
+      residentId: args.resident.id,
+    },
+    mdToPdfOptions: {
+      cssFiles: [path.join(getAssetDirectory(), 'contract/style.css')],
     },
   });
-
-  const { documentId, fileName } = getRandomPdfFile();
-  uploadDocument(tmpFile, fileName, {
-    type: 'resident',
-    residentId: args.resident.id,
-  });
-  await rm(tmpFile);
-
-  return documentId;
-}
-
-function getRandomPdfFile() {
-  const documentId = uuid();
-  const fileName = `${documentId}.pdf`;
-  return { documentId, fileName };
 }
 
 export default generateContract;
