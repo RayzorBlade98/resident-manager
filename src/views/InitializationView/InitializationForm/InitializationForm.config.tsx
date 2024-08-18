@@ -1,6 +1,6 @@
 import HomeIcon from '@mui/icons-material/Home';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import PersonIcon from '@mui/icons-material/Person';
-import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import React from 'react';
 import { ValidationConstraint } from '../../../utils/validation/constraints';
 import Validator from '../../../utils/validation/validator';
@@ -115,7 +115,7 @@ export interface InitializationInput {
 /**
  * All groups of the form
  */
-export type InitializationGroups = 'property' | 'landlord' | 'waterCosts';
+export type InitializationGroups = 'property' | 'landlord' | 'other';
 
 /**
  * Config of the initialization form
@@ -188,9 +188,9 @@ InitializationGroups
       cityProperty: 'property',
       streetProperty: 'property',
       houseNumberProperty: 'property',
-      waterUsageCost: 'waterCosts',
-      sewageCost: 'waterCosts',
-      rentIndexUrl: 'waterCosts',
+      waterUsageCost: 'other',
+      sewageCost: 'other',
+      rentIndexUrl: 'other',
     },
     groupConfigs: {
       property: {
@@ -207,10 +207,10 @@ InitializationGroups
           iconPosition: 'start',
         },
       },
-      waterCosts: {
-        label: 'Wasserkosten',
+      other: {
+        label: 'Sonstiges',
         icon: {
-          component: <WaterDropIcon />,
+          component: <MiscellaneousServicesIcon />,
           iconPosition: 'start',
         },
       },

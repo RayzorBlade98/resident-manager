@@ -324,14 +324,15 @@ function InitializationForm() {
                 </Grid>
               </Grid>
             </containers.landlord>
-            <containers.waterCosts>
+            <containers.other>
+              <h3>Wasserkosten</h3>
               <Grid
                 container
                 columnSpacing={2}
                 rowSpacing={2}
                 sx={styles.container}
               >
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <CurrencyInputField
                     required
                     id="waterUsageCost"
@@ -341,7 +342,7 @@ function InitializationForm() {
                     errorMessage={formErrors.waterUsageCost}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <CurrencyInputField
                     required
                     id="sewageCost"
@@ -351,6 +352,14 @@ function InitializationForm() {
                     errorMessage={formErrors.sewageCost}
                   />
                 </Grid>
+              </Grid>
+              <h3>Mieterhöhung</h3>
+              <Grid
+                container
+                columnSpacing={2}
+                rowSpacing={2}
+                sx={styles.container}
+              >
                 <Grid item xs={6}>
                   <TextInputField
                     required
@@ -362,7 +371,7 @@ function InitializationForm() {
                   />
                 </Grid>
               </Grid>
-            </containers.waterCosts>
+            </containers.other>
           </>
         )}
       </GroupedForm>
