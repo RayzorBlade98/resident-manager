@@ -27,6 +27,11 @@ class PropertyBuilder {
     return this;
   }
 
+  public withRentIndexUrl(rentIndexUrl: string): PropertyBuilder {
+    this.property.rentIndexUrl = rentIndexUrl;
+    return this;
+  }
+
   public addApartment(apartment: Apartment): PropertyBuilder {
     this.property.apartments.push(apartment);
     return this;

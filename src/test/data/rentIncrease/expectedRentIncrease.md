@@ -5,3 +5,4 @@ Incidentals = 10.00 €
 Rent Increase Month = 01.10.2024
 
 City = RentCity
+Rent Index Link = example.org/rentIncrease

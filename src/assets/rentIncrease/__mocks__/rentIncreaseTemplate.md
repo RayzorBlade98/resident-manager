@@ -5,3 +5,4 @@ Incidentals = {{INCIDENTALS}}
 Rent Increase Month = {{RENT_INCREASE_MONTH}}
 
 City = {{CITY}}
+Rent Index Link = {{RENT_INDEX_URL}}

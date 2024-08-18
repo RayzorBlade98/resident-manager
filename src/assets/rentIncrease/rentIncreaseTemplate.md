@@ -8,7 +8,7 @@ Die neue Kaltmiete ist nach §558b BGB mit Beginn des dritten Kalendermonats ab 
 
 Die Miete nach der Erhöhung beträgt für Sie {{NEW_RENT_TOTAL}} und setzt sich aus {{NEW_RENT_COLD}} Kaltmiete und {{INCIDENTALS}} Nebenkosten zusammen.
 
-Den aktuellen Mietspiegel von {{CITY}} finden sie unter {{RENT_INDEX_LINK}}. Ihm können Sie entnehmen, dass der zukünftige Mietpreis innerhalb der vorgegebenen Preisspanne liegt.
+Den aktuellen Mietspiegel von {{CITY}} finden sie unter {{RENT_INDEX_URL}}. Ihm können Sie entnehmen, dass der zukünftige Mietpreis innerhalb der vorgegebenen Preisspanne liegt.
 
 Bitte erteilen Sie Ihre Zustimmung zu diesem Mieterhöhungsverlangen mittels der beigefügten Zustimmungserklärung bis spätestens zum {{CONFIRMATION_MONTH}}. Ich weise Sie darauf hin, dass Ihr Schweigen als Ablehnung gilt.
 

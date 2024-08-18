@@ -20,6 +20,7 @@ const placeholderLabels = {
   incidentals: 'INCIDENTALS',
   newRentCold: 'NEW_RENT_COLD',
   city: 'CITY',
+  rentIndexLink: 'RENT_INDEX_LINK',
 } satisfies Record<string, string>;
 
 class RentIncreaseGenerator {
@@ -67,6 +68,7 @@ class RentIncreaseGenerator {
       [placeholderLabels.incidentals]: convertCurrencyCentsToString(lastRentInformation.incidentals),
       [placeholderLabels.newRentCold]: convertCurrencyCentsToString(this.newRent),
       [placeholderLabels.city]: this.property.address.city,
+      [placeholderLabels.rentIndexLink]: this.property.rentIndexUrl,
     };
 
     this.replaceAllPlaceholders(replacements);

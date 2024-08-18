@@ -23,16 +23,16 @@ describe('generateRentIncreaseMarkdown', () => {
       )
       .build();
     const property = new PropertyBuilder()
-      .withAdress(
-        new AddressBuilder()
-          .withCity('RentCity')
-          .build(),
-      )
+      .withAdress(new AddressBuilder().withCity('RentCity').build())
+      .withRentIndexUrl('example.org/rentIncrease')
       .build();
     const newRent = 11500;
     const monthForIncrease = new MonthYear(9, 2024);
     const args: GenerateRentIncreasePdfArgs = {
-      resident, newRent, monthForIncrease, property,
+      resident,
+      newRent,
+      monthForIncrease,
+      property,
     };
 
     // Act
