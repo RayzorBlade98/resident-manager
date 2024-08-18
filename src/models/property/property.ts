@@ -30,6 +30,11 @@ interface Property {
    * Url to the official rent index website of the city
    */
   rentIndexUrl: string;
+
+  /**
+   * Capping limit of the rent increase in %
+   */
+  cappingLimit: number;
 }
 
 export default Property;

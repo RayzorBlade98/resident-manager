@@ -44,6 +44,7 @@ const baseConfig = {
     'no-await-in-loop': 'off',
     'no-case-declarations': 'off',
     'import/prefer-default-export': 'off',
+    'react/jsx-no-duplicate-props': ['error', { ignoreCase: false }],
   },
 };
 

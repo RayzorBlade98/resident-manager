@@ -65,7 +65,7 @@ function IncreaseRentModal(props: IncreaseRentModalProps) {
     },
     submitButtonLabel: 'Bestätigen',
     onSubmitSuccess: (values) => {
-      increaseRent({
+      void increaseRent({
         newRent: values.newRent,
         monthForIncrease: values.firstMonth,
       });

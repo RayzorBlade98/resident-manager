@@ -45,6 +45,7 @@ describe('InitializationForm', () => {
     waterUsageCost: 1000,
     sewageCost: 500,
     rentIndexUrl: 'example.org/rentIndex',
+    cappingLimit: 20,
   };
 
   const invalidInputValues = {
@@ -68,6 +69,7 @@ describe('InitializationForm', () => {
     waterUsageCost: undefined,
     sewageCost: undefined,
     rentIndexUrl: '',
+    cappingLimit: undefined,
   };
 
   function inputToForm(inputValues: {
@@ -90,6 +92,7 @@ describe('InitializationForm', () => {
     waterUsageCost: number | undefined;
     sewageCost: number | undefined;
     rentIndexUrl: string;
+    cappingLimit: number | undefined;
   }) {
     function input(element: Element | null, value: string | undefined) {
       if (!element) {
@@ -187,6 +190,10 @@ describe('InitializationForm', () => {
       input(
         baseElement.querySelector('#rentIndexUrl'),
         inputValues.rentIndexUrl,
+      );
+      input(
+        baseElement.querySelector('#cappingLimit'),
+        inputValues.cappingLimit?.toString(),
       );
     });
   }
@@ -298,6 +305,7 @@ describe('InitializationForm', () => {
       apartments: [],
       parkingSpaces: [],
       rentIndexUrl: validInputValues.rentIndexUrl,
+      cappingLimit: validInputValues.cappingLimit,
     };
 
     const expectedWaterCosts: WaterCostsState = {

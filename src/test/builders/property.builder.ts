@@ -14,6 +14,7 @@ class PropertyBuilder {
       apartments: [],
       parkingSpaces: [],
       rentIndexUrl: 'example.org/rentIndex',
+      cappingLimit: 20,
     };
   }
 

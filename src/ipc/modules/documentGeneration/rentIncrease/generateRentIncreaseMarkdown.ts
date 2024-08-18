@@ -20,7 +20,7 @@ const placeholderLabels = {
   incidentals: 'INCIDENTALS',
   newRentCold: 'NEW_RENT_COLD',
   city: 'CITY',
-  rentIndexLink: 'RENT_INDEX_LINK',
+  rentIndexLink: 'RENT_INDEX_URL',
 } satisfies Record<string, string>;
 
 class RentIncreaseGenerator {

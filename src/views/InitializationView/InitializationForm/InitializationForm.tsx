@@ -69,6 +69,7 @@ function InitializationForm() {
         apartments: [],
         parkingSpaces: [],
         rentIndexUrl: values.rentIndexUrl,
+        cappingLimit: values.cappingLimit,
       });
       setWaterCostState({
         waterUsageCosts: [
@@ -368,6 +369,20 @@ function InitializationForm() {
                     value={formInput.rentIndexUrl}
                     onChange={formInputSetters.rentIndexUrl}
                     errorMessage={formErrors.rentIndexUrl}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <NumberTextField
+                    required
+                    id="cappingLimit"
+                    label="Kappungsgrenze"
+                    value={formInput.cappingLimit}
+                    onChange={formInputSetters.cappingLimit}
+                    errorMessage={formErrors.cappingLimit}
+                    unit="%"
+                    min={1}
+                    max={20}
+                    onlyInteger
                   />
                 </Grid>
               </Grid>

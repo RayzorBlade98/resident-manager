@@ -392,6 +392,7 @@ describe('convertImportedProperty', () => {
         },
       ],
       rentIndexUrl: 'example.org/rentIndex',
+      cappingLimit: 20,
     };
     const propertyJson = JSON.parse(JSON.stringify(property));
 

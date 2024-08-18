@@ -110,6 +110,11 @@ export interface InitializationInput {
    * Url to the official rent index website of the city
    */
   rentIndexUrl: string;
+
+  /**
+   * Capping limit of the rent increase in %
+   */
+  cappingLimit: number;
 }
 
 /**
@@ -144,6 +149,7 @@ InitializationGroups
       waterUsageCost: ValidationConstraint.Currency,
       sewageCost: ValidationConstraint.Currency,
       rentIndexUrl: ValidationConstraint.NoEmptyString,
+      cappingLimit: ValidationConstraint.Defined,
     }),
     defaultFormInput: {
       companyLandlord: '',
@@ -166,6 +172,7 @@ InitializationGroups
       waterUsageCost: undefined,
       sewageCost: undefined,
       rentIndexUrl: '',
+      cappingLimit: undefined,
     },
     submitButtonLabel: 'Fertig',
   },
@@ -191,6 +198,7 @@ InitializationGroups
       waterUsageCost: 'other',
       sewageCost: 'other',
       rentIndexUrl: 'other',
+      cappingLimit: 'other',
     },
     groupConfigs: {
       property: {

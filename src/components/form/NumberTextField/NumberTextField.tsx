@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 import React from 'react';
 
 interface NumberTextFieldProps {
@@ -46,6 +46,11 @@ interface NumberTextFieldProps {
    * Whether only integer values are allowed
    */
   onlyInteger?: boolean;
+
+  /**
+   * Unit displayed at the end of the input field
+   */
+  unit?: string;
 }
 
 /**
@@ -78,6 +83,10 @@ function NumberTextField(props: NumberTextFieldProps): JSX.Element {
     props.onChange(value);
   };
 
+  const unitAdornment = props.unit ? (
+    <InputAdornment position="end">{props.unit}</InputAdornment>
+  ) : undefined;
+
   return (
     <TextField
       fullWidth
@@ -89,7 +98,13 @@ function NumberTextField(props: NumberTextFieldProps): JSX.Element {
       onChange={onChange}
       error={!!props.errorMessage}
       helperText={props.errorMessage}
-      inputProps={{ min: props.min, max: props.max }}
+      inputProps={{
+        min: props.min,
+        max: props.max,
+      }}
+      InputProps={{
+        endAdornment: unitAdornment,
+      }}
     />
   );
 }
