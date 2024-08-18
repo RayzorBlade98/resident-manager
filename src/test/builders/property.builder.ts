@@ -33,6 +33,11 @@ class PropertyBuilder {
     return this;
   }
 
+  public withCappingLimit(cappingLimit: number): PropertyBuilder {
+    this.property.cappingLimit = cappingLimit;
+    return this;
+  }
+
   public addApartment(apartment: Apartment): PropertyBuilder {
     this.property.apartments.push(apartment);
     return this;

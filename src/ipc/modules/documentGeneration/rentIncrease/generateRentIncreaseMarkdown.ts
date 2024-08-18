@@ -1,5 +1,11 @@
-import { convertCurrencyCentsToString, CurrencyInCents } from '../../../../utils/currency/currency.utils';
-import { convertImportedProperty, convertImportedResident } from '../../../../utils/persistence/converters';
+import {
+  convertCurrencyCentsToString,
+  CurrencyInCents,
+} from '../../../../utils/currency/currency.utils';
+import {
+  convertImportedProperty,
+  convertImportedResident,
+} from '../../../../utils/persistence/converters';
 import { GenerateRentIncreasePdfArgs } from './GenerateRentIncreasePdfArgs';
 import rentIncreaseTemplate from '_/assets/rentIncrease/rentIncreaseTemplate.md';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -21,6 +27,7 @@ const placeholderLabels = {
   newRentCold: 'NEW_RENT_COLD',
   city: 'CITY',
   rentIndexLink: 'RENT_INDEX_URL',
+  cappingLimit: 'CAPPING_LIMIT',
 } satisfies Record<string, string>;
 
 class RentIncreaseGenerator {
@@ -50,7 +57,9 @@ class RentIncreaseGenerator {
   }
 
   private replaceAllBasicPlaceholders() {
-    const lastRentInformation = this.resident.rentInformation.find((r) => r.dueDate <= this.monthForIncrease);
+    const lastRentInformation = this.resident.rentInformation.find(
+      (r) => r.dueDate <= this.monthForIncrease,
+    );
 
     if (!lastRentInformation) {
       throw new Error(
@@ -62,13 +71,22 @@ class RentIncreaseGenerator {
     const newRentTotal = this.newRent + lastRentInformation.incidentals;
 
     const replacements = {
-      [placeholderLabels.rentIncreasePercentage]: (rentIncreasePercentage * 100).toFixed(2),
-      [placeholderLabels.rentIncreaseMonth]: this.monthForIncrease.toPreferredString(),
-      [placeholderLabels.newRentTotal]: convertCurrencyCentsToString(newRentTotal),
-      [placeholderLabels.incidentals]: convertCurrencyCentsToString(lastRentInformation.incidentals),
-      [placeholderLabels.newRentCold]: convertCurrencyCentsToString(this.newRent),
+      [placeholderLabels.rentIncreasePercentage]: (
+        rentIncreasePercentage * 100
+      ).toFixed(2),
+      [placeholderLabels.rentIncreaseMonth]:
+        this.monthForIncrease.toPreferredString(),
+      [placeholderLabels.newRentTotal]:
+        convertCurrencyCentsToString(newRentTotal),
+      [placeholderLabels.incidentals]: convertCurrencyCentsToString(
+        lastRentInformation.incidentals,
+      ),
+      [placeholderLabels.newRentCold]: convertCurrencyCentsToString(
+        this.newRent,
+      ),
       [placeholderLabels.city]: this.property.address.city,
       [placeholderLabels.rentIndexLink]: this.property.rentIndexUrl,
+      [placeholderLabels.cappingLimit]: this.property.cappingLimit.toString(),
     };
 
     this.replaceAllPlaceholders(replacements);

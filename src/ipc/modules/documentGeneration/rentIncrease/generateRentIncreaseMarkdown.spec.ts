@@ -25,6 +25,7 @@ describe('generateRentIncreaseMarkdown', () => {
     const property = new PropertyBuilder()
       .withAdress(new AddressBuilder().withCity('RentCity').build())
       .withRentIndexUrl('example.org/rentIncrease')
+      .withCappingLimit(15)
       .build();
     const newRent = 11500;
     const monthForIncrease = new MonthYear(9, 2024);
