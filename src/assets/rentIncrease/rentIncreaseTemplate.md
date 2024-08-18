@@ -8,9 +8,20 @@ Die neue Kaltmiete ist nach §558b BGB mit Beginn des dritten Kalendermonats ab 
 
 Die Miete nach der Erhöhung beträgt für Sie {{NEW_RENT_TOTAL}} und setzt sich aus {{NEW_RENT_COLD}} Kaltmiete und {{INCIDENTALS}} Nebenkosten zusammen.
 
-Den aktuellen Mietspiegel von {{CITY}} finden sie unter {{RENT_INDEX_URL}}. Ihm können Sie entnehmen, dass der zukünftige Mietpreis innerhalb der vorgegebenen Preisspanne liegt.
+Den aktuellen Mietspiegel von {{PROPERTY_CITY}} finden sie unter {{RENT_INDEX_URL}}. Ihm können Sie entnehmen, dass der zukünftige Mietpreis innerhalb der vorgegebenen Preisspanne liegt.
 
 Bitte erteilen Sie Ihre Zustimmung zu diesem Mieterhöhungsverlangen mittels der beigefügten Zustimmungserklärung bis spätestens zum {{CONFIRMATION_DATE}}. Ich weise Sie darauf hin, dass Ihr Schweigen als Ablehnung gilt.
 
 Mit freundlichen Grüßen
 
+<div style="page-break-after: always;"></div>
+
+## Zustimmungserklärung zur Mieterhöhung
+
+Mit Schreiben vom {{CURRENT_DATE}} wurde mir/uns eine Anhebung der Nettokaltmiete über das
+Mietobjekt {{PROPERTY_ADDRESS}} angekündigt.
+
+Die neue Miete wird ab dem {{RENT_INCREASE_MONTH}} insgesamt {{NEW_RENT_TOTAL}} betragen und setzt sich aus {{NEW_RENT_COLD}} Kaltmiete und {{INCIDENTALS}} Nebenkosten zusammen.
+
+Hiermit stimme ich/stimmen wir der Mieterhöhung zu. Die neue Gesamtmiete werde ich/werden wir
+erstmals zum {{RENT_INCREASE_MONTH}} zahlen. 

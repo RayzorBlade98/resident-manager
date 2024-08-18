@@ -13,6 +13,10 @@ jest.mock('../../../../assets/rentIncrease/rentIncreaseTemplate.md');
 describe('generateRentIncreaseMarkdown', () => {
   test('should return right markdown string', () => {
     // Arrange
+    const currentDate = new Date(2024, 7, 18);
+    jest.useFakeTimers();
+    jest.setSystemTime(currentDate);
+
     const resident = new ResidentBuilder()
       .addRentInformation(
         new RentInformationBuilder()
@@ -23,7 +27,14 @@ describe('generateRentIncreaseMarkdown', () => {
       )
       .build();
     const property = new PropertyBuilder()
-      .withAdress(new AddressBuilder().withCity('RentCity').build())
+      .withAdress(
+        new AddressBuilder()
+          .withStreet('Rentstreet')
+          .withHouseNumber(5)
+          .withZipCode(12345)
+          .withCity('RentCity')
+          .build(),
+      )
       .withRentIndexUrl('example.org/rentIncrease')
       .withCappingLimit(15)
       .build();

@@ -1,4 +1,7 @@
 import {
+  convertAddressToCompleteString,
+} from '../../../../utils/address/address.utils';
+import {
   convertCurrencyCentsToString,
   CurrencyInCents,
 } from '../../../../utils/currency/currency.utils';
@@ -26,9 +29,11 @@ const placeholderLabels = {
   newRentTotal: 'NEW_RENT_TOTAL',
   incidentals: 'INCIDENTALS',
   newRentCold: 'NEW_RENT_COLD',
-  city: 'CITY',
+  city: 'PROPERTY_CITY',
   rentIndexLink: 'RENT_INDEX_URL',
   cappingLimit: 'CAPPING_LIMIT',
+  currentDate: 'CURRENT_DATE',
+  propertyAddress: 'PROPERTY_ADDRESS',
 } satisfies Record<string, string>;
 
 class RentIncreaseGenerator {
@@ -91,6 +96,10 @@ class RentIncreaseGenerator {
       [placeholderLabels.city]: this.property.address.city,
       [placeholderLabels.rentIndexLink]: this.property.rentIndexUrl,
       [placeholderLabels.cappingLimit]: this.property.cappingLimit.toString(),
+      [placeholderLabels.currentDate]: new Date().toPreferredString(),
+      [placeholderLabels.propertyAddress]: convertAddressToCompleteString(
+        this.property.address,
+      ),
     };
 
     this.replaceAllPlaceholders(replacements);

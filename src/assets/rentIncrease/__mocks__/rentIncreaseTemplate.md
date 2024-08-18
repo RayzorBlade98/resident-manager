@@ -6,5 +6,7 @@ Rent Increase Month = {{RENT_INCREASE_MONTH}}
 Confiramtion Date = {{CONFIRMATION_DATE}}
 Capping Limit = {{CAPPING_LIMIT}}
 
-City = {{CITY}}
+Propery City = {{PROPERTY_CITY}}
+Property Address = {{PROPERTY_ADDRESS}}
+Current Date = {{CURRENT_DATE}}
 Rent Index Link = {{RENT_INDEX_URL}}

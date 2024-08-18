@@ -1,5 +1,6 @@
 import {
   convertAddressToCityString,
+  convertAddressToCompleteString,
   convertAddressToStreetString,
 } from './address.utils';
 import AddressBuilder from '_/test/builders/address.builder';
@@ -33,5 +34,23 @@ describe('convertAddressToStreetString', () => {
 
     // Assert
     expect(converted).toBe('Teststreet 42');
+  });
+});
+
+describe('convertAddressToCompleteString', () => {
+  test('should convert address correctly', () => {
+    // Arrange
+    const address = new AddressBuilder()
+      .withStreet('Teststreet')
+      .withHouseNumber(42)
+      .withZipCode(54321)
+      .withCity('Testcity')
+      .build();
+
+    // Act
+    const converted = convertAddressToCompleteString(address);
+
+    // Assert
+    expect(converted).toBe('Teststreet 42, 54321 Testcity');
   });
 });

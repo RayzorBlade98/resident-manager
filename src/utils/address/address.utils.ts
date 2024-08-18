@@ -17,3 +17,12 @@ export function convertAddressToCityString(address: Address): string {
 export function convertAddressToStreetString(address: Address): string {
   return `${address.street} ${address.houseNumber}`;
 }
+
+/**
+ * Converts an address to a formatted string
+ * @param address address that should be converted
+ * @returns formatted string with the format `street houseNumber,zipCode city`
+ */
+export function convertAddressToCompleteString(address: Address): string {
+  return `${convertAddressToStreetString(address)}, ${convertAddressToCityString(address)}`;
+}
