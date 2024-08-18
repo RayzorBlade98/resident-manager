@@ -10,6 +10,7 @@ import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInp
 import GroupedForm from '_/components/form/GroupedForm/GroupedForm';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 import SalutationSelect from '_/components/form/SalutationSelect/SalutationSelect';
+import TextInputField from '_/components/form/TextInputField/TextInputField';
 import MonthYear from '_/extensions/date/month_year.extension';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import { Salutation } from '_/models/name';
@@ -67,6 +68,7 @@ function InitializationForm() {
         },
         apartments: [],
         parkingSpaces: [],
+        rentIndexUrl: values.rentIndexUrl,
       });
       setWaterCostState({
         waterUsageCosts: [
@@ -347,6 +349,16 @@ function InitializationForm() {
                     value={formInput.sewageCost}
                     onChange={formInputSetters.sewageCost}
                     errorMessage={formErrors.sewageCost}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextInputField
+                    required
+                    id="rentIndexUrl"
+                    label="Mietspiegel Url"
+                    value={formInput.rentIndexUrl}
+                    onChange={formInputSetters.rentIndexUrl}
+                    errorMessage={formErrors.rentIndexUrl}
                   />
                 </Grid>
               </Grid>

@@ -105,6 +105,11 @@ export interface InitializationInput {
    * Current cost of the sewage
    */
   sewageCost: number;
+
+  /**
+   * Url to the official rent index website of the city
+   */
+  rentIndexUrl: string;
 }
 
 /**
@@ -138,6 +143,7 @@ InitializationGroups
       houseNumberProperty: ValidationConstraint.Defined,
       waterUsageCost: ValidationConstraint.Currency,
       sewageCost: ValidationConstraint.Currency,
+      rentIndexUrl: ValidationConstraint.NoEmptyString,
     }),
     defaultFormInput: {
       companyLandlord: '',
@@ -159,6 +165,7 @@ InitializationGroups
       houseNumberProperty: undefined,
       waterUsageCost: undefined,
       sewageCost: undefined,
+      rentIndexUrl: '',
     },
     submitButtonLabel: 'Fertig',
   },
@@ -183,6 +190,7 @@ InitializationGroups
       houseNumberProperty: 'property',
       waterUsageCost: 'waterCosts',
       sewageCost: 'waterCosts',
+      rentIndexUrl: 'waterCosts',
     },
     groupConfigs: {
       property: {

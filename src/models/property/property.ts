@@ -25,6 +25,11 @@ interface Property {
    * List of all parking spaces that are on the property
    */
   parkingSpaces: ParkingSpace[];
+
+  /**
+   * Url to the official rent index website of the city
+   */
+  rentIndexUrl: string;
 }
 
 export default Property;

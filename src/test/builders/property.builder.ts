@@ -13,6 +13,7 @@ class PropertyBuilder {
       address: new AddressBuilder().build(),
       apartments: [],
       parkingSpaces: [],
+      rentIndexUrl: 'example.org/rentIndex',
     };
   }
 
