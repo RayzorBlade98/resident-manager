@@ -22,6 +22,7 @@ export function generateRentIncreaseMarkdown(
 const placeholderLabels = {
   rentIncreasePercentage: 'RENT_INCREASE_PERCENTAGE',
   rentIncreaseMonth: 'RENT_INCREASE_MONTH',
+  confirmationDate: 'CONFIRMATION_DATE',
   newRentTotal: 'NEW_RENT_TOTAL',
   incidentals: 'INCIDENTALS',
   newRentCold: 'NEW_RENT_COLD',
@@ -76,6 +77,9 @@ class RentIncreaseGenerator {
       ).toFixed(2),
       [placeholderLabels.rentIncreaseMonth]:
         this.monthForIncrease.toPreferredString(),
+      [placeholderLabels.confirmationDate]: this.monthForIncrease
+        .addMonths(-1)
+        .toPreferredString(),
       [placeholderLabels.newRentTotal]:
         convertCurrencyCentsToString(newRentTotal),
       [placeholderLabels.incidentals]: convertCurrencyCentsToString(

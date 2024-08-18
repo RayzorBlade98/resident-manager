@@ -10,7 +10,7 @@ Die Miete nach der Erhöhung beträgt für Sie {{NEW_RENT_TOTAL}} und setzt sich
 
 Den aktuellen Mietspiegel von {{CITY}} finden sie unter {{RENT_INDEX_URL}}. Ihm können Sie entnehmen, dass der zukünftige Mietpreis innerhalb der vorgegebenen Preisspanne liegt.
 
-Bitte erteilen Sie Ihre Zustimmung zu diesem Mieterhöhungsverlangen mittels der beigefügten Zustimmungserklärung bis spätestens zum {{CONFIRMATION_MONTH}}. Ich weise Sie darauf hin, dass Ihr Schweigen als Ablehnung gilt.
+Bitte erteilen Sie Ihre Zustimmung zu diesem Mieterhöhungsverlangen mittels der beigefügten Zustimmungserklärung bis spätestens zum {{CONFIRMATION_DATE}}. Ich weise Sie darauf hin, dass Ihr Schweigen als Ablehnung gilt.
 
 Mit freundlichen Grüßen
 
