@@ -5,6 +5,7 @@ import { generateRentIncreasePdf } from './generateRentIncreasePdf';
 import MonthYear from '_/extensions/date/month_year.extension';
 import * as getAppDataDirectoryModule from '_/ipc/utils/persistence/getAppDataDirectory';
 import { uploadMarkdownAsPdf } from '_/ipc/utils/persistence/uploadMarkdownAsPdf/uploadMarkdownAsPdf';
+import LandlordBuilder from '_/test/builders/landlord.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import Imported from '_/types/Imported';
@@ -32,8 +33,13 @@ describe('generateRentIncreasePdf', () => {
     const property = new PropertyBuilder().build();
     const newRent = 100;
     const monthForIncrease = new MonthYear(9, 2024);
+    const landlord = new LandlordBuilder().build();
     const args: GenerateRentIncreasePdfArgs = {
-      resident, newRent, monthForIncrease, property,
+      resident,
+      newRent,
+      monthForIncrease,
+      property,
+      landlord,
     };
     const importedArgs = JSON.parse(
       JSON.stringify(args),
@@ -62,7 +68,7 @@ describe('generateRentIncreasePdf', () => {
         residentId: resident.id,
       },
       mdToPdfOptions: {
-        cssFiles: [path.join(assetDir, 'rentIncrease/style.css')],
+        cssFiles: [path.join(assetDir, 'templates/rentIncrease/style.css')],
       },
     });
 

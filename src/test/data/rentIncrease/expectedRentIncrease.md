@@ -10,3 +10,6 @@ Propery City = RentCity
 Property Address = Rentstreet 5, 12345 RentCity
 Current Date = 18.08.2024
 Rent Index Link = example.org/rentIncrease
+
+Address Header Notification = Notification Address Header
+Address Header Confirmation = Confirmation Address Header

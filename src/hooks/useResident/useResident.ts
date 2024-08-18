@@ -8,6 +8,7 @@ import { DocumentType, LinkedDocument } from '_/models/resident/document';
 import { ResidentHistoryElement } from '_/models/resident/history';
 import { Resident } from '_/models/resident/resident';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
+import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 
@@ -25,6 +26,7 @@ type EditResidentArgs = {
 function useResident(residentId: string) {
   const [residents, setResidents] = useRecoilState(residentState);
   const property = useRecoilValue(propertyState);
+  const landlord = useRecoilValue(landlordState);
   const resident = useMemo(
     () => residents.find((r) => r.id === residentId),
     [residentId, residents],
@@ -100,6 +102,7 @@ function useResident(residentId: string) {
         ...rentIncrease,
         resident,
         property,
+        landlord,
       });
       addDocument({
         id: documentId,
@@ -108,7 +111,7 @@ function useResident(residentId: string) {
         date: rentIncrease.monthForIncrease,
       });
     },
-    [applyChangesToResident, resident, addDocument, property],
+    [applyChangesToResident, resident, addDocument, property, landlord],
   );
 
   const extendRentInformation = useCallback(

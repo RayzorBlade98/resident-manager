@@ -1,3 +1,5 @@
+{{ADDRES_HEADER_NOTIFICATION}}
+
 ## Mieterhöhung
 
 Sehr geehrte/r {{}},
@@ -15,6 +17,8 @@ Bitte erteilen Sie Ihre Zustimmung zu diesem Mieterhöhungsverlangen mittels der
 Mit freundlichen Grüßen
 
 <div style="page-break-after: always;"></div>
+
+{{ADDRES_HEADER_CONFIRMATION}}
 
 ## Zustimmungserklärung zur Mieterhöhung
 

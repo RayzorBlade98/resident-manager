@@ -1,7 +1,11 @@
 import { GenerateRentIncreasePdfArgs } from './GenerateRentIncreasePdfArgs';
 import { generateRentIncreaseMarkdown } from './generateRentIncreaseMarkdown';
 import MonthYear from '_/extensions/date/month_year.extension';
+import * as generateAddressHeaderMarkdownModule from '_/ipc/utils/documentGeneration/generateAddressHeaderMarkdown/generateAddressHeaderMarkdown';
+import { AddressHeaderEntity } from '_/ipc/utils/documentGeneration/generateAddressHeaderMarkdown/generateAddressHeaderMarkdown';
 import AddressBuilder from '_/test/builders/address.builder';
+import LandlordBuilder from '_/test/builders/landlord.builder';
+import NameBuilder from '_/test/builders/name.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
@@ -26,6 +30,7 @@ describe('generateRentIncreaseMarkdown', () => {
           .build(),
       )
       .build();
+
     const property = new PropertyBuilder()
       .withAdress(
         new AddressBuilder()
@@ -38,6 +43,24 @@ describe('generateRentIncreaseMarkdown', () => {
       .withRentIndexUrl('example.org/rentIncrease')
       .withCappingLimit(15)
       .build();
+
+    const landlord = new LandlordBuilder()
+      .withAddress(
+        new AddressBuilder()
+          .withStreet('Lordstreet')
+          .withHouseNumber(13)
+          .withZipCode(54321)
+          .withCity('Lordstreet')
+          .build(),
+      )
+      .withRepresentative(
+        new NameBuilder()
+          .withFirstName('Lucas')
+          .withLastName('Landlord')
+          .build(),
+      )
+      .build();
+
     const newRent = 11500;
     const monthForIncrease = new MonthYear(9, 2024);
     const args: GenerateRentIncreasePdfArgs = {
@@ -45,7 +68,27 @@ describe('generateRentIncreaseMarkdown', () => {
       newRent,
       monthForIncrease,
       property,
+      landlord,
     };
+
+    const expectedLandlordAddressHeader: AddressHeaderEntity = {
+      names: [landlord.representative],
+      address: landlord.address,
+    };
+    const expectedResidentAddressHeader: AddressHeaderEntity = {
+      names: resident.contractResidents.map((r) => r.name),
+      address: property.address,
+    };
+
+    const notificationAddressHeaderMock = 'Notification Address Header';
+    const confirmationAddressHeaderMock = 'Confirmation Address Header';
+    const addressHeaderSpy = jest
+      .spyOn(
+        generateAddressHeaderMarkdownModule,
+        'generateAddressHeaderMarkdown',
+      )
+      .mockReturnValueOnce(notificationAddressHeaderMock)
+      .mockReturnValueOnce(confirmationAddressHeaderMock);
 
     // Act
     const rentIncreaseMarkdown = generateRentIncreaseMarkdown(
@@ -54,5 +97,8 @@ describe('generateRentIncreaseMarkdown', () => {
 
     // Assert
     expect(rentIncreaseMarkdown).toBe(expectedRentIncrease);
+
+    expect(addressHeaderSpy).toHaveBeenNthCalledWith(1, expectedLandlordAddressHeader, expectedResidentAddressHeader);
+    expect(addressHeaderSpy).toHaveBeenNthCalledWith(2, expectedResidentAddressHeader, expectedLandlordAddressHeader);
   });
 });

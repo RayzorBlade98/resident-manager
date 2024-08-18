@@ -125,10 +125,15 @@ describe('ipcAPI', () => {
       // Arrange
       const resident = new ResidentBuilder().build();
       const property = new PropertyBuilder().build();
+      const landlord = new LandlordBuilder().build();
       const newRent = 100;
       const monthForIncrease = new MonthYear(9, 2024);
       const args = {
-        resident, newRent, monthForIncrease, property,
+        resident,
+        newRent,
+        monthForIncrease,
+        property,
+        landlord,
       };
 
       // Act

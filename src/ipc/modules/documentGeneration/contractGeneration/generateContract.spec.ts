@@ -68,7 +68,7 @@ describe('generateContract', () => {
         residentId: resident.id,
       },
       mdToPdfOptions: {
-        cssFiles: [path.join(assetDir, 'contract/style.css')],
+        cssFiles: [path.join(assetDir, 'templates/contract/style.css')],
       },
     });
 

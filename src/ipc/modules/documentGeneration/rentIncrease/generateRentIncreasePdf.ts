@@ -19,7 +19,7 @@ export function generateRentIncreasePdf(
       residentId: args.resident.id,
     },
     mdToPdfOptions: {
-      cssFiles: [path.join(getAssetDirectory(), 'rentIncrease/style.css')],
+      cssFiles: [path.join(getAssetDirectory(), 'templates/rentIncrease/style.css')],
     },
   });
 }

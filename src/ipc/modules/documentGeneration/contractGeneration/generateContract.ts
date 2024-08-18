@@ -21,7 +21,7 @@ async function generateContract(
       residentId: args.resident.id,
     },
     mdToPdfOptions: {
-      cssFiles: [path.join(getAssetDirectory(), 'contract/style.css')],
+      cssFiles: [path.join(getAssetDirectory(), 'templates/contract/style.css')],
     },
   });
 }

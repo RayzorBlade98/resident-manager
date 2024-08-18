@@ -7,9 +7,11 @@ import useResident from './useResident';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { DocumentType } from '_/models/resident/document';
 import { Resident } from '_/models/resident/resident';
+import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 import ContractResidentBuilder from '_/test/builders/contractResident.builder';
+import LandlordBuilder from '_/test/builders/landlord.builder';
 import LinkedDocumentBuilder from '_/test/builders/linkedDocument.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
@@ -67,6 +69,7 @@ describe('useResident', () => {
   const selectedResident = residents[1];
 
   const property = new PropertyBuilder().build();
+  const landlord = new LandlordBuilder().build();
 
   describe('residents', () => {
     test('should return right resident', () => {
@@ -164,7 +167,9 @@ describe('useResident', () => {
       };
 
       const documentId = 'rent increase document id';
-      mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf.mockResolvedValue(documentId);
+      mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf.mockResolvedValue(
+        documentId,
+      );
 
       const { result } = renderHook(
         () => useInitializedRecoilState({
@@ -173,7 +178,11 @@ describe('useResident', () => {
           hook: () => useInitializedRecoilState({
             state: propertyState,
             stateValue: property,
-            hook: () => useResident(selectedResident.id),
+            hook: () => useInitializedRecoilState({
+              state: landlordState,
+              stateValue: landlord,
+              hook: () => useResident(selectedResident.id),
+            }),
           }),
         }),
         {
@@ -187,11 +196,16 @@ describe('useResident', () => {
       });
 
       // Assert
-      expect(mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf).toHaveBeenCalledTimes(1);
-      expect(mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf).toHaveBeenLastCalledWith({
+      expect(
+        mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf,
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf,
+      ).toHaveBeenLastCalledWith({
         ...rentIncrease,
         resident: selectedResident,
         property,
+        landlord,
       });
 
       expect(result.current.resident).toEqual({

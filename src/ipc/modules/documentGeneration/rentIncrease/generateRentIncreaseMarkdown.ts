@@ -1,17 +1,21 @@
-import {
-  convertAddressToCompleteString,
-} from '../../../../utils/address/address.utils';
+import { convertAddressToCompleteString } from '../../../../utils/address/address.utils';
 import {
   convertCurrencyCentsToString,
   CurrencyInCents,
 } from '../../../../utils/currency/currency.utils';
 import {
+  convertImportedLandlord,
   convertImportedProperty,
   convertImportedResident,
 } from '../../../../utils/persistence/converters';
 import { GenerateRentIncreasePdfArgs } from './GenerateRentIncreasePdfArgs';
 import rentIncreaseTemplate from '_/assets/templates/rentIncrease/rentIncreaseTemplate.md';
 import MonthYear from '_/extensions/date/month_year.extension';
+import {
+  AddressHeaderEntity,
+  generateAddressHeaderMarkdown,
+} from '_/ipc/utils/documentGeneration/generateAddressHeaderMarkdown/generateAddressHeaderMarkdown';
+import Landlord from '_/models/landlord/landlord';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
 import Imported from '_/types/Imported';
@@ -23,6 +27,8 @@ export function generateRentIncreaseMarkdown(
 }
 
 const placeholderLabels = {
+  addressHeaderNotification: 'ADDRES_HEADER_NOTIFICATION',
+  addressHeaderConfirmation: 'ADDRES_HEADER_CONFIRMATION',
   rentIncreasePercentage: 'RENT_INCREASE_PERCENTAGE',
   rentIncreaseMonth: 'RENT_INCREASE_MONTH',
   confirmationDate: 'CONFIRMATION_DATE',
@@ -43,6 +49,8 @@ class RentIncreaseGenerator {
 
   private readonly property: Property;
 
+  private readonly landlord: Landlord;
+
   private readonly newRent: CurrencyInCents;
 
   private readonly monthForIncrease: MonthYear;
@@ -50,6 +58,7 @@ class RentIncreaseGenerator {
   constructor(args: Imported<GenerateRentIncreasePdfArgs>) {
     this.resident = convertImportedResident(args.resident);
     this.property = convertImportedProperty(args.property);
+    this.landlord = convertImportedLandlord(args.landlord);
     this.newRent = args.newRent;
     this.monthForIncrease = MonthYear.fromString(args.monthForIncrease);
   }
@@ -76,6 +85,16 @@ class RentIncreaseGenerator {
     const rentIncreasePercentage = (this.newRent - lastRentInformation.rent) / lastRentInformation.rent;
     const newRentTotal = this.newRent + lastRentInformation.incidentals;
 
+    const addressHeaderResident: AddressHeaderEntity = {
+      names: this.resident.contractResidents.map((r) => r.name),
+      address: this.property.address,
+    };
+
+    const addressHeaderLandlord: AddressHeaderEntity = {
+      names: [this.landlord.representative],
+      address: this.landlord.address,
+    };
+
     const replacements = {
       [placeholderLabels.rentIncreasePercentage]: (
         rentIncreasePercentage * 100
@@ -100,6 +119,16 @@ class RentIncreaseGenerator {
       [placeholderLabels.propertyAddress]: convertAddressToCompleteString(
         this.property.address,
       ),
+      [placeholderLabels.addressHeaderNotification]:
+        generateAddressHeaderMarkdown(
+          addressHeaderLandlord,
+          addressHeaderResident,
+        ),
+      [placeholderLabels.addressHeaderConfirmation]:
+        generateAddressHeaderMarkdown(
+          addressHeaderResident,
+          addressHeaderLandlord,
+        ),
     };
 
     this.replaceAllPlaceholders(replacements);

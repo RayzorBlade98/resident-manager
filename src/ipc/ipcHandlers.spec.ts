@@ -215,14 +215,22 @@ describe('addIpcHandlers', () => {
 
     const resident = new ResidentBuilder().build();
     const property = new PropertyBuilder().build();
+    const landlord = new LandlordBuilder().build();
     const newRent = 100;
     const monthForIncrease = new MonthYear(9, 2024);
     const args: GenerateRentIncreasePdfArgs = {
-      resident, newRent, monthForIncrease, property,
+      resident,
+      newRent,
+      monthForIncrease,
+      property,
+      landlord,
     };
 
     // Act
-    const actualDocumentId = await ipcRenderer.invoke(ipcCommands.generateRentIncreasePdf, args);
+    const actualDocumentId = await ipcRenderer.invoke(
+      ipcCommands.generateRentIncreasePdf,
+      args,
+    );
 
     // Act
     expect(generateRentIncreasePdf).toHaveBeenCalledTimes(1);
