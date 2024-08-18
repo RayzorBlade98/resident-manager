@@ -8,7 +8,7 @@ import ResidentBuilder from '_/test/builders/resident.builder';
 import expectedRentIncrease from '_/test/data/rentIncrease/expectedRentIncrease.md';
 import Imported from '_/types/Imported';
 
-jest.mock('../../../../assets/rentIncrease/rentIncreaseTemplate.md');
+jest.mock('../../../../assets/templates/rentIncrease/rentIncreaseTemplate.md');
 
 describe('generateRentIncreaseMarkdown', () => {
   test('should return right markdown string', () => {

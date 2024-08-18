@@ -10,7 +10,7 @@ import {
   convertImportedResident,
 } from '../../../../utils/persistence/converters';
 import { GenerateRentIncreasePdfArgs } from './GenerateRentIncreasePdfArgs';
-import rentIncreaseTemplate from '_/assets/rentIncrease/rentIncreaseTemplate.md';
+import rentIncreaseTemplate from '_/assets/templates/rentIncrease/rentIncreaseTemplate.md';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';

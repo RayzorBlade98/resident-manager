@@ -10,12 +10,12 @@ import {
   convertImportedProperty,
   convertImportedResident,
 } from '../../../../utils/persistence/converters';
-import contractTemplate from '_/assets/contract/contractTemplate.md';
-import houseRulesTemplate from '_/assets/contract/houseRulesTemplate.md';
-import landlordCompanyTemplate from '_/assets/contract/landlordCompanyTemplate.md';
-import residentSignatureTemplate from '_/assets/contract/residentSignatureTemplate.md';
-import residentTemplate from '_/assets/contract/residentTemplate.md';
-import signatureTemplate from '_/assets/contract/signatureTemplate.md';
+import contractTemplate from '_/assets/templates/contract/contractTemplate.md';
+import houseRulesTemplate from '_/assets/templates/contract/houseRulesTemplate.md';
+import landlordCompanyTemplate from '_/assets/templates/contract/landlordCompanyTemplate.md';
+import residentSignatureTemplate from '_/assets/templates/contract/residentSignatureTemplate.md';
+import residentTemplate from '_/assets/templates/contract/residentTemplate.md';
+import signatureTemplate from '_/assets/templates/contract/signatureTemplate.md';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Landlord from '_/models/landlord/landlord';
 import Apartment from '_/models/property/apartment';
