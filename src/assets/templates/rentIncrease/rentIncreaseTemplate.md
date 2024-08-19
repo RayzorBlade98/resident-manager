@@ -28,4 +28,8 @@ Mietobjekt {{PROPERTY_ADDRESS}} angekündigt.
 Die neue Miete wird ab dem {{RENT_INCREASE_MONTH}} insgesamt {{NEW_RENT_TOTAL}} betragen und setzt sich aus {{NEW_RENT_COLD}} Kaltmiete und {{INCIDENTALS}} Nebenkosten zusammen.
 
 Hiermit stimme ich/stimmen wir der Mieterhöhung zu. Die neue Gesamtmiete werde ich/werden wir
-erstmals zum {{RENT_INCREASE_MONTH}} zahlen. 
+erstmals zum {{RENT_INCREASE_MONTH}} zahlen.
+
+<div style="margin-top: 60%">
+    {{SIGNATURE_FOOTER_CONFIRMATION}}
+</div>

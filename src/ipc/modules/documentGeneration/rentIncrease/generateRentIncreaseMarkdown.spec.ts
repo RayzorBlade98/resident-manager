@@ -3,7 +3,9 @@ import { generateRentIncreaseMarkdown } from './generateRentIncreaseMarkdown';
 import MonthYear from '_/extensions/date/month_year.extension';
 import * as generateAddressHeaderMarkdownModule from '_/ipc/utils/documentGeneration/generateAddressHeaderMarkdown/generateAddressHeaderMarkdown';
 import { AddressHeaderEntity } from '_/ipc/utils/documentGeneration/generateAddressHeaderMarkdown/generateAddressHeaderMarkdown';
+import * as generateSignatureFooterMarkdownModule from '_/ipc/utils/documentGeneration/generateSignatureFooterMarkdown/generateSignatureFooterMarkdown';
 import AddressBuilder from '_/test/builders/address.builder';
+import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import LandlordBuilder from '_/test/builders/landlord.builder';
 import NameBuilder from '_/test/builders/name.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
@@ -29,6 +31,8 @@ describe('generateRentIncreaseMarkdown', () => {
           .withIncidentals(1000)
           .build(),
       )
+      .addContractResident(new ContractResidentBuilder().build())
+      .addContractResident(new ContractResidentBuilder().build())
       .build();
 
     const property = new PropertyBuilder()
@@ -90,6 +94,14 @@ describe('generateRentIncreaseMarkdown', () => {
       .mockReturnValueOnce(notificationAddressHeaderMock)
       .mockReturnValueOnce(confirmationAddressHeaderMock);
 
+    const signatureFooterMock = 'signatureFooter';
+    jest
+      .spyOn(
+        generateSignatureFooterMarkdownModule,
+        'generateSignatureFooterMarkdown',
+      )
+      .mockReturnValue(signatureFooterMock);
+
     // Act
     const rentIncreaseMarkdown = generateRentIncreaseMarkdown(
       JSON.parse(JSON.stringify(args)) as Imported<GenerateRentIncreasePdfArgs>,
@@ -98,7 +110,15 @@ describe('generateRentIncreaseMarkdown', () => {
     // Assert
     expect(rentIncreaseMarkdown).toBe(expectedRentIncrease);
 
-    expect(addressHeaderSpy).toHaveBeenNthCalledWith(1, expectedLandlordAddressHeader, expectedResidentAddressHeader);
-    expect(addressHeaderSpy).toHaveBeenNthCalledWith(2, expectedResidentAddressHeader, expectedLandlordAddressHeader);
+    expect(addressHeaderSpy).toHaveBeenNthCalledWith(
+      1,
+      expectedLandlordAddressHeader,
+      expectedResidentAddressHeader,
+    );
+    expect(addressHeaderSpy).toHaveBeenNthCalledWith(
+      2,
+      expectedResidentAddressHeader,
+      expectedLandlordAddressHeader,
+    );
   });
 });

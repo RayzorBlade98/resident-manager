@@ -13,3 +13,5 @@ Rent Index Link = {{RENT_INDEX_URL}}
 
 Address Header Notification = {{ADDRES_HEADER_NOTIFICATION}}
 Address Header Confirmation = {{ADDRES_HEADER_CONFIRMATION}}
+
+Signature Footer Confirmation = {{SIGNATURE_FOOTER_CONFIRMATION}}
