@@ -86,15 +86,17 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
       const fileEnding = values.file.split('.').pop();
       const documentFile = `${documentId}.${fileEnding}`;
 
-      void window.ipcAPI.persistence.uploadDocument(values.file, documentFile, {
-        type: 'resident',
-        residentId: selectedResident.id,
-      })
+      void window.ipcAPI.persistence
+        .uploadDocument(values.file, documentFile, {
+          type: 'resident',
+          residentId: selectedResident.id,
+        })
         .then(() => {
           addDocument({
             name: values.name,
             type: values.type,
-            date: values.date,
+            creationDate: values.date,
+            subjectDate: values.date,
             id: documentId,
           });
           props.onCloseModal();

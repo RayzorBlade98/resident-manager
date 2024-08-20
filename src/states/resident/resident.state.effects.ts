@@ -63,7 +63,7 @@ export const sortHistoryEffect: AtomEffect<ResidentState> = ({
 };
 
 /**
- * Effect that sorts the documents of the reisdents by date in descending order
+ * Effect that sorts the documents of the reisdents by creation date in descending order
  */
 export const sortDocumentsEffect: AtomEffect<ResidentState> = ({
   onSet,
@@ -73,7 +73,7 @@ export const sortDocumentsEffect: AtomEffect<ResidentState> = ({
     const sorted = newValue.map((r) => ({
       ...r,
       documents: [...r.documents].sort(
-        (a, b) => b.date.getTime() - a.date.getTime(),
+        (a, b) => b.creationDate.getTime() - a.creationDate.getTime(),
       ),
     }));
     if (!_.isEqual(newValue, sorted)) {

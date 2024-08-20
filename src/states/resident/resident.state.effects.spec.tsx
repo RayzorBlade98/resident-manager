@@ -26,7 +26,7 @@ const history = range(0, 5).map((i) => new ResidentHistoryElementBuilder()
   .build());
 const expectedHistory = [...history].reverse();
 
-const documents = range(0, 5).map((i) => new LinkedDocumentBuilder().withDate(new Date(2024, 5, i)).build());
+const documents = range(0, 5).map((i) => new LinkedDocumentBuilder().withCreationDate(new Date(2024, 5, i)).build());
 const expectedDocuments = [...documents].reverse();
 
 const residents = range(0, 5).map((_) => new ResidentBuilder().build());

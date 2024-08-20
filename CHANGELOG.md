@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Initialization form
     - Renamed last tab to `Others` instead of `Water costs`
+- Documents
+    - Splitted document date into creation and subject date    
 
 ## v0.1.1 - 2024-08-11
 

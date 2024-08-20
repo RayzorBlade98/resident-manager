@@ -108,7 +108,8 @@ function useResident(residentId: string) {
         id: documentId,
         type: DocumentType.RentIncrease,
         name: `Mieterhöhung ${rentIncrease.monthForIncrease.toString()}`,
-        date: rentIncrease.monthForIncrease,
+        creationDate: new Date(),
+        subjectDate: rentIncrease.monthForIncrease,
       });
     },
     [applyChangesToResident, resident, addDocument, property, landlord],

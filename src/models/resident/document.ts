@@ -33,7 +33,12 @@ export interface LinkedDocument {
   type: DocumentType;
 
   /**
+   * Date the document was created
+   */
+  creationDate: Date;
+
+  /**
    * Date the document is about (e.g. contract start for contracts, invoice date for invoices)
    */
-  date: Date;
+  subjectDate: Date;
 }

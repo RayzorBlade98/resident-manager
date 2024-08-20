@@ -36,7 +36,7 @@ function DocumentTable(): JSX.Element {
               key={document.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell>{document.date.toPreferredString()}</TableCell>
+              <TableCell>{document.subjectDate.toPreferredString()}</TableCell>
               <TableCell>{document.name}</TableCell>
               <TableCell>{document.type}</TableCell>
               <TableCell />

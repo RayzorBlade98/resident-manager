@@ -5,7 +5,8 @@ class LinkedDocumentBuilder {
   private document: LinkedDocument = {
     id: uuid(),
     name: 'test.txt',
-    date: new Date(2024, 5, 9),
+    creationDate: new Date(2024, 5, 9),
+    subjectDate: new Date(2024, 5, 9),
     type: DocumentType.Contract,
   };
 
@@ -13,8 +14,13 @@ class LinkedDocumentBuilder {
     return this.document;
   }
 
-  public withDate(date: Date): LinkedDocumentBuilder {
-    this.document.date = date;
+  public withSubjectDate(date: Date): LinkedDocumentBuilder {
+    this.document.subjectDate = date;
+    return this;
+  }
+
+  public withCreationDate(date: Date): LinkedDocumentBuilder {
+    this.document.creationDate = date;
     return this;
   }
 

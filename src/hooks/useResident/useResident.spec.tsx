@@ -60,16 +60,25 @@ describe('useResident', () => {
     )
     .withNumberOfResidents(5)
     .addDocument(
-      new LinkedDocumentBuilder().withDate(new Date(2023, 5, 9)).build(),
+      new LinkedDocumentBuilder()
+        .withSubjectDate(new Date(2023, 5, 9))
+        .build(),
     )
     .addDocument(
-      new LinkedDocumentBuilder().withDate(new Date(2023, 5, 8)).build(),
+      new LinkedDocumentBuilder()
+        .withSubjectDate(new Date(2023, 5, 8))
+        .build(),
     )
     .build());
   const selectedResident = residents[1];
 
   const property = new PropertyBuilder().build();
   const landlord = new LandlordBuilder().build();
+
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date(2024, 7, 20));
+  });
 
   describe('residents', () => {
     test('should return right resident', () => {
@@ -231,7 +240,8 @@ describe('useResident', () => {
             id: documentId,
             name: 'Mieterhöhung Dezember 2023',
             type: DocumentType.RentIncrease,
-            date: rentIncrease.monthForIncrease,
+            creationDate: new Date(),
+            subjectDate: rentIncrease.monthForIncrease,
           },
           ...selectedResident.documents,
         ],
@@ -274,7 +284,7 @@ describe('useResident', () => {
     test('should set state correctly', () => {
       // Arrange
       const document = new LinkedDocumentBuilder()
-        .withDate(new Date(2022, 5, 7))
+        .withSubjectDate(new Date(2022, 5, 7))
         .build();
       const { result } = renderHook(
         () => useInitializedRecoilState({

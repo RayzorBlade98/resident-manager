@@ -69,6 +69,9 @@ describe('GenerateContractModal', () => {
   }
 
   beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date(2024, 7, 20));
+
     jest.spyOn(useResidentModule, 'default').mockReturnValue(useResidentMock);
 
     baseElement = render(
@@ -149,7 +152,8 @@ describe('GenerateContractModal', () => {
     expect(useResidentMock.addDocument).toHaveBeenLastCalledWith({
       id: documentId,
       type: DocumentType.Contract,
-      date: validInputValues.contractStart,
+      creationDate: new Date(),
+      subjectDate: validInputValues.contractStart,
       name: 'Mietvertrag März 2024',
     });
   });
