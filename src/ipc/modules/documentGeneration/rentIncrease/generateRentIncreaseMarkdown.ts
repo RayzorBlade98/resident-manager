@@ -15,6 +15,7 @@ import {
   AddressHeaderEntity,
   generateAddressHeaderMarkdown,
 } from '_/ipc/utils/documentGeneration/generateAddressHeaderMarkdown/generateAddressHeaderMarkdown';
+import { generateDateHeaderMarkdown } from '_/ipc/utils/documentGeneration/generateDateHeaderMarkdown/generateDateHeaderMarkdown';
 import { generateSignatureFooterMarkdown } from '_/ipc/utils/documentGeneration/generateSignatureFooterMarkdown/generateSignatureFooterMarkdown';
 import Landlord from '_/models/landlord/landlord';
 import Property from '_/models/property/property';
@@ -29,6 +30,7 @@ export function generateRentIncreaseMarkdown(
 
 const placeholderLabels = {
   addressHeaderNotification: 'ADDRES_HEADER_NOTIFICATION',
+  dateHeaderNotification: 'DATE_HEADER_NOTIFICATION',
   addressHeaderConfirmation: 'ADDRES_HEADER_CONFIRMATION',
   signatureFooterConfirmation: 'SIGNATURE_FOOTER_CONFIRMATION',
   rentIncreasePercentage: 'RENT_INCREASE_PERCENTAGE',
@@ -135,6 +137,7 @@ class RentIncreaseGenerator {
         this.resident.contractResidents
           .map(generateSignatureFooterMarkdown)
           .join(''),
+      [placeholderLabels.dateHeaderNotification]: generateDateHeaderMarkdown(),
     };
 
     this.replaceAllPlaceholders(replacements);

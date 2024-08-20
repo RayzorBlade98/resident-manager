@@ -3,6 +3,7 @@ import { generateRentIncreaseMarkdown } from './generateRentIncreaseMarkdown';
 import MonthYear from '_/extensions/date/month_year.extension';
 import * as generateAddressHeaderMarkdownModule from '_/ipc/utils/documentGeneration/generateAddressHeaderMarkdown/generateAddressHeaderMarkdown';
 import { AddressHeaderEntity } from '_/ipc/utils/documentGeneration/generateAddressHeaderMarkdown/generateAddressHeaderMarkdown';
+import * as generateDateHeaderMarkdownModule from '_/ipc/utils/documentGeneration/generateDateHeaderMarkdown/generateDateHeaderMarkdown';
 import * as generateSignatureFooterMarkdownModule from '_/ipc/utils/documentGeneration/generateSignatureFooterMarkdown/generateSignatureFooterMarkdown';
 import AddressBuilder from '_/test/builders/address.builder';
 import ContractResidentBuilder from '_/test/builders/contractResident.builder';
@@ -84,23 +85,24 @@ describe('generateRentIncreaseMarkdown', () => {
       address: property.address,
     };
 
-    const notificationAddressHeaderMock = 'Notification Address Header';
-    const confirmationAddressHeaderMock = 'Confirmation Address Header';
     const addressHeaderSpy = jest
       .spyOn(
         generateAddressHeaderMarkdownModule,
         'generateAddressHeaderMarkdown',
       )
-      .mockReturnValueOnce(notificationAddressHeaderMock)
-      .mockReturnValueOnce(confirmationAddressHeaderMock);
+      .mockReturnValueOnce('Notification Address Header')
+      .mockReturnValueOnce('Confirmation Address Header');
 
-    const signatureFooterMock = 'signatureFooter';
+    jest
+      .spyOn(generateDateHeaderMarkdownModule, 'generateDateHeaderMarkdown')
+      .mockReturnValue('Notification Date Header');
+
     jest
       .spyOn(
         generateSignatureFooterMarkdownModule,
         'generateSignatureFooterMarkdown',
       )
-      .mockReturnValue(signatureFooterMock);
+      .mockReturnValue('signatureFooter');
 
     // Act
     const rentIncreaseMarkdown = generateRentIncreaseMarkdown(

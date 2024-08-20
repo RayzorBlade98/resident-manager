@@ -12,6 +12,7 @@ Current Date = 18.08.2024
 Rent Index Link = example.org/rentIncrease
 
 Address Header Notification = Notification Address Header
+Date Header Notification = Notification Date Header
 Address Header Confirmation = Confirmation Address Header
 
 Signature Footer Confirmation = signatureFootersignatureFooter

@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: space-between">
+<div style="display: flex; justify-content: space-between; margin-bottom: 5%;">
     <div>
         {{RECEIVER_NAME}} <br>
         {{RECEIVER_STREET}} <br>

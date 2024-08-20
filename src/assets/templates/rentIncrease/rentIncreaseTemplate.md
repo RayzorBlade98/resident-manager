@@ -1,5 +1,7 @@
 {{ADDRES_HEADER_NOTIFICATION}}
 
+{{DATE_HEADER_NOTIFICATION}}
+
 ## Mieterhöhung
 
 Sehr geehrte/r {{}},
