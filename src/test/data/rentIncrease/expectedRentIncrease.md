@@ -14,5 +14,6 @@ Rent Index Link = example.org/rentIncrease
 Address Header Notification = Notification Address Header
 Date Header Notification = Notification Date Header
 Address Header Confirmation = Confirmation Address Header
+Salutation Notification = Sehr geehrter Herr Tester, sehr geehrte Frau Testerin
 
 Signature Footer Confirmation = signatureFootersignatureFooter

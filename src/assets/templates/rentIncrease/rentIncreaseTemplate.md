@@ -4,7 +4,7 @@
 
 ## Mieterhöhung
 
-Sehr geehrte/r {{}},
+{{SALUTATION_NOTIFICATION}},
 
 aufgrund des gestiegenen Mietspiegels in Ihrem Wohnviertel habe ich beschlossen, die Grundmiete nach §558 BGB um {{RENT_INCREASE_PERCENTAGE}} % zu erhöhen. Dies ist innerhalb der aktuellen Kappungsgrenze von {{CAPPING_LIMIT}} % nach §558 Abs. 3 BGB.
 

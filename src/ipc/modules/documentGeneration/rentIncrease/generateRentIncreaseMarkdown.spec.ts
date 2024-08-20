@@ -5,6 +5,7 @@ import * as generateAddressHeaderMarkdownModule from '_/ipc/utils/documentGenera
 import { AddressHeaderEntity } from '_/ipc/utils/documentGeneration/generateAddressHeaderMarkdown/generateAddressHeaderMarkdown';
 import * as generateDateHeaderMarkdownModule from '_/ipc/utils/documentGeneration/generateDateHeaderMarkdown/generateDateHeaderMarkdown';
 import * as generateSignatureFooterMarkdownModule from '_/ipc/utils/documentGeneration/generateSignatureFooterMarkdown/generateSignatureFooterMarkdown';
+import { Salutation } from '_/models/name';
 import AddressBuilder from '_/test/builders/address.builder';
 import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import LandlordBuilder from '_/test/builders/landlord.builder';
@@ -32,8 +33,26 @@ describe('generateRentIncreaseMarkdown', () => {
           .withIncidentals(1000)
           .build(),
       )
-      .addContractResident(new ContractResidentBuilder().build())
-      .addContractResident(new ContractResidentBuilder().build())
+      .addContractResident(
+        new ContractResidentBuilder()
+          .withName(
+            new NameBuilder()
+              .withSalutation(Salutation.Male)
+              .withLastName('Tester')
+              .build(),
+          )
+          .build(),
+      )
+      .addContractResident(
+        new ContractResidentBuilder()
+          .withName(
+            new NameBuilder()
+              .withSalutation(Salutation.Female)
+              .withLastName('Testerin')
+              .build(),
+          )
+          .build(),
+      )
       .build();
 
     const property = new PropertyBuilder()

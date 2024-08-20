@@ -53,7 +53,7 @@ function ContractResidentDisplay(props: ContractResidentDisplayProps) {
       />
       {props.contractResidents?.map((r) => (
         <Chip
-          label={convertNameToString(r.name, true)}
+          label={convertNameToString(r.name, { includeSalutation: true })}
           variant="outlined"
           sx={styles.contractResidentChip}
         />
