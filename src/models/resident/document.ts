@@ -3,14 +3,29 @@
  */
 export enum DocumentType {
   /**
+   * Cover letter sent to the resident
+   */
+  CoverLetter = 'Anschreiben',
+
+  /**
    * Document type representing a contract
    */
   Contract = 'Vertrag',
 
   /**
+   * Document type representing a signed contract
+   */
+  ContractSigned = 'Vertrag (unterschrieben)',
+
+  /**
    * Document type representing a rent increase notification
    */
   RentIncrease = 'Mieterhöhung',
+
+  /**
+   * Document type representing a signed rent increase notification
+   */
+  RentIncreaseSigned = 'Mieterhöhung (unterschrieben)',
 }
 
 /**
