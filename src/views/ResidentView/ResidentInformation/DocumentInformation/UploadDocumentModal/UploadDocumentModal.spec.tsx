@@ -120,7 +120,7 @@ describe('UploadDocumentModal', () => {
       name: validInputValues.name,
       creationDate: validInputValues.date,
       subjectDate: validInputValues.date,
-      type: DocumentType.Contract,
+      type: DocumentType.CoverLetter,
     };
     mockedIpcAPIFunctions.persistence.uploadDocument.mockResolvedValue(
       undefined,

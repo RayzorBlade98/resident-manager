@@ -77,7 +77,7 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
     defaultFormInput: {
       name: undefined,
       file: undefined,
-      type: DocumentType.Contract,
+      type: DocumentType.CoverLetter,
       date: undefined,
     },
     onSubmitSuccess: (values) => {
@@ -135,7 +135,15 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
             onChange={formInputSetters.type}
             values={
               Object.fromEntries(
-                Object.values(DocumentType).map((s) => [s, s]),
+                Object.values(DocumentType)
+                  .filter(
+                    (s) => ![
+
+                      DocumentType.Contract,
+                      DocumentType.RentIncrease,
+                    ].includes(s),
+                  )
+                  .map((s) => [s, s]),
               ) as Record<DocumentType, DocumentType>
             }
           />
