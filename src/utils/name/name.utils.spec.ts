@@ -3,21 +3,12 @@ import { Salutation } from '_/models/name';
 import NameBuilder from '_/test/builders/name.builder';
 
 describe('convertNameToString', () => {
-  test('should convert name correctly', () => {
-    // Arrange
-    const name = new NameBuilder()
-      .withFirstName('Max')
-      .withLastName('Mustermann')
-      .build();
-
-    // Act
-    const converted = convertNameToString(name);
-
-    // Assert
-    expect(converted).toBe('Max Mustermann');
-  });
-
-  test('should convert name correctly (with salutation)', () => {
+  test.each([
+    [{}, 'Max Mustermann'],
+    [{ includeSalutation: true }, 'Herr Max Mustermann'],
+    [{ excludeFirstName: true }, 'Mustermann'],
+    [{ includeSalutation: true, excludeFirstName: true }, 'Herr Mustermann'],
+  ])('should convert name with options %o correctly', (options, expected) => {
     // Arrange
     const name = new NameBuilder()
       .withFirstName('Max')
@@ -26,9 +17,9 @@ describe('convertNameToString', () => {
       .build();
 
     // Act
-    const converted = convertNameToString(name, true);
+    const converted = convertNameToString(name, options);
 
     // Assert
-    expect(converted).toBe('Herr Max Mustermann');
+    expect(converted).toBe(expected);
   });
 });

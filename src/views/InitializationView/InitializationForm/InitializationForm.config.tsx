@@ -1,6 +1,6 @@
 import HomeIcon from '@mui/icons-material/Home';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import PersonIcon from '@mui/icons-material/Person';
-import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import React from 'react';
 import { ValidationConstraint } from '../../../utils/validation/constraints';
 import Validator from '../../../utils/validation/validator';
@@ -105,12 +105,22 @@ export interface InitializationInput {
    * Current cost of the sewage
    */
   sewageCost: number;
+
+  /**
+   * Url to the official rent index website of the city
+   */
+  rentIndexUrl: string;
+
+  /**
+   * Capping limit of the rent increase in %
+   */
+  cappingLimit: number;
 }
 
 /**
  * All groups of the form
  */
-export type InitializationGroups = 'property' | 'landlord' | 'waterCosts';
+export type InitializationGroups = 'property' | 'landlord' | 'other';
 
 /**
  * Config of the initialization form
@@ -138,6 +148,8 @@ InitializationGroups
       houseNumberProperty: ValidationConstraint.Defined,
       waterUsageCost: ValidationConstraint.Currency,
       sewageCost: ValidationConstraint.Currency,
+      rentIndexUrl: ValidationConstraint.NoEmptyString,
+      cappingLimit: ValidationConstraint.Defined,
     }),
     defaultFormInput: {
       companyLandlord: '',
@@ -159,6 +171,8 @@ InitializationGroups
       houseNumberProperty: undefined,
       waterUsageCost: undefined,
       sewageCost: undefined,
+      rentIndexUrl: '',
+      cappingLimit: undefined,
     },
     submitButtonLabel: 'Fertig',
   },
@@ -181,8 +195,10 @@ InitializationGroups
       cityProperty: 'property',
       streetProperty: 'property',
       houseNumberProperty: 'property',
-      waterUsageCost: 'waterCosts',
-      sewageCost: 'waterCosts',
+      waterUsageCost: 'other',
+      sewageCost: 'other',
+      rentIndexUrl: 'other',
+      cappingLimit: 'other',
     },
     groupConfigs: {
       property: {
@@ -199,10 +215,10 @@ InitializationGroups
           iconPosition: 'start',
         },
       },
-      waterCosts: {
-        label: 'Wasserkosten',
+      other: {
+        label: 'Sonstiges',
         icon: {
-          component: <WaterDropIcon />,
+          component: <MiscellaneousServicesIcon />,
           iconPosition: 'start',
         },
       },

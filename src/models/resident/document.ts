@@ -3,9 +3,29 @@
  */
 export enum DocumentType {
   /**
-   * document type representing a contract
+   * Cover letter sent to the resident
+   */
+  CoverLetter = 'Anschreiben',
+
+  /**
+   * Document type representing a contract
    */
   Contract = 'Vertrag',
+
+  /**
+   * Document type representing a signed contract
+   */
+  ContractSigned = 'Vertrag (unterschrieben)',
+
+  /**
+   * Document type representing a rent increase notification
+   */
+  RentIncrease = 'Mieterhöhung',
+
+  /**
+   * Document type representing a signed rent increase notification
+   */
+  RentIncreaseSigned = 'Mieterhöhung (unterschrieben)',
 }
 
 /**
@@ -28,7 +48,12 @@ export interface LinkedDocument {
   type: DocumentType;
 
   /**
+   * Date the document was created
+   */
+  creationDate: Date;
+
+  /**
    * Date the document is about (e.g. contract start for contracts, invoice date for invoices)
    */
-  date: Date;
+  subjectDate: Date;
 }

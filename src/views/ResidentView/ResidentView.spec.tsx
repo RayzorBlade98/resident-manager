@@ -80,13 +80,15 @@ describe('ResidentView', () => {
     .addDocument(
       new LinkedDocumentBuilder()
         .withName('Document 1')
-        .withDate(new Date(2024, 5, 9))
+        .withCreationDate(new Date(2024, 5, 1))
+        .withSubjectDate(new Date(2024, 5, 9))
         .build(),
     )
     .addDocument(
       new LinkedDocumentBuilder()
         .withName('Document 2')
-        .withDate(new Date(2024, 5, 8))
+        .withCreationDate(new Date(2024, 1, 1))
+        .withSubjectDate(new Date(2024, 5, 8))
         .build(),
     )
     .build());

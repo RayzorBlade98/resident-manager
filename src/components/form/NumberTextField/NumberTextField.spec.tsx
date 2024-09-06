@@ -12,6 +12,7 @@ describe('NumberTextField', () => {
   let onlyInteger = false;
   let min: number | undefined;
   let max: number | undefined;
+  let unit: string | undefined;
   let renderResult: RenderResult;
 
   function NumberTextFieldWrapper(): JSX.Element {
@@ -32,6 +33,7 @@ describe('NumberTextField', () => {
         onlyInteger={onlyInteger}
         min={min}
         max={max}
+        unit={unit}
       />
     );
   }
@@ -161,6 +163,17 @@ describe('NumberTextField', () => {
   test('should match image snapshot (with error)', async () => {
     // Arrange
     value = undefined;
+    cleanup();
+    renderComponent();
+
+    // Assert
+    expect(await generateImage({ viewport: { width: 300, height: 100 } })).toMatchImageSnapshot();
+  });
+
+  test('should match image snapshot (with unit)', async () => {
+    // Arrange
+    errorMessage = undefined;
+    unit = '%';
     cleanup();
     renderComponent();
 

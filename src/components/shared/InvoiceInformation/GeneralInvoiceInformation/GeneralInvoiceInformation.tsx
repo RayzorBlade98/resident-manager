@@ -21,7 +21,7 @@ function GeneralInvoiceInformation(
       <p>{`${invoice.start.toString()} - ${invoice.end.toString()}`}</p>
       <Button
         onClick={() => {
-          void window.ipcAPI.generateInvoicePdfs(invoice);
+          void window.ipcAPI.documentGeneration.generateInvoicePdfs(invoice);
         }}
       >
         Pdf generieren

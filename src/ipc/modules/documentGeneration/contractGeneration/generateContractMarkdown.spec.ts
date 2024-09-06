@@ -1,7 +1,7 @@
 import {
   ContractGenerationArgs,
   generateContractMarkdown,
-} from './contractGeneration';
+} from './generateContractMarkdown';
 import MonthYear from '_/extensions/date/month_year.extension';
 import AddressBuilder from '_/test/builders/address.builder';
 import ApartmentBuilder from '_/test/builders/apartment.builder';
@@ -15,12 +15,12 @@ import ResidentBuilder from '_/test/builders/resident.builder';
 import expectedContract from '_/test/data/contractGeneration/expectedContract.md';
 import Imported from '_/types/Imported';
 
-jest.mock('../../assets/contract/contractTemplate.md');
-jest.mock('../../assets/contract/landlordCompanyTemplate.md');
-jest.mock('../../assets/contract/residentTemplate.md');
-jest.mock('../../assets/contract/signatureTemplate.md');
-jest.mock('../../assets/contract/residentSignatureTemplate.md');
-jest.mock('../../assets/contract/houseRulesTemplate.md');
+jest.mock('../../../../assets/templates/contract/contractTemplate.md');
+jest.mock('../../../../assets/templates/contract/landlordCompanyTemplate.md');
+jest.mock('../../../../assets/templates/contract/residentTemplate.md');
+jest.mock('../../../../assets/templates/contract/signatureTemplate.md');
+jest.mock('../../../../assets/templates/contract/residentSignatureTemplate.md');
+jest.mock('../../../../assets/templates/contract/houseRulesTemplate.md');
 
 describe('generateContractMarkdown', () => {
   test('should return right markdown string', () => {

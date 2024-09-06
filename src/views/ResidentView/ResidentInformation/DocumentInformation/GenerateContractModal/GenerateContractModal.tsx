@@ -46,7 +46,9 @@ function GenerateContractModal(props: GenerateContractModalProps) {
   const selectedResident = useRecoilValue(
     residentViewSelectedResidentState,
   ) as Resident;
-  const { addDocument, extendRentInformation } = useResident(selectedResident.id);
+  const { addDocument, extendRentInformation } = useResident(
+    selectedResident.id,
+  );
 
   const {
     formInput,
@@ -64,18 +66,22 @@ function GenerateContractModal(props: GenerateContractModalProps) {
     submitButtonLabel: 'Generieren',
     onSubmitSuccess: (values) => {
       const residentForContract = extendRentInformation(values.contractStart);
-      void window.ipcAPI
+      void window.ipcAPI.documentGeneration
         .generateContractPdf({
           contractStart: values.contractStart,
           landlord,
           property,
-          resident: applyHistoryToResident(residentForContract, values.contractStart),
+          resident: applyHistoryToResident(
+            residentForContract,
+            values.contractStart,
+          ),
         })
         .then((documentId) => {
           addDocument({
             id: documentId,
             type: DocumentType.Contract,
-            date: values.contractStart,
+            creationDate: new Date(),
+            subjectDate: values.contractStart,
             name: `Mietvertrag ${values.contractStart.toString()}`,
           });
           props.onClose();

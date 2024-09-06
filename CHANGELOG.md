@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.2.0 - 2024-08-21
+
+### Added
+
+- Property
+    - Mandatory field for the rent index url
+    - Mandatory field for the rent increase capping limit
+- Rent increase
+    - Generate notification document on rent increase
+- New document types
+    - cover letter
+    - signed contract
+    - signed rent increase
+
+### Changed
+
+- Initialization form
+    - Renamed last tab to `Others` instead of `Water costs`
+- Documents
+    - Splitted document date into creation and subject date
+    - Removed generated documents from the uploadable document types
+
 ## v0.1.1 - 2024-08-11
 
 ### Changed

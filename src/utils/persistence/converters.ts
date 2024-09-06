@@ -95,7 +95,8 @@ export function convertImportedResident(
     })),
     documents: imported.documents.map((document) => ({
       ...document,
-      date: new Date(document.date),
+      creationDate: new Date(document.creationDate),
+      subjectDate: new Date(document.subjectDate),
     })),
   };
 }

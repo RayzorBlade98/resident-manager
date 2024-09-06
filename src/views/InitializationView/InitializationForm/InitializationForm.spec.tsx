@@ -44,6 +44,8 @@ describe('InitializationForm', () => {
     houseNumberProperty: 13,
     waterUsageCost: 1000,
     sewageCost: 500,
+    rentIndexUrl: 'example.org/rentIndex',
+    cappingLimit: 20,
   };
 
   const invalidInputValues = {
@@ -66,6 +68,8 @@ describe('InitializationForm', () => {
     houseNumberProperty: undefined,
     waterUsageCost: undefined,
     sewageCost: undefined,
+    rentIndexUrl: '',
+    cappingLimit: undefined,
   };
 
   function inputToForm(inputValues: {
@@ -87,6 +91,8 @@ describe('InitializationForm', () => {
     houseNumberProperty: number | undefined;
     waterUsageCost: number | undefined;
     sewageCost: number | undefined;
+    rentIndexUrl: string;
+    cappingLimit: number | undefined;
   }) {
     function input(element: Element | null, value: string | undefined) {
       if (!element) {
@@ -180,6 +186,14 @@ describe('InitializationForm', () => {
         inputValues.sewageCost
           ? (inputValues.sewageCost / 100).toString()
           : undefined,
+      );
+      input(
+        baseElement.querySelector('#rentIndexUrl'),
+        inputValues.rentIndexUrl,
+      );
+      input(
+        baseElement.querySelector('#cappingLimit'),
+        inputValues.cappingLimit?.toString(),
       );
     });
   }
@@ -290,6 +304,8 @@ describe('InitializationForm', () => {
       numberOfApartments: validInputValues.numberOfApartments,
       apartments: [],
       parkingSpaces: [],
+      rentIndexUrl: validInputValues.rentIndexUrl,
+      cappingLimit: validInputValues.cappingLimit,
     };
 
     const expectedWaterCosts: WaterCostsState = {

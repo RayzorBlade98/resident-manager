@@ -10,6 +10,7 @@ import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInp
 import GroupedForm from '_/components/form/GroupedForm/GroupedForm';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 import SalutationSelect from '_/components/form/SalutationSelect/SalutationSelect';
+import TextInputField from '_/components/form/TextInputField/TextInputField';
 import MonthYear from '_/extensions/date/month_year.extension';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import { Salutation } from '_/models/name';
@@ -67,6 +68,8 @@ function InitializationForm() {
         },
         apartments: [],
         parkingSpaces: [],
+        rentIndexUrl: values.rentIndexUrl,
+        cappingLimit: values.cappingLimit,
       });
       setWaterCostState({
         waterUsageCosts: [
@@ -322,14 +325,15 @@ function InitializationForm() {
                 </Grid>
               </Grid>
             </containers.landlord>
-            <containers.waterCosts>
+            <containers.other>
+              <h3>Wasserkosten</h3>
               <Grid
                 container
                 columnSpacing={2}
                 rowSpacing={2}
                 sx={styles.container}
               >
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <CurrencyInputField
                     required
                     id="waterUsageCost"
@@ -339,7 +343,7 @@ function InitializationForm() {
                     errorMessage={formErrors.waterUsageCost}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <CurrencyInputField
                     required
                     id="sewageCost"
@@ -350,7 +354,39 @@ function InitializationForm() {
                   />
                 </Grid>
               </Grid>
-            </containers.waterCosts>
+              <h3>Mieterhöhung</h3>
+              <Grid
+                container
+                columnSpacing={2}
+                rowSpacing={2}
+                sx={styles.container}
+              >
+                <Grid item xs={6}>
+                  <TextInputField
+                    required
+                    id="rentIndexUrl"
+                    label="Mietspiegel Url"
+                    value={formInput.rentIndexUrl}
+                    onChange={formInputSetters.rentIndexUrl}
+                    errorMessage={formErrors.rentIndexUrl}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <NumberTextField
+                    required
+                    id="cappingLimit"
+                    label="Kappungsgrenze"
+                    value={formInput.cappingLimit}
+                    onChange={formInputSetters.cappingLimit}
+                    errorMessage={formErrors.cappingLimit}
+                    unit="%"
+                    min={1}
+                    max={20}
+                    onlyInteger
+                  />
+                </Grid>
+              </Grid>
+            </containers.other>
           </>
         )}
       </GroupedForm>

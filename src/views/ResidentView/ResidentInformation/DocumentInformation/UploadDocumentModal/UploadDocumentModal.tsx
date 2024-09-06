@@ -77,7 +77,7 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
     defaultFormInput: {
       name: undefined,
       file: undefined,
-      type: DocumentType.Contract,
+      type: DocumentType.CoverLetter,
       date: undefined,
     },
     onSubmitSuccess: (values) => {
@@ -86,7 +86,7 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
       const fileEnding = values.file.split('.').pop();
       const documentFile = `${documentId}.${fileEnding}`;
 
-      void window.ipcAPI
+      void window.ipcAPI.persistence
         .uploadDocument(values.file, documentFile, {
           type: 'resident',
           residentId: selectedResident.id,
@@ -95,7 +95,8 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
           addDocument({
             name: values.name,
             type: values.type,
-            date: values.date,
+            creationDate: values.date,
+            subjectDate: values.date,
             id: documentId,
           });
           props.onCloseModal();
@@ -134,7 +135,15 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
             onChange={formInputSetters.type}
             values={
               Object.fromEntries(
-                Object.values(DocumentType).map((s) => [s, s]),
+                Object.values(DocumentType)
+                  .filter(
+                    (s) => ![
+
+                      DocumentType.Contract,
+                      DocumentType.RentIncrease,
+                    ].includes(s),
+                  )
+                  .map((s) => [s, s]),
               ) as Record<DocumentType, DocumentType>
             }
           />

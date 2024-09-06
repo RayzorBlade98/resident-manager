@@ -25,7 +25,11 @@ function GeneralResidentInformation(): JSX.Element {
         onCloseModal={() => setShowEditModal(false)}
       />
       {selectedResident.contractResidents.map((contractResident) => (
-        <p>{convertNameToString(contractResident.name, true)}</p>
+        <p>
+          {convertNameToString(contractResident.name, {
+            includeSalutation: true,
+          })}
+        </p>
       ))}
       <p>
         {convertCurrencyCentsToString(selectedResident.rentInformation[0].rent)}

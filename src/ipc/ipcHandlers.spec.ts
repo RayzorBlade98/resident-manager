@@ -4,11 +4,15 @@ import { range } from 'lodash';
 import { v4 } from 'uuid';
 import ipcCommands from './ipcCommands';
 import addIpcHandlers from './ipcHandlers';
-import { ContractGenerationArgs } from './utils/contractGeneration';
-import generateContract from './utils/contractGeneration/generateContract';
+import generateContract from './modules/documentGeneration/contractGeneration/generateContract';
+import { ContractGenerationArgs } from './modules/documentGeneration/contractGeneration/generateContractMarkdown';
+import { GenerateRentIncreasePdfArgs } from './modules/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
+import { generateRentIncreasePdf } from './modules/documentGeneration/rentIncrease/generateRentIncreasePdf';
+import * as exportObjectModule from './modules/persistence/exportObject/exportObject';
+import * as importObjectModule from './modules/persistence/importObject/importObject';
+import * as uploadDocumentModule from './modules/persistence/uploadDocument/uploadDocument';
 import * as persistenceModule from './utils/persistence';
 import { DocumentTarget } from './utils/persistence/documentTarget';
-import * as uploadDocumentModule from './utils/persistence/uploadDocument';
 import MonthYear from '_/extensions/date/month_year.extension';
 import InvoiceBuilder from '_/test/builders/invoice.builder';
 import LandlordBuilder from '_/test/builders/landlord.builder';
@@ -17,10 +21,20 @@ import ResidentBuilder from '_/test/builders/resident.builder';
 import ResidentInvoiceInformationBuilder from '_/test/builders/residentInvoiceInformation.builder';
 import { ipcMain, ipcRenderer } from '_/test/electronModuleMock';
 
-jest.mock('./utils/contractGeneration/generateContract', () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
+jest.mock(
+  './modules/documentGeneration/contractGeneration/generateContract',
+  () => ({
+    __esModule: true,
+    default: jest.fn(),
+  }),
+);
+
+jest.mock(
+  './modules/documentGeneration/rentIncrease/generateRentIncreasePdf',
+  () => ({
+    generateRentIncreasePdf: jest.fn(),
+  }),
+);
 
 describe('addIpcHandlers', () => {
   let exportObjectSpy: jest.SpyInstance;
@@ -31,9 +45,9 @@ describe('addIpcHandlers', () => {
 
   beforeEach(() => {
     exportObjectSpy = jest
-      .spyOn(persistenceModule, 'exportObject')
+      .spyOn(exportObjectModule, 'exportObject')
       .mockReturnValue();
-    importObjectSpy = jest.spyOn(persistenceModule, 'importObject');
+    importObjectSpy = jest.spyOn(importObjectModule, 'importObject');
     openDirectoryDialogSpy = jest.spyOn(
       persistenceModule,
       'openDirectoryDialog',
@@ -192,5 +206,36 @@ describe('addIpcHandlers', () => {
       fileName,
       target,
     );
+  });
+
+  test('generateRentIncreasePdf should be handled correctly', async () => {
+    // Arrange
+    const documentId = 'rent increase id';
+    (generateRentIncreasePdf as jest.Mock).mockResolvedValue(documentId);
+
+    const resident = new ResidentBuilder().build();
+    const property = new PropertyBuilder().build();
+    const landlord = new LandlordBuilder().build();
+    const newRent = 100;
+    const monthForIncrease = new MonthYear(9, 2024);
+    const args: GenerateRentIncreasePdfArgs = {
+      resident,
+      newRent,
+      monthForIncrease,
+      property,
+      landlord,
+    };
+
+    // Act
+    const actualDocumentId = await ipcRenderer.invoke(
+      ipcCommands.generateRentIncreasePdf,
+      args,
+    );
+
+    // Act
+    expect(generateRentIncreasePdf).toHaveBeenCalledTimes(1);
+    expect(generateRentIncreasePdf).toHaveBeenLastCalledWith(args);
+
+    expect(actualDocumentId).toEqual(documentId);
   });
 });

@@ -24,7 +24,8 @@ function DocumentTable(): JSX.Element {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Datum</TableCell>
+            <TableCell>Erstellungsdatum</TableCell>
+            <TableCell>Betreffdatum</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Typ</TableCell>
             <TableCell>Aktionen</TableCell>
@@ -36,7 +37,8 @@ function DocumentTable(): JSX.Element {
               key={document.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell>{document.date.toPreferredString()}</TableCell>
+              <TableCell>{document.creationDate.toPreferredString()}</TableCell>
+              <TableCell>{document.subjectDate.toPreferredString()}</TableCell>
               <TableCell>{document.name}</TableCell>
               <TableCell>{document.type}</TableCell>
               <TableCell />

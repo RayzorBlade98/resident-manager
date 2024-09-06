@@ -69,6 +69,9 @@ describe('GenerateContractModal', () => {
   }
 
   beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date(2024, 7, 20));
+
     jest.spyOn(useResidentModule, 'default').mockReturnValue(useResidentMock);
 
     baseElement = render(
@@ -116,7 +119,7 @@ describe('GenerateContractModal', () => {
   test('should submit created resident', async () => {
     // Arrange
     const documentId = 'documentId';
-    mockedIpcAPIFunctions.generateContractPdf.mockResolvedValue(documentId);
+    mockedIpcAPIFunctions.documentGeneration.generateContractPdf.mockResolvedValue(documentId);
 
     const extendedRentInformationResident = new ResidentBuilder().build();
     useResidentMock.extendRentInformation.mockReturnValue(extendedRentInformationResident);
@@ -138,8 +141,8 @@ describe('GenerateContractModal', () => {
     expect(applyHistoryToResident).toHaveBeenCalledTimes(1);
     expect(applyHistoryToResident).toHaveBeenLastCalledWith(extendedRentInformationResident, validInputValues.contractStart);
 
-    expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenCalledTimes(1);
-    expect(mockedIpcAPIFunctions.generateContractPdf).toHaveBeenLastCalledWith({
+    expect(mockedIpcAPIFunctions.documentGeneration.generateContractPdf).toHaveBeenCalledTimes(1);
+    expect(mockedIpcAPIFunctions.documentGeneration.generateContractPdf).toHaveBeenLastCalledWith({
       contractStart: validInputValues.contractStart,
       resident: historicalResident,
       landlord,
@@ -149,7 +152,8 @@ describe('GenerateContractModal', () => {
     expect(useResidentMock.addDocument).toHaveBeenLastCalledWith({
       id: documentId,
       type: DocumentType.Contract,
-      date: validInputValues.contractStart,
+      creationDate: new Date(),
+      subjectDate: validInputValues.contractStart,
       name: 'Mietvertrag März 2024',
     });
   });

@@ -95,32 +95,32 @@ export async function importSaveStates(): Promise<void> {
 export function exportSaveStates(): void {
   // Incidentals
   const incidentals = getRecoil(incidentalsState);
-  void window.ipcAPI.exportObject(
+  void window.ipcAPI.persistence.exportObject(
     incidentals,
     persistenceFilenames.incidentals,
   );
 
   // Invoices
   const invoices = getRecoil(invoiceState);
-  void window.ipcAPI.exportObject(invoices, persistenceFilenames.invoices);
+  void window.ipcAPI.persistence.exportObject(invoices, persistenceFilenames.invoices);
 
   // Residents
   const residents = getRecoil(residentState);
-  void window.ipcAPI.exportObject(residents, persistenceFilenames.residents);
+  void window.ipcAPI.persistence.exportObject(residents, persistenceFilenames.residents);
 
   // Property
   const property = getRecoil(propertyState);
   if (property) {
-    void window.ipcAPI.exportObject(property, persistenceFilenames.property);
+    void window.ipcAPI.persistence.exportObject(property, persistenceFilenames.property);
   }
 
   // Water costs
   const waterCosts = getRecoil(waterCostsState);
-  void window.ipcAPI.exportObject(waterCosts, persistenceFilenames.waterCosts);
+  void window.ipcAPI.persistence.exportObject(waterCosts, persistenceFilenames.waterCosts);
 
   // Landlord
   const landlord = getRecoil(landlordState);
-  void window.ipcAPI.exportObject(landlord, persistenceFilenames.landlord);
+  void window.ipcAPI.persistence.exportObject(landlord, persistenceFilenames.landlord);
 }
 
 /**
@@ -134,7 +134,7 @@ async function importSaveState<TState extends object>(
   recoilState: RecoilState<TState>,
   converter: (imported: Imported<TState>) => TState,
 ) {
-  const imported = await window.ipcAPI.importObject<Imported<TState>>(filename);
+  const imported = await window.ipcAPI.persistence.importObject<Imported<TState>>(filename);
   if (imported) {
     setRecoil(recoilState, converter(imported));
   }

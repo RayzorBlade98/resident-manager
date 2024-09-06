@@ -13,6 +13,8 @@ class PropertyBuilder {
       address: new AddressBuilder().build(),
       apartments: [],
       parkingSpaces: [],
+      rentIndexUrl: 'example.org/rentIndex',
+      cappingLimit: 20,
     };
   }
 
@@ -23,6 +25,16 @@ class PropertyBuilder {
 
   public withAdress(address: Address): PropertyBuilder {
     this.property.address = address;
+    return this;
+  }
+
+  public withRentIndexUrl(rentIndexUrl: string): PropertyBuilder {
+    this.property.rentIndexUrl = rentIndexUrl;
+    return this;
+  }
+
+  public withCappingLimit(cappingLimit: number): PropertyBuilder {
+    this.property.cappingLimit = cappingLimit;
     return this;
   }
 

@@ -25,6 +25,16 @@ interface Property {
    * List of all parking spaces that are on the property
    */
   parkingSpaces: ParkingSpace[];
+
+  /**
+   * Url to the official rent index website of the city
+   */
+  rentIndexUrl: string;
+
+  /**
+   * Capping limit of the rent increase in %
+   */
+  cappingLimit: number;
 }
 
 export default Property;

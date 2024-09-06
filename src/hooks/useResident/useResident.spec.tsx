@@ -5,15 +5,21 @@ import _, { range } from 'lodash';
 import { RecoilRoot } from 'recoil';
 import useResident from './useResident';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { DocumentType } from '_/models/resident/document';
 import { Resident } from '_/models/resident/resident';
+import landlordState from '_/states/landlord/landlord.state';
+import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
 import ContractResidentBuilder from '_/test/builders/contractResident.builder';
+import LandlordBuilder from '_/test/builders/landlord.builder';
 import LinkedDocumentBuilder from '_/test/builders/linkedDocument.builder';
 import NameBuilder from '_/test/builders/name.builder';
+import PropertyBuilder from '_/test/builders/property.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 import useInitializedRecoilState from '_/test/hooks/useInitializedRecoilState';
+import { mockedIpcAPIFunctions } from '_/test/ipcApiMock';
 
 describe('useResident', () => {
   const residents = range(0, 3).map((__) => new ResidentBuilder()
@@ -54,13 +60,25 @@ describe('useResident', () => {
     )
     .withNumberOfResidents(5)
     .addDocument(
-      new LinkedDocumentBuilder().withDate(new Date(2024, 5, 9)).build(),
+      new LinkedDocumentBuilder()
+        .withSubjectDate(new Date(2023, 5, 9))
+        .build(),
     )
     .addDocument(
-      new LinkedDocumentBuilder().withDate(new Date(2024, 5, 8)).build(),
+      new LinkedDocumentBuilder()
+        .withSubjectDate(new Date(2023, 5, 8))
+        .build(),
     )
     .build());
   const selectedResident = residents[1];
+
+  const property = new PropertyBuilder().build();
+  const landlord = new LandlordBuilder().build();
+
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date(2024, 7, 20));
+  });
 
   describe('residents', () => {
     test('should return right resident', () => {
@@ -150,17 +168,31 @@ describe('useResident', () => {
   });
 
   describe('increaseRent', () => {
-    test('should set state correctly', () => {
+    test('should generate document and set state correctly', async () => {
       // Arrange
       const rentIncrease = {
         newRent: 600,
         monthForIncrease: new MonthYear(11, 2023),
       };
+
+      const documentId = 'rent increase document id';
+      mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf.mockResolvedValue(
+        documentId,
+      );
+
       const { result } = renderHook(
         () => useInitializedRecoilState({
           state: residentState,
           stateValue: residents,
-          hook: () => useResident(selectedResident.id),
+          hook: () => useInitializedRecoilState({
+            state: propertyState,
+            stateValue: property,
+            hook: () => useInitializedRecoilState({
+              state: landlordState,
+              stateValue: landlord,
+              hook: () => useResident(selectedResident.id),
+            }),
+          }),
         }),
         {
           wrapper: RecoilRoot,
@@ -168,11 +200,23 @@ describe('useResident', () => {
       );
 
       // Act
-      act(() => {
-        result.current.increaseRent(rentIncrease);
+      await act(async () => {
+        await result.current.increaseRent(rentIncrease);
       });
 
       // Assert
+      expect(
+        mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf,
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        mockedIpcAPIFunctions.documentGeneration.generateRentIncreasePdf,
+      ).toHaveBeenLastCalledWith({
+        ...rentIncrease,
+        resident: selectedResident,
+        property,
+        landlord,
+      });
+
       expect(result.current.resident).toEqual({
         ...selectedResident,
         rentInformation: [
@@ -191,10 +235,20 @@ describe('useResident', () => {
           },
           ...selectedResident.rentInformation,
         ],
+        documents: [
+          {
+            id: documentId,
+            name: 'Mieterhöhung Dezember 2023',
+            type: DocumentType.RentIncrease,
+            creationDate: new Date(),
+            subjectDate: rentIncrease.monthForIncrease,
+          },
+          ...selectedResident.documents,
+        ],
       });
     });
 
-    test('should set state correctly for existing rent info', () => {
+    test('should set state correctly for existing rent info', async () => {
       // Arrange
       const rentIncrease = {
         newRent: 600,
@@ -212,18 +266,17 @@ describe('useResident', () => {
       );
 
       // Act
-      act(() => {
-        result.current.increaseRent(rentIncrease);
+      await act(async () => {
+        await result.current.increaseRent(rentIncrease);
       });
 
       // Assert
-      expect(result.current.resident).toEqual({
-        ...selectedResident,
-        rentInformation: selectedResident.rentInformation.map((r) => ({
+      expect(result.current.resident?.rentInformation).toEqual(
+        selectedResident.rentInformation.map((r) => ({
           ...r,
           rent: rentIncrease.newRent,
         })),
-      });
+      );
     });
   });
 
@@ -231,7 +284,7 @@ describe('useResident', () => {
     test('should set state correctly', () => {
       // Arrange
       const document = new LinkedDocumentBuilder()
-        .withDate(new Date(2024, 5, 7))
+        .withSubjectDate(new Date(2022, 5, 7))
         .build();
       const { result } = renderHook(
         () => useInitializedRecoilState({

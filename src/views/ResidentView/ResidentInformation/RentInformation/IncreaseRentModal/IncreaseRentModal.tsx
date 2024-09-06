@@ -61,11 +61,11 @@ function IncreaseRentModal(props: IncreaseRentModalProps) {
     }),
     defaultFormInput: {
       newRent: undefined,
-      firstMonth: new MonthYear().addMonths(1),
+      firstMonth: new MonthYear().addMonths(3),
     },
     submitButtonLabel: 'Bestätigen',
     onSubmitSuccess: (values) => {
-      increaseRent({
+      void increaseRent({
         newRent: values.newRent,
         monthForIncrease: values.firstMonth,
       });

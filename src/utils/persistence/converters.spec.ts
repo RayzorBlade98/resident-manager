@@ -305,13 +305,15 @@ describe('convertImportedResidents', () => {
             id: 'document1',
             type: DocumentType.Contract,
             name: 'Document 1',
-            date: new Date(2023, 5, 8),
+            creationDate: new Date(2023, 4, 10),
+            subjectDate: new Date(2023, 5, 8),
           },
           {
             id: 'document2',
             type: DocumentType.Contract,
             name: 'Document 2',
-            date: new Date(2023, 5, 7),
+            creationDate: new Date(2023, 4, 11),
+            subjectDate: new Date(2023, 5, 7),
           },
         ],
       },
@@ -391,6 +393,8 @@ describe('convertImportedProperty', () => {
           ],
         },
       ],
+      rentIndexUrl: 'example.org/rentIndex',
+      cappingLimit: 20,
     };
     const propertyJson = JSON.parse(JSON.stringify(property));
 

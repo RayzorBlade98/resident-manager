@@ -1,17 +1,26 @@
+/* eslint-disable @typescript-eslint/ban-types */
+type DeepMock<T> = {
+  [K in keyof T]: T[K] extends Function ? jest.Mock : DeepMock<T[K]>;
+};
+
 /**
  * Mock functions for the ipcAPI
  */
-export const mockedIpcAPIFunctions: Record<
-keyof typeof window.ipcAPI,
-jest.Mock
-> = {
+export const mockedIpcAPIFunctions: DeepMock<typeof window.ipcAPI> = {
   rendererReady: jest.fn(),
-  importObject: jest.fn(),
-  exportObject: jest.fn(),
-  generateInvoicePdfs: jest.fn(),
-  generateContractPdf: jest.fn(),
-  selectFile: jest.fn(),
-  uploadDocument: jest.fn(),
+  persistence: {
+    importObject: jest.fn(),
+    exportObject: jest.fn(),
+    uploadDocument: jest.fn(),
+  },
+  documentGeneration: {
+    generateInvoicePdfs: jest.fn(),
+    generateContractPdf: jest.fn(),
+    generateRentIncreasePdf: jest.fn(),
+  },
+  fileSystem: {
+    selectFile: jest.fn(),
+  },
 };
 
 /**

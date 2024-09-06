@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { DocumentTarget } from './documentTarget';
-import * as getAppDataDirectoryModule from './getAppDataDirectory';
+import { DocumentTarget } from '../../../utils/persistence/documentTarget';
+import * as getAppDataDirectoryModule from '../../../utils/persistence/getAppDataDirectory';
 import uploadDocument from './uploadDocument';
 
 describe('uploadDocument', () => {
