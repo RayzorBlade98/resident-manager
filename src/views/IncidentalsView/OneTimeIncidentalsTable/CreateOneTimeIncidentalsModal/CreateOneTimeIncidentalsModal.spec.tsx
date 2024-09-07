@@ -15,7 +15,6 @@ describe('CreateOneTimeIncidentalsModal', () => {
     name: 'Testnebenkosten',
     cost: 10000,
     billingDate: new Date(2023, 5, 16).toUTC(),
-    paymentDate: new Date(2023, 5, 17).toUTC(),
     deductionType: DeductionType.PerApartment,
   };
 
@@ -23,7 +22,6 @@ describe('CreateOneTimeIncidentalsModal', () => {
     name: '',
     cost: undefined,
     billingDate: undefined,
-    paymentDate: undefined,
     deductionType: DeductionType.PerResident,
   };
 
@@ -31,14 +29,12 @@ describe('CreateOneTimeIncidentalsModal', () => {
     name: string;
     cost: number | undefined;
     billingDate: Date | undefined;
-    paymentDate: Date | undefined;
   }) {
     const inputFields = baseElement.querySelectorAll('input');
     const inputs = [
       inputValues.name,
       inputValues.cost ? (inputValues.cost / 100).toString() : undefined,
       inputValues.billingDate?.toPreferredString() ?? '',
-      inputValues.paymentDate?.toPreferredString() ?? '',
     ];
     act(() => {
       inputs.forEach((input, i) => fireEvent.change(inputFields.item(i < 2 ? i : i + 1), {

@@ -33,7 +33,7 @@ function AddWaterMeterReadingForm(): JSX.Element {
   return (
     <form>
       <Grid container columnSpacing={2} rowSpacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <NumberTextField
             required
             id="waterMeterCount"
@@ -47,7 +47,7 @@ function AddWaterMeterReadingForm(): JSX.Element {
             min={(resident?.waterMeterReadings.at(0)?.waterMeterCount ?? 0) + 1}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <StandardDateField
             required
             id="readingDate"

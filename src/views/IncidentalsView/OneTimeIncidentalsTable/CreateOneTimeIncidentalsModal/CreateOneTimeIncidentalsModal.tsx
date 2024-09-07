@@ -44,11 +44,6 @@ interface CreateOneTimeIncidentalsInput {
   billingDate: Date;
 
   /**
-   * Payment date of the new incidentals
-   */
-  paymentDate: Date | undefined;
-
-  /**
    * Deduction type of the new incidentals
    */
   deductionType: DeductionType;
@@ -78,7 +73,6 @@ function CreateOneTimeIncidentalsModal(
       name: '',
       cost: undefined,
       billingDate: new Date().toUTC(),
-      paymentDate: undefined,
       deductionType: DeductionType.PerApartment,
     },
     onSubmitSuccess: (values) => {
@@ -87,7 +81,6 @@ function CreateOneTimeIncidentalsModal(
         name: values.name,
         cost: values.cost,
         billingDate: values.billingDate,
-        paymentDate: values.paymentDate,
         deductionType: values.deductionType,
       });
       props.onCloseModal();
@@ -145,15 +138,6 @@ function CreateOneTimeIncidentalsModal(
             value={formInput.billingDate}
             onChange={formInputSetters.billingDate}
             errorMessage={formErrors.billingDate}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <StandardDateField
-            label="Zahlungsdatum"
-            id="paymentDate"
-            value={formInput.paymentDate}
-            onChange={formInputSetters.paymentDate}
-            errorMessage={formErrors.paymentDate}
           />
         </Grid>
       </Grid>

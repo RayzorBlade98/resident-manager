@@ -16,6 +16,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Rent payments
     - Hide add rent payment button if payment was already added
+- One time incidentals
+    - Removed payment from creation form
+
+### Fixed
+
+- UI
+    - Date field full width
+    - Add water meter reading modal layout
 
 ## v0.2.0 - 2024-08-21
 
