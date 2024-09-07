@@ -64,22 +64,27 @@ describe('ipcAPI', () => {
     test('uploadDocument should invoke uploadDocument event', async () => {
       // Arrange
       const uploadedFile = 'test/file.txt';
-      const fileName = 'test.txt';
       const target: DocumentTarget = {
         type: 'resident',
         residentId: 'resident1',
       };
+      const expectedDocumentId = 'uploaded-document-id';
+
+      invokeSpy.mockResolvedValueOnce(expectedDocumentId);
 
       // Act
-      await ipcAPI.persistence.uploadDocument(uploadedFile, fileName, target);
+      const documentId = await ipcAPI.persistence.uploadDocument(
+        uploadedFile,
+        target,
+      );
 
       // Assert
       expect(invokeSpy).toHaveBeenLastCalledWith(
         ipcCommands.uploadDocument,
         uploadedFile,
-        fileName,
         target,
       );
+      expect(documentId).toBe(expectedDocumentId);
     });
   });
 

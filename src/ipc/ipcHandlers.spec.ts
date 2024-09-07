@@ -181,21 +181,20 @@ describe('addIpcHandlers', () => {
   test('uploadDocument should be handled correctly', async () => {
     // Arrange
     const uploadedFile = 'test/file.txt';
-    const fileName = 'test.txt';
     const target: DocumentTarget = {
       type: 'resident',
       residentId: 'resident1',
     };
+    const expectedDocumentId = 'uploaded-document-id';
 
     const uploadDocumentMock = jest
       .spyOn(uploadDocumentModule, 'default')
-      .mockReturnValue();
+      .mockReturnValue(expectedDocumentId);
 
     // Act
-    await ipcRenderer.invoke(
+    const documentId = await ipcRenderer.invoke(
       ipcCommands.uploadDocument,
       uploadedFile,
-      fileName,
       target,
     );
 
@@ -203,9 +202,9 @@ describe('addIpcHandlers', () => {
     expect(uploadDocumentMock).toHaveBeenCalledTimes(1);
     expect(uploadDocumentMock).toHaveBeenLastCalledWith(
       uploadedFile,
-      fileName,
       target,
     );
+    expect(documentId).toBe(expectedDocumentId);
   });
 
   test('generateRentIncreasePdf should be handled correctly', async () => {

@@ -26,6 +26,11 @@ export enum DocumentType {
    * Document type representing a signed rent increase notification
    */
   RentIncreaseSigned = 'Mieterhöhung (unterschrieben)',
+
+  /**
+   * Document type representing a bank transfer
+   */
+  BankTransfer = 'Überweisung',
 }
 
 /**

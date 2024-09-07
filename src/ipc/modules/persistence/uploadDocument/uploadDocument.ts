@@ -1,5 +1,6 @@
 import { copyFileSync, mkdirSync, existsSync } from 'fs';
 import path from 'path';
+import { v4 as uuid } from 'uuid';
 import { DocumentTarget } from '../../../utils/persistence/documentTarget';
 import getAppDataDirectory from '../../../utils/persistence/getAppDataDirectory';
 
@@ -8,12 +9,12 @@ import getAppDataDirectory from '../../../utils/persistence/getAppDataDirectory'
  * @param uploadedFile File that should be copied to the documents
  * @param fileName Filename the copied document should have
  * @param target Target to which the document is linked to
+ * @returns id of the uploaded file
  */
 function uploadDocument(
   uploadedFile: string,
-  fileName: string,
   target: DocumentTarget,
-) {
+): string {
   const destinationDir = path.join(
     getAppDataDirectory(),
     'documents',
@@ -24,9 +25,13 @@ function uploadDocument(
     mkdirSync(destinationDir, { recursive: true });
   }
 
-  const destinationFile = path.join(destinationDir, fileName);
+  const documentId = uuid();
+  const fileEnding = uploadedFile.split('.').pop();
+  const destinationFile = path.join(destinationDir, `${documentId}.${fileEnding}`);
 
   copyFileSync(uploadedFile, destinationFile);
+
+  return documentId;
 }
 
 /**

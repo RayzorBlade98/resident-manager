@@ -49,10 +49,9 @@ describe('uploadMarkdownAsPdf', () => {
 
     const uploadDocumentMock = jest
       .spyOn(uploadDocumentModule, 'default')
-      .mockReturnValue();
+      .mockReturnValue(documentId);
 
     const tmpFile = path.join(tmpDir, `${tmpId}.pdf`);
-    const contractFile = `${documentId}.pdf`;
 
     // Act
     const actualDocumentId = await uploadMarkdownAsPdf({
@@ -72,7 +71,6 @@ describe('uploadMarkdownAsPdf', () => {
     expect(uploadDocumentMock).toHaveBeenCalledTimes(1);
     expect(uploadDocumentMock).toHaveBeenLastCalledWith(
       tmpFile,
-      contractFile,
       target,
     );
 

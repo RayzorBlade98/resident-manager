@@ -40,19 +40,17 @@ const ipcAPI = {
     /**
      * Copies the selected file to the documents
      * @param uploadedFile File that should be copied to the documents
-     * @param fileName Filename the copied document should have
      * @param target Target to which the document is linked to
+     * @returns Id of the uploaded document
      */
     uploadDocument: (
       uploadedFile: string,
-      fileName: string,
       target: DocumentTarget,
     ) => ipcRenderer.invoke(
       ipcCommands.uploadDocument,
       uploadedFile,
-      fileName,
       target,
-    ) as Promise<void>,
+    ) as Promise<string>,
   },
 
   /**

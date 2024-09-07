@@ -62,7 +62,7 @@ export default function addIpcHandlers(): void {
 
   ipcMain.handle(
     ipcCommands.uploadDocument,
-    (_, uploadedFile: string, fileName: string, target: DocumentTarget) => uploadDocument(uploadedFile, fileName, target),
+    (_, uploadedFile: string, target: DocumentTarget) => uploadDocument(uploadedFile, target),
   );
 
   ipcMain.handle(

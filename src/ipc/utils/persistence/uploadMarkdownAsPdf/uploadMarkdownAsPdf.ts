@@ -21,7 +21,7 @@ type UploadMarkdownAsPdfArgs = {
 export async function uploadMarkdownAsPdf(
   args: UploadMarkdownAsPdfArgs,
 ): Promise<string> {
-  const tmpFile = path.join(getTmpDirectory(), getRandomPdfFile().fileName);
+  const tmpFile = path.join(getTmpDirectory(), `${uuid()}.pdf`);
   await mdToPdfFile(args.markdownContent, tmpFile, {
     ...args.mdToPdfOptions,
     showdownOptions: {
@@ -29,15 +29,8 @@ export async function uploadMarkdownAsPdf(
     },
   });
 
-  const { documentId, fileName } = getRandomPdfFile();
-  uploadDocument(tmpFile, fileName, args.target);
+  const documentId = uploadDocument(tmpFile, args.target);
   await rm(tmpFile);
 
   return documentId;
-}
-
-function getRandomPdfFile() {
-  const documentId = uuid();
-  const fileName = `${documentId}.pdf`;
-  return { documentId, fileName };
 }
