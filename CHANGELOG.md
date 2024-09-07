@@ -9,8 +9,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Rent payments
-    - Added payment amount default value to the add rent payments form
-    - Added bank transfer document
+    - Default value for payment amount in add rent payments form
+    - Bank transfer document
+
+### Changed
+
+- Rent payments
+    - Hide add rent payment button if payment was already added
 
 ## v0.2.0 - 2024-08-21
 
