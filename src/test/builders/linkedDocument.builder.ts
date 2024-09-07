@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { DocumentType, LinkedDocument } from '_/models/resident/document';
+import { LinkedDocument, DocumentType } from '_/models/document';
 
 class LinkedDocumentBuilder {
   private document: LinkedDocument = {

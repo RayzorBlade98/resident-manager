@@ -9,11 +9,11 @@ import {
   convertImportedWaterCosts,
 } from './converters';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { DocumentType } from '_/models/document';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
 import Landlord from '_/models/landlord/landlord';
 import { Salutation } from '_/models/name';
-import { DocumentType } from '_/models/resident/document';
 import { IncidentalsState } from '_/states/incidentals/incidentals.state';
 import { InvoiceState } from '_/states/invoice/invoice.state';
 import { PropertyState } from '_/states/property/property.state';

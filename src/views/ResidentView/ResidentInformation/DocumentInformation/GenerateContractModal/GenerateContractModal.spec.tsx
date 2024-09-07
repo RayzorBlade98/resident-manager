@@ -9,7 +9,7 @@ import GenerateContractModal from './GenerateContractModal';
 import MonthYear from '_/extensions/date/month_year.extension';
 import * as useResidentModule from '_/hooks/useResident/useResident';
 import useResident from '_/hooks/useResident/useResident';
-import { DocumentType } from '_/models/resident/document';
+import { DocumentType } from '_/models/document';
 import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';
@@ -21,9 +21,12 @@ import { mockedIpcAPIFunctions } from '_/test/ipcApiMock';
 import { applyHistoryToResident } from '_/utils/resident/applyHistoryToResident/applyHistoryToResident';
 import residentViewState from '_/views/ResidentView/states/resident_view_state';
 
-jest.mock('_/utils/resident/applyHistoryToResident/applyHistoryToResident', () => ({
-  applyHistoryToResident: jest.fn(),
-}));
+jest.mock(
+  '_/utils/resident/applyHistoryToResident/applyHistoryToResident',
+  () => ({
+    applyHistoryToResident: jest.fn(),
+  }),
+);
 
 describe('GenerateContractModal', () => {
   const resident = new ResidentBuilder().build();
@@ -119,10 +122,14 @@ describe('GenerateContractModal', () => {
   test('should submit created resident', async () => {
     // Arrange
     const documentId = 'documentId';
-    mockedIpcAPIFunctions.documentGeneration.generateContractPdf.mockResolvedValue(documentId);
+    mockedIpcAPIFunctions.documentGeneration.generateContractPdf.mockResolvedValue(
+      documentId,
+    );
 
     const extendedRentInformationResident = new ResidentBuilder().build();
-    useResidentMock.extendRentInformation.mockReturnValue(extendedRentInformationResident);
+    useResidentMock.extendRentInformation.mockReturnValue(
+      extendedRentInformationResident,
+    );
 
     const historicalResident = new ResidentBuilder().build();
     (applyHistoryToResident as jest.Mock).mockReturnValue(historicalResident);
@@ -136,13 +143,22 @@ describe('GenerateContractModal', () => {
     await waitFor(() => expect(useResidentMock.addDocument).toHaveBeenCalledTimes(1));
 
     expect(useResidentMock.extendRentInformation).toHaveBeenCalledTimes(1);
-    expect(useResidentMock.extendRentInformation).toHaveBeenLastCalledWith(validInputValues.contractStart);
+    expect(useResidentMock.extendRentInformation).toHaveBeenLastCalledWith(
+      validInputValues.contractStart,
+    );
 
     expect(applyHistoryToResident).toHaveBeenCalledTimes(1);
-    expect(applyHistoryToResident).toHaveBeenLastCalledWith(extendedRentInformationResident, validInputValues.contractStart);
+    expect(applyHistoryToResident).toHaveBeenLastCalledWith(
+      extendedRentInformationResident,
+      validInputValues.contractStart,
+    );
 
-    expect(mockedIpcAPIFunctions.documentGeneration.generateContractPdf).toHaveBeenCalledTimes(1);
-    expect(mockedIpcAPIFunctions.documentGeneration.generateContractPdf).toHaveBeenLastCalledWith({
+    expect(
+      mockedIpcAPIFunctions.documentGeneration.generateContractPdf,
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      mockedIpcAPIFunctions.documentGeneration.generateContractPdf,
+    ).toHaveBeenLastCalledWith({
       contractStart: validInputValues.contractStart,
       resident: historicalResident,
       landlord,

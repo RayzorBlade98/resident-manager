@@ -9,7 +9,8 @@ import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import UploadDocumentModal from './UploadDocumentModal';
 import useResident, * as useResidentModule from '_/hooks/useResident/useResident';
-import { DocumentType, LinkedDocument } from '_/models/resident/document';
+import { LinkedDocument, DocumentType } from '_/models/document';
+
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import ResidentBuilder from '_/test/builders/resident.builder';

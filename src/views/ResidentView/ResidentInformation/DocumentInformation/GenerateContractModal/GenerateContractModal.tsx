@@ -8,7 +8,7 @@ import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import MonthYear from '_/extensions/date/month_year.extension';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import useResident from '_/hooks/useResident/useResident';
-import { DocumentType } from '_/models/resident/document';
+import { DocumentType } from '_/models/document';
 import { Resident } from '_/models/resident/resident';
 import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
