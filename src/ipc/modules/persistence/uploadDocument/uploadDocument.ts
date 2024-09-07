@@ -11,10 +11,7 @@ import getAppDataDirectory from '../../../utils/persistence/getAppDataDirectory'
  * @param target Target to which the document is linked to
  * @returns id of the uploaded file
  */
-function uploadDocument(
-  uploadedFile: string,
-  target: DocumentTarget,
-): string {
+function uploadDocument(uploadedFile: string, target: DocumentTarget): string {
   const destinationDir = path.join(
     getAppDataDirectory(),
     'documents',
@@ -27,7 +24,10 @@ function uploadDocument(
 
   const documentId = uuid();
   const fileEnding = uploadedFile.split('.').pop();
-  const destinationFile = path.join(destinationDir, `${documentId}.${fileEnding}`);
+  const destinationFile = path.join(
+    destinationDir,
+    `${documentId}.${fileEnding}`,
+  );
 
   copyFileSync(uploadedFile, destinationFile);
 
@@ -40,12 +40,15 @@ function uploadDocument(
  * @returns target directory
  */
 function getTargetDirectory(target: DocumentTarget): string {
-  switch (target.type) {
+  const type = target.type;
+  switch (type) {
     case 'resident':
       return `residents/${target.residentId}`;
+    case 'incidentals':
+      return `incidentals/${target.incidentalsId}`;
     default:
-      const type: never = target.type;
-      throw new Error(`Missing case for target type ${type}`);
+      const typeNever: never = type;
+      throw new Error(`Missing case for target type ${typeNever}`);
   }
 }
 

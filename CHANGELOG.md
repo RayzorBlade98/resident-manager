@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Rent payments
     - Default value for payment amount in add rent payments form
     - Bank transfer document
+- One time incidentals
+    - Bill document    
 
 ### Changed
 

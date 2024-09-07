@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { ValidationConstraint } from '../../../../utils/validation/constraints';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
 import DeductionTypeSelect from '_/components/form/DeductionTypeSelect/DeductionTypeSelect';
+import FileSelect from '_/components/form/FileSelect/FileSelect';
 import StandardDateField from '_/components/form/StandardDateField/StandardDateField';
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
@@ -47,6 +48,11 @@ interface CreateOneTimeIncidentalsInput {
    * Deduction type of the new incidentals
    */
   deductionType: DeductionType;
+
+  /**
+   * Path to the bill document
+   */
+  billFile: string | undefined;
 }
 
 /**
@@ -74,16 +80,27 @@ function CreateOneTimeIncidentalsModal(
       cost: undefined,
       billingDate: new Date().toUTC(),
       deductionType: DeductionType.PerApartment,
+      billFile: undefined,
     },
     onSubmitSuccess: (values) => {
-      addOneTimeIncidentals({
-        id: uuid(),
-        name: values.name,
-        cost: values.cost,
-        billingDate: values.billingDate,
-        deductionType: values.deductionType,
+      const id = uuid();
+      void (values.billFile
+        ? window.ipcAPI.persistence.uploadDocument(values.billFile, {
+          type: 'incidentals',
+          incidentalsId: id,
+        })
+        : Promise.resolve(undefined)
+      ).then((billDocumentId) => {
+        addOneTimeIncidentals({
+          id,
+          name: values.name,
+          cost: values.cost,
+          billingDate: values.billingDate,
+          deductionType: values.deductionType,
+          billDocumentId,
+        });
+        props.onCloseModal();
       });
-      props.onCloseModal();
     },
     submitButtonLabel: 'Erstellen',
   });
@@ -138,6 +155,15 @@ function CreateOneTimeIncidentalsModal(
             value={formInput.billingDate}
             onChange={formInputSetters.billingDate}
             errorMessage={formErrors.billingDate}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FileSelect
+            id="billFile"
+            label="Rechnung"
+            value={formInput.billFile}
+            onChange={formInputSetters.billFile}
+            errorMessage={formErrors.billFile}
           />
         </Grid>
       </Grid>
