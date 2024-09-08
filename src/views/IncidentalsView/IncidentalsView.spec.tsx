@@ -1,11 +1,11 @@
 import { RenderResult, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
-import { range } from 'lodash';
 import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import View from '../../routes';
 import { CONTENT_HEIGHT, CONTENT_WIDTH } from '../../styles';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import App from '_/renderer/App';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import waterCostsState from '_/states/waterCosts/waterCosts.state';
@@ -32,7 +32,30 @@ describe('IncidentalsView', () => {
               new OngoingIncidentalsBuilder().withId('id2').build(),
               new OngoingIncidentalsBuilder().withId('id3').build(),
             ],
-            oneTimeIncidentals: range(0, 3).map((i) => new OneTimeIncidentalsBuilder().withId(i.toString()).build()),
+            oneTimeIncidentals: [
+              new OneTimeIncidentalsBuilder()
+                .withId('id1')
+                .withName('One Time Incidentals 1')
+                .withCosts(12300)
+                .withBillingDate(new Date(2023, 5, 16))
+                .withDeductionType(DeductionType.PerApartment)
+                .build(),
+              new OneTimeIncidentalsBuilder()
+                .withId('id2')
+                .withName('One Time Incidentals 2')
+                .withCosts(32100)
+                .withBillingDate(new Date(2023, 5, 13))
+                .withPaymentDate(new Date(2023, 5, 20))
+                .withDeductionType(DeductionType.PerApartment)
+                .build(),
+              new OneTimeIncidentalsBuilder()
+                .withId('id3')
+                .withName('One Time Incidentals 3')
+                .withCosts(333000)
+                .withBillingDate(new Date(2023, 5, 10))
+                .withDeductionType(DeductionType.PerResident)
+                .build(),
+            ],
           }));
           setRecoil(
             waterCostsState,

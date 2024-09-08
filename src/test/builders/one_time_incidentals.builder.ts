@@ -32,6 +32,11 @@ class OneTimeIncidentalsBuilder {
     return this;
   }
 
+  public withPaymentDate(date: Date): OneTimeIncidentalsBuilder {
+    this.incidentals.paymentDate = date.toUTC();
+    return this;
+  }
+
   public withDeductionType(
     deductionType: DeductionType,
   ): OneTimeIncidentalsBuilder {

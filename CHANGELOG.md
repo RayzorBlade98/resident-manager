@@ -12,14 +12,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
     - Default value for payment amount in add rent payments form
     - Bank transfer document
 - One time incidentals
-    - Bill document    
+    - Bill document
+    - Bank transfer document
 
 ### Changed
 
 - Rent payments
     - Hide add rent payment button if payment was already added
 - One time incidentals
-    - Removed payment from creation form
+    - Moved payment from creation form to new form
 
 ### Fixed
 

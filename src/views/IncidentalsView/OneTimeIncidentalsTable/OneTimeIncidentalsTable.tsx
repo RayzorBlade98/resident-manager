@@ -8,8 +8,10 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { convertCurrencyCentsToString } from '../../../utils/currency/currency.utils';
+import { AddOneTimeIncidentalsPaymentModal } from './AddOneTimeIncidentalsPaymentModal/AddOneTimeIncidentalsPaymentModal';
 import CreateOneTimeIncidentalsModal from './CreateOneTimeIncidentalsModal/CreateOneTimeIncidentalsModal';
 import '_/extensions/date/date.extension';
+import { AddPaymentIcon } from '_/components/generic/ModalIconButton/AddPaymentIcon/AddPaymentIcon';
 import useIncidentalsState from '_/hooks/useIncidentalsState/useIncidentalsState';
 
 const styles = {
@@ -72,7 +74,17 @@ function OneTimeIncidentalsTable(): JSX.Element {
                 <TableCell>
                   {_incidentals.paymentDate?.toPreferredString()}
                 </TableCell>
-                <TableCell />
+                <TableCell>
+                  <AddPaymentIcon
+                    modal={(modalProps) => (
+                      <AddOneTimeIncidentalsPaymentModal
+                        {...modalProps}
+                        incidentals={_incidentals}
+                      />
+                    )}
+                    hidden={!!_incidentals.paymentDate}
+                  />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
