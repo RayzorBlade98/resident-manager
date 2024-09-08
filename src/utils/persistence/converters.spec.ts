@@ -33,7 +33,10 @@ describe('convertImportedIncidentals', () => {
           costs: [
             {
               cost: 500,
-              date: new MonthYear(9, 2023),
+              dueDate: new MonthYear(9, 2023),
+              paymentDate: new Date(2023, 9, 13),
+              bankTransferDocumentId: 'bankTransferDocumentId',
+              billDocumentId: 'billDocumentId',
             },
           ],
         },

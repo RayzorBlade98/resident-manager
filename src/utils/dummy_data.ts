@@ -75,7 +75,14 @@ function createDummyData(): void {
     .withDeductionType(
       i % 2 === 0 ? DeductionType.PerApartment : DeductionType.PerResident,
     )
-    .withCosts([{ cost: 10000, date: new MonthYear() }])
+    .withCosts([
+      {
+        cost: 10000,
+        dueDate: new MonthYear(),
+        paymentDate: new Date(),
+        bankTransferDocumentId: '',
+      },
+    ])
     .withInvoiceInterval(i + 1)
     .build());
   const oneTimeIncidentals = range(0, 8).map((i) => new OneTimeIncidentalsBuilder()

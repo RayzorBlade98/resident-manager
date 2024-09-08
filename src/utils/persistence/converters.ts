@@ -20,7 +20,11 @@ export function convertImportedIncidentals(
     ...imported,
     ongoingIncidentals: imported.ongoingIncidentals.map((i) => ({
       ...i,
-      costs: i.costs.map((c) => ({ ...c, date: MonthYear.fromString(c.date) })),
+      costs: i.costs.map((c) => ({
+        ...c,
+        dueDate: MonthYear.fromString(c.dueDate),
+        paymentDate: new Date(c.paymentDate),
+      })),
     })),
     oneTimeIncidentals: imported.oneTimeIncidentals.map((i) => ({
       ...i,

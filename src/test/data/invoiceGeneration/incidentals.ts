@@ -1,6 +1,7 @@
 import MonthYear from '_/extensions/date/month_year.extension';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
+import { OngoingIncidentalsCostBuilder } from '_/test/builders/ongoingIncidentalsCost.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 
 /**
@@ -13,8 +14,14 @@ export const ongoingIncidentalsPerApartment = new OngoingIncidentalsBuilder()
   .withDeductionType(DeductionType.PerApartment)
   .withInvoiceInterval(2)
   .withCosts([
-    { date: new MonthYear(1, 2023), cost: 200 },
-    { date: new MonthYear(3, 2023), cost: 0 },
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(new MonthYear(1, 2023))
+      .withCost(200)
+      .build(),
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(new MonthYear(3, 2023))
+      .withCost(0)
+      .build(),
   ])
   .build();
 
@@ -26,10 +33,22 @@ export const ongoingIncidentalsPerResident = new OngoingIncidentalsBuilder()
   .withDeductionType(DeductionType.PerResident)
   .withInvoiceInterval(3)
   .withCosts([
-    { date: new MonthYear(11, 2022), cost: 0 },
-    { date: new MonthYear(0, 2023), cost: 0 },
-    { date: new MonthYear(1, 2023), cost: 300 },
-    { date: new MonthYear(3, 2023), cost: 0 },
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(new MonthYear(11, 2022))
+      .withCost(0)
+      .build(),
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(new MonthYear(0, 2023))
+      .withCost(0)
+      .build(),
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(new MonthYear(1, 2023))
+      .withCost(300)
+      .build(),
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(new MonthYear(3, 2023))
+      .withCost(0)
+      .build(),
   ])
   .build();
 export const includedOngoingIncidentals = [

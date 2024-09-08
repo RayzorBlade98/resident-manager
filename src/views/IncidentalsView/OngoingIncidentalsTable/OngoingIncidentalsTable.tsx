@@ -8,7 +8,9 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { convertCurrencyCentsToString } from '../../../utils/currency/currency.utils';
+import { AddOngoingIncidentalsPaymentModal } from './AddOngoingIncidentalsPaymentModal/AddOngoingIncidentalsPaymentModal';
 import CreateOngoingIncidentalsModal from './CreateOngoingIncidentalsModal/CreateOngoingIncidentalsModal';
+import { AddPaymentIcon } from '_/components/generic/ModalIconButton/AddPaymentIcon/AddPaymentIcon';
 import useIncidentalsState from '_/hooks/useIncidentalsState/useIncidentalsState';
 
 const styles = {
@@ -28,7 +30,10 @@ function OngoingIncidentalsTable(): JSX.Element {
 
   return (
     <>
-      <CreateOngoingIncidentalsModal showModal={showModal} onCloseModal={() => setShowModal(false)} />
+      <CreateOngoingIncidentalsModal
+        showModal={showModal}
+        onCloseModal={() => setShowModal(false)}
+      />
       <TableContainer>
         <Table>
           <TableHead>
@@ -66,7 +71,16 @@ function OngoingIncidentalsTable(): JSX.Element {
                     _incidentals.invoiceInterval === 1 ? '' : 'e'
                   }`}
                 </TableCell>
-                <TableCell />
+                <TableCell>
+                  <AddPaymentIcon
+                    modal={(modalProps) => (
+                      <AddOngoingIncidentalsPaymentModal
+                        {...modalProps}
+                        incidentals={_incidentals}
+                      />
+                    )}
+                  />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

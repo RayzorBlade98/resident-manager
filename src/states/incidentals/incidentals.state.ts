@@ -38,4 +38,16 @@ export const oneTimeIncidentalsState = selector({
   })),
 });
 
+/**
+ * Selector for the ongoing incidentals recoil state
+ */
+export const ongoingIncidentalsState = selector({
+  key: 'incidentalsState-oneTimeIncidentals',
+  get: ({ get }) => get(incidentalsState).ongoingIncidentals,
+  set: ({ set }, newValue) => set(incidentalsState, (state) => ({
+    ...state,
+    ongoingIncidentals: newValue as OngoingIncidentals[],
+  })),
+});
+
 export default incidentalsState;
