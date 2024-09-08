@@ -23,6 +23,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
     - Hide add rent payment button if payment was already added
 - One time incidentals
     - Moved payment from creation form to new form
+- Ongoing incidentals
+    - Moved costs from creation form to new form
 
 ### Fixed
 
