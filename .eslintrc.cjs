@@ -45,6 +45,12 @@ const baseConfig = {
     'no-case-declarations': 'off',
     'import/prefer-default-export': 'off',
     'react/jsx-no-duplicate-props': ['error', { ignoreCase: false }],
+    'react/no-unstable-nested-components': [
+      'error',
+      {
+        allowAsProps: true,
+      },
+    ],
   },
 };
 

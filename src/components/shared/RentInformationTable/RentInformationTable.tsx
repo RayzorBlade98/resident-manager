@@ -8,9 +8,12 @@ import {
 } from '@mui/material';
 import React, { useMemo } from 'react';
 import { convertCurrencyCentsToString } from '../../../utils/currency/currency.utils';
-import AddPaymentIcon from './AddPaymentIcon/AddPaymentIcon';
+import RentInformationUtils from '../../../utils/rent/rent.utils';
+import AddRentPaymentModal from './AddRentPaymentModal/AddRentPaymentModal';
 import PaymentStatusIcon from './PaymentStatusIcon/PaymentStatusIcon';
+import { AddPaymentIcon } from '_/components/generic/ModalIconButton/AddPaymentIcon/AddPaymentIcon';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { PaymentStatus } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
 
 interface RentInformationTableProps {
@@ -70,8 +73,17 @@ function RentInformationTable(props: RentInformationTableProps): JSX.Element {
               </TableCell>
               <TableCell>
                 <AddPaymentIcon
-                  resident={props.resident}
-                  rentInformation={rent}
+                  modal={(modalProps) => (
+                    <AddRentPaymentModal
+                      {...modalProps}
+                      resident={props.resident}
+                      rentInformation={rent}
+                    />
+                  )}
+                  hidden={
+                    RentInformationUtils.getPaymentStatus(rent)
+                    !== PaymentStatus.Unpaid
+                  }
                 />
               </TableCell>
             </TableRow>
