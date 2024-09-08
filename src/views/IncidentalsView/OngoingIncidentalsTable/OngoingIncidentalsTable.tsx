@@ -7,10 +7,8 @@ import {
   TableRow,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { convertCurrencyCentsToString } from '../../../utils/currency/currency.utils';
-import { AddOngoingIncidentalsPaymentModal } from './AddOngoingIncidentalsPaymentModal/AddOngoingIncidentalsPaymentModal';
 import CreateOngoingIncidentalsModal from './CreateOngoingIncidentalsModal/CreateOngoingIncidentalsModal';
-import { AddPaymentIcon } from '_/components/generic/ModalIconButton/AddPaymentIcon/AddPaymentIcon';
+import { OngoingIncidentalsTableRow } from './OngoingIncidentalsTableRow/OngoingIncidentalsTableRow';
 import useIncidentalsState from '_/hooks/useIncidentalsState/useIncidentalsState';
 
 const styles = {
@@ -38,6 +36,7 @@ function OngoingIncidentalsTable(): JSX.Element {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell />
               <TableCell>Name</TableCell>
               <TableCell>Abrechnungsart</TableCell>
               <TableCell>Preis</TableCell>
@@ -48,7 +47,7 @@ function OngoingIncidentalsTable(): JSX.Element {
           <TableBody>
             <TableRow>
               <TableCell
-                colSpan={5}
+                colSpan={6}
                 onClick={() => setShowModal(true)}
                 align="center"
                 sx={styles.createIncidentalsCell}
@@ -56,34 +55,8 @@ function OngoingIncidentalsTable(): JSX.Element {
                 Neue Nebenkosten
               </TableCell>
             </TableRow>
-            {ongoingIncidentals.map((_incidentals) => (
-              <TableRow
-                key={_incidentals.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell>{_incidentals.name}</TableCell>
-                <TableCell>{_incidentals.deductionType}</TableCell>
-                <TableCell>
-                  {_incidentals.costs.length > 0
-                    ? convertCurrencyCentsToString(_incidentals.costs[0].cost)
-                    : ''}
-                </TableCell>
-                <TableCell>
-                  {`${_incidentals.invoiceInterval} Monat${
-                    _incidentals.invoiceInterval === 1 ? '' : 'e'
-                  }`}
-                </TableCell>
-                <TableCell>
-                  <AddPaymentIcon
-                    modal={(modalProps) => (
-                      <AddOngoingIncidentalsPaymentModal
-                        {...modalProps}
-                        incidentals={_incidentals}
-                      />
-                    )}
-                  />
-                </TableCell>
-              </TableRow>
+            {ongoingIncidentals.map((incidentals) => (
+              <OngoingIncidentalsTableRow incidentals={incidentals} />
             ))}
           </TableBody>
         </Table>

@@ -10,16 +10,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Rent payments
     - Default value for payment amount in add rent payments form
-    - Bank transfer document
+    - New fields
+        - Bank transfer document
 - Incidentals
     - Not deductable deduction type    
 - One time incidentals
-    - Bill document
-    - Bank transfer document
+    - New fields
+        - Bill document
+        - Bank transfer document
 - Ongoing incidentals
-    - Bill document
-    - Bank transfer document
-    - Payment date
+    - Display payments
+    - New fields
+        - Bill document
+        - Bank transfer document
+        - Payment date
 
 ### Changed
 

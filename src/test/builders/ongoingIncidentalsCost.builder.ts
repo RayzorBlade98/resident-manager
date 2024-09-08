@@ -19,6 +19,11 @@ export class OngoingIncidentalsCostBuilder {
     return this;
   }
 
+  public withPaymentDate(date: Date): OngoingIncidentalsCostBuilder {
+    this.cost.paymentDate = date;
+    return this;
+  }
+
   public withCost(cost: CurrencyInCents): OngoingIncidentalsCostBuilder {
     this.cost.cost = cost;
     return this;
