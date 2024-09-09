@@ -10,6 +10,7 @@ import { generateRentIncreasePdf } from './modules/documentGeneration/rentIncrea
 import { exportObject } from './modules/persistence/exportObject/exportObject';
 import { importObject } from './modules/persistence/importObject/importObject';
 import uploadDocument from './modules/persistence/uploadDocument/uploadDocument';
+import { openDocumentWindow } from './modules/windows/openFileWindow/openFileWindow';
 import {
   exportJsPdf,
   openDirectoryDialog,
@@ -68,5 +69,10 @@ export default function addIpcHandlers(): void {
   ipcMain.handle(
     ipcCommands.generateRentIncreasePdf,
     (_, args: Imported<GenerateRentIncreasePdfArgs>) => generateRentIncreasePdf(args),
+  );
+
+  ipcMain.handle(
+    ipcCommands.openDocumentWindow,
+    (_, documentId: string, target: DocumentTarget) => openDocumentWindow(documentId, target),
   );
 }

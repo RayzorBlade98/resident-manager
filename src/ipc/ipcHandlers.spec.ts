@@ -11,6 +11,7 @@ import { generateRentIncreasePdf } from './modules/documentGeneration/rentIncrea
 import * as exportObjectModule from './modules/persistence/exportObject/exportObject';
 import * as importObjectModule from './modules/persistence/importObject/importObject';
 import * as uploadDocumentModule from './modules/persistence/uploadDocument/uploadDocument';
+import { openDocumentWindow } from './modules/windows/openFileWindow/openFileWindow';
 import * as persistenceModule from './utils/persistence';
 import { DocumentTarget } from './utils/persistence/documentTarget';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -35,6 +36,10 @@ jest.mock(
     generateRentIncreasePdf: jest.fn(),
   }),
 );
+
+jest.mock('./modules/windows/openFileWindow/openFileWindow', () => ({
+  openDocumentWindow: jest.fn(),
+}));
 
 describe('addIpcHandlers', () => {
   let exportObjectSpy: jest.SpyInstance;
@@ -200,10 +205,7 @@ describe('addIpcHandlers', () => {
 
     // Act
     expect(uploadDocumentMock).toHaveBeenCalledTimes(1);
-    expect(uploadDocumentMock).toHaveBeenLastCalledWith(
-      uploadedFile,
-      target,
-    );
+    expect(uploadDocumentMock).toHaveBeenLastCalledWith(uploadedFile, target);
     expect(documentId).toBe(expectedDocumentId);
   });
 
@@ -236,5 +238,28 @@ describe('addIpcHandlers', () => {
     expect(generateRentIncreasePdf).toHaveBeenLastCalledWith(args);
 
     expect(actualDocumentId).toEqual(documentId);
+  });
+
+  test('openDocumentWindow should be handled correctly', async () => {
+    // Arrange
+    const documentId = 'document-id';
+    const target: DocumentTarget = {
+      type: 'resident',
+      residentId: 'resident-id',
+    };
+
+    // Act
+    await ipcRenderer.invoke(
+      ipcCommands.openDocumentWindow,
+      documentId,
+      target,
+    );
+
+    // Assert
+    expect(openDocumentWindow).toHaveBeenCalledTimes(1);
+    expect(openDocumentWindow).toHaveBeenLastCalledWith(
+      documentId,
+      target,
+    );
   });
 });

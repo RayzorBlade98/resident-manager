@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Document display
+    - Display documents in a new application window
 - Rent payments
     - Default value for payment amount in add rent payments form
     - New fields

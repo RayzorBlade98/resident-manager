@@ -43,10 +43,7 @@ const ipcAPI = {
      * @param target Target to which the document is linked to
      * @returns Id of the uploaded document
      */
-    uploadDocument: (
-      uploadedFile: string,
-      target: DocumentTarget,
-    ) => ipcRenderer.invoke(
+    uploadDocument: (uploadedFile: string, target: DocumentTarget) => ipcRenderer.invoke(
       ipcCommands.uploadDocument,
       uploadedFile,
       target,
@@ -94,6 +91,22 @@ const ipcAPI = {
      * @returns Selected file path or `undefined` if no file was selected
      */
     selectFile: () => ipcRenderer.invoke(ipcCommands.selectFile) as Promise<string | undefined>,
+  },
+
+  /**
+   * Provides functionality to open additional application windows
+   */
+  windows: {
+    /**
+     * Opens a new application window that displays a document
+     * @param documentId Id of the document that should be displayed
+     * @param target Target to which the document is linked to
+     */
+    openDocumentWindow: (documentId: string, target: DocumentTarget) => ipcRenderer.invoke(
+      ipcCommands.openDocumentWindow,
+      documentId,
+      target,
+    ) as Promise<void>,
   },
 };
 

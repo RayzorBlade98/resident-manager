@@ -9,6 +9,11 @@ import * as nodeEnv from '_utils/node-env';
 let mainWindow: Electron.BrowserWindow | undefined;
 
 /**
+ * List of all other application windows
+ */
+let otherWindows: Electron.BrowserWindow[] = [];
+
+/**
  * Creates a new main window if it wasn't created yet
  */
 export function createMainWindow() {
@@ -32,9 +37,7 @@ export function createMainWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html').finally(() => {
-    /* no action */
-  });
+  void mainWindow.loadFile('index.html');
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -42,7 +45,22 @@ export function createMainWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = undefined;
+
+    for (const window of otherWindows) {
+      window.close();
+    }
+    otherWindows = [];
   });
+}
+
+/**
+ * Creates a new window that displays a file
+ * @param filePath Path to the file that should be displayed
+ */
+export function createFileWindow(filePath: string) {
+  const window = new BrowserWindow();
+  void window.loadFile(filePath);
+  otherWindows.push(window);
 }
 
 export default mainWindow as Electron.BrowserWindow;

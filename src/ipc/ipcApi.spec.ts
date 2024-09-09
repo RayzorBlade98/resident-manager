@@ -161,4 +161,25 @@ describe('ipcAPI', () => {
       expect(invokeSpy).toHaveBeenLastCalledWith(ipcCommands.selectFile);
     });
   });
+
+  describe('windows', () => {
+    test('openDocumentWindow should invoke openDocumentWindow event', async () => {
+      // Arrange
+      const documentId = 'document-id';
+      const target: DocumentTarget = {
+        type: 'resident',
+        residentId: 'resident-id',
+      };
+
+      // Act
+      await ipcAPI.windows.openDocumentWindow(documentId, target);
+
+      // Assert
+      expect(invokeSpy).toHaveBeenLastCalledWith(
+        ipcCommands.openDocumentWindow,
+        documentId,
+        target,
+      );
+    });
+  });
 });

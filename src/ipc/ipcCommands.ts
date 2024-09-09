@@ -7,6 +7,7 @@ const ipcCommands = {
   generateRentIncreasePdf: 'generateRentIncreasePdf',
   selectFile: 'selectFile',
   uploadDocument: 'uploadDocument',
+  openDocumentWindow: 'openDocumentWindow',
 };
 
 export default ipcCommands;

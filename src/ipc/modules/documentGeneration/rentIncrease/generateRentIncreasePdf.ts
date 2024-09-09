@@ -1,7 +1,7 @@
 import path from 'path';
+import { directories } from '../../../utils/persistence/directories';
 import { GenerateRentIncreasePdfArgs } from './GenerateRentIncreasePdfArgs';
 import { generateRentIncreaseMarkdown } from './generateRentIncreaseMarkdown';
-import { getAssetDirectory } from '_/ipc/utils/persistence/getAppDataDirectory';
 import { uploadMarkdownAsPdf } from '_/ipc/utils/persistence/uploadMarkdownAsPdf/uploadMarkdownAsPdf';
 import Imported from '_/types/Imported';
 
@@ -19,7 +19,9 @@ export function generateRentIncreasePdf(
       residentId: args.resident.id,
     },
     mdToPdfOptions: {
-      cssFiles: [path.join(getAssetDirectory(), 'templates/rentIncrease/style.css')],
+      cssFiles: [
+        path.join(directories.assets(), 'templates/rentIncrease/style.css'),
+      ],
     },
   });
 }
