@@ -55,12 +55,14 @@ describe('ResidentView', () => {
       new RentInformationBuilder()
         .withDueDate(new MonthYear(3, 2023))
         .withPayment(1, new Date(2023, 5, 11))
+        .withBankTransferDocumentId('banktransfer1')
         .build(),
     )
     .addRentInformation(
       new RentInformationBuilder()
         .withDueDate(new MonthYear(4, 2023))
         .withPayment(60000, new Date(2023, 5, 11))
+        .withBankTransferDocumentId('banktransfer2')
         .build(),
     )
     .addWaterMeterReading(

@@ -35,6 +35,8 @@ describe('IncidentalsView', () => {
                     .withDueDate(new MonthYear(8, 2024))
                     .withPaymentDate(new Date(2024, 8, 8))
                     .withCost(12300)
+                    .withBillDocumentId('bill1')
+                    .withBankTransferDocumentId('bankTransfer1')
                     .build(),
                   new OngoingIncidentalsCostBuilder()
                     .withDueDate(new MonthYear(6, 2024))
@@ -63,6 +65,8 @@ describe('IncidentalsView', () => {
                 .withCosts(32100)
                 .withBillingDate(new Date(2023, 5, 13))
                 .withPaymentDate(new Date(2023, 5, 20))
+                .withBillDocumentId('bill1')
+                .withBankTransferDocumentId('bankTransfer1')
                 .withDeductionType(DeductionType.PerApartment)
                 .build(),
               new OneTimeIncidentalsBuilder()
@@ -70,6 +74,7 @@ describe('IncidentalsView', () => {
                 .withName('One Time Incidentals 3')
                 .withCosts(333000)
                 .withBillingDate(new Date(2023, 5, 10))
+                .withBillDocumentId('bill2')
                 .withDeductionType(DeductionType.PerResident)
                 .build(),
             ],

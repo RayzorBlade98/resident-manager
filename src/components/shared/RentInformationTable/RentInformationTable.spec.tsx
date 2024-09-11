@@ -8,34 +8,34 @@ import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 
 describe('RentInformationTable', () => {
-  test('should match snapshot', async () => {
-    // Arrange
-    const resident = new ResidentBuilder()
-      .addRentInformation(
-        new RentInformationBuilder()
-          .withDueDate(new MonthYear(1, 2023))
-          .withInvoiceDeduction(true)
-          .build(),
-      )
-      .addRentInformation(
-        new RentInformationBuilder()
-          .withDueDate(new MonthYear(2, 2023))
-          .build(),
-      )
-      .addRentInformation(
-        new RentInformationBuilder()
-          .withDueDate(new MonthYear(3, 2023))
-          .withPayment(1, new Date(2023, 5, 11))
-          .build(),
-      )
-      .addRentInformation(
-        new RentInformationBuilder()
-          .withDueDate(new MonthYear(4, 2023))
-          .withPayment(60000, new Date(2023, 5, 11))
-          .build(),
-      )
-      .build();
+  const resident = new ResidentBuilder()
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(1, 2023))
+        .withInvoiceDeduction(true)
+        .withBankTransferDocumentId('banktransfer1')
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder().withDueDate(new MonthYear(2, 2023)).build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(3, 2023))
+        .withPayment(1, new Date(2023, 5, 11))
+        .withBankTransferDocumentId('banktransfer2')
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear(4, 2023))
+        .withPayment(60000, new Date(2023, 5, 11))
+        .withBankTransferDocumentId('banktransfer3')
+        .build(),
+    )
+    .build();
 
+  test('should match snapshot', async () => {
     // Act
     render(
       <ReactTestWrapper>
@@ -48,42 +48,13 @@ describe('RentInformationTable', () => {
   });
 
   test('should match snapshot  (with start and end filter)', async () => {
-    // Arrange
-    const resident = new ResidentBuilder()
-      .addRentInformation(
-        new RentInformationBuilder()
-          .withDueDate(new MonthYear(2, 2023))
-          .build(),
-      )
-      .addRentInformation(
-        new RentInformationBuilder()
-          .withDueDate(new MonthYear(3, 2023))
-          .build(),
-      )
-      .addRentInformation(
-        new RentInformationBuilder()
-          .withDueDate(new MonthYear(4, 2023))
-          .build(),
-      )
-      .addRentInformation(
-        new RentInformationBuilder()
-          .withDueDate(new MonthYear(5, 2023))
-          .build(),
-      )
-      .addRentInformation(
-        new RentInformationBuilder()
-          .withDueDate(new MonthYear(6, 2023))
-          .build(),
-      )
-      .build();
-
     // Act
     render(
       <ReactTestWrapper>
         <RentInformationTable
           resident={resident}
           start={new MonthYear(3, 2023)}
-          end={new MonthYear(5, 2023)}
+          end={new MonthYear(4, 2023)}
         />
       </ReactTestWrapper>,
     );

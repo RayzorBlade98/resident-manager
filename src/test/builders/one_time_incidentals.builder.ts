@@ -49,6 +49,16 @@ class OneTimeIncidentalsBuilder {
     return this;
   }
 
+  public withBillDocumentId(billDocumentId: string): OneTimeIncidentalsBuilder {
+    this.incidentals.billDocumentId = billDocumentId;
+    return this;
+  }
+
+  public withBankTransferDocumentId(bankTransferDocumentId: string): OneTimeIncidentalsBuilder {
+    this.incidentals.bankTransferDocumentId = bankTransferDocumentId;
+    return this;
+  }
+
   public build(): OneTimeIncidentals {
     return this.incidentals;
   }

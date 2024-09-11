@@ -15,6 +15,7 @@ import React, { useState } from 'react';
 import { convertCurrencyCentsToString } from '../../../../utils/currency/currency.utils';
 import { AddOngoingIncidentalsPaymentModal } from '../AddOngoingIncidentalsPaymentModal/AddOngoingIncidentalsPaymentModal';
 import { AddPaymentIcon } from '_/components/generic/ModalIconButton/AddPaymentIcon/AddPaymentIcon';
+import { OpenDocumentButton } from '_/components/generic/buttons/OpenDocumentButton/OpenDocumentButton';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 
 type OngoingIncidentalsTableRowProps = {
@@ -66,7 +67,7 @@ export function OngoingIncidentalsTableRow(
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={collapsed} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -78,14 +79,18 @@ export function OngoingIncidentalsTableRow(
                     <TableCell>Abschlagsdatum</TableCell>
                     <TableCell>Preis</TableCell>
                     <TableCell>Zahlungsdatum</TableCell>
-                    <TableCell>Dokumente</TableCell>
+                    <TableCell>Rechnung</TableCell>
+                    <TableCell>Überweisung</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {props.incidentals.costs.map((payment) => (
                     <TableRow
                       key={payment.dueDate.toString()}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      sx={{
+                        height: '53px',
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
                     >
                       <TableCell>{payment.dueDate.toString()}</TableCell>
                       <TableCell>
@@ -94,7 +99,26 @@ export function OngoingIncidentalsTableRow(
                       <TableCell>
                         {payment.paymentDate.toPreferredString()}
                       </TableCell>
-                      <TableCell />
+                      <TableCell>
+                        <OpenDocumentButton
+                          documentId={payment.billDocumentId}
+                          documentTarget={{
+                            type: 'incidentals',
+                            incidentalsId: props.incidentals.id,
+                          }}
+                          tooltip="Rechnung anzeigen"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <OpenDocumentButton
+                          documentId={payment.bankTransferDocumentId}
+                          documentTarget={{
+                            type: 'incidentals',
+                            incidentalsId: props.incidentals.id,
+                          }}
+                          tooltip="Überweisung anzeigen"
+                        />
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

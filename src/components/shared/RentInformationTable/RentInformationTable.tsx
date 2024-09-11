@@ -12,6 +12,7 @@ import RentInformationUtils from '../../../utils/rent/rent.utils';
 import AddRentPaymentModal from './AddRentPaymentModal/AddRentPaymentModal';
 import PaymentStatusIcon from './PaymentStatusIcon/PaymentStatusIcon';
 import { AddPaymentIcon } from '_/components/generic/ModalIconButton/AddPaymentIcon/AddPaymentIcon';
+import { OpenDocumentButton } from '_/components/generic/buttons/OpenDocumentButton/OpenDocumentButton';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { PaymentStatus } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
@@ -54,6 +55,7 @@ function RentInformationTable(props: RentInformationTableProps): JSX.Element {
             <TableCell>Miete</TableCell>
             <TableCell>Nebenkosten</TableCell>
             <TableCell>Bezahlt</TableCell>
+            <TableCell>Überweisung</TableCell>
             <TableCell>Aktionen</TableCell>
           </TableRow>
         </TableHead>
@@ -61,7 +63,10 @@ function RentInformationTable(props: RentInformationTableProps): JSX.Element {
           {filteredRentInformation.map((rent) => (
             <TableRow
               key={rent.dueDate.toString()}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{
+                height: '73px',
+                '&:last-child td, &:last-child th': { border: 0 },
+              }}
             >
               <TableCell>{rent.dueDate.toString()}</TableCell>
               <TableCell>{convertCurrencyCentsToString(rent.rent)}</TableCell>
@@ -70,6 +75,16 @@ function RentInformationTable(props: RentInformationTableProps): JSX.Element {
               </TableCell>
               <TableCell>
                 <PaymentStatusIcon rentInformation={rent} />
+              </TableCell>
+              <TableCell>
+                <OpenDocumentButton
+                  documentId={rent.bankTransferDocumentId}
+                  documentTarget={{
+                    type: 'resident',
+                    residentId: props.resident.id,
+                  }}
+                  tooltip="Überweisung anzeigen"
+                />
               </TableCell>
               <TableCell>
                 <AddPaymentIcon

@@ -29,6 +29,20 @@ export class OngoingIncidentalsCostBuilder {
     return this;
   }
 
+  public withBillDocumentId(
+    billDocumentId: string,
+  ): OngoingIncidentalsCostBuilder {
+    this.cost.billDocumentId = billDocumentId;
+    return this;
+  }
+
+  public withBankTransferDocumentId(
+    bankTransferDocumentId: string,
+  ): OngoingIncidentalsCostBuilder {
+    this.cost.bankTransferDocumentId = bankTransferDocumentId;
+    return this;
+  }
+
   public build(): OngoingIncidentalsCost {
     return this.cost;
   }
