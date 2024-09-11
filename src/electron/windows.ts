@@ -45,10 +45,6 @@ export function createMainWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = undefined;
-
-    for (const window of otherWindows) {
-      window.close();
-    }
     otherWindows = [];
   });
 }
@@ -58,7 +54,16 @@ export function createMainWindow() {
  * @param filePath Path to the file that should be displayed
  */
 export function createFileWindow(filePath: string) {
-  const window = new BrowserWindow();
+  const window = new BrowserWindow({
+    height: 1080,
+    width: 1920,
+    webPreferences: {
+      devTools: nodeEnv.dev,
+      webSecurity: nodeEnv.prod,
+    },
+    parent: mainWindow,
+    autoHideMenuBar: true,
+  });
   void window.loadFile(filePath);
   otherWindows.push(window);
 }
