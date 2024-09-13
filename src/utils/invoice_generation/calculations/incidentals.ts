@@ -194,7 +194,8 @@ function getOngoingIncidentalsCostPerMonth(
     .sort((a, b) => b.dueDate.getTime() - a.dueDate.getTime())
     .find((c) => c.dueDate <= args.invoiceEnd) as OngoingIncidentalsCost;
 
-  return incidentalsCosts.cost / incidentals.invoiceInterval;
+  // Todo: Adjust calculation
+  return incidentalsCosts.cost / 12;
 }
 
 /**

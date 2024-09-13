@@ -29,7 +29,6 @@ describe('IncidentalsView', () => {
             ongoingIncidentals: [
               new OngoingIncidentalsBuilder()
                 .withId('id1')
-                .withInvoiceInterval(1)
                 .withCosts([
                   new OngoingIncidentalsCostBuilder()
                     .withDueDate(new MonthYear(8, 2024))

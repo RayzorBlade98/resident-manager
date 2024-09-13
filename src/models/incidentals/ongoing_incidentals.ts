@@ -55,9 +55,4 @@ export interface OngoingIncidentals {
    * Deduction type of the incidentals
    */
   deductionType: DeductionType;
-
-  /**
-   * Inverval in which the incidentals are paid (in months)
-   */
-  invoiceInterval: number;
 }

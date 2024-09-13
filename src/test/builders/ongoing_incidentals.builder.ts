@@ -15,7 +15,6 @@ class OngoingIncidentalsBuilder {
       name: 'Test Incidentals',
       costs: [new OngoingIncidentalsCostBuilder().build()],
       deductionType: DeductionType.PerApartment,
-      invoiceInterval: 12,
     };
   }
 
@@ -33,13 +32,6 @@ class OngoingIncidentalsBuilder {
     deductionType: DeductionType,
   ): OngoingIncidentalsBuilder {
     this.incidentals.deductionType = deductionType;
-    return this;
-  }
-
-  public withInvoiceInterval(
-    invoiceInterval: number,
-  ): OngoingIncidentalsBuilder {
-    this.incidentals.invoiceInterval = invoiceInterval;
     return this;
   }
 

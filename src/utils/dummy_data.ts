@@ -83,7 +83,6 @@ function createDummyData(): void {
         bankTransferDocumentId: '',
       },
     ])
-    .withInvoiceInterval(i + 1)
     .build());
   const oneTimeIncidentals = range(0, 8).map((i) => new OneTimeIncidentalsBuilder()
     .withName(`Einmalige Nebenkosten ${i + 1}`)

@@ -15,13 +15,11 @@ describe('CreateOngoingIncidentalsModal', () => {
   const validInputValues = {
     name: 'invoice',
     deductionType: DeductionType.PerApartment,
-    invoiceInterval: 1,
   };
 
   const invalidInputValues = {
     name: '',
     deductionType: DeductionType.PerApartment,
-    invoiceInterval: undefined,
   };
 
   const currentDate = new Date(2023, 11, 2);
@@ -29,20 +27,17 @@ describe('CreateOngoingIncidentalsModal', () => {
     name: validInputValues.name,
     costs: [],
     deductionType: validInputValues.deductionType,
-    invoiceInterval: validInputValues.invoiceInterval,
   };
 
   function inputToForm(inputValues: {
     name: string;
-    invoiceInterval: number | undefined;
   }) {
     const inputFields = baseElement.querySelectorAll('input');
     const inputs = [
       inputValues.name,
-      inputValues.invoiceInterval?.toString() ?? '',
     ];
     act(() => {
-      inputs.forEach((input, i) => fireEvent.change(inputFields.item(i === 0 ? i : i + 1), {
+      inputs.forEach((input, i) => fireEvent.change(inputFields.item(i), {
         target: { value: input },
       }));
     });

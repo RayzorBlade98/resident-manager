@@ -24,7 +24,6 @@ describe('OngoingIncidentalsTable', () => {
         ongoingIncidentals: [
           new OngoingIncidentalsBuilder()
             .withId('id1')
-            .withInvoiceInterval(1)
             .build(),
           new OngoingIncidentalsBuilder().withId('id2').build(),
           new OngoingIncidentalsBuilder().withId('id3').build(),

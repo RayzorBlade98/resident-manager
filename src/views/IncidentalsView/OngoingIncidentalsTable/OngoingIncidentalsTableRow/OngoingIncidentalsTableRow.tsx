@@ -51,11 +51,6 @@ export function OngoingIncidentalsTableRow(
             : ''}
         </TableCell>
         <TableCell>
-          {`${props.incidentals.invoiceInterval} Monat${
-            props.incidentals.invoiceInterval === 1 ? '' : 'e'
-          }`}
-        </TableCell>
-        <TableCell>
           <AddPaymentIcon
             modal={(modalProps) => (
               <AddOngoingIncidentalsPaymentModal
@@ -67,7 +62,7 @@ export function OngoingIncidentalsTableRow(
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={collapsed} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">

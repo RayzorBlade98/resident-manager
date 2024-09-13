@@ -29,7 +29,6 @@ describe('convertImportedIncidentals', () => {
           id: 'id',
           name: 'ongoing incidentals',
           deductionType: DeductionType.PerApartment,
-          invoiceInterval: 1,
           costs: [
             {
               cost: 500,

@@ -40,7 +40,6 @@ function OngoingIncidentalsTable(): JSX.Element {
               <TableCell>Name</TableCell>
               <TableCell>Abrechnungsart</TableCell>
               <TableCell>Preis</TableCell>
-              <TableCell>Abrechnungszeitraum</TableCell>
               <TableCell>Aktionen</TableCell>
             </TableRow>
           </TableHead>

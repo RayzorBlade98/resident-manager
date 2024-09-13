@@ -12,7 +12,6 @@ import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.build
  */
 export const ongoingIncidentalsPerApartment = new OngoingIncidentalsBuilder()
   .withDeductionType(DeductionType.PerApartment)
-  .withInvoiceInterval(2)
   .withCosts([
     new OngoingIncidentalsCostBuilder()
       .withDueDate(new MonthYear(1, 2023))
@@ -31,7 +30,6 @@ export const ongoingIncidentalsPerApartment = new OngoingIncidentalsBuilder()
  */
 export const ongoingIncidentalsPerResident = new OngoingIncidentalsBuilder()
   .withDeductionType(DeductionType.PerResident)
-  .withInvoiceInterval(3)
   .withCosts([
     new OngoingIncidentalsCostBuilder()
       .withDueDate(new MonthYear(11, 2022))

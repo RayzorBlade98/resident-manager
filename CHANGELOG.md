@@ -36,6 +36,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Ongoing incidentals
     - Moved costs from creation form to new form
 
+### Removed
+
+- Ongoing incidentals
+    - Invoice interval
+- Invoice generation view
+    - Temporary disabled until invoice generation is finalized    
+
 ### Fixed
 
 - UI
