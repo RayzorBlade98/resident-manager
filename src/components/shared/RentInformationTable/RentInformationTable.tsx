@@ -47,8 +47,8 @@ function RentInformationTable(props: RentInformationTableProps): JSX.Element {
   );
 
   return (
-    <TableContainer>
-      <Table>
+    <TableContainer sx={{ height: '90%' }}>
+      <Table stickyHeader>
         <TableHead>
           <TableRow>
             <TableCell>Monat</TableCell>

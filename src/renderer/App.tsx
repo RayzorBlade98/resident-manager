@@ -24,7 +24,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <div className="app">
+    <div className="app" style={{ overflow: 'hidden' }}>
       <Routes>
         <Route path={View.Main} Component={MainView} />
         <Route path={View.Resident} Component={ResidentView} />
