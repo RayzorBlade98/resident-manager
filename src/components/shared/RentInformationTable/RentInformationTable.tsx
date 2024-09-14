@@ -16,6 +16,7 @@ import { OpenDocumentButton } from '_/components/generic/buttons/OpenDocumentBut
 import MonthYear from '_/extensions/date/month_year.extension';
 import { PaymentStatus } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
+import { PaymentNoteIcon } from './PaymentNoteIcon/PaymentNoteIcon';
 
 interface RentInformationTableProps {
   /**
@@ -85,6 +86,7 @@ function RentInformationTable(props: RentInformationTableProps): JSX.Element {
                   }}
                   tooltip="Überweisung anzeigen"
                 />
+                <PaymentNoteIcon rent={rent}/>
               </TableCell>
               <TableCell>
                 <AddPaymentIcon

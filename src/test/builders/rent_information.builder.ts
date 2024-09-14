@@ -32,9 +32,11 @@ class RentInformationBuilder {
   public withPayment(
     paymentAmount: CurrencyInCents,
     paymentDate: Date,
+    paymentNote?: string
   ): RentInformationBuilder {
     this.rentInformation.paymentAmount = paymentAmount;
     this.rentInformation.paymentDate = paymentDate;
+    this.rentInformation.paymentNote = paymentNote;
     return this;
   }
 
