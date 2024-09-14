@@ -4,6 +4,55 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.3.0 - 2024-09-14
+
+### Added
+
+- Document display
+    - Display documents in a new application window    
+- Rent payments
+    - Default value for payment amount in add rent payments form
+    - New fields
+        - Bank transfer document
+- Incidentals
+    - Not deductable deduction type    
+- One time incidentals
+    - New fields
+        - Bill document
+        - Bank transfer document
+- Ongoing incidentals
+    - Display payments
+    - New fields
+        - Bill document
+        - Bank transfer document
+        - Payment date
+- Resident
+    - New document types
+        - Proof of insurance        
+
+### Changed
+
+- Rent payments
+    - Hide add rent payment button if payment was already added
+- One time incidentals
+    - Moved payment from creation form to new form
+- Ongoing incidentals
+    - Moved costs from creation form to new form
+
+### Removed
+
+- Ongoing incidentals
+    - Invoice interval
+- Invoice generation view
+    - Temporary disabled until invoice generation is finalized    
+
+### Fixed
+
+- UI
+    - Date field full width
+    - Add water meter reading modal layout
+    - Rent table overflow
+
 ## v0.2.0 - 2024-08-21
 
 ### Added

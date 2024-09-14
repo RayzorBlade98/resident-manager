@@ -3,6 +3,7 @@ import { Button, Typography } from '@mui/material';
 import React from 'react';
 
 interface FileSelectProps {
+  label: string;
   value: string | undefined;
   onChange: (file: string | undefined) => void;
   id?: string;
@@ -18,6 +19,7 @@ function FileSelect(props: FileSelectProps) {
 
   return (
     <div>
+      <Typography variant="body1">{props.label}</Typography>
       <Typography variant="body2">{props.value}</Typography>
       <Typography variant="body2" color="error">
         {props.errorMessage}

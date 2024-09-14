@@ -1,47 +1,27 @@
-import { copyFileSync, mkdirSync, existsSync } from 'fs';
+import { copyFileSync } from 'fs';
 import path from 'path';
+import { v4 as uuid } from 'uuid';
+import { directories } from '../../../utils/persistence/directories';
 import { DocumentTarget } from '../../../utils/persistence/documentTarget';
-import getAppDataDirectory from '../../../utils/persistence/getAppDataDirectory';
 
 /**
  * Copies the selected file to the documents
  * @param uploadedFile File that should be copied to the documents
  * @param fileName Filename the copied document should have
  * @param target Target to which the document is linked to
+ * @returns id of the uploaded file
  */
-function uploadDocument(
-  uploadedFile: string,
-  fileName: string,
-  target: DocumentTarget,
-) {
-  const destinationDir = path.join(
-    getAppDataDirectory(),
-    'documents',
-    getTargetDirectory(target),
+function uploadDocument(uploadedFile: string, target: DocumentTarget): string {
+  const documentId = uuid();
+  const fileEnding = uploadedFile.split('.').pop();
+  const destinationFile = path.join(
+    directories.documents(target),
+    `${documentId}.${fileEnding}`,
   );
 
-  if (!existsSync(destinationDir)) {
-    mkdirSync(destinationDir, { recursive: true });
-  }
-
-  const destinationFile = path.join(destinationDir, fileName);
-
   copyFileSync(uploadedFile, destinationFile);
-}
 
-/**
- * Returns the directory for the specified document target
- * @param target target to which the document should be linked
- * @returns target directory
- */
-function getTargetDirectory(target: DocumentTarget): string {
-  switch (target.type) {
-    case 'resident':
-      return `residents/${target.residentId}`;
-    default:
-      const type: never = target.type;
-      throw new Error(`Missing case for target type ${type}`);
-  }
+  return documentId;
 }
 
 export default uploadDocument;

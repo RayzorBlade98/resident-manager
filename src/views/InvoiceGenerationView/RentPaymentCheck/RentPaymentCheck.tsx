@@ -9,7 +9,6 @@ import {
   generateInvoiceFormValidationSelector,
   residentsForInvoiceSelector,
 } from '../states/invoice_generation_view_state';
-import AddRentPaymentModal from '_/components/shared/RentInformationTable/AddRentPaymentModal/AddRentPaymentModal';
 import RentInformationTable from '_/components/shared/RentInformationTable/RentInformationTable';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { PaymentStatus } from '_/models/resident/rent';
@@ -41,7 +40,6 @@ function RentPaymentCheck(): JSX.Element {
 
   return (
     <>
-      <AddRentPaymentModal />
       <Box sx={styles.tabsBox}>
         <Tabs
           variant="fullWidth"
@@ -88,7 +86,6 @@ function RentPaymentCheck(): JSX.Element {
             resident={resident}
             start={invoiceStart}
             end={invoiceEnd}
-            disableRentPaymentModal
           />
         </div>
       ))}

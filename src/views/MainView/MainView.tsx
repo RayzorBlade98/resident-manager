@@ -14,7 +14,7 @@ function MainView(): JSX.Element {
       <Button variant="contained" onClick={() => navigate(View.Incidentals)}>
         Nebenkosten
       </Button>
-      <Button variant="contained" onClick={() => navigate(View.Invoice)}>
+      <Button variant="contained" onClick={() => navigate(View.Invoice)} hidden>
         Nebenkostenabrechnung
       </Button>
       <Button variant="contained" onClick={() => navigate(View.Property)}>

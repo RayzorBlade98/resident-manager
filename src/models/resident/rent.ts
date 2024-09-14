@@ -31,6 +31,11 @@ export interface RentInformation {
   paymentAmount?: CurrencyInCents;
 
   /**
+   * Document id of the rent bank transfer
+   */
+  bankTransferDocumentId?: string;
+
+  /**
    * Whether the water rent was included in an invoice
    */
   wasDeductedInInvoice: boolean;

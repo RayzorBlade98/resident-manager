@@ -34,6 +34,16 @@ interface OneTimeIncidentals {
    * Date the bill was paid
    */
   paymentDate?: Date;
+
+  /**
+   * Document id of the bill
+   */
+  billDocumentId?: string;
+
+  /**
+   * Document id of the bank transfer
+   */
+  bankTransferDocumentId?: string;
 }
 
 export default OneTimeIncidentals;

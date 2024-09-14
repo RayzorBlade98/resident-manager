@@ -1,9 +1,9 @@
 import path from 'path';
+import { directories } from '../../../utils/persistence/directories';
 import {
   ContractGenerationArgs,
   generateContractMarkdown,
 } from './generateContractMarkdown';
-import { getAssetDirectory } from '_/ipc/utils/persistence/getAppDataDirectory';
 import { uploadMarkdownAsPdf } from '_/ipc/utils/persistence/uploadMarkdownAsPdf/uploadMarkdownAsPdf';
 import Imported from '_/types/Imported';
 
@@ -21,7 +21,9 @@ async function generateContract(
       residentId: args.resident.id,
     },
     mdToPdfOptions: {
-      cssFiles: [path.join(getAssetDirectory(), 'templates/contract/style.css')],
+      cssFiles: [
+        path.join(directories.assets(), 'templates/contract/style.css'),
+      ],
     },
   });
 }

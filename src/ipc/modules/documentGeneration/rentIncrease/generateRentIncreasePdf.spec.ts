@@ -1,9 +1,9 @@
 import path from 'path';
+import { directories } from '../../../utils/persistence/directories';
 import { GenerateRentIncreasePdfArgs } from './GenerateRentIncreasePdfArgs';
 import { generateRentIncreaseMarkdown } from './generateRentIncreaseMarkdown';
 import { generateRentIncreasePdf } from './generateRentIncreasePdf';
 import MonthYear from '_/extensions/date/month_year.extension';
-import * as getAppDataDirectoryModule from '_/ipc/utils/persistence/getAppDataDirectory';
 import { uploadMarkdownAsPdf } from '_/ipc/utils/persistence/uploadMarkdownAsPdf/uploadMarkdownAsPdf';
 import LandlordBuilder from '_/test/builders/landlord.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
@@ -48,11 +48,6 @@ describe('generateRentIncreasePdf', () => {
     const documentId = 'document id';
     (uploadMarkdownAsPdf as jest.Mock).mockResolvedValue(documentId);
 
-    const assetDir = 'assets';
-    jest
-      .spyOn(getAppDataDirectoryModule, 'getAssetDirectory')
-      .mockReturnValue(assetDir);
-
     // Act
     const generatedDocumentId = await generateRentIncreasePdf(importedArgs);
 
@@ -68,7 +63,7 @@ describe('generateRentIncreasePdf', () => {
         residentId: resident.id,
       },
       mdToPdfOptions: {
-        cssFiles: [path.join(assetDir, 'templates/rentIncrease/style.css')],
+        cssFiles: [path.join(directories.assets(), 'templates/rentIncrease/style.css')],
       },
     });
 

@@ -2,7 +2,6 @@ import { act, fireEvent, render } from '@testing-library/react';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import CreateOngoingIncidentalsModal from './CreateOngoingIncidentalsModal';
-import MonthYear from '_/extensions/date/month_year.extension';
 import * as useIncidentalsStateModule from '_/hooks/useIncidentalsState/useIncidentalsState';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
@@ -15,46 +14,30 @@ describe('CreateOngoingIncidentalsModal', () => {
 
   const validInputValues = {
     name: 'invoice',
-    currentCost: 500,
     deductionType: DeductionType.PerApartment,
-    invoiceInterval: 1,
   };
 
   const invalidInputValues = {
     name: '',
-    currentCost: undefined,
     deductionType: DeductionType.PerApartment,
-    invoiceInterval: undefined,
   };
 
   const currentDate = new Date(2023, 11, 2);
   const expectedIncidentals: Omit<OngoingIncidentals, 'id'> = {
     name: validInputValues.name,
-    costs: [
-      {
-        cost: validInputValues.currentCost,
-        date: MonthYear.fromDate(currentDate).addMonths(-12),
-      },
-    ],
+    costs: [],
     deductionType: validInputValues.deductionType,
-    invoiceInterval: validInputValues.invoiceInterval,
   };
 
   function inputToForm(inputValues: {
     name: string;
-    currentCost: number | undefined;
-    invoiceInterval: number | undefined;
   }) {
     const inputFields = baseElement.querySelectorAll('input');
     const inputs = [
       inputValues.name,
-      inputValues.currentCost
-        ? (inputValues.currentCost / 100).toString()
-        : undefined,
-      inputValues.invoiceInterval?.toString() ?? '',
     ];
     act(() => {
-      inputs.forEach((input, i) => fireEvent.change(inputFields.item(i < 2 ? i : i + 1), {
+      inputs.forEach((input, i) => fireEvent.change(inputFields.item(i), {
         target: { value: input },
       }));
     });

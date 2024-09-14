@@ -32,6 +32,11 @@ class OneTimeIncidentalsBuilder {
     return this;
   }
 
+  public withPaymentDate(date: Date): OneTimeIncidentalsBuilder {
+    this.incidentals.paymentDate = date.toUTC();
+    return this;
+  }
+
   public withDeductionType(
     deductionType: DeductionType,
   ): OneTimeIncidentalsBuilder {
@@ -41,6 +46,16 @@ class OneTimeIncidentalsBuilder {
 
   public withCosts(cost: CurrencyInCents): OneTimeIncidentalsBuilder {
     this.incidentals.cost = cost;
+    return this;
+  }
+
+  public withBillDocumentId(billDocumentId: string): OneTimeIncidentalsBuilder {
+    this.incidentals.billDocumentId = billDocumentId;
+    return this;
+  }
+
+  public withBankTransferDocumentId(bankTransferDocumentId: string): OneTimeIncidentalsBuilder {
+    this.incidentals.bankTransferDocumentId = bankTransferDocumentId;
     return this;
   }
 

@@ -1,7 +1,6 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { v4 as uuid } from 'uuid';
 import { ValidationConstraint } from '../../../../../utils/validation/constraints';
 import Validator from '../../../../../utils/validation/validator';
 import FileSelect from '_/components/form/FileSelect/FileSelect';
@@ -81,23 +80,18 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
       date: undefined,
     },
     onSubmitSuccess: (values) => {
-      const documentId = uuid();
-
-      const fileEnding = values.file.split('.').pop();
-      const documentFile = `${documentId}.${fileEnding}`;
-
       void window.ipcAPI.persistence
-        .uploadDocument(values.file, documentFile, {
+        .uploadDocument(values.file, {
           type: 'resident',
           residentId: selectedResident.id,
         })
-        .then(() => {
+        .then((id) => {
           addDocument({
             name: values.name,
             type: values.type,
             creationDate: values.date,
             subjectDate: values.date,
-            id: documentId,
+            id,
           });
           props.onCloseModal();
         });
@@ -138,9 +132,9 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
                 Object.values(DocumentType)
                   .filter(
                     (s) => ![
-
                       DocumentType.Contract,
                       DocumentType.RentIncrease,
+                      DocumentType.BankTransfer,
                     ].includes(s),
                   )
                   .map((s) => [s, s]),
@@ -161,6 +155,7 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
         <Grid item xs={12}>
           <FileSelect
             id="file"
+            label="Dokument"
             value={formInput.file}
             onChange={formInputSetters.file}
             errorMessage={formErrors.file}

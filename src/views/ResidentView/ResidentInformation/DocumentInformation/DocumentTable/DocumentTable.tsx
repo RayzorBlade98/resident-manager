@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
+import { OpenDocumentButton } from '_/components/generic/buttons/OpenDocumentButton/OpenDocumentButton';
 import useResident from '_/hooks/useResident/useResident';
 import residentViewState from '_/views/ResidentView/states/resident_view_state';
 
@@ -41,7 +42,12 @@ function DocumentTable(): JSX.Element {
               <TableCell>{document.subjectDate.toPreferredString()}</TableCell>
               <TableCell>{document.name}</TableCell>
               <TableCell>{document.type}</TableCell>
-              <TableCell />
+              <TableCell>
+                <OpenDocumentButton
+                  documentId={document.id}
+                  documentTarget={{ type: 'resident', residentId }}
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

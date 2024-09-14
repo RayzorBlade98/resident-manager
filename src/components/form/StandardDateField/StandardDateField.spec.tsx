@@ -17,7 +17,7 @@ describe('StandardDateField', () => {
   function renderComponent(): void {
     renderResult = render(
       <ReactTestWrapper>
-        <div style={{ marginTop: '10px', marginLeft: '5px' }}>
+        <div style={{ margin: '10px' }}>
           <StandardDateField
             id="testField"
             label={labelText}

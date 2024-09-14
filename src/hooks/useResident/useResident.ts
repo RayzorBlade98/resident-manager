@@ -4,7 +4,8 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { CurrencyInCents } from '../../utils/currency/currency.utils';
 import RentInformationUtils from '../../utils/rent/rent.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { DocumentType, LinkedDocument } from '_/models/resident/document';
+import { LinkedDocument, DocumentType } from '_/models/resident/document';
+
 import { ResidentHistoryElement } from '_/models/resident/history';
 import { Resident } from '_/models/resident/resident';
 import WaterMeterReading from '_/models/resident/water_meter_reading';
@@ -57,6 +58,7 @@ function useResident(residentId: string) {
       dueDate: MonthYear;
       paymentAmount: CurrencyInCents;
       paymentDate: Date;
+      bankTransferDocumentId: string;
     }) => {
       applyChangesToResident((r) => ({
         ...r,

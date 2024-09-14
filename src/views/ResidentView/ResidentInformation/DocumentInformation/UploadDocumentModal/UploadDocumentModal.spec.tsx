@@ -9,7 +9,7 @@ import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import UploadDocumentModal from './UploadDocumentModal';
 import useResident, * as useResidentModule from '_/hooks/useResident/useResident';
-import { DocumentType, LinkedDocument } from '_/models/resident/document';
+import { LinkedDocument, DocumentType } from '_/models/resident/document';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import ResidentBuilder from '_/test/builders/resident.builder';
@@ -22,6 +22,7 @@ describe('UploadDocumentModal', () => {
   const onCloseModalMock = jest.fn();
 
   const resident = new ResidentBuilder().build();
+  const documentId = 'uploaded-document-id';
 
   const validInputValues = {
     name: 'Test Document',
@@ -77,6 +78,10 @@ describe('UploadDocumentModal', () => {
   beforeEach(() => {
     jest.spyOn(useResidentModule, 'default').mockReturnValue(useResidentMock);
 
+    mockedIpcAPIFunctions.persistence.uploadDocument.mockResolvedValue(
+      documentId,
+    );
+
     baseElement = render(
       <ReactTestWrapper
         initializationFunction={() => {
@@ -116,15 +121,13 @@ describe('UploadDocumentModal', () => {
 
   test('should update resident on submit', async () => {
     // Arrange
-    const expectedDocument: Omit<LinkedDocument, 'id'> = {
+    const expectedDocument: LinkedDocument = {
       name: validInputValues.name,
       creationDate: validInputValues.date,
       subjectDate: validInputValues.date,
       type: DocumentType.CoverLetter,
+      id: documentId,
     };
-    mockedIpcAPIFunctions.persistence.uploadDocument.mockResolvedValue(
-      undefined,
-    );
 
     await inputToForm(validInputValues);
 
@@ -139,14 +142,10 @@ describe('UploadDocumentModal', () => {
     ).toHaveBeenCalledTimes(1);
     expect(
       mockedIpcAPIFunctions.persistence.uploadDocument,
-    ).toHaveBeenLastCalledWith(
-      validInputValues.file,
-      expect.stringMatching(/^.*\.txt$/),
-      {
-        type: 'resident',
-        residentId: resident.id,
-      },
-    );
+    ).toHaveBeenLastCalledWith(validInputValues.file, {
+      type: 'resident',
+      residentId: resident.id,
+    });
     expect(useResidentMock.addDocument).toHaveBeenCalledWith(
       expect.objectContaining(expectedDocument),
     );

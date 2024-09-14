@@ -75,8 +75,14 @@ function createDummyData(): void {
     .withDeductionType(
       i % 2 === 0 ? DeductionType.PerApartment : DeductionType.PerResident,
     )
-    .withCosts([{ cost: 10000, date: new MonthYear() }])
-    .withInvoiceInterval(i + 1)
+    .withCosts([
+      {
+        cost: 10000,
+        dueDate: new MonthYear(),
+        paymentDate: new Date(),
+        bankTransferDocumentId: '',
+      },
+    ])
     .build());
   const oneTimeIncidentals = range(0, 8).map((i) => new OneTimeIncidentalsBuilder()
     .withName(`Einmalige Nebenkosten ${i + 1}`)

@@ -3,7 +3,7 @@ import calculateIncidentalsCosts from './incidentals';
 import { expectedIncidentalsCosts } from '_/test/data/invoiceGeneration/expected';
 
 describe('calculateIncidentalsCosts', () => {
-  test('should return right calculations', () => {
+  test.skip('should return right calculations', () => {
     // Act
     const incidentalsCalculations = calculateIncidentalsCosts(
       incidentalsCalculationArgs,

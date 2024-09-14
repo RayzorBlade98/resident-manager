@@ -54,7 +54,7 @@ function ResidentInformation(): JSX.Element {
       <div hidden={activeTab !== ResidentTab.General}>
         <GeneralResidentInformation />
       </div>
-      <div hidden={activeTab !== ResidentTab.Rent}>
+      <div hidden={activeTab !== ResidentTab.Rent} style={{ height: '100%' }}>
         <RentInformation />
       </div>
       <div hidden={activeTab !== ResidentTab.WaterReading}>

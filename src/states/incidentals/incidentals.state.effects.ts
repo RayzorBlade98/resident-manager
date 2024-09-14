@@ -14,7 +14,9 @@ export const sortOngoingIncidentalsCostEffect: AtomEffect<IncidentalsState> = ({
       ...newValue,
       ongoingIncidentals: newValue.ongoingIncidentals.map((i) => ({
         ...i,
-        costs: [...i.costs].sort((a, b) => b.date.getTime() - a.date.getTime()),
+        costs: [...i.costs].sort(
+          (a, b) => b.dueDate.getTime() - a.dueDate.getTime(),
+        ),
       })),
     };
     if (!_.isEqual(newValue, sorted)) {

@@ -38,8 +38,17 @@ class RentInformationBuilder {
     return this;
   }
 
-  public withInvoiceDeduction(wasDeductedInInvoice: boolean): RentInformationBuilder {
+  public withInvoiceDeduction(
+    wasDeductedInInvoice: boolean,
+  ): RentInformationBuilder {
     this.rentInformation.wasDeductedInInvoice = wasDeductedInInvoice;
+    return this;
+  }
+
+  public withBankTransferDocumentId(
+    bankTransferDocumentId: string,
+  ): RentInformationBuilder {
+    this.rentInformation.bankTransferDocumentId = bankTransferDocumentId;
     return this;
   }
 

@@ -6,6 +6,7 @@ import incidentalsState from './incidentals.state';
 import MonthYear from '_/extensions/date/month_year.extension';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
+import { OngoingIncidentalsCostBuilder } from '_/test/builders/ongoingIncidentalsCost.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 
 beforeEach(() => {
@@ -14,10 +15,9 @@ beforeEach(() => {
 
 const ongoingIncidentals = range(0, 5).map((_) => new OngoingIncidentalsBuilder()
   .withCosts(
-    range(0, 5).map((i) => ({
-      cost: 1000,
-      date: new MonthYear(i, 2023),
-    })),
+    range(0, 5).map((i) => new OngoingIncidentalsCostBuilder()
+      .withCost(1000)
+      .withDueDate(new MonthYear(2023, i)).build()),
   )
   .build());
 const expectedOngoingIncidentals = ongoingIncidentals.map((i) => ({

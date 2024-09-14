@@ -191,10 +191,11 @@ function getOngoingIncidentalsCostPerMonth(
   incidentals: OngoingIncidentals,
 ): CurrencyInCents {
   const incidentalsCosts = [...incidentals.costs]
-    .sort((a, b) => b.date.getTime() - a.date.getTime())
-    .find((c) => c.date <= args.invoiceEnd) as OngoingIncidentalsCost;
+    .sort((a, b) => b.dueDate.getTime() - a.dueDate.getTime())
+    .find((c) => c.dueDate <= args.invoiceEnd) as OngoingIncidentalsCost;
 
-  return incidentalsCosts.cost / incidentals.invoiceInterval;
+  // Todo: Adjust calculation
+  return incidentalsCosts.cost / 12;
 }
 
 /**
@@ -205,8 +206,8 @@ function getOngoingIncidentalsFirstInvoiceMonth(
   incidentals: OngoingIncidentals,
 ): MonthYear {
   const firstIncidentalsMonth = [...incidentals.costs].sort(
-    (a, b) => a.date.getTime() - b.date.getTime(),
-  )[0].date;
+    (a, b) => a.dueDate.getTime() - b.dueDate.getTime(),
+  )[0].dueDate;
   return MonthYear.max(firstIncidentalsMonth, args.invoiceStart);
 }
 

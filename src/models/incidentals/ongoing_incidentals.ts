@@ -14,7 +14,22 @@ export interface OngoingIncidentalsCost {
   /**
    * Month in which the cost first applies
    */
-  date: MonthYear;
+  dueDate: MonthYear;
+
+  /**
+   * Date the bill was paid
+   */
+  paymentDate: Date;
+
+  /**
+   * Document id of the bill
+   */
+  billDocumentId?: string;
+
+  /**
+   * Document id of the bank transfer
+   */
+  bankTransferDocumentId: string;
 }
 
 /**
@@ -40,9 +55,4 @@ export interface OngoingIncidentals {
    * Deduction type of the incidentals
    */
   deductionType: DeductionType;
-
-  /**
-   * Inverval in which the incidentals are paid (in months)
-   */
-  invoiceInterval: number;
 }

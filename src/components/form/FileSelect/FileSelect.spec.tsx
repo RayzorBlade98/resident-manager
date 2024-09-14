@@ -20,11 +20,14 @@ describe('FileSelect', () => {
   beforeEach(() => {
     renderResult = render(
       <ReactTestWrapper>
-        <FileSelect
-          value={file}
-          onChange={onChangeMock}
-          errorMessage={errorMessage}
-        />
+        <div style={{ padding: 10 }}>
+          <FileSelect
+            label="Document"
+            value={file}
+            onChange={onChangeMock}
+            errorMessage={errorMessage}
+          />
+        </div>
       </ReactTestWrapper>,
     );
   });
@@ -36,7 +39,7 @@ describe('FileSelect', () => {
   it('should match image snapshot', async () => {
     // Assert
     expect(
-      await generateImage({ viewport: { width: 200, height: 90 } }),
+      await generateImage({ viewport: { width: 210, height: 130 } }),
     ).toMatchImageSnapshot();
   });
 

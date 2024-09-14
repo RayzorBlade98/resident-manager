@@ -1,6 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import { OngoingIncidentals, OngoingIncidentalsCost } from '../../models/incidentals/ongoing_incidentals';
-import MonthYear from '_/extensions/date/month_year.extension';
+import {
+  OngoingIncidentals,
+  OngoingIncidentalsCost,
+} from '../../models/incidentals/ongoing_incidentals';
+import { OngoingIncidentalsCostBuilder } from './ongoingIncidentalsCost.builder';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 
 class OngoingIncidentalsBuilder {
@@ -10,14 +13,8 @@ class OngoingIncidentalsBuilder {
     this.incidentals = {
       id: uuid(),
       name: 'Test Incidentals',
-      costs: [
-        {
-          cost: 10000,
-          date: new MonthYear(5, 2023),
-        },
-      ],
+      costs: [new OngoingIncidentalsCostBuilder().build()],
       deductionType: DeductionType.PerApartment,
-      invoiceInterval: 12,
     };
   }
 
@@ -35,13 +32,6 @@ class OngoingIncidentalsBuilder {
     deductionType: DeductionType,
   ): OngoingIncidentalsBuilder {
     this.incidentals.deductionType = deductionType;
-    return this;
-  }
-
-  public withInvoiceInterval(
-    invoiceInterval: number,
-  ): OngoingIncidentalsBuilder {
-    this.incidentals.invoiceInterval = invoiceInterval;
     return this;
   }
 

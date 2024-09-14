@@ -21,6 +21,9 @@ export const mockedIpcAPIFunctions: DeepMock<typeof window.ipcAPI> = {
   fileSystem: {
     selectFile: jest.fn(),
   },
+  windows: {
+    openDocumentWindow: jest.fn(),
+  },
 };
 
 /**

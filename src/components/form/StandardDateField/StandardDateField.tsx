@@ -54,6 +54,7 @@ function StandardDateField(props: StandardDateFieldProps): JSX.Element {
 
   return (
     <DateField
+      fullWidth
       required={props.required}
       label={props.label}
       format="DD.MM.YYYY"
