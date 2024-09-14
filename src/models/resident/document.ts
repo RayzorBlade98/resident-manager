@@ -31,6 +31,11 @@ export enum DocumentType {
    * Document type representing a bank transfer
    */
   BankTransfer = 'Überweisung',
+
+  /**
+   * Document type representing a proof that the resident is insured
+   */
+  ProofOfInsurance = 'Versicherungsnachweis',
 }
 
 /**
