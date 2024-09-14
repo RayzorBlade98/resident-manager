@@ -76,7 +76,7 @@ function AddRentPaymentModal(props: AddRentPaymentModalProps): JSX.Element {
     }),
     defaultFormInput: {
       paymentAmount: RentInformationUtils.getAmountToPay(props.rentInformation),
-      paymentDate: new Date().toUTC(),
+      paymentDate: props.rentInformation.dueDate,
       bankTransferFile: undefined,
     },
     onSubmitSuccess: (values) => {
