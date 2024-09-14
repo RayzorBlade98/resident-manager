@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { CurrencyInCents } from '../../utils/currency/currency.utils';
 import RentInformationUtils from '../../utils/rent/rent.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { LinkedDocument, DocumentType } from '_/models/document';
+import { LinkedDocument, DocumentType } from '_/models/resident/document';
 
 import { ResidentHistoryElement } from '_/models/resident/history';
 import { Resident } from '_/models/resident/resident';

@@ -9,7 +9,7 @@ import React from 'react';
 import { setRecoil } from 'recoil-nexus';
 import UploadDocumentModal from './UploadDocumentModal';
 import useResident, * as useResidentModule from '_/hooks/useResident/useResident';
-import { LinkedDocument, DocumentType } from '_/models/document';
+import { LinkedDocument, DocumentType } from '_/models/resident/document';
 import residentState from '_/states/resident/resident.state';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
 import ResidentBuilder from '_/test/builders/resident.builder';
@@ -78,7 +78,9 @@ describe('UploadDocumentModal', () => {
   beforeEach(() => {
     jest.spyOn(useResidentModule, 'default').mockReturnValue(useResidentMock);
 
-    mockedIpcAPIFunctions.persistence.uploadDocument.mockResolvedValue(documentId);
+    mockedIpcAPIFunctions.persistence.uploadDocument.mockResolvedValue(
+      documentId,
+    );
 
     baseElement = render(
       <ReactTestWrapper
@@ -140,13 +142,10 @@ describe('UploadDocumentModal', () => {
     ).toHaveBeenCalledTimes(1);
     expect(
       mockedIpcAPIFunctions.persistence.uploadDocument,
-    ).toHaveBeenLastCalledWith(
-      validInputValues.file,
-      {
-        type: 'resident',
-        residentId: resident.id,
-      },
-    );
+    ).toHaveBeenLastCalledWith(validInputValues.file, {
+      type: 'resident',
+      residentId: resident.id,
+    });
     expect(useResidentMock.addDocument).toHaveBeenCalledWith(
       expect.objectContaining(expectedDocument),
     );

@@ -9,7 +9,7 @@ import GenerateContractModal from './GenerateContractModal';
 import MonthYear from '_/extensions/date/month_year.extension';
 import * as useResidentModule from '_/hooks/useResident/useResident';
 import useResident from '_/hooks/useResident/useResident';
-import { DocumentType } from '_/models/document';
+import { DocumentType } from '_/models/resident/document';
 import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';
 import residentState from '_/states/resident/resident.state';

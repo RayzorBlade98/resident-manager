@@ -5,7 +5,7 @@ import _, { range } from 'lodash';
 import { RecoilRoot } from 'recoil';
 import useResident from './useResident';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { DocumentType } from '_/models/document';
+import { DocumentType } from '_/models/resident/document';
 import { Resident } from '_/models/resident/resident';
 import landlordState from '_/states/landlord/landlord.state';
 import propertyState from '_/states/property/property.state';

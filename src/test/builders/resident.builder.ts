@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import MonthYear from '_/extensions/date/month_year.extension';
-import { LinkedDocument } from '_/models/document';
 import { ContractResident } from '_/models/resident/contractResident';
+import { LinkedDocument } from '_/models/resident/document';
 import { ResidentHistoryElement } from '_/models/resident/history';
 import { RentInformation } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';

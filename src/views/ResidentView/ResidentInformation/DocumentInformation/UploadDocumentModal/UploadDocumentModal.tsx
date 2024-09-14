@@ -10,7 +10,7 @@ import TextInputField from '_/components/form/TextInputField/TextInputField';
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import useResident from '_/hooks/useResident/useResident';
-import { DocumentType } from '_/models/document';
+import { DocumentType } from '_/models/resident/document';
 import { Resident } from '_/models/resident/resident';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
 

@@ -1,5 +1,5 @@
-import { LinkedDocument } from '../document';
 import { ContractResident } from './contractResident';
+import { LinkedDocument } from './document';
 import { ResidentHistoryElement } from './history';
 import { RentInformation } from './rent';
 import WaterMeterReading from './water_meter_reading';

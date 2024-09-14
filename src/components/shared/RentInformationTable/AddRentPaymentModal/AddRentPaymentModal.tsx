@@ -9,7 +9,7 @@ import StandardDateField from '_/components/form/StandardDateField/StandardDateF
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import useResident from '_/hooks/useResident/useResident';
-import { DocumentType } from '_/models/document';
+import { DocumentType } from '_/models/resident/document';
 import { RentInformation } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
