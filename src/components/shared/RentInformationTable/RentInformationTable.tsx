@@ -10,13 +10,13 @@ import React, { useMemo } from 'react';
 import { convertCurrencyCentsToString } from '../../../utils/currency/currency.utils';
 import RentInformationUtils from '../../../utils/rent/rent.utils';
 import AddRentPaymentModal from './AddRentPaymentModal/AddRentPaymentModal';
+import { PaymentNoteIcon } from './PaymentNoteIcon/PaymentNoteIcon';
 import PaymentStatusIcon from './PaymentStatusIcon/PaymentStatusIcon';
 import { AddPaymentIcon } from '_/components/generic/ModalIconButton/AddPaymentIcon/AddPaymentIcon';
 import { OpenDocumentButton } from '_/components/generic/buttons/OpenDocumentButton/OpenDocumentButton';
 import MonthYear from '_/extensions/date/month_year.extension';
 import { PaymentStatus } from '_/models/resident/rent';
 import { Resident } from '_/models/resident/resident';
-import { PaymentNoteIcon } from './PaymentNoteIcon/PaymentNoteIcon';
 
 interface RentInformationTableProps {
   /**
@@ -86,7 +86,7 @@ function RentInformationTable(props: RentInformationTableProps): JSX.Element {
                   }}
                   tooltip="Überweisung anzeigen"
                 />
-                <PaymentNoteIcon rent={rent}/>
+                <PaymentNoteIcon rent={rent} />
               </TableCell>
               <TableCell>
                 <AddPaymentIcon

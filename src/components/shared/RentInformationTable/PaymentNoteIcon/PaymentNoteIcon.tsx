@@ -1,7 +1,7 @@
 import InfoIcon from '@mui/icons-material/Info';
 import { Tooltip } from '@mui/material';
-import { RentInformation } from '_/models/resident/rent';
 import React from 'react';
+import { RentInformation } from '_/models/resident/rent';
 
 type PaymentNoteIconProps = {
   rent: RentInformation;
