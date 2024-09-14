@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Fixed
 
 - Correctly set default values of rent payment modal
+- Don't reset date field input when entering a year
 
 ## v0.3.0 - 2024-09-14
 
