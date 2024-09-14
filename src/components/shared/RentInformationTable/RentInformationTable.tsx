@@ -62,7 +62,7 @@ function RentInformationTable(props: RentInformationTableProps): JSX.Element {
         <TableBody>
           {filteredRentInformation.map((rent) => (
             <TableRow
-              key={rent.dueDate.toString()}
+              key={`${props.resident.id}-${rent.dueDate.toString()}`}
               sx={{
                 height: '73px',
                 '&:last-child td, &:last-child th': { border: 0 },
