@@ -46,9 +46,14 @@ export interface UploadDocumentInput {
   file: string;
 
   /**
+   * Date the document was created
+   */
+  creationDate: Date;
+
+  /**
    * Date the document is about
    */
-  date: Date;
+  subjectDate: Date;
 }
 
 /**
@@ -71,13 +76,15 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
     formValidator: new Validator<UploadDocumentInput>({
       name: ValidationConstraint.Defined,
       file: ValidationConstraint.DefinedFile,
-      date: ValidationConstraint.Defined,
+      creationDate: ValidationConstraint.Defined,
+      subjectDate: ValidationConstraint.Defined,
     }),
     defaultFormInput: {
       name: undefined,
       file: undefined,
       type: DocumentType.CoverLetter,
-      date: undefined,
+      creationDate: undefined,
+      subjectDate: undefined,
     },
     onSubmitSuccess: (values) => {
       void window.ipcAPI.persistence
@@ -89,8 +96,8 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
           addDocument({
             name: values.name,
             type: values.type,
-            creationDate: values.date,
-            subjectDate: values.date,
+            creationDate: values.creationDate,
+            subjectDate: values.subjectDate,
             id,
           });
           props.onCloseModal();
@@ -145,11 +152,21 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
         <Grid item xs={6}>
           <StandardDateField
             required
-            id="date"
-            label="Datum"
-            value={formInput.date}
-            onChange={formInputSetters.date}
-            errorMessage={formErrors.date}
+            id="creationDate"
+            label="Erstellungsdatum"
+            value={formInput.creationDate}
+            onChange={formInputSetters.creationDate}
+            errorMessage={formErrors.creationDate}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <StandardDateField
+            required
+            id="subjectDate"
+            label="Betreffdatum"
+            value={formInput.subjectDate}
+            onChange={formInputSetters.subjectDate}
+            errorMessage={formErrors.subjectDate}
           />
         </Grid>
         <Grid item xs={12}>

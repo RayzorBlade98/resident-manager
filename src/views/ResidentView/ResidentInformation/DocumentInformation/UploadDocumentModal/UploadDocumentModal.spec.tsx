@@ -26,19 +26,22 @@ describe('UploadDocumentModal', () => {
 
   const validInputValues = {
     name: 'Test Document',
-    date: new Date(2024, 5, 10).toUTC(),
+    creationDate: new Date(2024, 5, 10).toUTC(),
+    subjectDate: new Date(2024, 9, 3).toUTC(),
     file: 'test/file.txt',
   };
 
   const invalidInputValues = {
     name: undefined,
-    date: undefined,
+    creationDate: undefined,
+    subjectDate: undefined,
     file: undefined,
   };
 
   async function inputToForm(inputValues: {
     name: string | undefined;
-    date: Date | undefined;
+    creationDate: Date | undefined;
+    subjectDate: Date | undefined;
     file: string | undefined;
   }) {
     function input(element: Element | null, value: string | undefined) {
@@ -57,8 +60,12 @@ describe('UploadDocumentModal', () => {
     act(() => {
       input(baseElement.querySelector('#name'), inputValues.name ?? '');
       input(
-        baseElement.querySelector('#date'),
-        inputValues.date?.toPreferredString() ?? '',
+        baseElement.querySelector('#creationDate'),
+        inputValues.creationDate?.toPreferredString() ?? '',
+      );
+      input(
+        baseElement.querySelector('#subjectDate'),
+        inputValues.subjectDate?.toPreferredString() ?? '',
       );
       fireEvent.click(baseElement.querySelector('#file')!);
     });
@@ -123,8 +130,8 @@ describe('UploadDocumentModal', () => {
     // Arrange
     const expectedDocument: LinkedDocument = {
       name: validInputValues.name,
-      creationDate: validInputValues.date,
-      subjectDate: validInputValues.date,
+      creationDate: validInputValues.creationDate,
+      subjectDate: validInputValues.subjectDate,
       type: DocumentType.CoverLetter,
       id: documentId,
     };
