@@ -2,11 +2,13 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import { ValidationConstraint } from '../../../utils/validation/constraints';
 import Validator from '../../../utils/validation/validator';
+import FileSelect from '_/components/form/FileSelect/FileSelect';
 import NumberTextField from '_/components/form/NumberTextField/NumberTextField';
 import StandardDateField from '_/components/form/StandardDateField/StandardDateField';
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import useResident from '_/hooks/useResident/useResident';
+import { DocumentType } from '_/models/resident/document';
 
 type AddWaterMeterReadingModalProps = {
   /**
@@ -38,6 +40,11 @@ type WaterMeterReadingInput = {
    * Date the water count was read
    */
   readingDate: Date;
+
+  /**
+   * Path to the water meter reading document
+   */
+  readingFile: string;
 };
 
 /**
@@ -46,7 +53,9 @@ type WaterMeterReadingInput = {
 function AddWaterMeterReadingModal(
   props: AddWaterMeterReadingModalProps,
 ): JSX.Element {
-  const { resident, addWaterMeterReading } = useResident(props.residentId);
+  const { resident, addWaterMeterReading, addDocument } = useResident(
+    props.residentId,
+  );
 
   const {
     formInput,
@@ -58,17 +67,35 @@ function AddWaterMeterReadingModal(
     formValidator: new Validator<WaterMeterReadingInput>({
       waterMeterCount: ValidationConstraint.Defined,
       readingDate: ValidationConstraint.Defined,
+      readingFile: ValidationConstraint.DefinedFile,
     }),
     defaultFormInput: {
       waterMeterCount: undefined,
       readingDate: new Date().toUTC(),
+      readingFile: undefined,
     },
     onSubmitSuccess: (values) => {
-      addWaterMeterReading({
-        waterMeterCount: values.waterMeterCount,
-        readingDate: values.readingDate,
-        wasDeductedInInvoice: false,
-      });
+      void window.ipcAPI.persistence
+        .uploadDocument(values.readingFile, {
+          type: 'resident',
+          residentId: props.residentId,
+        })
+        .then((readingDocumentId) => {
+          addDocument({
+            name: `Ablesung Wasserzählerstand ${values.readingDate.toPreferredString()}`,
+            type: DocumentType.WaterMeterReading,
+            creationDate: values.readingDate,
+            subjectDate: values.readingDate,
+            id: readingDocumentId,
+          });
+          addWaterMeterReading({
+            waterMeterCount: values.waterMeterCount,
+            readingDate: values.readingDate,
+            readingDocumentId,
+            wasDeductedInInvoice: false,
+          });
+        });
+
       props.onCloseModal();
     },
     submitButtonLabel: 'Hinzufügen',
@@ -105,6 +132,15 @@ function AddWaterMeterReadingModal(
             value={formInput.readingDate}
             onChange={formInputSetters.readingDate}
             errorMessage={formErrors.readingDate}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FileSelect
+            id="readingFile"
+            label="Ablesung"
+            value={formInput.readingFile}
+            onChange={formInputSetters.readingFile}
+            errorMessage={formErrors.readingFile}
           />
         </Grid>
       </Grid>

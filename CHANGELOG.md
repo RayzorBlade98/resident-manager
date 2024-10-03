@@ -11,9 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Rent payment
     - New fields
         - Payment note
-- Document upload
-    - New document types
-        - Water meter reading        
+- Water meter reading
+    - Reading document upload      
 
 ### Changed
 

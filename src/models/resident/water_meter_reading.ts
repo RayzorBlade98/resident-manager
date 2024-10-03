@@ -16,6 +16,11 @@ interface WaterMeterReading {
    * Whether the water meter reading was included in an invoice
    */
   wasDeductedInInvoice: boolean;
+
+  /**
+   * Document id of the water meter reading
+   */
+  readingDocumentId?: string;
 }
 
 export default WaterMeterReading;
