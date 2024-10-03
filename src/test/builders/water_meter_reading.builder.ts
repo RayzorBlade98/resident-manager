@@ -29,6 +29,11 @@ class WaterMeterReadingBuilder {
     return this;
   }
 
+  public withReadingDocument(documentId: string): WaterMeterReadingBuilder {
+    this.waterMeterReading.readingDocumentId = documentId;
+    return this;
+  }
+
   public build(): WaterMeterReading {
     return this.waterMeterReading;
   }

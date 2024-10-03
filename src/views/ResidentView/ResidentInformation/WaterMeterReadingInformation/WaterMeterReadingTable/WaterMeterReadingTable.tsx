@@ -12,6 +12,7 @@ import {
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import '_/extensions/date/date.extension';
+import { OpenDocumentButton } from '_/components/generic/buttons/OpenDocumentButton/OpenDocumentButton';
 import AddWaterMeterReadingModal from '_/components/shared/AddWaterMeterReadingModal/AddWaterMeterReadingModal';
 import { Resident } from '_/models/resident/resident';
 import { residentViewSelectedResidentState } from '_/views/ResidentView/states/resident_view_state';
@@ -47,7 +48,7 @@ function WaterMeterReadingTable(): JSX.Element {
               <TableCell>Ablesedatum</TableCell>
               <TableCell>Zählerstand</TableCell>
               <TableCell>Abrechnungsstatus</TableCell>
-              <TableCell>Aktionen</TableCell>
+              <TableCell>Ablesung</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -64,7 +65,10 @@ function WaterMeterReadingTable(): JSX.Element {
             {resident.waterMeterReadings.map((reading) => (
               <TableRow
                 key={reading.readingDate.toPreferredString()}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{
+                  height: '73px',
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}
               >
                 <TableCell>{reading.readingDate.toPreferredString()}</TableCell>
                 <TableCell>{reading.waterMeterCount}</TableCell>
@@ -82,7 +86,16 @@ function WaterMeterReadingTable(): JSX.Element {
                     </Tooltip>
                   )}
                 </TableCell>
-                <TableCell />
+                <TableCell>
+                  <OpenDocumentButton
+                    documentId={reading.readingDocumentId}
+                    documentTarget={{
+                      type: 'resident',
+                      residentId: resident.id,
+                    }}
+                    tooltip="Ablesung anzeigen"
+                  />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
