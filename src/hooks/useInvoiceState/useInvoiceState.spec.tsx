@@ -27,12 +27,11 @@ describe('useInvoiceState', () => {
     test('should return right invoices', () => {
       // Arrange
       const { result } = renderHook(
-        () =>
-          useInitializedRecoilState({
-            state: invoiceState,
-            stateValue: invoices,
-            hook: useInvoiceState,
-          }),
+        () => useInitializedRecoilState({
+          state: invoiceState,
+          stateValue: invoices,
+          hook: useInvoiceState,
+        }),
         {
           wrapper: RecoilRoot,
         },
@@ -63,12 +62,11 @@ describe('useInvoiceState', () => {
       // Arrange
 
       const { result } = renderHook(
-        () =>
-          useInitializedRecoilState({
-            state: residentState,
-            stateValue: residents,
-            hook: () => useMergedHook(useInvoiceState, useResidentState),
-          }),
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useMergedHook(useInvoiceState, useResidentState),
+        }),
         {
           wrapper: RecoilRoot,
         },
