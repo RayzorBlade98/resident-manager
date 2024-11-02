@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { invoiceGenerationArgs } from '../../test/data/invoiceGenerationOld/arguments';
-import generateInvoice from './invoice.generator';
-import { expectedInvoice } from '_/test/data/invoiceGenerationOld/expected';
+import generateInvoice from './invoice.generator_old';
+import { expectedInvoice } from '_/test/data/invoiceGeneration/expected';
 
 describe('generateInvoice', () => {
   test.skip('should return right invoice', () => {

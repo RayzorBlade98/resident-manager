@@ -1,6 +1,6 @@
-import { waterCostCalculationArgs } from '../../../test/data/invoiceGeneration/arguments';
+import { waterCostCalculationArgs } from '../../../test/data/invoiceGenerationOld/arguments';
 import calculateWaterCosts from './water';
-import { expectedWaterCosts } from '_/test/data/invoiceGeneration/expected';
+import { expectedWaterCosts } from '_/test/data/invoiceGenerationOld/expected';
 
 describe('calculateWaterCosts', () => {
   test('should return right calculations', () => {

@@ -1,6 +1,6 @@
-import { rentPaymentCalculationArgs } from '../../../test/data/invoiceGeneration/arguments';
+import { rentPaymentCalculationArgs } from '../../../test/data/invoiceGenerationOld/arguments';
 import calculateRentPayments from './rent';
-import { expectedRentPayments } from '_/test/data/invoiceGeneration/expected';
+import { expectedRentPayments } from '_/test/data/invoiceGenerationOld/expected';
 
 describe('calculateRentPayments', () => {
   test('should return right calculations', () => {

@@ -1,6 +1,6 @@
-import { totalCostCalculationArgs } from '../../../test/data/invoiceGeneration/arguments';
+import { totalCostCalculationArgs } from '../../../test/data/invoiceGenerationOld/arguments';
 import calculateTotalCosts from './totalCosts';
-import { expectedTotalCosts } from '_/test/data/invoiceGeneration/expected';
+import { expectedTotalCosts } from '_/test/data/invoiceGenerationOld/expected';
 
 describe('calculateTotalCosts', () => {
   test('should return right calculations', () => {

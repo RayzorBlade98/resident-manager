@@ -1,6 +1,6 @@
-import { incidentalsCalculationArgs } from '../../../test/data/invoiceGeneration/arguments';
+import { incidentalsCalculationArgs } from '../../../test/data/invoiceGenerationOld/arguments';
 import calculateIncidentalsCosts from './incidentals';
-import { expectedIncidentalsCosts } from '_/test/data/invoiceGeneration/expected';
+import { expectedIncidentalsCosts } from '_/test/data/invoiceGenerationOld/expected';
 
 describe('calculateIncidentalsCosts', () => {
   test.skip('should return right calculations', () => {
