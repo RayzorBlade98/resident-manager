@@ -59,6 +59,7 @@ function useResident(residentId: string) {
       paymentAmount: CurrencyInCents;
       paymentDate: Date;
       bankTransferDocumentId: string;
+      paymentNote: string | undefined;
     }) => {
       applyChangesToResident((r) => ({
         ...r,

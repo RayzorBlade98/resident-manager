@@ -1,8 +1,7 @@
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { Tooltip } from '@mui/material';
-import React from 'react';
-import { useSetRecoilState } from 'recoil';
-import addWaterMeterReadingState from '_/components/shared/AddWaterMeterReadingModal/states/add_water_reading_state';
+import React, { useState } from 'react';
+import AddWaterMeterReadingModal from '_/components/shared/AddWaterMeterReadingModal/AddWaterMeterReadingModal';
 
 interface AddWaterMeterReadingIconProps {
   /**
@@ -17,25 +16,22 @@ interface AddWaterMeterReadingIconProps {
 function AddWaterMeterReadingIcon(
   props: AddWaterMeterReadingIconProps,
 ): JSX.Element {
-  const setAddWaterMeterReadingState = useSetRecoilState(
-    addWaterMeterReadingState,
-  );
-
-  const onClick = () => {
-    setAddWaterMeterReadingState((state) => ({
-      ...state,
-      showModal: true,
-      residentId: props.residentId,
-    }));
-  };
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <Tooltip title="Zählerstand hinzufügen" arrow>
-      <ControlPointIcon
-        onClick={onClick}
-        sx={{ ':hover': { cursor: 'pointer' } }}
+    <>
+      <AddWaterMeterReadingModal
+        show={showModal}
+        onCloseModal={() => setShowModal(false)}
+        residentId={props.residentId}
       />
-    </Tooltip>
+      <Tooltip title="Zählerstand hinzufügen" arrow>
+        <ControlPointIcon
+          onClick={() => setShowModal(true)}
+          sx={{ ':hover': { cursor: 'pointer' } }}
+        />
+      </Tooltip>
+    </>
   );
 }
 

@@ -31,6 +31,21 @@ interface TextInputFieldProps {
    * Whether the field is required or not
    */
   required?: boolean;
+
+  /**
+   * Multiline configuration
+   */
+  multiline?: {
+    /**
+     * Whether to enable multiline
+     */
+    enabled: true
+
+    /**
+     * Number of rows to display
+     */
+    rows?: number
+  }
 }
 
 /**
@@ -53,6 +68,8 @@ function TextInputField(props: TextInputFieldProps): JSX.Element {
       onChange={onChange}
       error={!!props.errorMessage}
       helperText={props.errorMessage}
+      multiline={props.multiline?.enabled}
+      rows={props.multiline?.rows}
     />
   );
 }

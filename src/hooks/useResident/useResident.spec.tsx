@@ -139,6 +139,7 @@ describe('useResident', () => {
         dueDate: selectedResident.rentInformation[1].dueDate,
         paymentDate: new Date(),
         paymentAmount: 12345,
+        paymentNote: 'my note',
         bankTransferDocumentId: 'rent-payment-document-id',
       };
       const { result } = renderHook(

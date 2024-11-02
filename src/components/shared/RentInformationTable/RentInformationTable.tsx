@@ -10,6 +10,7 @@ import React, { useMemo } from 'react';
 import { convertCurrencyCentsToString } from '../../../utils/currency/currency.utils';
 import RentInformationUtils from '../../../utils/rent/rent.utils';
 import AddRentPaymentModal from './AddRentPaymentModal/AddRentPaymentModal';
+import { PaymentNoteIcon } from './PaymentNoteIcon/PaymentNoteIcon';
 import PaymentStatusIcon from './PaymentStatusIcon/PaymentStatusIcon';
 import { AddPaymentIcon } from '_/components/generic/ModalIconButton/AddPaymentIcon/AddPaymentIcon';
 import { OpenDocumentButton } from '_/components/generic/buttons/OpenDocumentButton/OpenDocumentButton';
@@ -62,7 +63,7 @@ function RentInformationTable(props: RentInformationTableProps): JSX.Element {
         <TableBody>
           {filteredRentInformation.map((rent) => (
             <TableRow
-              key={rent.dueDate.toString()}
+              key={`${props.resident.id}-${rent.dueDate.toString()}`}
               sx={{
                 height: '73px',
                 '&:last-child td, &:last-child th': { border: 0 },
@@ -85,6 +86,7 @@ function RentInformationTable(props: RentInformationTableProps): JSX.Element {
                   }}
                   tooltip="Überweisung anzeigen"
                 />
+                <PaymentNoteIcon rent={rent} />
               </TableCell>
               <TableCell>
                 <AddPaymentIcon

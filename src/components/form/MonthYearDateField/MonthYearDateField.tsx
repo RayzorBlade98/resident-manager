@@ -58,7 +58,7 @@ function MonthYearDateField(props: MonthYearDateFieldProps): JSX.Element {
       required={props.required}
       label={props.label}
       format="MM.YYYY"
-      value={props.value ? dayjs(props.value) : undefined}
+      defaultValue={props.value ? dayjs(props.value) : undefined}
       onChange={onChange}
       slotProps={{
         textField: {

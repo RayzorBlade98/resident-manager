@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.3.1 - 2024-11-02
+
+### Added
+
+- Rent payment
+    - New fields
+        - Payment note
+- Water meter reading
+    - Reading document upload      
+
+### Changed
+
+- Rent payment
+    - Use due date as default payment date
+- Document upload
+    - Set creation and subject date seperately
+
+### Fixed
+
+- Correctly set default values of rent payment modal
+- Don't reset date field input when entering a year
+
 ## v0.3.0 - 2024-09-14
 
 ### Added

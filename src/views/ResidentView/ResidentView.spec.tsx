@@ -77,6 +77,7 @@ describe('ResidentView', () => {
         .withReadingDate(new Date(2023, 4, 13))
         .withWaterMeterCount(420)
         .withWasDeductedInInvoice(false)
+        .withReadingDocument('reading doc')
         .build(),
     )
     .addDocument(

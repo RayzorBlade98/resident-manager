@@ -6,6 +6,7 @@ import Validator from '../../../../utils/validation/validator';
 import CurrencyInputField from '_/components/form/CurrencyInputField/CurrencyInputField';
 import FileSelect from '_/components/form/FileSelect/FileSelect';
 import StandardDateField from '_/components/form/StandardDateField/StandardDateField';
+import TextInputField from '_/components/form/TextInputField/TextInputField';
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import useResident from '_/hooks/useResident/useResident';
@@ -51,6 +52,11 @@ interface AddRentPaymentInput {
   paymentDate: Date;
 
   /**
+   * Optional note for to the rent payment
+   */
+  paymentNote: string | undefined
+
+  /**
    * Path to the bank transfer document
    */
   bankTransferFile: string;
@@ -76,7 +82,8 @@ function AddRentPaymentModal(props: AddRentPaymentModalProps): JSX.Element {
     }),
     defaultFormInput: {
       paymentAmount: RentInformationUtils.getAmountToPay(props.rentInformation),
-      paymentDate: new Date().toUTC(),
+      paymentDate: props.rentInformation.dueDate,
+      paymentNote: undefined,
       bankTransferFile: undefined,
     },
     onSubmitSuccess: (values) => {
@@ -97,6 +104,7 @@ function AddRentPaymentModal(props: AddRentPaymentModalProps): JSX.Element {
             dueDate: props.rentInformation.dueDate,
             paymentAmount: values.paymentAmount,
             paymentDate: values.paymentDate,
+            paymentNote: values.paymentNote,
             bankTransferDocumentId,
           });
           props.onCloseModal();
@@ -143,6 +151,19 @@ function AddRentPaymentModal(props: AddRentPaymentModalProps): JSX.Element {
             value={formInput.bankTransferFile}
             onChange={formInputSetters.bankTransferFile}
             errorMessage={formErrors.bankTransferFile}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextInputField
+            id="paymentNote"
+            label="Notizen"
+            value={formInput.paymentNote}
+            onChange={formInputSetters.paymentNote}
+            errorMessage={formErrors.paymentNote}
+            multiline={{
+              enabled: true,
+              rows: 2,
+            }}
           />
         </Grid>
       </Grid>

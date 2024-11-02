@@ -58,7 +58,7 @@ function StandardDateField(props: StandardDateFieldProps): JSX.Element {
       required={props.required}
       label={props.label}
       format="DD.MM.YYYY"
-      value={props.value ? dayjs(props.value) : undefined}
+      defaultValue={props.value ? dayjs(props.value) : undefined}
       onChange={onChange}
       slotProps={{
         textField: {

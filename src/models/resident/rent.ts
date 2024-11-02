@@ -31,6 +31,11 @@ export interface RentInformation {
   paymentAmount?: CurrencyInCents;
 
   /**
+   * Optional note for to the rent payment
+   */
+  paymentNote?: string;
+
+  /**
    * Document id of the rent bank transfer
    */
   bankTransferDocumentId?: string;
