@@ -431,6 +431,16 @@ describe('convertImportedWaterCosts', () => {
           date: new MonthYear(5, 2023),
         },
       ],
+      monthlyDeductions: [
+        {
+          deductionCost: 4,
+          date: new MonthYear(10, 2024),
+        },
+        {
+          deductionCost: 3,
+          date: new MonthYear(9, 2024),
+        },
+      ],
     };
     const waterCostsJson = JSON.parse(JSON.stringify(waterCosts));
 

@@ -142,6 +142,10 @@ export function convertImportedWaterCosts(
       ...c,
       date: MonthYear.fromString(c.date),
     })),
+    monthlyDeductions: imported.monthlyDeductions.map((c) => ({
+      ...c,
+      date: MonthYear.fromString(c.date),
+    })),
   };
 }
 

@@ -9,6 +9,7 @@ class WaterCostsBuilder {
     this.waterCosts = {
       waterUsageCosts: [],
       sewageCosts: [],
+      monthlyDeductions: [],
     };
   }
 

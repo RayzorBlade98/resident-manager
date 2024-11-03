@@ -84,6 +84,7 @@ function InitializationForm() {
             date: new MonthYear(),
           },
         ],
+        monthlyDeductions: [],
       });
     },
   });

@@ -18,6 +18,9 @@ const sortWaterCostsEffect: AtomEffect<WaterCostsState> = ({
       sewageCosts: [...newValue.sewageCosts].sort(
         (a, b) => b.date.getTime() - a.date.getTime(),
       ),
+      monthlyDeductions: [...newValue.monthlyDeductions].sort(
+        (a, b) => b.date.getTime() - a.date.getTime(),
+      ),
     };
     if (!_.isEqual(newValue, sorted)) {
       setSelf(sorted);

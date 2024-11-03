@@ -321,6 +321,7 @@ describe('InitializationForm', () => {
           date: mockedSystemTime,
         },
       ],
+      monthlyDeductions: [],
     };
 
     // Act

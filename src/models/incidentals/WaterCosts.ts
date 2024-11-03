@@ -26,4 +26,19 @@ export default interface WaterCosts {
    * History of all sewage costs
    */
   sewageCosts: WaterCost[];
+
+  /**
+   * History of all monthly deduction costs
+   */
+  monthlyDeductions: {
+    /**
+     * Monthly deduction costs
+     */
+    deductionCost: CurrencyInCents;
+
+    /**
+     * Month in which the cost first applies
+     */
+    date: MonthYear;
+  }[];
 }
