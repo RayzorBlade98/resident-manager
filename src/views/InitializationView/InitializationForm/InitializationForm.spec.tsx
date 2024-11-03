@@ -44,6 +44,7 @@ describe('InitializationForm', () => {
     houseNumberProperty: 13,
     waterUsageCost: 1000,
     sewageCost: 500,
+    waterMonthyDeduction: 100,
     rentIndexUrl: 'example.org/rentIndex',
     cappingLimit: 20,
   };
@@ -68,6 +69,7 @@ describe('InitializationForm', () => {
     houseNumberProperty: undefined,
     waterUsageCost: undefined,
     sewageCost: undefined,
+    waterMonthyDeduction: undefined,
     rentIndexUrl: '',
     cappingLimit: undefined,
   };
@@ -91,6 +93,7 @@ describe('InitializationForm', () => {
     houseNumberProperty: number | undefined;
     waterUsageCost: number | undefined;
     sewageCost: number | undefined;
+    waterMonthyDeduction: number | undefined;
     rentIndexUrl: string;
     cappingLimit: number | undefined;
   }) {
@@ -185,6 +188,12 @@ describe('InitializationForm', () => {
         baseElement.querySelector('#sewageCost'),
         inputValues.sewageCost
           ? (inputValues.sewageCost / 100).toString()
+          : undefined,
+      );
+      input(
+        baseElement.querySelector('#waterMonthyDeduction'),
+        inputValues.waterMonthyDeduction
+          ? (inputValues.waterMonthyDeduction / 100).toString()
           : undefined,
       );
       input(
@@ -321,7 +330,12 @@ describe('InitializationForm', () => {
           date: mockedSystemTime,
         },
       ],
-      monthlyDeductions: [],
+      monthlyDeductions: [
+        {
+          deductionCost: validInputValues.waterMonthyDeduction,
+          date: mockedSystemTime,
+        },
+      ],
     };
 
     // Act
