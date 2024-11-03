@@ -8,7 +8,7 @@ class ResidentInvoiceInformationBuilder {
   constructor() {
     this.residentInformation = {
       residentId: uuid(),
-      name: new NameBuilder().build(),
+      names: [new NameBuilder().build()],
       ongoingIncidentalsCosts: {},
       oneTimeIncidentalsCosts: {},
       rentPayments: [],

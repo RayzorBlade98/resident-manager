@@ -80,8 +80,7 @@ export default function generateInvoice(
       resident.id,
       {
         residentId: resident.id,
-        // Todo: All residents
-        name: resident.contractResidents[0].name,
+        names: resident.contractResidents.map((r) => r.name),
         ongoingIncidentalsCosts:
           incidentalsCalculations.residentInformation[resident.id]
             .ongoingIncidentalsCosts,

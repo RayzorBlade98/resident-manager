@@ -101,11 +101,18 @@ describe('convertImportedInvoices', () => {
         residentInformation: {
           resident: {
             residentId: 'resident',
-            name: {
-              salutation: Salutation.Male,
-              firstName: 'Max',
-              lastName: 'Mustermann',
-            },
+            names: [
+              {
+                salutation: Salutation.Male,
+                firstName: 'Max',
+                lastName: 'Mustermann',
+              },
+              {
+                salutation: Salutation.Female,
+                firstName: 'Maxine',
+                lastName: 'Musterfrau',
+              },
+            ],
             ongoingIncidentalsCosts: {
               'ongoing id': 111,
             },

@@ -14,7 +14,7 @@ export default interface ResidentInvoiceInformation {
   /**
    * Name of the resident
    */
-  name: Name;
+  names: Name[];
 
   /**
    * Costs for all ongoing incidentals

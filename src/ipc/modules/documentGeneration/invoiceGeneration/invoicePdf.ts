@@ -112,7 +112,7 @@ class InvoicePdfGenerator {
   private addAddresses(): void {
     const residentAddress = [
       labels.addresses.residentTitle,
-      convertNameToString(this.residentInformation.name),
+      convertNameToString(this.residentInformation.names[0]),
       convertAddressToStreetString(this.invoice.property.address),
       convertAddressToCityString(this.invoice.property.address),
     ].join('\n');
@@ -123,7 +123,7 @@ class InvoicePdfGenerator {
     const landlordAddress = [
       labels.addresses.landlordTitle,
       this.invoice.landlord.company,
-      landlordNamePrefix + convertNameToString(this.residentInformation.name),
+      landlordNamePrefix + convertNameToString(this.residentInformation.names[0]),
       convertAddressToStreetString(this.invoice.landlord.address),
       convertAddressToCityString(this.invoice.landlord.address),
     ]

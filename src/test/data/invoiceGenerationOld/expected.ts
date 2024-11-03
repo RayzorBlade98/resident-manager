@@ -214,7 +214,7 @@ function getExpectedResidentInformation(
 ): ResidentInvoiceInformation {
   return {
     residentId: resident.id,
-    name: resident.contractResidents[0].name,
+    names: [resident.contractResidents[0].name],
     ongoingIncidentalsCosts:
       expectedIncidentalsCosts.residentInformation[resident.id]
         .ongoingIncidentalsCosts,
@@ -252,12 +252,10 @@ export const expectedResidentsAfterInvoiceGeneration: Resident[] = [
   {
     ...residentLaterInvoiceStart,
     rentInformation: [
-      ...residentLaterInvoiceStart.rentInformation
-        .slice(0, -1)
-        .map((r) => ({
-          ...r,
-          wasDeductedInInvoice: true,
-        })),
+      ...residentLaterInvoiceStart.rentInformation.slice(0, -1).map((r) => ({
+        ...r,
+        wasDeductedInInvoice: true,
+      })),
       residentLaterInvoiceStart.rentInformation.at(-1)!,
       new RentInformationBuilder()
         .withDueDate(new MonthYear(4, 2023))

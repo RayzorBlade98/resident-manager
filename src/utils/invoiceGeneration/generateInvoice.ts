@@ -3,11 +3,13 @@ import {
   calculateOneTimeIncidentalsInformation,
   calculateOngoingIncidentalsInformation,
 } from './calculations/incidentalsInformation';
+import { calculateResidentInformation } from './calculations/residentInformation';
 import MonthYear from '_/extensions/date/month_year.extension';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 import Invoice from '_/models/invoice/invoice';
 import Landlord from '_/models/landlord/landlord';
+import { Resident } from '_/models/resident/resident';
 
 /**
  * All arguments of the invoice generation
@@ -29,6 +31,11 @@ export type InvoiceGenerationArgs = {
   newDeductionStart: MonthYear;
 
   /**
+   * List of all residents
+   */
+  residents: Resident[];
+
+  /**
    * List of all ongoing incidentals
    */
   ongoingIncidentals: OngoingIncidentals[];
@@ -48,7 +55,7 @@ export type InvoiceGenerationArgs = {
  * Generates an invoice using the provided arguments
  */
 export function generateInvoice(args: InvoiceGenerationArgs): Invoice {
-  return {
+  const invoice: Invoice = {
     id: uuid(),
     start: args.start,
     end: args.end,
@@ -70,4 +77,8 @@ export function generateInvoice(args: InvoiceGenerationArgs): Invoice {
     },
     landlord: args.landlord,
   };
+
+  invoice.residentInformation = calculateResidentInformation(invoice, args);
+
+  return invoice;
 }
