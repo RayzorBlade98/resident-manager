@@ -48,6 +48,7 @@ export default function calculateWaterCosts(
     waterCosts: {
       waterUsageCostPerCubicMeter,
       sewageCostPerCubicMeter,
+      totalMonthlyDeductions: 0,
     },
     residentCosts,
   };

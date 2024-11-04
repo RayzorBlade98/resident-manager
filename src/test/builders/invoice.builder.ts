@@ -23,6 +23,7 @@ class InvoiceBuilder {
       waterCosts: {
         waterUsageCostPerCubicMeter: 1,
         sewageCostPerCubicMeter: 1,
+        totalMonthlyDeductions: 1,
       },
       property: {
         address: new AddressBuilder().build(),

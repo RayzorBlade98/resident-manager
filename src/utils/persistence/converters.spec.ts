@@ -97,6 +97,7 @@ describe('convertImportedInvoices', () => {
         waterCosts: {
           waterUsageCostPerCubicMeter: 100,
           sewageCostPerCubicMeter: 200,
+          totalMonthlyDeductions: 300,
         },
         residentInformation: {
           resident: {

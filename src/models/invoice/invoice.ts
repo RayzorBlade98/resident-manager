@@ -56,6 +56,11 @@ export default interface Invoice {
      * Costs for the sewage
      */
     sewageCostPerCubicMeter: CurrencyInCents;
+
+    /**
+     * Sum of all monthly deductions
+     */
+    totalMonthlyDeductions: CurrencyInCents;
   };
 
   /**

@@ -65,6 +65,7 @@ export function generateInvoice(args: InvoiceGenerationArgs): Invoice {
     waterCosts: {
       waterUsageCostPerCubicMeter: 0,
       sewageCostPerCubicMeter: 0,
+      totalMonthlyDeductions: -1,
     },
     residentInformation: {},
     property: {

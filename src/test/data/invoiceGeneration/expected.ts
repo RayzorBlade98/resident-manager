@@ -205,6 +205,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
   waterCosts: {
     waterUsageCostPerCubicMeter,
     sewageCostPerCubicMeter,
+    totalMonthlyDeductions: -1,
   },
   landlord,
   property: {

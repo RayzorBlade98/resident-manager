@@ -141,6 +141,7 @@ export const expectedWaterCosts: Pick<Invoice, 'waterCosts'> & {
   waterCosts: {
     waterUsageCostPerCubicMeter,
     sewageCostPerCubicMeter,
+    totalMonthlyDeductions: 0,
   },
   residentCosts: {
     [standardResident.id]: {
