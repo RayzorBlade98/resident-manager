@@ -7,6 +7,7 @@ import {
 import { oneTimeIncidentals } from './oneTimeIncidentals';
 import { ongoingIncidentals } from './ongoingIncidentals';
 import { residents } from './residents';
+import { waterCosts } from './waterCosts';
 import { InvoiceGenerationArgs } from '_/utils/invoiceGeneration/generateInvoice';
 
 export const invoiceGenerationArgs: InvoiceGenerationArgs = {
@@ -15,6 +16,7 @@ export const invoiceGenerationArgs: InvoiceGenerationArgs = {
   newDeductionStart,
   ongoingIncidentals,
   oneTimeIncidentals,
+  waterCosts,
   landlord,
   residents,
 };

@@ -4,8 +4,6 @@ import {
   landlord,
   newDeductionStart,
   property,
-  sewageCostPerCubicMeter,
-  waterUsageCostPerCubicMeter,
 } from './invoiceInformation';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
@@ -203,9 +201,9 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
     },
   },
   waterCosts: {
-    waterUsageCostPerCubicMeter,
-    sewageCostPerCubicMeter,
-    totalMonthlyDeductions: -1,
+    waterUsageCostPerCubicMeter: 3,
+    sewageCostPerCubicMeter: 2,
+    totalMonthlyDeductions: 350,
   },
   landlord,
   property: {

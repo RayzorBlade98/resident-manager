@@ -13,6 +13,18 @@ export interface WaterCost {
   date: MonthYear;
 }
 
+export type MonthlyWaterDeduction = {
+  /**
+   * Monthly deduction costs
+   */
+  deductionCost: CurrencyInCents;
+
+  /**
+   * Month in which the cost first applies
+   */
+  date: MonthYear;
+};
+
 /**
  * Object containing information about all water costs
  */
@@ -30,15 +42,5 @@ export default interface WaterCosts {
   /**
    * History of all monthly deduction costs
    */
-  monthlyDeductions: {
-    /**
-     * Monthly deduction costs
-     */
-    deductionCost: CurrencyInCents;
-
-    /**
-     * Month in which the cost first applies
-     */
-    date: MonthYear;
-  }[];
+  monthlyDeductions: MonthlyWaterDeduction[];
 }

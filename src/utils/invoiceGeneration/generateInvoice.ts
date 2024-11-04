@@ -4,7 +4,9 @@ import {
   calculateOngoingIncidentalsInformation,
 } from './calculations/incidentalsInformation';
 import { calculateResidentInformation } from './calculations/residentInformation';
+import { calculateWaterCosts } from './calculations/waterCosts';
 import MonthYear from '_/extensions/date/month_year.extension';
+import WaterCosts from '_/models/incidentals/WaterCosts';
 import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 import Invoice from '_/models/invoice/invoice';
@@ -46,6 +48,11 @@ export type InvoiceGenerationArgs = {
   oneTimeIncidentals: OneTimeIncidentals[];
 
   /**
+   * List of all water costs
+   */
+  waterCosts: WaterCosts;
+
+  /**
    * Landlord of the property
    */
   landlord: Landlord;
@@ -62,11 +69,7 @@ export function generateInvoice(args: InvoiceGenerationArgs): Invoice {
     newDeductionStart: args.newDeductionStart,
     ongoingIncidentalsInformation: calculateOngoingIncidentalsInformation(args),
     oneTimeIncidentalsInformation: calculateOneTimeIncidentalsInformation(args),
-    waterCosts: {
-      waterUsageCostPerCubicMeter: 0,
-      sewageCostPerCubicMeter: 0,
-      totalMonthlyDeductions: -1,
-    },
+    waterCosts: calculateWaterCosts(args),
     residentInformation: {},
     property: {
       address: {
