@@ -87,6 +87,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
         waterUsage: -1,
         waterUsageCosts: -1,
         sewageCosts: -1,
+        monthlyDeductionCosts: -1,
       },
       totalCosts: {
         ongoingIncidentalsCosts: -1,
@@ -140,6 +141,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
         waterUsage: -1,
         waterUsageCosts: -1,
         sewageCosts: -1,
+        monthlyDeductionCosts: -1,
       },
       totalCosts: {
         ongoingIncidentalsCosts: -1,
@@ -186,6 +188,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
         waterUsage: -1,
         waterUsageCosts: -1,
         sewageCosts: -1,
+        monthlyDeductionCosts: -1,
       },
       totalCosts: {
         ongoingIncidentalsCosts: -1,

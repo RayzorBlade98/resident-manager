@@ -40,6 +40,7 @@ export function calculateResidentInformation(
             waterUsage: -1,
             waterUsageCosts: -1,
             sewageCosts: -1,
+            monthlyDeductionCosts: -1,
           },
           totalCosts: {
             ongoingIncidentalsCosts: -1,

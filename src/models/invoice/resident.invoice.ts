@@ -88,6 +88,11 @@ export default interface ResidentInvoiceInformation {
      * Costs for the sewage during this invoice period
      */
     sewageCosts: CurrencyInCents;
+
+    /**
+     * Costs for the monthly deduction during this invoice period
+     */
+    monthlyDeductionCosts: CurrencyInCents;
   };
 
   /**

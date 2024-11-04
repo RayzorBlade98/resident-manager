@@ -135,6 +135,7 @@ describe('convertImportedInvoices', () => {
               waterUsage: 2,
               waterUsageCosts: 7,
               sewageCosts: 16,
+              monthlyDeductionCosts: 38,
             },
             totalCosts: {
               ongoingIncidentalsCosts: 456,

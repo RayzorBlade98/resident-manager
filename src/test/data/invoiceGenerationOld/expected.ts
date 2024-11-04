@@ -150,6 +150,7 @@ export const expectedWaterCosts: Pick<Invoice, 'waterCosts'> & {
       waterUsage: 300,
       waterUsageCosts: 600,
       sewageCosts: 300,
+      monthlyDeductionCosts: 0,
     },
     [residentLaterInvoiceStart.id]: {
       lastWaterMeterCount: 2000,
@@ -157,6 +158,7 @@ export const expectedWaterCosts: Pick<Invoice, 'waterCosts'> & {
       waterUsage: 0,
       waterUsageCosts: 0,
       sewageCosts: 0,
+      monthlyDeductionCosts: 0,
     },
   },
 };

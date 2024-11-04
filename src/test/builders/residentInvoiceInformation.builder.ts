@@ -18,6 +18,7 @@ class ResidentInvoiceInformationBuilder {
         waterUsage: 0,
         waterUsageCosts: 0,
         sewageCosts: 0,
+        monthlyDeductionCosts: 0,
       },
       totalCosts: {
         ongoingIncidentalsCosts: 0,

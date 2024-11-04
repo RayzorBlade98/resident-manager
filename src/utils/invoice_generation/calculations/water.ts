@@ -95,6 +95,7 @@ function calculateWaterCostsForResident(args: {
     waterUsage,
     waterUsageCosts,
     sewageCosts,
+    monthlyDeductionCosts: 0,
   };
 }
 
