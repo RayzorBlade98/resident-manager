@@ -50,10 +50,13 @@ const sewageCosts: WaterCost[] = [
 
 /**
  * Monthly deductions:
- *  - 150
+ *  - 400
  *  - 100
  *  - 100
- * Total: 350
+ * Total: 600
+ *
+ * Avg. deduction per month: 200
+ * Avg. deduction per month per apartment: 50
  */
 const monthlyDeductions: MonthlyWaterDeduction[] = [
   {
@@ -62,7 +65,7 @@ const monthlyDeductions: MonthlyWaterDeduction[] = [
   },
   {
     date: invoiceEnd,
-    deductionCost: 150,
+    deductionCost: 400,
   },
   {
     date: invoiceStart,

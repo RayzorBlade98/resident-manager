@@ -3,6 +3,7 @@ import {
   invoiceStart,
   landlord,
   newDeductionStart,
+  property,
 } from './invoiceInformation';
 import { oneTimeIncidentals } from './oneTimeIncidentals';
 import { ongoingIncidentals } from './ongoingIncidentals';
@@ -17,6 +18,7 @@ export const invoiceGenerationArgs: InvoiceGenerationArgs = {
   ongoingIncidentals,
   oneTimeIncidentals,
   waterCosts,
+  property,
   landlord,
   residents,
 };

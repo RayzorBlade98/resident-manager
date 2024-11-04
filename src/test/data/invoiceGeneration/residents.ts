@@ -5,6 +5,7 @@ import NameBuilder from '_/test/builders/name.builder';
 import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
 import ResidentHistoryElementBuilder from '_/test/builders/residentHistoryElement.builder';
+import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 
 /**
  * Not included in invoice (contract start after invoice)
@@ -20,6 +21,10 @@ const residentNotIncluded = new ResidentBuilder()
  *      - rent 90, incidentals 5, paid 90, missing 5
  *      - rent 75, incidentals 10, paid 95, missing -10
  *      - Total missing: -5
+ *  - Water meter reading
+ *      - Current: 10030
+ *      - Last: 10000
+ *      - Usage: 30
  */
 const standardResident1 = new ResidentBuilder()
   .withId('resident1')
@@ -76,6 +81,41 @@ const standardResident1 = new ResidentBuilder()
       .withPayment(95, new Date())
       .build(),
   )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceEnd.addMonths(1))
+      .withWaterMeterCount(10000000)
+      .withWasDeductedInInvoice(false)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceEnd.addMonths(-1))
+      .withWaterMeterCount(10030)
+      .withWasDeductedInInvoice(false)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceStart)
+      .withWaterMeterCount(10020)
+      .withWasDeductedInInvoice(false)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceStart.addMonths(-5))
+      .withWaterMeterCount(10000)
+      .withWasDeductedInInvoice(true)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceStart.addMonths(-7))
+      .withWaterMeterCount(0)
+      .withWasDeductedInInvoice(true)
+      .build(),
+  )
   .build();
 
 /**
@@ -86,6 +126,10 @@ const standardResident1 = new ResidentBuilder()
  *      - rent 100, incidentals 10, paid 100, missing 10
  *      - rent 90, incidentals 20, paid 105, missing 5
  *      - Total missing: 15
+ *  - Water meter reading
+ *      - Current: 20050
+ *      - Last: 20000
+ *      - Usage: 50
  */
 const standardResident2 = new ResidentBuilder()
   .withId('resident2')
@@ -156,6 +200,41 @@ const standardResident2 = new ResidentBuilder()
       .withPayment(105, new Date())
       .build(),
   )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceEnd.addMonths(3))
+      .withWaterMeterCount(20000000)
+      .withWasDeductedInInvoice(false)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceEnd)
+      .withWaterMeterCount(20050)
+      .withWasDeductedInInvoice(false)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceStart.addMonths(1))
+      .withWaterMeterCount(20045)
+      .withWasDeductedInInvoice(false)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceStart.addMonths(-1))
+      .withWaterMeterCount(20000)
+      .withWasDeductedInInvoice(true)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceStart.addMonths(-3))
+      .withWaterMeterCount(0)
+      .withWasDeductedInInvoice(true)
+      .build(),
+  )
   .build();
 
 /**
@@ -164,6 +243,10 @@ const standardResident2 = new ResidentBuilder()
  *      - rent 100, incidentals 50, paid 290, missing -140
  *      - rent 100, incidentals 40, paid -, missing 140
  *      - Total missing: 0
+ *  - Water meter reading
+ *      - Current: 30010
+ *      - Last: 30000
+ *      - Usage: 10
  */
 const residentPartial = new ResidentBuilder()
   .withId('residentPartial')
@@ -198,6 +281,34 @@ const residentPartial = new ResidentBuilder()
       .withDueDate(invoiceStart.addMonths(1))
       .withRent(100)
       .withIncidentals(40)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceEnd.addMonths(1))
+      .withWaterMeterCount(10000000)
+      .withWasDeductedInInvoice(false)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceEnd.addMonths(-1))
+      .withWaterMeterCount(30010)
+      .withWasDeductedInInvoice(false)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceStart)
+      .withWaterMeterCount(30000)
+      .withWasDeductedInInvoice(true)
+      .build(),
+  )
+  .addWaterMeterReading(
+    new WaterMeterReadingBuilder()
+      .withReadingDate(invoiceStart.addMonths(-7))
+      .withWaterMeterCount(0)
+      .withWasDeductedInInvoice(true)
       .build(),
   )
   .build();

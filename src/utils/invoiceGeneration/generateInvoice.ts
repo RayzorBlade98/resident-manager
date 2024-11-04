@@ -11,6 +11,7 @@ import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
 import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 import Invoice from '_/models/invoice/invoice';
 import Landlord from '_/models/landlord/landlord';
+import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
 
 /**
@@ -51,6 +52,11 @@ export type InvoiceGenerationArgs = {
    * List of all water costs
    */
   waterCosts: WaterCosts;
+
+  /**
+   * Property for which the invoice is generated
+   */
+  property: Property;
 
   /**
    * Landlord of the property

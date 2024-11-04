@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import { calculateResidentRentPayments } from './residentRentPayments';
+import { calculateResidentWaterCosts } from './residentWaterCosts';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Invoice from '_/models/invoice/invoice';
+import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
 import { applyHistoryToResident } from '_/utils/resident/applyHistoryToResident/applyHistoryToResident';
 
@@ -9,6 +11,7 @@ type ResidentInformationCalculationArgs = {
   start: MonthYear;
   end: MonthYear;
   residents: Resident[];
+  property: Property;
 };
 
 export function calculateResidentInformation(
@@ -22,6 +25,11 @@ export function calculateResidentInformation(
   return Object.fromEntries(
     residents.map((r) => {
       const rentPayments = calculateResidentRentPayments(r, args);
+      const waterCosts = calculateResidentWaterCosts(
+        r,
+        invoice.waterCosts,
+        args,
+      );
 
       return [
         r.id,
@@ -34,18 +42,14 @@ export function calculateResidentInformation(
           ongoingIncidentalsCosts: {},
           oneTimeIncidentalsCosts: {},
           rentPayments,
-          waterCosts: {
-            lastWaterMeterCount: -1,
-            currentWaterMeterCount: -1,
-            waterUsage: -1,
-            waterUsageCosts: -1,
-            sewageCosts: -1,
-            monthlyDeductionCosts: -1,
-          },
+          waterCosts,
           totalCosts: {
             ongoingIncidentalsCosts: -1,
             oneTimeIncidentalsCosts: -1,
-            waterCosts: -1,
+            waterCosts:
+              waterCosts.waterUsageCosts
+              + waterCosts.sewageCosts
+              + waterCosts.monthlyDeductionCosts,
             totalIncidentalsDeductionCosts: -1,
             missingRentPayments: _.sumBy(rentPayments, (p) => p.paymentMissing),
             totalCosts: -1,
