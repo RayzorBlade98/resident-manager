@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { calculateResidentIndividualIncidentals } from './residentIndividualIncidentals';
 import { calculateResidentRentPayments } from './residentRentPayments';
 import { calculateResidentWaterCosts } from './residentWaterCosts';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -31,6 +32,8 @@ export function calculateResidentInformation(
         args,
       );
 
+      const individualIncidentalsCosts = calculateResidentIndividualIncidentals(r, args);
+
       return [
         r.id,
         {
@@ -41,7 +44,7 @@ export function calculateResidentInformation(
           ),
           ongoingIncidentalsCosts: {},
           oneTimeIncidentalsCosts: {},
-          individualIncidentalsCosts: {},
+          individualIncidentalsCosts,
           rentPayments,
           waterCosts,
           totalCosts: {

@@ -1,4 +1,4 @@
-import { getInvoiceMonthsForResident } from '../utils/getInvoiceMonthsForResident';
+import { getNumberOfInvoiceMonthsForResident } from '../utils/getInvoiceMonthsForResident';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Invoice from '_/models/invoice/invoice';
 import ResidentInvoiceInformation from '_/models/invoice/resident.invoice';
@@ -58,7 +58,7 @@ function calculateMonthlyDeductionCosts(
   const costPerApartmentPerMonth = costPerMonth / args.property.numberOfApartments;
 
   // Calculate number of months the resident is included in the invoice period
-  const monthsForResident = getInvoiceMonthsForResident(
+  const monthsForResident = getNumberOfInvoiceMonthsForResident(
     resident,
     args.start,
     args.end,

@@ -1,4 +1,5 @@
 import { invoiceEnd, invoiceStart } from './invoiceInformation';
+import { parkingSpace1, parkingSpacePartial } from './property';
 import { Salutation } from '_/models/name';
 import ContractResidentBuilder from '_/test/builders/contractResident.builder';
 import NameBuilder from '_/test/builders/name.builder';
@@ -51,6 +52,7 @@ const standardResident1 = new ResidentBuilder()
       )
       .build(),
   )
+  .withParkingSpace(parkingSpace1.id)
   .addRentInformation(
     new RentInformationBuilder()
       .withDueDate(invoiceEnd.addMonths(1))
@@ -154,6 +156,7 @@ const standardResident2 = new ResidentBuilder()
       )
       .build(),
   )
+  .withParkingSpace(parkingSpace1.id)
   .addHistoryElement(
     new ResidentHistoryElementBuilder()
       .withInvalidSince(invoiceEnd.addMonths(1))
@@ -168,6 +171,7 @@ const standardResident2 = new ResidentBuilder()
           )
           .build(),
       )
+      .withParkingSpace(null)
       .build(),
   )
   .addRentInformation(
@@ -260,6 +264,12 @@ const residentPartial = new ResidentBuilder()
           .withLastName('Mustermann 3')
           .build(),
       )
+      .build(),
+  )
+  .addHistoryElement(
+    new ResidentHistoryElementBuilder()
+      .withInvalidSince(invoiceEnd)
+      .withParkingSpace(parkingSpacePartial.id)
       .build(),
   )
   .addRentInformation(

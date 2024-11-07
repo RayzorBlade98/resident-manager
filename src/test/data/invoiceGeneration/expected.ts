@@ -3,8 +3,8 @@ import {
   invoiceStart,
   landlord,
   newDeductionStart,
-  property,
 } from './invoiceInformation';
+import { property } from './property';
 import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
 import { Salutation } from '_/models/name';
@@ -63,7 +63,9 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
       ],
       ongoingIncidentalsCosts: {},
       oneTimeIncidentalsCosts: {},
-      individualIncidentalsCosts: {},
+      individualIncidentalsCosts: {
+        Stellplatz: 40,
+      },
       rentPayments: [
         {
           dueDate: invoiceEnd,
@@ -173,7 +175,9 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
       ],
       ongoingIncidentalsCosts: {},
       oneTimeIncidentalsCosts: {},
-      individualIncidentalsCosts: {},
+      individualIncidentalsCosts: {
+        Stellplatz: 20,
+      },
       rentPayments: [
         {
           dueDate: invoiceEnd,
