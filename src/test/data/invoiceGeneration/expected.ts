@@ -63,6 +63,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
       ],
       ongoingIncidentalsCosts: {},
       oneTimeIncidentalsCosts: {},
+      individualIncidentalsCosts: {},
       rentPayments: [
         {
           dueDate: invoiceEnd,
@@ -117,6 +118,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
       ],
       ongoingIncidentalsCosts: {},
       oneTimeIncidentalsCosts: {},
+      individualIncidentalsCosts: {},
       rentPayments: [
         {
           dueDate: invoiceEnd,
@@ -171,6 +173,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
       ],
       ongoingIncidentalsCosts: {},
       oneTimeIncidentalsCosts: {},
+      individualIncidentalsCosts: {},
       rentPayments: [
         {
           dueDate: invoiceEnd,

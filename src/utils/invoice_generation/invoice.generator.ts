@@ -87,6 +87,7 @@ export default function generateInvoice(
         oneTimeIncidentalsCosts:
           incidentalsCalculations.residentInformation[resident.id]
             .oneTimeIncidentalsCosts,
+        individualIncidentalsCosts: {},
         rentPayments: rentPayments[resident.id],
         waterCosts: waterCostCalculations.residentCosts[resident.id],
         totalCosts: totalCosts[resident.id],

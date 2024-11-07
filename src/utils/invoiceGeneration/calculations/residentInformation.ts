@@ -41,6 +41,7 @@ export function calculateResidentInformation(
           ),
           ongoingIncidentalsCosts: {},
           oneTimeIncidentalsCosts: {},
+          individualIncidentalsCosts: {},
           rentPayments,
           waterCosts,
           totalCosts: {

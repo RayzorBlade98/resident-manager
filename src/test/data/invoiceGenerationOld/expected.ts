@@ -224,6 +224,7 @@ function getExpectedResidentInformation(
     oneTimeIncidentalsCosts:
       expectedIncidentalsCosts.residentInformation[resident.id]
         .oneTimeIncidentalsCosts,
+    individualIncidentalsCosts: {},
     rentPayments: expectedRentPayments[resident.id],
     waterCosts: expectedWaterCosts.residentCosts[resident.id],
     totalCosts: expectedTotalCosts[resident.id],

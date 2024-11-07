@@ -11,6 +11,7 @@ class ResidentInvoiceInformationBuilder {
       names: [new NameBuilder().build()],
       ongoingIncidentalsCosts: {},
       oneTimeIncidentalsCosts: {},
+      individualIncidentalsCosts: {},
       rentPayments: [],
       waterCosts: {
         lastWaterMeterCount: 0,

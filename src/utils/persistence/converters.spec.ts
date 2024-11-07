@@ -120,6 +120,9 @@ describe('convertImportedInvoices', () => {
             oneTimeIncidentalsCosts: {
               'onetime id': 333,
             },
+            individualIncidentalsCosts: {
+              individual: 999,
+            },
             rentPayments: [
               {
                 dueDate: new MonthYear(9, 2023),
