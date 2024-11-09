@@ -100,6 +100,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
       totalCosts: {
         ongoingIncidentalsCosts: -1,
         oneTimeIncidentalsCosts: -1,
+        individualIncidentalsCosts: -1,
         waterCosts: 300,
         totalIncidentalsDeductionCosts: -1,
         missingRentPayments: -5,
@@ -155,6 +156,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
       totalCosts: {
         ongoingIncidentalsCosts: -1,
         oneTimeIncidentalsCosts: -1,
+        individualIncidentalsCosts: -1,
         waterCosts: 400,
         totalIncidentalsDeductionCosts: -1,
         missingRentPayments: 15,
@@ -205,6 +207,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
       totalCosts: {
         ongoingIncidentalsCosts: -1,
         oneTimeIncidentalsCosts: -1,
+        individualIncidentalsCosts: -1,
         waterCosts: 150,
         totalIncidentalsDeductionCosts: -1,
         missingRentPayments: 0,

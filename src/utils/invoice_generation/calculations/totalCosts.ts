@@ -83,6 +83,7 @@ export default function calculateTotalCosts(
         resident.id,
         {
           ...allCosts,
+          individualIncidentalsCosts: 0,
           totalCosts,
           totalIncidentalsDeductionCosts,
           totalPaidIncidentals,

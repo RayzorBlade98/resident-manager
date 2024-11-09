@@ -170,6 +170,7 @@ ResidentInvoiceInformation['totalCosts']
   [standardResident.id]: {
     ongoingIncidentalsCosts: 220,
     oneTimeIncidentalsCosts: 550,
+    individualIncidentalsCosts: 0,
     totalIncidentalsDeductionCosts: 1670,
     newIncidentalsDeduction: 557,
     missingRentPayments: 1200,
@@ -181,6 +182,7 @@ ResidentInvoiceInformation['totalCosts']
   [residentLaterInvoiceStart.id]: {
     ongoingIncidentalsCosts: 120,
     oneTimeIncidentalsCosts: 500,
+    individualIncidentalsCosts: 0,
     totalIncidentalsDeductionCosts: 620,
     newIncidentalsDeduction: 310,
     missingRentPayments: 800,
