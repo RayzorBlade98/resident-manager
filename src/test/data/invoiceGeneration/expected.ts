@@ -104,8 +104,8 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
         monthlyDeductionCosts: 150,
       },
       totalCosts: {
-        ongoingIncidentalsCosts: -1,
-        oneTimeIncidentalsCosts: -1,
+        ongoingIncidentalsCosts: 150,
+        oneTimeIncidentalsCosts: 93,
         individualIncidentalsCosts: 40,
         waterCosts: 300,
         totalIncidentalsDeductionCosts: -1,
@@ -166,8 +166,8 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
         monthlyDeductionCosts: 150,
       },
       totalCosts: {
-        ongoingIncidentalsCosts: -1,
-        oneTimeIncidentalsCosts: -1,
+        ongoingIncidentalsCosts: 110,
+        oneTimeIncidentalsCosts: 69,
         individualIncidentalsCosts: 0,
         waterCosts: 400,
         totalIncidentalsDeductionCosts: -1,
@@ -223,8 +223,8 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
         monthlyDeductionCosts: 100,
       },
       totalCosts: {
-        ongoingIncidentalsCosts: -1,
-        oneTimeIncidentalsCosts: -1,
+        ongoingIncidentalsCosts: 70,
+        oneTimeIncidentalsCosts: 44,
         individualIncidentalsCosts: 20,
         waterCosts: 150,
         totalIncidentalsDeductionCosts: -1,

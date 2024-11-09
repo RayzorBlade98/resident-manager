@@ -51,8 +51,8 @@ export function calculateResidentInformation(
           rentPayments,
           waterCosts,
           totalCosts: {
-            ongoingIncidentalsCosts: -1,
-            oneTimeIncidentalsCosts: -1,
+            ongoingIncidentalsCosts: _.sum(Object.values(ongoingIncidentalsCosts)),
+            oneTimeIncidentalsCosts: _.sum(Object.values(oneTimeIncidentalsCosts)),
             individualIncidentalsCosts: _.sum(Object.values(individualIncidentalsCosts)),
             waterCosts:
               waterCosts.waterUsageCosts
