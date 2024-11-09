@@ -113,7 +113,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
         totalCosts: 578,
         totalPaidIncidentals: 25,
         totalMissingCosts: 553,
-        newIncidentalsDeduction: -1,
+        newIncidentalsDeduction: 195,
       },
     },
     resident2: {
@@ -175,7 +175,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
         totalCosts: 594,
         totalPaidIncidentals: 45,
         totalMissingCosts: 549,
-        newIncidentalsDeduction: -1,
+        newIncidentalsDeduction: 193,
       },
     },
     residentPartial: {
@@ -232,7 +232,7 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
         totalCosts: 284,
         totalPaidIncidentals: 90,
         totalMissingCosts: 194,
-        newIncidentalsDeduction: -1,
+        newIncidentalsDeduction: 142,
       },
     },
   },

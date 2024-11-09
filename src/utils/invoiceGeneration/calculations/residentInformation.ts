@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { calculateResidentIncidentals } from './residentIncidentals';
 import { calculateResidentIndividualIncidentals } from './residentIndividualIncidentals';
+import { calculateResidentNewIncidentalsDeduction } from './residentNewIncidentalsDeduction';
 import { calculateResidentRentPayments } from './residentRentPayments';
 import { calculateResidentWaterCosts } from './residentWaterCosts';
 import MonthYear from '_/extensions/date/month_year.extension';
@@ -68,7 +69,10 @@ export function calculateResidentInformation(
         + totalIndividualIncidentalsCosts;
 
       // Sum up all missing rent payments
-      const missingRentPayments = _.sumBy(rentPayments, (p) => p.paymentMissing);
+      const missingRentPayments = _.sumBy(
+        rentPayments,
+        (p) => p.paymentMissing,
+      );
 
       // Sum up all costs
       const totalCosts = totalIncidentalsCosts + missingRentPayments;
@@ -99,7 +103,11 @@ export function calculateResidentInformation(
             totalCosts,
             totalPaidIncidentals,
             totalMissingCosts: totalCosts - totalPaidIncidentals,
-            newIncidentalsDeduction: -1,
+            newIncidentalsDeduction: calculateResidentNewIncidentalsDeduction(
+              r,
+              totalIncidentalsCosts,
+              args,
+            ),
           },
         },
       ];
