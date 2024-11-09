@@ -122,9 +122,14 @@ export default interface ResidentInvoiceInformation {
     individualIncidentalsCosts: CurrencyInCents;
 
     /**
+     * Sum of all water costs
+     */
+    waterCosts: CurrencyInCents;
+
+    /**
      * Sum of all incidentals (incl. water costs)
      */
-    totalIncidentalsDeductionCosts: CurrencyInCents;
+    totalIncidentalsCosts: CurrencyInCents;
 
     /**
      * New incidentals deduction costs
@@ -135,11 +140,6 @@ export default interface ResidentInvoiceInformation {
      * Sum of all missing rent payments
      */
     missingRentPayments: CurrencyInCents;
-
-    /**
-     * Sum of all water costs
-     */
-    waterCosts: CurrencyInCents;
 
     /**
      * Sum of all costs

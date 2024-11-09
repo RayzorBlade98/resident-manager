@@ -55,22 +55,22 @@ export default function calculateTotalCosts(
               .oneTimeIncidentalsCosts,
           ),
         ),
-        missingRentPayments: _.sumBy(
-          rentPayments,
-          (r) => r.paymentMissing,
-        ),
+        missingRentPayments: _.sumBy(rentPayments, (r) => r.paymentMissing),
         waterCosts:
           args.waterCostCalculations.residentCosts[resident.id]
             .waterUsageCosts
           + args.waterCostCalculations.residentCosts[resident.id].sewageCosts,
       };
 
-      const totalIncidentalsDeductionCosts = allCosts.oneTimeIncidentalsCosts
+      const totalIncidentalsCosts = allCosts.oneTimeIncidentalsCosts
         + allCosts.ongoingIncidentalsCosts
         + allCosts.waterCosts;
       const newIncidentalsDeduction = Math.ceil(
-        totalIncidentalsDeductionCosts
-          / MonthYear.monthsBetween(rentPayments[0].dueDate, rentPayments[rentPayments.length - 1].dueDate),
+        totalIncidentalsCosts
+          / MonthYear.monthsBetween(
+            rentPayments[0].dueDate,
+            rentPayments[rentPayments.length - 1].dueDate,
+          ),
       );
       const totalCosts = _.sum(Object.values(allCosts));
       const totalPaidIncidentals = _.sumBy(
@@ -85,7 +85,7 @@ export default function calculateTotalCosts(
           ...allCosts,
           individualIncidentalsCosts: 0,
           totalCosts,
-          totalIncidentalsDeductionCosts,
+          totalIncidentalsCosts,
           totalPaidIncidentals,
           totalMissingCosts,
           newIncidentalsDeduction,

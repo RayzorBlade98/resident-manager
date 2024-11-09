@@ -32,10 +32,49 @@ export function calculateResidentInformation(
         invoice.waterCosts,
         args,
       );
+      const individualIncidentalsCosts = calculateResidentIndividualIncidentals(
+        r,
+        args,
+      );
+      const ongoingIncidentalsCosts = calculateResidentIncidentals(
+        r,
+        invoice.ongoingIncidentalsInformation,
+        args,
+      );
+      const oneTimeIncidentalsCosts = calculateResidentIncidentals(
+        r,
+        invoice.oneTimeIncidentalsInformation,
+        args,
+      );
 
-      const individualIncidentalsCosts = calculateResidentIndividualIncidentals(r, args);
-      const ongoingIncidentalsCosts = calculateResidentIncidentals(r, invoice.ongoingIncidentalsInformation, args);
-      const oneTimeIncidentalsCosts = calculateResidentIncidentals(r, invoice.oneTimeIncidentalsInformation, args);
+      // Calculate total incidentals costs
+      const totalWaterCosts = waterCosts.waterUsageCosts
+        + waterCosts.sewageCosts
+        + waterCosts.monthlyDeductionCosts;
+      const totalOngoingIncidentalsCosts = _.sum(
+        Object.values(ongoingIncidentalsCosts),
+      );
+      const totalOneTimeIncidentalsCosts = _.sum(
+        Object.values(oneTimeIncidentalsCosts),
+      );
+      const totalIndividualIncidentalsCosts = _.sum(
+        Object.values(individualIncidentalsCosts),
+      );
+
+      // Sum up all incidentals costs
+      const totalIncidentalsCosts = totalWaterCosts
+        + totalOngoingIncidentalsCosts
+        + totalOneTimeIncidentalsCosts
+        + totalIndividualIncidentalsCosts;
+
+      // Sum up all missing rent payments
+      const missingRentPayments = _.sumBy(rentPayments, (p) => p.paymentMissing);
+
+      // Sum up all costs
+      const totalCosts = totalIncidentalsCosts + missingRentPayments;
+
+      // Sum up all incidentals payments
+      const totalPaidIncidentals = _.sumBy(rentPayments, (p) => p.incidentals);
 
       return [
         r.id,
@@ -51,18 +90,15 @@ export function calculateResidentInformation(
           rentPayments,
           waterCosts,
           totalCosts: {
-            ongoingIncidentalsCosts: _.sum(Object.values(ongoingIncidentalsCosts)),
-            oneTimeIncidentalsCosts: _.sum(Object.values(oneTimeIncidentalsCosts)),
-            individualIncidentalsCosts: _.sum(Object.values(individualIncidentalsCosts)),
-            waterCosts:
-              waterCosts.waterUsageCosts
-              + waterCosts.sewageCosts
-              + waterCosts.monthlyDeductionCosts,
-            totalIncidentalsDeductionCosts: -1,
-            missingRentPayments: _.sumBy(rentPayments, (p) => p.paymentMissing),
-            totalCosts: -1,
-            totalPaidIncidentals: -1,
-            totalMissingCosts: -1,
+            ongoingIncidentalsCosts: totalOngoingIncidentalsCosts,
+            oneTimeIncidentalsCosts: totalOneTimeIncidentalsCosts,
+            individualIncidentalsCosts: totalIndividualIncidentalsCosts,
+            waterCosts: totalWaterCosts,
+            totalIncidentalsCosts,
+            missingRentPayments,
+            totalCosts,
+            totalPaidIncidentals,
+            totalMissingCosts: totalCosts - totalPaidIncidentals,
             newIncidentalsDeduction: -1,
           },
         },
