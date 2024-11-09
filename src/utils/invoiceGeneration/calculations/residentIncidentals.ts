@@ -65,7 +65,7 @@ function calculateSingleIncidentalsCosts(
     totalCosts += monthlyCost;
   }
 
-  return totalCosts;
+  return Math.ceil(totalCosts);
 }
 
 function getTotalDeductionUnits(

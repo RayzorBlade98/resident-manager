@@ -65,5 +65,7 @@ function calculateMonthlyDeductionCosts(
   );
 
   // Calculate total monthly deduction costs for the resident
-  return costPerApartmentPerMonth * monthsForResident;
+  const totalDeductionCosts = costPerApartmentPerMonth * monthsForResident;
+
+  return Math.ceil(totalDeductionCosts);
 }
