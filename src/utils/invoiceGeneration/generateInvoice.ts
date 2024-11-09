@@ -78,12 +78,7 @@ export function generateInvoice(args: InvoiceGenerationArgs): Invoice {
     waterCosts: calculateWaterCosts(args),
     residentInformation: {},
     property: {
-      address: {
-        zipCode: 0,
-        city: '',
-        street: '',
-        houseNumber: 0,
-      },
+      address: args.property.address,
     },
     landlord: args.landlord,
   };
