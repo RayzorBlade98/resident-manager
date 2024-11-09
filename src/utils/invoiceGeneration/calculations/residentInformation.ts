@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { calculateResidentIncidentals } from './residentIncidentals';
 import { calculateResidentIndividualIncidentals } from './residentIndividualIncidentals';
 import { calculateResidentRentPayments } from './residentRentPayments';
 import { calculateResidentWaterCosts } from './residentWaterCosts';
@@ -20,11 +21,11 @@ export function calculateResidentInformation(
   args: ResidentInformationCalculationArgs,
 ): Invoice['residentInformation'] {
   // Filter out residents outside of invoice period
-  const residents = args.residents.filter((r) => r.contractStart <= args.end);
+  args.residents = args.residents.filter((r) => r.contractStart <= args.end);
 
   // Calculate resident information
   return Object.fromEntries(
-    residents.map((r) => {
+    args.residents.map((r) => {
       const rentPayments = calculateResidentRentPayments(r, args);
       const waterCosts = calculateResidentWaterCosts(
         r,
@@ -33,6 +34,8 @@ export function calculateResidentInformation(
       );
 
       const individualIncidentalsCosts = calculateResidentIndividualIncidentals(r, args);
+      const ongoingIncidentalsCosts = calculateResidentIncidentals(r, invoice.ongoingIncidentalsInformation, args);
+      const oneTimeIncidentalsCosts = calculateResidentIncidentals(r, invoice.oneTimeIncidentalsInformation, args);
 
       return [
         r.id,
@@ -42,8 +45,8 @@ export function calculateResidentInformation(
           names: applyHistoryToResident(r, args.end).contractResidents.map(
             (cr) => cr.name,
           ),
-          ongoingIncidentalsCosts: {},
-          oneTimeIncidentalsCosts: {},
+          ongoingIncidentalsCosts,
+          oneTimeIncidentalsCosts,
           individualIncidentalsCosts,
           rentPayments,
           waterCosts,

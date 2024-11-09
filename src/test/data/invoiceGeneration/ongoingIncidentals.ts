@@ -4,8 +4,10 @@ import { OngoingIncidentalsCostBuilder } from '_/test/builders/ongoingIncidental
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 
 /**
- * Deduction Type: Per Month
- * Total Costs: 150
+ * Deduction type: Per Apartment
+ * Total costs: 180
+ * Costs per month: 60
+ * Cost per month per resident: 15
  */
 const ongoingIncidentalsPerApartment = new OngoingIncidentalsBuilder()
   .withId('apartment')
@@ -13,35 +15,38 @@ const ongoingIncidentalsPerApartment = new OngoingIncidentalsBuilder()
   .withDeductionType(DeductionType.PerApartment)
   .withCosts([
     new OngoingIncidentalsCostBuilder()
-      .withDueDate(invoiceStart.addMonths(-2))
+      .withDueDate(invoiceEnd.addMonths(2))
       .withCost(100000)
-      .build(),
-    new OngoingIncidentalsCostBuilder()
-      .withDueDate(invoiceStart.addMonths(-1))
-      .withCost(100000)
-      .build(),
-    new OngoingIncidentalsCostBuilder()
-      .withDueDate(invoiceStart)
-      .withCost(100)
-      .build(),
-    new OngoingIncidentalsCostBuilder()
-      .withDueDate(invoiceStart.addMonths(1))
-      .withCost(50)
       .build(),
     new OngoingIncidentalsCostBuilder()
       .withDueDate(invoiceEnd.addMonths(1))
       .withCost(100000)
       .build(),
     new OngoingIncidentalsCostBuilder()
-      .withDueDate(invoiceEnd.addMonths(2))
+      .withDueDate(invoiceStart.addMonths(1))
+      .withCost(100)
+      .build(),
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(invoiceStart)
+      .withCost(80)
+      .build(),
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(invoiceStart.addMonths(-1))
+      .withCost(100000)
+      .build(),
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(invoiceStart.addMonths(-2))
       .withCost(100000)
       .build(),
   ])
   .build();
 
 /**
- * Deduction Type: Per Resident
- * Total Costs: 100
+ * Deduction type: Per Resident
+ * Total Costs: 300
+ * Cost per month: 100
+ * Cost per actual resident first month: 25
+ * Cost per actual resident other months: 20
  */
 const ongoingIncidentalsPerResident = new OngoingIncidentalsBuilder()
   .withId('resident')
@@ -49,27 +54,27 @@ const ongoingIncidentalsPerResident = new OngoingIncidentalsBuilder()
   .withDeductionType(DeductionType.PerResident)
   .withCosts([
     new OngoingIncidentalsCostBuilder()
-      .withDueDate(invoiceStart.addMonths(-2))
+      .withDueDate(invoiceEnd.addMonths(2))
       .withCost(100000)
-      .build(),
-    new OngoingIncidentalsCostBuilder()
-      .withDueDate(invoiceStart.addMonths(-1))
-      .withCost(100000)
-      .build(),
-    new OngoingIncidentalsCostBuilder()
-      .withDueDate(invoiceEnd)
-      .withCost(75)
-      .build(),
-    new OngoingIncidentalsCostBuilder()
-      .withDueDate(invoiceStart.addMonths(1))
-      .withCost(25)
       .build(),
     new OngoingIncidentalsCostBuilder()
       .withDueDate(invoiceEnd.addMonths(1))
       .withCost(100000)
       .build(),
     new OngoingIncidentalsCostBuilder()
-      .withDueDate(invoiceEnd.addMonths(2))
+      .withDueDate(invoiceEnd)
+      .withCost(200)
+      .build(),
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(invoiceStart.addMonths(1))
+      .withCost(100)
+      .build(),
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(invoiceStart.addMonths(-1))
+      .withCost(100000)
+      .build(),
+    new OngoingIncidentalsCostBuilder()
+      .withDueDate(invoiceStart.addMonths(-2))
       .withCost(100000)
       .build(),
   ])

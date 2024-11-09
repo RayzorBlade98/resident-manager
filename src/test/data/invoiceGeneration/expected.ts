@@ -18,13 +18,13 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
       incidentalsId: 'apartment',
       name: 'Ongoing Incidentals per Apartment',
       deductionType: DeductionType.PerApartment,
-      totalCost: 150,
+      totalCost: 180,
     },
     resident: {
       incidentalsId: 'resident',
       name: 'Ongoing Incidentals per Resident',
       deductionType: DeductionType.PerResident,
-      totalCost: 100,
+      totalCost: 300,
     },
   },
   oneTimeIncidentalsInformation: {
@@ -32,13 +32,13 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
       incidentalsId: 'apartment',
       name: 'OneTime Incidentals per Apartment',
       deductionType: DeductionType.PerApartment,
-      totalCost: 100,
+      totalCost: 120,
     },
     resident: {
       incidentalsId: 'resident',
       name: 'OneTime Incidentals per Resident',
       deductionType: DeductionType.PerResident,
-      totalCost: 200,
+      totalCost: 180,
     },
   },
   waterCosts: {
@@ -61,8 +61,14 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
           lastName: 'Musterfrau 1',
         },
       ],
-      ongoingIncidentalsCosts: {},
-      oneTimeIncidentalsCosts: {},
+      ongoingIncidentalsCosts: {
+        apartment: 45,
+        resident: 105,
+      },
+      oneTimeIncidentalsCosts: {
+        apartment: 30,
+        resident: 63,
+      },
       individualIncidentalsCosts: {
         Stellplatz: 40,
       },
@@ -119,8 +125,14 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
           lastName: 'Mustermann 2',
         },
       ],
-      ongoingIncidentalsCosts: {},
-      oneTimeIncidentalsCosts: {},
+      ongoingIncidentalsCosts: {
+        apartment: 45,
+        resident: 65,
+      },
+      oneTimeIncidentalsCosts: {
+        apartment: 30,
+        resident: 39,
+      },
       individualIncidentalsCosts: {},
       rentPayments: [
         {
@@ -175,8 +187,14 @@ export const expectedInvoice: Omit<Invoice, 'id'> = {
           lastName: 'Mustermann 3',
         },
       ],
-      ongoingIncidentalsCosts: {},
-      oneTimeIncidentalsCosts: {},
+      ongoingIncidentalsCosts: {
+        apartment: 30,
+        resident: 40,
+      },
+      oneTimeIncidentalsCosts: {
+        apartment: 20,
+        resident: 24,
+      },
       individualIncidentalsCosts: {
         Stellplatz: 20,
       },

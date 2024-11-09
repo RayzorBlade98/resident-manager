@@ -17,6 +17,9 @@ const residentNotIncluded = new ResidentBuilder()
 
 /**
  * - Included in complete invoice period
+ * - Residents
+ *      - Fist month: 1
+ *      - Other months: 2
  * - Rent payments
  *      - rent 100, incidentals 10, paid 110, missing 0
  *      - rent 90, incidentals 5, paid 90, missing 5
@@ -30,6 +33,7 @@ const residentNotIncluded = new ResidentBuilder()
 const standardResident1 = new ResidentBuilder()
   .withId('resident1')
   .withContractStart(invoiceStart.addMonths(-2))
+  .withNumberOfResidents(2)
   .addContractResident(
     new ContractResidentBuilder()
       .withName(
@@ -53,6 +57,12 @@ const standardResident1 = new ResidentBuilder()
       .build(),
   )
   .withParkingSpace(parkingSpace1.id)
+  .addHistoryElement(
+    new ResidentHistoryElementBuilder()
+      .withInvalidSince(invoiceStart.addMonths(1))
+      .withNumberOfResidents(1)
+      .build(),
+  )
   .addRentInformation(
     new RentInformationBuilder()
       .withDueDate(invoiceEnd.addMonths(1))
@@ -122,6 +132,7 @@ const standardResident1 = new ResidentBuilder()
 
 /**
  * - Included in complete invoice period
+ * - Residents: 1
  * - Contract residents overwrite in history
  * - Rent payments
  *      - rent 85, incidentals 15, paid 100, missing 0
@@ -136,6 +147,7 @@ const standardResident1 = new ResidentBuilder()
 const standardResident2 = new ResidentBuilder()
   .withId('resident2')
   .withContractStart(invoiceStart.addMonths(-3))
+  .withNumberOfResidents(1)
   .addContractResident(
     new ContractResidentBuilder()
       .withName(
@@ -243,6 +255,7 @@ const standardResident2 = new ResidentBuilder()
 
 /**
  * - Not included in first invoice month
+ * - Residents: 1
  * - Rent payments
  *      - rent 100, incidentals 50, paid 290, missing -140
  *      - rent 100, incidentals 40, paid -, missing 140
@@ -255,6 +268,7 @@ const standardResident2 = new ResidentBuilder()
 const residentPartial = new ResidentBuilder()
   .withId('residentPartial')
   .withContractStart(invoiceStart.addMonths(1))
+  .withNumberOfResidents(1)
   .addContractResident(
     new ContractResidentBuilder()
       .withName(
