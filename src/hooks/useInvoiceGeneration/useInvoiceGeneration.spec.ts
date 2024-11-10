@@ -18,8 +18,11 @@ import LandlordBuilder from '_/test/builders/landlord.builder';
 import OneTimeIncidentalsBuilder from '_/test/builders/one_time_incidentals.builder';
 import OngoingIncidentalsBuilder from '_/test/builders/ongoing_incidentals.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
+import RentInformationBuilder from '_/test/builders/rent_information.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
+import ResidentInvoiceInformationBuilder from '_/test/builders/residentInvoiceInformation.builder';
 import WaterCostsBuilder from '_/test/builders/waterCosts.builder';
+import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 import useInitializedRecoilState from '_/test/hooks/useInitializedRecoilState';
 import useMergedHook from '_/test/hooks/useMergedHook';
 import { generateInvoice } from '_/utils/invoiceGeneration/generateInvoice';
@@ -32,7 +35,6 @@ describe('useInvoiceGeneration', () => {
   const invoices = range(0, 5)
     .map(() => new InvoiceBuilder().build())
     .reverse();
-  const residents = range(0, 2).map(() => new ResidentBuilder().build());
   const waterCosts = new WaterCostsBuilder().build();
   const incidentals: IncidentalsState = {
     ongoingIncidentals: range(0, 5).map(() => new OngoingIncidentalsBuilder().build()),
@@ -41,10 +43,89 @@ describe('useInvoiceGeneration', () => {
   const property = new PropertyBuilder().build();
   const landlord = new LandlordBuilder().build();
 
-  const generatedInvoice = new InvoiceBuilder().build();
-  const invoiceStart = new MonthYear(2024, 0);
-  const invoiceEnd = new MonthYear(2024, 11);
-  const newDeductionStart = new MonthYear(2025, 0);
+  const invoiceStart = new MonthYear(9, 2024);
+  const invoiceEnd = new MonthYear(11, 2024);
+  const newDeductionStart = new MonthYear(2, 2025);
+  const newDeduction = 12345;
+
+  const residentIncluded = new ResidentBuilder()
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(invoiceEnd.addMonths(1))
+        .withWasDeductedInInvoice(false)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(invoiceEnd.addMonths(-1))
+        .withWasDeductedInInvoice(false)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(invoiceStart)
+        .withWasDeductedInInvoice(false)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(invoiceStart.addMonths(-5))
+        .withWasDeductedInInvoice(true)
+        .build(),
+    )
+    .addWaterMeterReading(
+      new WaterMeterReadingBuilder()
+        .withReadingDate(invoiceStart.addMonths(-10))
+        .withWasDeductedInInvoice(true)
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(invoiceEnd.addMonths(1))
+        .withRent(11)
+        .withIncidentals(1)
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(invoiceEnd)
+        .withIncidentals(1)
+        .withRent(6666)
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(invoiceStart.addMonths(1))
+        .withIncidentals(1)
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(invoiceStart)
+        .withIncidentals(1)
+        .build(),
+    )
+    .addRentInformation(
+      new RentInformationBuilder()
+        .withDueDate(invoiceStart.addMonths(-1))
+        .withIncidentals(1)
+        .withWasDeductedInInvoice(true)
+        .build(),
+    )
+    .build();
+  const residentNotIncluded = new ResidentBuilder().build();
+  const residents = [residentIncluded, residentNotIncluded];
+
+  const generatedInvoice = new InvoiceBuilder()
+    .withStartAndEnd(invoiceStart, invoiceEnd)
+    .withNewDeductionStart(newDeductionStart)
+    .withResident(
+      new ResidentInvoiceInformationBuilder()
+        .withResidentId(residentIncluded.id)
+        .withNewIncidentalsDeduction(newDeduction)
+        .build(),
+    )
+    .build();
 
   beforeAll(() => {
     (generateInvoice as jest.Mock).mockReturnValue(generatedInvoice);
@@ -68,6 +149,62 @@ describe('useInvoiceGeneration', () => {
       landlord,
     });
     expect(generateInvoice).toHaveBeenCalledTimes(1);
+  });
+
+  it('should apply invoice to resident correctly', () => {
+    // Act
+    const result = useInvoiceGenerationHook();
+
+    // Assert
+    const expectedWaterMeterReadings = [
+      residentIncluded.waterMeterReadings[0],
+      {
+        ...residentIncluded.waterMeterReadings[1],
+        wasDeductedInInvoice: true,
+      },
+      {
+        ...residentIncluded.waterMeterReadings[2],
+        wasDeductedInInvoice: true,
+      },
+      residentIncluded.waterMeterReadings[3],
+      residentIncluded.waterMeterReadings[4],
+    ];
+
+    const expectedRentInformation = [
+      {
+        ...residentIncluded.rentInformation[0],
+        dueDate: newDeductionStart,
+        incidentals: newDeduction,
+      },
+      {
+        ...residentIncluded.rentInformation[0],
+        dueDate: newDeductionStart.addMonths(-1),
+      },
+      residentIncluded.rentInformation[0],
+      {
+        ...residentIncluded.rentInformation[1],
+        wasDeductedInInvoice: true,
+      },
+      {
+        ...residentIncluded.rentInformation[2],
+        wasDeductedInInvoice: true,
+      },
+      {
+        ...residentIncluded.rentInformation[3],
+        wasDeductedInInvoice: true,
+      },
+      residentIncluded.rentInformation[4],
+    ];
+
+    const expectedResidents = [
+      {
+        ...residentIncluded,
+        waterMeterReadings: expectedWaterMeterReadings,
+        rentInformation: expectedRentInformation,
+      },
+      residentNotIncluded,
+    ];
+    expect(result.current.residents).toEqual(expectedResidents);
   });
 
   function useInvoiceGenerationHook() {
@@ -94,9 +231,15 @@ describe('useInvoiceGeneration', () => {
                     () => ({
                       generateInvoice: useInvoiceGeneration(),
                     }),
-                    () => ({
-                      invoices: useRecoilValue(invoiceState),
-                    }),
+                    () => useMergedHook(
+                      () => ({
+                        invoices: useRecoilValue(invoiceState),
+                      }),
+                      () => ({
+                        residents:
+                                          useRecoilValue(residentState),
+                      }),
+                    ),
                   ),
                 }),
               }),

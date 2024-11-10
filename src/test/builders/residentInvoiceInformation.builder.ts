@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import NameBuilder from './name.builder';
 import ResidentInvoiceInformation from '_/models/invoice/resident.invoice';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 class ResidentInvoiceInformationBuilder {
   private residentInformation: ResidentInvoiceInformation;
@@ -34,6 +35,18 @@ class ResidentInvoiceInformationBuilder {
         totalMissingCosts: 0,
       },
     };
+  }
+
+  public withResidentId(residentId: string): ResidentInvoiceInformationBuilder {
+    this.residentInformation.residentId = residentId;
+    return this;
+  }
+
+  public withNewIncidentalsDeduction(
+    newIncidentalsDeduction: CurrencyInCents,
+  ): ResidentInvoiceInformationBuilder {
+    this.residentInformation.totalCosts.newIncidentalsDeduction = newIncidentalsDeduction;
+    return this;
   }
 
   public build(): ResidentInvoiceInformation {

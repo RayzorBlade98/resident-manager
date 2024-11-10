@@ -44,6 +44,11 @@ class InvoiceBuilder {
     return this;
   }
 
+  public withNewDeductionStart(newDeductionStart: MonthYear): InvoiceBuilder {
+    this.invoice.newDeductionStart = newDeductionStart;
+    return this;
+  }
+
   public withOngoingIncidentals(
     incidentals: IncidentalsInvoiceInformation,
   ): InvoiceBuilder {
