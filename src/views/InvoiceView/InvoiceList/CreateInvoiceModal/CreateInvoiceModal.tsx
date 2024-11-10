@@ -6,6 +6,7 @@ import MonthYearDateField from '_/components/form/MonthYearDateField/MonthYearDa
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
 import MonthYear from '_/extensions/date/month_year.extension';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
+import { useInvoiceGeneration } from '_/hooks/useInvoiceGeneration/useInvoiceGeneration';
 
 interface CreateInvoiceModalProps {
   /**
@@ -43,6 +44,8 @@ interface CreateInvoiceModalInput {
  * Modal that contains an input form to create a new invoice
  */
 function CreateInvoiceModal(props: CreateInvoiceModalProps): JSX.Element {
+  const generateInvoice = useInvoiceGeneration();
+
   const {
     formInput,
     formErrors,
@@ -60,7 +63,12 @@ function CreateInvoiceModal(props: CreateInvoiceModalProps): JSX.Element {
       invoiceEnd: undefined,
       newDeductionStart: undefined,
     },
-    onSubmitSuccess: (_values) => {
+    onSubmitSuccess: (values) => {
+      generateInvoice(
+        values.invoiceStart,
+        values.invoiceEnd,
+        values.newDeductionStart,
+      );
       props.onCloseModal();
     },
     submitButtonLabel: 'Generieren',
