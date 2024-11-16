@@ -4,7 +4,7 @@ import { ipcMain } from 'electron';
 import ipcCommands from './ipcCommands';
 import generateContract from './modules/documentGeneration/contractGeneration/generateContract';
 import { ContractGenerationArgs } from './modules/documentGeneration/contractGeneration/generateContractMarkdown';
-import InvoicePdfGenerator from './modules/documentGeneration/invoiceGeneration/invoicePdf';
+import InvoicePdfGenerator from './modules/documentGeneration/invoiceGenerationOld/invoicePdf';
 import { GenerateRentIncreasePdfArgs } from './modules/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
 import { generateRentIncreasePdf } from './modules/documentGeneration/rentIncrease/generateRentIncreasePdf';
 import { exportObject } from './modules/persistence/exportObject/exportObject';
