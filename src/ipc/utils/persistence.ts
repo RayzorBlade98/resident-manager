@@ -1,18 +1,6 @@
-import fs from 'fs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { dialog } from 'electron';
-import jsPDF from 'jspdf';
 import mainWindow from '../../electron/windows';
-
-/**
- * Exports a jsPDF object to a file
- * @param pdf jsPDF that should be exported
- * @param filePath file to which the pdf should be exported
- */
-export function exportJsPdf(pdf: jsPDF, filePath: string): void {
-  const buffer = Buffer.from(pdf.output('arraybuffer'));
-  fs.writeFileSync(filePath, buffer);
-}
 
 /**
  * Opens a file dialog that lets the user pick a single directory

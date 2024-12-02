@@ -1,4 +1,5 @@
 import MonthYear from '_/extensions/date/month_year.extension';
+import Invoice from '_/models/invoice/invoice';
 import Landlord from '_/models/landlord/landlord';
 import Property from '_/models/property/property';
 import { Resident } from '_/models/resident/resident';
@@ -42,24 +43,35 @@ export function convertImportedIncidentals(
 export function convertImportedInvoices(
   imported: Imported<InvoiceState>,
 ): InvoiceState {
-  return imported.map((i) => ({
-    ...i,
-    start: MonthYear.fromString(i.start),
-    end: MonthYear.fromString(i.end),
-    newDeductionStart: MonthYear.fromString(i.newDeductionStart),
+  return imported.map((i) => convertImportedInvoice(i));
+}
+
+/**
+ * Converts the imported invoice to the right format
+ * @param imported invoice that was imported from a file
+ * @returns invoice converted to the right format
+ */
+export function convertImportedInvoice(imported: Imported<Invoice>): Invoice {
+  return {
+    ...imported,
+    start: MonthYear.fromString(imported.start),
+    end: MonthYear.fromString(imported.end),
+    newDeductionStart: MonthYear.fromString(imported.newDeductionStart),
     residentInformation: Object.fromEntries(
-      Object.entries(i.residentInformation).map(([id, residentInformation]) => [
-        id,
-        {
-          ...residentInformation,
-          rentPayments: residentInformation.rentPayments.map((r) => ({
-            ...r,
-            dueDate: MonthYear.fromString(r.dueDate),
-          })),
-        },
-      ]),
+      Object.entries(imported.residentInformation).map(
+        ([id, residentInformation]) => [
+          id,
+          {
+            ...residentInformation,
+            rentPayments: residentInformation.rentPayments.map((r) => ({
+              ...r,
+              dueDate: MonthYear.fromString(r.dueDate),
+            })),
+          },
+        ],
+      ),
     ),
-  }));
+  };
 }
 
 /**
