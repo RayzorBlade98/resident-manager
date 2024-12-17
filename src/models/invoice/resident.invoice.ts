@@ -12,7 +12,7 @@ export default interface ResidentInvoiceInformation {
   residentId: string;
 
   /**
-   * Name of the resident
+   * Names of the resident
    */
   names: Name[];
 

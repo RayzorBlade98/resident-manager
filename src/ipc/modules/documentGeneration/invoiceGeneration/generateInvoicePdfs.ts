@@ -27,12 +27,13 @@ async function generateInvoicePdf(
   invoice: Imported<Invoice>,
   residentId: string,
 ): Promise<[string, string]> {
-  const markdown = await uploadMarkdownAsPdf({
-    markdownContent: generateInvoiceMarkdown(invoice, residentId),
+  const markdown = generateInvoiceMarkdown(invoice, residentId);
+  const documentId = await uploadMarkdownAsPdf({
+    markdownContent: markdown,
     target: {
       type: 'resident',
       residentId,
     },
   });
-  return [residentId, markdown];
+  return [residentId, documentId];
 }

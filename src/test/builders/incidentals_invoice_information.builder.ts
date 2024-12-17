@@ -1,5 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { DeductionType } from '_/models/incidentals/deduction_type';
+import OneTimeIncidentals from '_/models/incidentals/one_time_incidentals';
+import { OngoingIncidentals } from '_/models/incidentals/ongoing_incidentals';
 import { IncidentalsInvoiceInformation } from '_/models/invoice/incidentals_invoice';
 import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
@@ -41,6 +43,15 @@ class IncidentalsInvoiceInformationBuilder {
 
   public build(): IncidentalsInvoiceInformation {
     return this.incidentals;
+  }
+
+  public static fromIncidentals(
+    incidentals: OngoingIncidentals | OneTimeIncidentals,
+  ): IncidentalsInvoiceInformationBuilder {
+    return new IncidentalsInvoiceInformationBuilder()
+      .withId(incidentals.id)
+      .withName(incidentals.name)
+      .withDeductionType(incidentals.deductionType);
   }
 }
 
