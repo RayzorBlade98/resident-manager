@@ -20,7 +20,11 @@ enum IncidentalsTab {
 
 const styles = {
   tabsBox: { borderBottom: 1, borderColor: 'divider' },
-};
+  content: {
+    height: '90%',
+    overflowY: 'auto',
+  },
+} as const;
 
 function IncidentalsView(): JSX.Element {
   const [activeTab, setActiveTab] = useState<IncidentalsTab>(
@@ -53,13 +57,13 @@ function IncidentalsView(): JSX.Element {
           />
         </Tabs>
       </Box>
-      <div hidden={activeTab !== IncidentalsTab.Ongoing}>
+      <div hidden={activeTab !== IncidentalsTab.Ongoing} style={styles.content}>
         <OngoingIncidentalsTable />
       </div>
-      <div hidden={activeTab !== IncidentalsTab.OneTime}>
+      <div hidden={activeTab !== IncidentalsTab.OneTime} style={styles.content}>
         <OneTimeIncidentalsTable />
       </div>
-      <div hidden={activeTab !== IncidentalsTab.Water}>
+      <div hidden={activeTab !== IncidentalsTab.Water} style={styles.content}>
         <WaterCostInformation />
       </div>
     </>
