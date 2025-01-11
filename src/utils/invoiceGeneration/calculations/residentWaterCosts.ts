@@ -19,7 +19,7 @@ export function calculateResidentWaterCosts(
 ): ResidentInvoiceInformation['waterCosts'] {
   // Current water meter count = last water meter reading before end of invoice period
   const currentWaterMeterCount = resident.waterMeterReadings.find(
-    (r) => r.readingDate <= args.end,
+    (r) => r.readingDate < args.end.addMonths(1),
   )?.waterMeterCount as number;
 
   // Last water meter count = last water meter reading that was deducted in an invoice

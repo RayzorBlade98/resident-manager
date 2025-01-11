@@ -102,7 +102,8 @@ const standardResident1 = new ResidentBuilder()
   )
   .addWaterMeterReading(
     new WaterMeterReadingBuilder()
-      .withReadingDate(invoiceEnd.addMonths(-1))
+      // After first of invoice end (but still in invoice period)
+      .withReadingDate(new Date(2024, 7, 2))
       .withWaterMeterCount(10030)
       .withWasDeductedInInvoice(false)
       .build(),
