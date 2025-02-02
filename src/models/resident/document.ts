@@ -41,6 +41,11 @@ export enum DocumentType {
    * Document type representing a water meter reading a resident
    */
   WaterMeterReading = 'Ablesung Wasserzählerstand',
+
+  /**
+   * Document type representing an invoice
+   */
+  Invoice = 'Nebenkostenabrechnung',
 }
 
 /**

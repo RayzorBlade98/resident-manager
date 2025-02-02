@@ -12,9 +12,9 @@ export async function generateInvoicePdfs(
   invoice: Imported<Invoice>,
 ): Promise<Record<string, string>> {
   const residentIds = Object.keys(invoice.residentInformation);
-  const invoiceMarkdownPromises = residentIds.map((residentId) => generateInvoicePdf(invoice, residentId));
-  const invoiceMarkdowns = await Promise.all(invoiceMarkdownPromises);
-  return Object.fromEntries(invoiceMarkdowns);
+  const pdfGenerationPromises = residentIds.map((residentId) => generateInvoicePdf(invoice, residentId));
+  const documentIdMappings = await Promise.all(pdfGenerationPromises);
+  return Object.fromEntries(documentIdMappings);
 }
 
 /**

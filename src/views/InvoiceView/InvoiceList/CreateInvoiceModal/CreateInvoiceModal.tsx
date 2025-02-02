@@ -64,12 +64,13 @@ function CreateInvoiceModal(props: CreateInvoiceModalProps): JSX.Element {
       newDeductionStart: undefined,
     },
     onSubmitSuccess: (values) => {
-      generateInvoice(
+      void generateInvoice(
         values.invoiceStart,
         values.invoiceEnd,
         values.newDeductionStart,
-      );
-      props.onCloseModal();
+      ).then(() => {
+        props.onCloseModal();
+      });
     },
     submitButtonLabel: 'Generieren',
   });

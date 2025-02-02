@@ -5,6 +5,7 @@ import { range } from 'lodash';
 import { RecoilRoot, useRecoilValue } from 'recoil';
 import { useInvoiceGeneration } from './useInvoiceGeneration';
 import MonthYear from '_/extensions/date/month_year.extension';
+import { DocumentType } from '_/models/resident/document';
 import incidentalsState, {
   IncidentalsState,
 } from '_/states/incidentals/incidentals.state';
@@ -25,6 +26,7 @@ import WaterCostsBuilder from '_/test/builders/waterCosts.builder';
 import WaterMeterReadingBuilder from '_/test/builders/water_meter_reading.builder';
 import useInitializedRecoilState from '_/test/hooks/useInitializedRecoilState';
 import useMergedHook from '_/test/hooks/useMergedHook';
+import mockedIpcAPI from '_/test/ipcApiMock';
 import { generateInvoice } from '_/utils/invoiceGeneration/generateInvoice';
 
 jest.mock('_/utils/invoiceGeneration/generateInvoice', () => ({
@@ -127,13 +129,29 @@ describe('useInvoiceGeneration', () => {
     )
     .build();
 
-  beforeAll(() => {
+  const systemTime = new Date(2025, 1, 2);
+  const invoiceDocumentId = 'invoice-document-id';
+
+  beforeEach(() => {
     (generateInvoice as jest.Mock).mockReturnValue(generatedInvoice);
+
+    (
+      mockedIpcAPI.documentGeneration.generateInvoicePdfs as jest.Mock
+    ).mockReturnValue({
+      [residentIncluded.id]: invoiceDocumentId,
+    });
+
+    jest.useFakeTimers();
+    jest.setSystemTime(systemTime);
   });
 
-  it('should add new invoice to state', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('should add new invoice to state', async () => {
     // Act
-    const result = useInvoiceGenerationHook();
+    const result = await useInvoiceGenerationHook();
 
     // Assert
     expect(result.current.invoices).toEqual([generatedInvoice, ...invoices]);
@@ -151,9 +169,9 @@ describe('useInvoiceGeneration', () => {
     expect(generateInvoice).toHaveBeenCalledTimes(1);
   });
 
-  it('should apply invoice to resident correctly', () => {
+  it('should apply invoice to resident correctly', async () => {
     // Act
-    const result = useInvoiceGenerationHook();
+    const result = await useInvoiceGenerationHook();
 
     // Assert
     const expectedWaterMeterReadings = [
@@ -196,18 +214,37 @@ describe('useInvoiceGeneration', () => {
       residentIncluded.rentInformation[4],
     ];
 
+    const expectedDocuments = [
+      {
+        id: invoiceDocumentId,
+        name: 'Nebenkostenabrechnung Oktober 2024 - Dezember 2024',
+        type: DocumentType.Invoice,
+        creationDate: systemTime.toUTC(),
+        subjectDate: newDeductionStart,
+      },
+      ...residentIncluded.documents,
+    ];
+
     const expectedResidents = [
       {
         ...residentIncluded,
         waterMeterReadings: expectedWaterMeterReadings,
         rentInformation: expectedRentInformation,
+        documents: expectedDocuments,
       },
       residentNotIncluded,
     ];
     expect(result.current.residents).toEqual(expectedResidents);
+
+    expect(
+      mockedIpcAPI.documentGeneration.generateInvoicePdfs,
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      mockedIpcAPI.documentGeneration.generateInvoicePdfs,
+    ).toHaveBeenLastCalledWith(generatedInvoice);
   });
 
-  function useInvoiceGenerationHook() {
+  async function useInvoiceGenerationHook() {
     const { result } = renderHook(
       () => useInitializedRecoilState({
         state: invoiceState,
@@ -252,7 +289,7 @@ describe('useInvoiceGeneration', () => {
       },
     );
 
-    act(() => result.current.generateInvoice(
+    await act(() => result.current.generateInvoice(
       invoiceStart,
       invoiceEnd,
       newDeductionStart,

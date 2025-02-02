@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import RentInformationUtils from '../../utils/rent/rent.utils';
 import MonthYear from '_/extensions/date/month_year.extension';
 import Invoice from '_/models/invoice/invoice';
+import { DocumentType } from '_/models/resident/document';
 import { Resident } from '_/models/resident/resident';
 import incidentalsState from '_/states/incidentals/incidentals.state';
 import invoiceState from '_/states/invoice/invoice.state';
@@ -24,7 +25,7 @@ export function useInvoiceGeneration() {
   const setInvoices = useSetRecoilState(invoiceState);
 
   return useCallback(
-    (start: MonthYear, end: MonthYear, newDeductionStart: MonthYear) => {
+    async (start: MonthYear, end: MonthYear, newDeductionStart: MonthYear) => {
       // Generate invoice
       const invoice = generateInvoice({
         start,
@@ -39,8 +40,11 @@ export function useInvoiceGeneration() {
       });
       setInvoices((invoices) => [...invoices, invoice]);
 
+      // Generate documents
+      const documentIds = await window.ipcAPI.documentGeneration.generateInvoicePdfs(invoice);
+
       // Apply invoice to residents
-      setResidents((_residents) => _residents.map((r) => applyInvoiceToResident(r, invoice)));
+      setResidents((_residents) => _residents.map((r) => applyInvoiceToResident(r, invoice, documentIds[r.id])));
     },
     [
       residents,
@@ -58,6 +62,7 @@ export function useInvoiceGeneration() {
 function applyInvoiceToResident(
   resident: Resident,
   invoice: Invoice,
+  documentId: string,
 ): Resident {
   const residentInvoiceInformation = invoice.residentInformation[resident.id];
 
@@ -92,9 +97,19 @@ function applyInvoiceToResident(
           : residentInvoiceInformation.totalCosts.newIncidentalsDeduction,
     }));
 
+  // Documents
+  const documents = [...resident.documents, {
+    id: documentId,
+    name: `Nebenkostenabrechnung ${invoice.start.toString()} - ${invoice.end.toString()}`,
+    type: DocumentType.Invoice,
+    creationDate: new Date().toUTC(),
+    subjectDate: invoice.newDeductionStart,
+  }];
+
   return {
     ...resident,
     waterMeterReadings,
     rentInformation,
+    documents,
   };
 }

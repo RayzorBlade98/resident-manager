@@ -143,6 +143,7 @@ function UploadDocumentModal(props: UploadDocumentModalProps): JSX.Element {
                       DocumentType.RentIncrease,
                       DocumentType.BankTransfer,
                       DocumentType.WaterMeterReading,
+                      DocumentType.Invoice,
                     ].includes(s),
                   )
                   .map((s) => [s, s]),

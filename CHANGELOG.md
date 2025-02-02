@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Reenabled invoice view
 - Invoice generation
     - Simple modal instead of multi-step process
+    - Automatic pdf generation
 
 ## v0.3.1 - 2024-11-02
 
