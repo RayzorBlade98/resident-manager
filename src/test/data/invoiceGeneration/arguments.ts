@@ -1,54 +1,24 @@
-import { expectedIncidentalsCosts, expectedRentPayments, expectedWaterCosts } from './expected';
-import {
-  includedOneTimeIncidentals,
-  includedOngoingIncidentals,
-} from './incidentals';
 import {
   invoiceEnd,
   invoiceStart,
   landlord,
   newDeductionStart,
-  property,
-  waterCosts,
 } from './invoiceInformation';
-import { includedResidents, residents } from './residents';
+import { oneTimeIncidentals } from './oneTimeIncidentals';
+import { ongoingIncidentals } from './ongoingIncidentals';
+import { property } from './property';
+import { residents } from './residents';
+import { waterCosts } from './waterCosts';
+import { InvoiceGenerationArgs } from '_/utils/invoiceGeneration/generateInvoice';
 
-export const invoiceGenerationArgs = {
+export const invoiceGenerationArgs: InvoiceGenerationArgs = {
   start: invoiceStart,
   end: invoiceEnd,
   newDeductionStart,
-  residents,
-  includedOngoingIncidentals,
-  includedOneTimeIncidentals,
-  property,
+  ongoingIncidentals,
+  oneTimeIncidentals,
   waterCosts,
+  property,
   landlord,
-};
-
-export const incidentalsCalculationArgs = {
-  includedOngoingIncidentals,
-  includedOneTimeIncidentals,
-  invoiceStart,
-  invoiceEnd,
-  residents: includedResidents,
-  property,
-};
-
-export const rentPaymentCalculationArgs = {
-  invoiceStart,
-  invoiceEnd,
-  residents: includedResidents,
-};
-
-export const waterCostCalculationArgs = {
-  invoiceEnd,
-  residents: includedResidents,
-  waterCosts,
-};
-
-export const totalCostCalculationArgs = {
-  incidentalsCalculations: expectedIncidentalsCosts,
-  waterCostCalculations: expectedWaterCosts,
-  rentPayments: expectedRentPayments,
-  residents: includedResidents,
+  residents,
 };

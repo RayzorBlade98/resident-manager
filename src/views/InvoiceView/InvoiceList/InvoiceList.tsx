@@ -5,11 +5,10 @@ import {
   ListItemButton,
   ListItemText,
 } from '@mui/material';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import View from '../../../routes';
 import { invoiceViewSelectedInvoiceSelector } from '../states/invoice_view_state';
+import CreateInvoiceModal from './CreateInvoiceModal/CreateInvoiceModal';
 import Invoice from '_/models/invoice/invoice';
 import invoiceState from '_/states/invoice/invoice.state';
 
@@ -33,39 +32,43 @@ const styles = {
  * Component that displays a list of all invoices
  */
 function InvoiceList(): JSX.Element {
+  const [showModal, setShowModal] = useState(false);
+
   const invoices = useRecoilValue(invoiceState);
   const [selectedInvoice, setSelectedInvoice] = useRecoilState(
     invoiceViewSelectedInvoiceSelector,
   );
-  const navigate = useNavigate();
 
   return (
-    <Box sx={styles.box}>
-      <List sx={styles.list}>
-        <ListItemButton
-          onClick={() => navigate(View.InvoiceGeneration)}
-          sx={styles.listItemButton}
-        >
-          <ListItemText primary="Neue Abrechnung" />
-        </ListItemButton>
-        <Divider />
-        {invoices.map((invoice: Invoice, i) => (
-          <>
-            <ListItemButton
-              selected={invoice.id === selectedInvoice?.id}
-              onClick={() => setSelectedInvoice(invoice)}
-              key={invoice.id}
-              sx={styles.listItemButton}
-            >
-              <ListItemText
-                primary={`${invoice.start.toString()} - ${invoice.end.toString()}`}
-              />
-            </ListItemButton>
-            {i !== invoices.length - 1 && <Divider />}
-          </>
-        ))}
-      </List>
-    </Box>
+    <>
+      <CreateInvoiceModal showModal={showModal} onCloseModal={() => setShowModal(false)} />
+      <Box sx={styles.box}>
+        <List sx={styles.list}>
+          <ListItemButton
+            onClick={() => setShowModal(true)}
+            sx={styles.listItemButton}
+          >
+            <ListItemText primary="Neue Abrechnung" />
+          </ListItemButton>
+          <Divider />
+          {invoices.map((invoice: Invoice, i) => (
+            <>
+              <ListItemButton
+                selected={invoice.id === selectedInvoice?.id}
+                onClick={() => setSelectedInvoice(invoice)}
+                key={invoice.id}
+                sx={styles.listItemButton}
+              >
+                <ListItemText
+                  primary={`${invoice.start.toString()} - ${invoice.end.toString()}`}
+                />
+              </ListItemButton>
+              {i !== invoices.length - 1 && <Divider />}
+            </>
+          ))}
+        </List>
+      </Box>
+    </>
   );
 }
 

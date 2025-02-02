@@ -2,9 +2,11 @@ import { v4 as uuid } from 'uuid';
 import AddressBuilder from './address.builder';
 import LandlordBuilder from './landlord.builder';
 import MonthYear from '_/extensions/date/month_year.extension';
+import Address from '_/models/address';
 import { IncidentalsInvoiceInformation } from '_/models/invoice/incidentals_invoice';
 import Invoice from '_/models/invoice/invoice';
 import ResidentInvoiceInformation from '_/models/invoice/resident.invoice';
+import Landlord from '_/models/landlord/landlord';
 
 class InvoiceBuilder {
   private static nextStart = new MonthYear(1, 2023);
@@ -23,6 +25,7 @@ class InvoiceBuilder {
       waterCosts: {
         waterUsageCostPerCubicMeter: 1,
         sewageCostPerCubicMeter: 1,
+        totalMonthlyDeductions: 1,
       },
       property: {
         address: new AddressBuilder().build(),
@@ -43,6 +46,11 @@ class InvoiceBuilder {
     return this;
   }
 
+  public withNewDeductionStart(newDeductionStart: MonthYear): InvoiceBuilder {
+    this.invoice.newDeductionStart = newDeductionStart;
+    return this;
+  }
+
   public withOngoingIncidentals(
     incidentals: IncidentalsInvoiceInformation,
   ): InvoiceBuilder {
@@ -50,8 +58,35 @@ class InvoiceBuilder {
     return this;
   }
 
+  public withOneTimeIncidentals(
+    incidentals: IncidentalsInvoiceInformation,
+  ): InvoiceBuilder {
+    this.invoice.oneTimeIncidentalsInformation[incidentals.incidentalsId] = incidentals;
+    return this;
+  }
+
   public withResident(resident: ResidentInvoiceInformation): InvoiceBuilder {
     this.invoice.residentInformation[resident.residentId] = resident;
+    return this;
+  }
+
+  public withWaterCosts(
+    waterCosts: Partial<Invoice['waterCosts']>,
+  ): InvoiceBuilder {
+    this.invoice.waterCosts = {
+      ...this.invoice.waterCosts,
+      ...waterCosts,
+    };
+    return this;
+  }
+
+  public withLandlord(landlord: Landlord): InvoiceBuilder {
+    this.invoice.landlord = landlord;
+    return this;
+  }
+
+  public withPropertyAddress(address: Address): InvoiceBuilder {
+    this.invoice.property.address = address;
     return this;
   }
 

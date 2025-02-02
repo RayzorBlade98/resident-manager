@@ -1,0 +1,1 @@
+{{NAME}} - {{TOTAL_COST}}

@@ -84,6 +84,12 @@ function InitializationForm() {
             date: new MonthYear(),
           },
         ],
+        monthlyDeductions: [
+          {
+            deductionCost: values.waterMonthyDeduction,
+            date: new MonthYear(),
+          },
+        ],
       });
     },
   });
@@ -351,6 +357,16 @@ function InitializationForm() {
                     value={formInput.sewageCost}
                     onChange={formInputSetters.sewageCost}
                     errorMessage={formErrors.sewageCost}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <CurrencyInputField
+                    required
+                    id="waterMonthyDeduction"
+                    label="Monatlicher Abschlag"
+                    value={formInput.waterMonthyDeduction}
+                    onChange={formInputSetters.waterMonthyDeduction}
+                    errorMessage={formErrors.waterMonthyDeduction}
                   />
                 </Grid>
               </Grid>

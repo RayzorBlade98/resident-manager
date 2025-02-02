@@ -2,6 +2,7 @@
 
 import {
   convertImportedIncidentals,
+  convertImportedInvoice,
   convertImportedInvoices,
   convertImportedLandlord,
   convertImportedProperty,
@@ -69,108 +70,121 @@ describe('convertImportedIncidentals', () => {
   });
 });
 
+const invoice: Invoice = {
+  id: 'id',
+  start: new MonthYear(9, 2023),
+  end: new MonthYear(11, 2023),
+  newDeductionStart: new MonthYear(0, 2024),
+  ongoingIncidentalsInformation: {
+    'ongoing id': {
+      incidentalsId: 'ongoing id',
+      name: 'ongoing',
+      totalCost: 123,
+      deductionType: DeductionType.PerApartment,
+    },
+  },
+  oneTimeIncidentalsInformation: {
+    'onetime id': {
+      incidentalsId: 'onetime id',
+      name: 'onetime',
+      totalCost: 321,
+      deductionType: DeductionType.PerResident,
+    },
+  },
+  waterCosts: {
+    waterUsageCostPerCubicMeter: 100,
+    sewageCostPerCubicMeter: 200,
+    totalMonthlyDeductions: 300,
+  },
+  residentInformation: {
+    resident: {
+      residentId: 'resident',
+      names: [
+        {
+          salutation: Salutation.Male,
+          firstName: 'Max',
+          lastName: 'Mustermann',
+        },
+        {
+          salutation: Salutation.Female,
+          firstName: 'Maxine',
+          lastName: 'Musterfrau',
+        },
+      ],
+      ongoingIncidentalsCosts: {
+        'ongoing id': 111,
+      },
+      oneTimeIncidentalsCosts: {
+        'onetime id': 333,
+      },
+      individualIncidentalsCosts: {
+        individual: 999,
+      },
+      rentPayments: [
+        {
+          dueDate: new MonthYear(9, 2023),
+          rent: 500,
+          incidentals: 100,
+          paymentAmount: 400,
+          paymentMissing: 200,
+        },
+      ],
+      waterCosts: {
+        lastWaterMeterCount: 1234,
+        currentWaterMeterCount: 1236,
+        waterUsage: 2,
+        waterUsageCosts: 7,
+        sewageCosts: 16,
+        monthlyDeductionCosts: 38,
+      },
+      totalCosts: {
+        ongoingIncidentalsCosts: 456,
+        oneTimeIncidentalsCosts: 987,
+        individualIncidentalsCosts: 498,
+        totalIncidentalsCosts: 1200,
+        newIncidentalsDeduction: 120,
+        missingRentPayments: 6000,
+        waterCosts: 23,
+        totalCosts: 10000,
+        totalPaidIncidentals: 9000,
+        totalMissingCosts: 1000,
+      },
+    },
+  },
+  property: {
+    address: {
+      zipCode: 54321,
+      city: 'myCity',
+      street: 'invoice street',
+      houseNumber: 42,
+    },
+  },
+  landlord: {
+    company: 'company',
+    representative: {
+      salutation: Salutation.Male,
+      firstName: 'Max',
+      lastName: 'Mustermann',
+    },
+    address: {
+      zipCode: 12345,
+      city: 'city',
+      street: 'street',
+      houseNumber: 42,
+    },
+    email: 'landlord@example.org',
+    phone: '0152 544444',
+    bankAccount: {
+      holder: 'holder',
+      iban: 'DE 1234 56789 00000',
+    },
+  },
+};
+
 describe('convertImportedInvoices', () => {
   test('should convert invoices correctly', () => {
     // Arrange
-    const invoices: InvoiceState = [
-      {
-        id: 'id',
-        start: new MonthYear(9, 2023),
-        end: new MonthYear(11, 2023),
-        newDeductionStart: new MonthYear(0, 2024),
-        ongoingIncidentalsInformation: {
-          'ongoing id': {
-            incidentalsId: 'ongoing id',
-            name: 'ongoing',
-            totalCost: 123,
-            deductionType: DeductionType.PerApartment,
-          },
-        },
-        oneTimeIncidentalsInformation: {
-          'onetime id': {
-            incidentalsId: 'onetime id',
-            name: 'onetime',
-            totalCost: 321,
-            deductionType: DeductionType.PerResident,
-          },
-        },
-        waterCosts: {
-          waterUsageCostPerCubicMeter: 100,
-          sewageCostPerCubicMeter: 200,
-        },
-        residentInformation: {
-          resident: {
-            residentId: 'resident',
-            name: {
-              salutation: Salutation.Male,
-              firstName: 'Max',
-              lastName: 'Mustermann',
-            },
-            ongoingIncidentalsCosts: {
-              'ongoing id': 111,
-            },
-            oneTimeIncidentalsCosts: {
-              'onetime id': 333,
-            },
-            rentPayments: [
-              {
-                dueDate: new MonthYear(9, 2023),
-                rent: 500,
-                incidentals: 100,
-                paymentAmount: 400,
-                paymentMissing: 200,
-              },
-            ],
-            waterCosts: {
-              lastWaterMeterCount: 1234,
-              currentWaterMeterCount: 1236,
-              waterUsage: 2,
-              waterUsageCosts: 7,
-              sewageCosts: 16,
-            },
-            totalCosts: {
-              ongoingIncidentalsCosts: 456,
-              oneTimeIncidentalsCosts: 987,
-              totalIncidentalsDeductionCosts: 1200,
-              newIncidentalsDeduction: 120,
-              missingRentPayments: 6000,
-              waterCosts: 23,
-              totalCosts: 10000,
-              totalPaidIncidentals: 9000,
-              totalMissingCosts: 1000,
-            },
-          },
-        },
-        property: {
-          address: {
-            zipCode: 54321,
-            city: 'myCity',
-            street: 'invoice street',
-            houseNumber: 42,
-          },
-        },
-        landlord: {
-          company: 'company',
-          representative: {
-            salutation: Salutation.Male,
-            firstName: 'Max',
-            lastName: 'Mustermann',
-          },
-          address: {
-            zipCode: 12345,
-            city: 'city',
-            street: 'street',
-            houseNumber: 42,
-          },
-          email: 'landlord@example.org',
-          phone: '0152 544444',
-          bankAccount: {
-            holder: 'holder',
-            iban: 'DE 1234 56789 00000',
-          },
-        },
-      } as Invoice,
-    ];
+    const invoices: InvoiceState = [invoice];
     const invoicesJson = JSON.parse(JSON.stringify(invoices));
 
     // Act
@@ -178,6 +192,19 @@ describe('convertImportedInvoices', () => {
 
     // Assert
     expect(converted).toEqual(invoices);
+  });
+});
+
+describe('convertImportedInvoice', () => {
+  test('should convert invoice correctly', () => {
+    // Arrange
+    const invoiceJson = JSON.parse(JSON.stringify(invoice));
+
+    // Act
+    const converted = convertImportedInvoice(invoiceJson);
+
+    // Assert
+    expect(converted).toEqual(invoice);
   });
 });
 
@@ -422,6 +449,16 @@ describe('convertImportedWaterCosts', () => {
         {
           costPerCubicMeter: 2,
           date: new MonthYear(5, 2023),
+        },
+      ],
+      monthlyDeductions: [
+        {
+          deductionCost: 4,
+          date: new MonthYear(10, 2024),
+        },
+        {
+          deductionCost: 3,
+          date: new MonthYear(9, 2024),
         },
       ],
     };

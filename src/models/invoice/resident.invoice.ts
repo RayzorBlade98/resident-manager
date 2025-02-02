@@ -12,9 +12,9 @@ export default interface ResidentInvoiceInformation {
   residentId: string;
 
   /**
-   * Name of the resident
+   * Names of the resident
    */
-  name: Name;
+  names: Name[];
 
   /**
    * Costs for all ongoing incidentals
@@ -28,6 +28,13 @@ export default interface ResidentInvoiceInformation {
    */
   oneTimeIncidentalsCosts: {
     [incidentalsId: string]: CurrencyInCents;
+  };
+
+  /**
+   * Cost for all individual incidentals
+   */
+  individualIncidentalsCosts: {
+    [incidentalsName: string]: CurrencyInCents;
   };
 
   /**
@@ -88,6 +95,11 @@ export default interface ResidentInvoiceInformation {
      * Costs for the sewage during this invoice period
      */
     sewageCosts: CurrencyInCents;
+
+    /**
+     * Costs for the monthly deduction during this invoice period
+     */
+    monthlyDeductionCosts: CurrencyInCents;
   };
 
   /**
@@ -105,9 +117,19 @@ export default interface ResidentInvoiceInformation {
     oneTimeIncidentalsCosts: CurrencyInCents;
 
     /**
+     * Sum of all individual incidentals costs
+     */
+    individualIncidentalsCosts: CurrencyInCents;
+
+    /**
+     * Sum of all water costs
+     */
+    waterCosts: CurrencyInCents;
+
+    /**
      * Sum of all incidentals (incl. water costs)
      */
-    totalIncidentalsDeductionCosts: CurrencyInCents;
+    totalIncidentalsCosts: CurrencyInCents;
 
     /**
      * New incidentals deduction costs
@@ -118,11 +140,6 @@ export default interface ResidentInvoiceInformation {
      * Sum of all missing rent payments
      */
     missingRentPayments: CurrencyInCents;
-
-    /**
-     * Sum of all water costs
-     */
-    waterCosts: CurrencyInCents;
 
     /**
      * Sum of all costs

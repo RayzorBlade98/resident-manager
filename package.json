@@ -1,6 +1,6 @@
 {
   "name": "resident-manager",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "main": "./dist/main.bundle.js",
   "scripts": {
     "start": "electron ./dist/main.bundle.js",
@@ -58,16 +58,12 @@
   "author": "André Schweizer @RayzorBlade98",
   "license": "MIT",
   "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.10.11",
     "@mui/x-date-pickers": "^6.5.0",
     "dayjs": "^1.11.7",
     "electron-md-to-pdf": "^2.2.0",
     "glamor": "^2.20.40",
-    "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.6.0",
     "lodash": "^4.17.21",
     "mdb-react-ui-kit": "^4.2.0",
     "react": "^18.2.0",

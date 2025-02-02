@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { range } from 'lodash';
 import { v4 } from 'uuid';
 import ipcCommands from './ipcCommands';
 import addIpcHandlers from './ipcHandlers';
 import generateContract from './modules/documentGeneration/contractGeneration/generateContract';
 import { ContractGenerationArgs } from './modules/documentGeneration/contractGeneration/generateContractMarkdown';
+import { generateInvoicePdfs } from './modules/documentGeneration/invoiceGeneration/generateInvoicePdfs';
 import { GenerateRentIncreasePdfArgs } from './modules/documentGeneration/rentIncrease/GenerateRentIncreasePdfArgs';
 import { generateRentIncreasePdf } from './modules/documentGeneration/rentIncrease/generateRentIncreasePdf';
 import * as exportObjectModule from './modules/persistence/exportObject/exportObject';
@@ -19,7 +19,6 @@ import InvoiceBuilder from '_/test/builders/invoice.builder';
 import LandlordBuilder from '_/test/builders/landlord.builder';
 import PropertyBuilder from '_/test/builders/property.builder';
 import ResidentBuilder from '_/test/builders/resident.builder';
-import ResidentInvoiceInformationBuilder from '_/test/builders/residentInvoiceInformation.builder';
 import { ipcMain, ipcRenderer } from '_/test/electronModuleMock';
 
 jest.mock(
@@ -37,6 +36,13 @@ jest.mock(
   }),
 );
 
+jest.mock(
+  './modules/documentGeneration/invoiceGeneration/generateInvoicePdfs',
+  () => ({
+    generateInvoicePdfs: jest.fn(),
+  }),
+);
+
 jest.mock('./modules/windows/openFileWindow/openFileWindow', () => ({
   openDocumentWindow: jest.fn(),
 }));
@@ -44,21 +50,14 @@ jest.mock('./modules/windows/openFileWindow/openFileWindow', () => ({
 describe('addIpcHandlers', () => {
   let exportObjectSpy: jest.SpyInstance;
   let importObjectSpy: jest.SpyInstance;
-  let openDirectoryDialogSpy: jest.SpyInstance;
   let openFileDialogSpy: jest.SpyInstance;
-  let exportJsPdfSpy: jest.SpyInstance;
 
   beforeEach(() => {
     exportObjectSpy = jest
       .spyOn(exportObjectModule, 'exportObject')
       .mockReturnValue();
     importObjectSpy = jest.spyOn(importObjectModule, 'importObject');
-    openDirectoryDialogSpy = jest.spyOn(
-      persistenceModule,
-      'openDirectoryDialog',
-    );
     openFileDialogSpy = jest.spyOn(persistenceModule, 'openFileDialog');
-    exportJsPdfSpy = jest.spyOn(persistenceModule, 'exportJsPdf');
 
     addIpcHandlers();
   });
@@ -121,33 +120,14 @@ describe('addIpcHandlers', () => {
 
   test('generateInvoicePdfs should be handled correctly', async () => {
     // Arrange
-    const residents = range(0, 3).map((_) => new ResidentInvoiceInformationBuilder().build());
-    const invoiceBuilder = new InvoiceBuilder();
-    residents.forEach((r) => invoiceBuilder.withResident(r));
-    const invoice = invoiceBuilder.build();
-    const directory = 'testdir';
-
-    openDirectoryDialogSpy.mockReturnValueOnce(directory);
-
-    // Act
-    await ipcRenderer.invoke(ipcCommands.generateInvoicePdfs, invoice);
-
-    // Assert
-    expect(openDirectoryDialogSpy).toHaveBeenCalledTimes(1);
-    expect(exportJsPdfSpy).toHaveBeenCalledTimes(3);
-  });
-
-  test('generateInvoicePdfs should be handled correctly if no directory is selected', async () => {
-    // Arrange
     const invoice = new InvoiceBuilder().build();
-    openDirectoryDialogSpy.mockReturnValueOnce(undefined);
 
     // Act
     await ipcRenderer.invoke(ipcCommands.generateInvoicePdfs, invoice);
 
     // Assert
-    expect(openDirectoryDialogSpy).toHaveBeenCalledTimes(1);
-    expect(exportJsPdfSpy).toHaveBeenCalledTimes(0);
+    expect(generateInvoicePdfs).toHaveBeenCalledTimes(1);
+    expect(generateInvoicePdfs).toHaveBeenLastCalledWith(invoice);
   });
 
   test('generateContractPdf should be handled correctly', async () => {
@@ -257,9 +237,6 @@ describe('addIpcHandlers', () => {
 
     // Assert
     expect(openDocumentWindow).toHaveBeenCalledTimes(1);
-    expect(openDocumentWindow).toHaveBeenLastCalledWith(
-      documentId,
-      target,
-    );
+    expect(openDocumentWindow).toHaveBeenLastCalledWith(documentId, target);
   });
 });
