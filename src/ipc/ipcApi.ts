@@ -57,11 +57,12 @@ const ipcAPI = {
     /**
      * Generates the pdf files for the provided invoice
      * @param invoice Invoice for which the pdfs should be created
+     * @returns Object containing a mapping from resident id to the document id of the generated invoice pdf
      */
     generateInvoicePdfs: (invoice: Invoice) => ipcRenderer.invoke(
       ipcCommands.generateInvoicePdfs,
       invoice,
-    ) as Promise<void>,
+    ) as Promise<Record<string, string>>,
 
     /**
      * Generates the contract as pdf file

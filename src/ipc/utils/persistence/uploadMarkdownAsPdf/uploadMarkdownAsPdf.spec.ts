@@ -55,7 +55,14 @@ describe('uploadMarkdownAsPdf', () => {
     expect(mdToPdfFile).toHaveBeenLastCalledWith(
       markdownContent,
       tmpFile,
-      expect.objectContaining(mdToPdfOptions),
+      expect.objectContaining({
+        ...mdToPdfOptions,
+        cssFiles: [
+          path.join(directories.assets(), 'templates/mdb.css'),
+          path.join(directories.assets(), 'templates/defaultStyle.css'),
+          ...mdToPdfOptions.cssFiles,
+        ],
+      }),
     );
 
     expect(uploadDocumentMock).toHaveBeenCalledTimes(1);

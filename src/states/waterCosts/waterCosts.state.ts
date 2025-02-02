@@ -12,6 +12,7 @@ const waterCostsState = atom<WaterCostsState>({
   default: {
     waterUsageCosts: [],
     sewageCosts: [],
+    monthlyDeductions: [],
   },
   effects: [sortWaterCostsEffect],
 });

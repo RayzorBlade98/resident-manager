@@ -6,7 +6,6 @@ enum View {
   Resident = '/residents',
   Incidentals = '/incidentals',
   Invoice = '/invoices',
-  InvoiceGeneration = '/invoices/generation',
   Property = '/property',
 }
 

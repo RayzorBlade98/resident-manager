@@ -23,7 +23,11 @@ export async function uploadMarkdownAsPdf(
 ): Promise<string> {
   const tmpFile = path.join(directories.temporary(), `${uuid()}.pdf`);
   await mdToPdfFile(args.markdownContent, tmpFile, {
-    ...args.mdToPdfOptions,
+    cssFiles: [
+      path.join(directories.assets(), 'templates/mdb.css'),
+      path.join(directories.assets(), 'templates/defaultStyle.css'),
+      ...(args.mdToPdfOptions?.cssFiles ?? []),
+    ],
     showdownOptions: {
       simplifiedAutoLink: false,
     },

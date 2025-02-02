@@ -40,7 +40,6 @@ const baseConfig = {
     'no-param-reassign': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     'no-void': ['error', { allowAsStatement: true }],
-    'new-cap': ['error', { newIsCapExceptions: ['jsPDF'] }],
     'no-await-in-loop': 'off',
     'no-case-declarations': 'off',
     'import/prefer-default-export': 'off',

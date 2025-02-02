@@ -10,7 +10,6 @@ import ReactTestWrapper from '_/test/ReactTestWrapper';
 import PropertyBuilder from '_/test/builders/property.builder';
 import * as IncidentalsView from '_/views/IncidentalsView/IncidentalsView';
 import * as PropertyInitializationView from '_/views/InitializationView/InitializationView';
-import * as InvoiceGenerationView from '_/views/InvoiceGenerationView/InvoiceGenerationView';
 import * as InvoiceView from '_/views/InvoiceView/InvoiceView';
 import * as MainView from '_/views/MainView/MainView';
 import * as PropertyView from '_/views/PropertyView/PropertyView';
@@ -34,9 +33,6 @@ describe('App', () => {
     jest
       .spyOn(InvoiceView, 'default')
       .mockReturnValue(<div>{View.Invoice}</div>);
-    jest
-      .spyOn(InvoiceGenerationView, 'default')
-      .mockReturnValue(<div>{View.InvoiceGeneration}</div>);
     jest
       .spyOn(PropertyView, 'default')
       .mockReturnValue(<div>{View.Property}</div>);

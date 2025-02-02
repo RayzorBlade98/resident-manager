@@ -21,15 +21,22 @@ describe('waterCostsState effects', () => {
     date: new MonthYear(i, 2023),
   }));
 
-  const newState = {
+  const monthlyDeductions = range(0, 5).map((i) => ({
+    deductionCost: 2000,
+    date: new MonthYear(i, 2023),
+  }));
+
+  const newState: WaterCostsState = {
     waterUsageCosts,
     sewageCosts,
-  } as WaterCostsState;
+    monthlyDeductions,
+  };
 
-  const expectedState = {
+  const expectedState: WaterCostsState = {
     waterUsageCosts: waterUsageCosts.reverse(),
     sewageCosts: sewageCosts.reverse(),
-  } as WaterCostsState;
+    monthlyDeductions: monthlyDeductions.reverse(),
+  };
 
   test('waterCostsState effects should set the state correctly', () => {
     // Act

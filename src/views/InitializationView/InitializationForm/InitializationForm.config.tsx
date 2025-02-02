@@ -6,6 +6,7 @@ import { ValidationConstraint } from '../../../utils/validation/constraints';
 import Validator from '../../../utils/validation/validator';
 import { Salutation } from '_/models/name';
 import { FormConfig } from '_/types/FormConfig';
+import { CurrencyInCents } from '_/utils/currency/currency.utils';
 
 /**
  * All values that can be submitted in the form
@@ -99,12 +100,17 @@ export interface InitializationInput {
   /**
    * Current cost of the water usage
    */
-  waterUsageCost: number;
+  waterUsageCost: CurrencyInCents;
 
   /**
    * Current cost of the sewage
    */
-  sewageCost: number;
+  sewageCost: CurrencyInCents;
+
+  /**
+   * Current monthly deduction costs for water
+   */
+  waterMonthyDeduction: CurrencyInCents
 
   /**
    * Url to the official rent index website of the city
@@ -148,6 +154,7 @@ InitializationGroups
       houseNumberProperty: ValidationConstraint.Defined,
       waterUsageCost: ValidationConstraint.Currency,
       sewageCost: ValidationConstraint.Currency,
+      waterMonthyDeduction: ValidationConstraint.Currency,
       rentIndexUrl: ValidationConstraint.NoEmptyString,
       cappingLimit: ValidationConstraint.Defined,
     }),
@@ -170,6 +177,7 @@ InitializationGroups
       streetProperty: '',
       houseNumberProperty: undefined,
       waterUsageCost: undefined,
+      waterMonthyDeduction: undefined,
       sewageCost: undefined,
       rentIndexUrl: '',
       cappingLimit: undefined,
@@ -197,6 +205,7 @@ InitializationGroups
       houseNumberProperty: 'property',
       waterUsageCost: 'other',
       sewageCost: 'other',
+      waterMonthyDeduction: 'other',
       rentIndexUrl: 'other',
       cappingLimit: 'other',
     },

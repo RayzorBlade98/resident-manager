@@ -1,0 +1,1 @@
+{{NAME}} - {{TOTAL_COST}} - {{DEDUCTION_TYPE}} - {{RESIDENT_COST}}

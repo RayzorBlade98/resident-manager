@@ -66,8 +66,6 @@
     "dayjs": "^1.11.7",
     "electron-md-to-pdf": "^2.2.0",
     "glamor": "^2.20.40",
-    "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.6.0",
     "lodash": "^4.17.21",
     "mdb-react-ui-kit": "^4.2.0",
     "react": "^18.2.0",

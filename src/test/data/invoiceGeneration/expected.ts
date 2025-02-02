@@ -1,279 +1,243 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-import {
-  ongoingIncidentalsPerApartment,
-  ongoingIncidentalsPerResident,
-  oneTimeIncidentalsPerApartment,
-  oneTimeIncidentalsPerResident,
-} from './incidentals';
 import {
   invoiceEnd,
   invoiceStart,
   landlord,
   newDeductionStart,
-  property,
-  sewageCostPerCubicMeter,
-  waterUsageCostPerCubicMeter,
 } from './invoiceInformation';
-import {
-  standardResident,
-  residentLaterInvoiceStart,
-  notIncludedResidents,
-} from './residents';
-import MonthYear from '_/extensions/date/month_year.extension';
+import { property } from './property';
+import { DeductionType } from '_/models/incidentals/deduction_type';
 import Invoice from '_/models/invoice/invoice';
-import ResidentInvoiceInformation from '_/models/invoice/resident.invoice';
-import { Resident } from '_/models/resident/resident';
-import RentInformationBuilder from '_/test/builders/rent_information.builder';
-import { CurrencyInCents } from '_/utils/currency/currency.utils';
-
-export const expectedIncidentalsCosts: Pick<
-Invoice,
-'ongoingIncidentalsInformation' | 'oneTimeIncidentalsInformation'
-> & {
-  residentInformation: Record<
-  string,
-  {
-    ongoingIncidentalsCosts: Record<string, CurrencyInCents>;
-    oneTimeIncidentalsCosts: Record<string, CurrencyInCents>;
-  }
-  >;
-} = {
-  ongoingIncidentalsInformation: {
-    [ongoingIncidentalsPerApartment.id]: {
-      incidentalsId: ongoingIncidentalsPerApartment.id,
-      name: ongoingIncidentalsPerApartment.name,
-      totalCost: 200,
-      deductionType: ongoingIncidentalsPerApartment.deductionType,
-    },
-    [ongoingIncidentalsPerResident.id]: {
-      incidentalsId: ongoingIncidentalsPerResident.id,
-      name: ongoingIncidentalsPerResident.name,
-      totalCost: 300,
-      deductionType: ongoingIncidentalsPerResident.deductionType,
-    },
-  },
-  oneTimeIncidentalsInformation: {
-    [oneTimeIncidentalsPerApartment.id]: {
-      incidentalsId: oneTimeIncidentalsPerApartment.id,
-      name: oneTimeIncidentalsPerApartment.name,
-      totalCost: oneTimeIncidentalsPerApartment.cost,
-      deductionType: oneTimeIncidentalsPerApartment.deductionType,
-    },
-    [oneTimeIncidentalsPerResident.id]: {
-      incidentalsId: oneTimeIncidentalsPerResident.id,
-      name: oneTimeIncidentalsPerResident.name,
-      totalCost: oneTimeIncidentalsPerResident.cost,
-      deductionType: oneTimeIncidentalsPerResident.deductionType,
-    },
-  },
-  residentInformation: {
-    [standardResident.id]: {
-      ongoingIncidentalsCosts: {
-        [ongoingIncidentalsPerApartment.id]: 20,
-        [ongoingIncidentalsPerResident.id]: 200,
-      },
-      oneTimeIncidentalsCosts: {
-        [oneTimeIncidentalsPerApartment.id]: 50,
-        [oneTimeIncidentalsPerResident.id]: 500,
-      },
-    },
-    [residentLaterInvoiceStart.id]: {
-      ongoingIncidentalsCosts: {
-        [ongoingIncidentalsPerApartment.id]: 20,
-        [ongoingIncidentalsPerResident.id]: 100,
-      },
-      oneTimeIncidentalsCosts: {
-        [oneTimeIncidentalsPerResident.id]: 500,
-      },
-    },
-  },
-};
-
-export const expectedRentPayments: Record<
-string,
-ResidentInvoiceInformation['rentPayments']
-> = {
-  [standardResident.id]: [
-    {
-      dueDate: new MonthYear(0, 2023),
-      rent: 500,
-      incidentals: 100,
-      paymentAmount: 600,
-      paymentMissing: 0,
-    },
-    {
-      dueDate: new MonthYear(1, 2023),
-      rent: 600,
-      incidentals: 200,
-      paymentAmount: 600,
-      paymentMissing: 200,
-    },
-    {
-      dueDate: new MonthYear(2, 2023),
-      rent: 700,
-      incidentals: 300,
-      paymentAmount: 0,
-      paymentMissing: 1000,
-    },
-  ],
-  [residentLaterInvoiceStart.id]: [
-    {
-      dueDate: new MonthYear(1, 2023),
-      rent: 700,
-      incidentals: 100,
-      paymentAmount: 1000,
-      paymentMissing: -200,
-    },
-    {
-      dueDate: new MonthYear(2, 2023),
-      rent: 800,
-      incidentals: 200,
-      paymentAmount: 0,
-      paymentMissing: 1000,
-    },
-  ],
-};
-
-export const expectedWaterCosts: Pick<Invoice, 'waterCosts'> & {
-  residentCosts: Record<string, ResidentInvoiceInformation['waterCosts']>;
-} = {
-  waterCosts: {
-    waterUsageCostPerCubicMeter,
-    sewageCostPerCubicMeter,
-  },
-  residentCosts: {
-    [standardResident.id]: {
-      lastWaterMeterCount: 1000,
-      currentWaterMeterCount: 1300,
-      waterUsage: 300,
-      waterUsageCosts: 600,
-      sewageCosts: 300,
-    },
-    [residentLaterInvoiceStart.id]: {
-      lastWaterMeterCount: 2000,
-      currentWaterMeterCount: 2000,
-      waterUsage: 0,
-      waterUsageCosts: 0,
-      sewageCosts: 0,
-    },
-  },
-};
-
-export const expectedTotalCosts: Record<
-string,
-ResidentInvoiceInformation['totalCosts']
-> = {
-  [standardResident.id]: {
-    ongoingIncidentalsCosts: 220,
-    oneTimeIncidentalsCosts: 550,
-    totalIncidentalsDeductionCosts: 1670,
-    newIncidentalsDeduction: 557,
-    missingRentPayments: 1200,
-    waterCosts: 900,
-    totalCosts: 2870,
-    totalPaidIncidentals: 600,
-    totalMissingCosts: 2270,
-  },
-  [residentLaterInvoiceStart.id]: {
-    ongoingIncidentalsCosts: 120,
-    oneTimeIncidentalsCosts: 500,
-    totalIncidentalsDeductionCosts: 620,
-    newIncidentalsDeduction: 310,
-    missingRentPayments: 800,
-    waterCosts: 0,
-    totalCosts: 1420,
-    totalPaidIncidentals: 300,
-    totalMissingCosts: 1120,
-  },
-};
+import { Salutation } from '_/models/name';
 
 export const expectedInvoice: Omit<Invoice, 'id'> = {
   start: invoiceStart,
   end: invoiceEnd,
   newDeductionStart,
-  ongoingIncidentalsInformation:
-    expectedIncidentalsCosts.ongoingIncidentalsInformation,
-  oneTimeIncidentalsInformation:
-    expectedIncidentalsCosts.oneTimeIncidentalsInformation,
-  residentInformation: {
-    [standardResident.id]: getExpectedResidentInformation(standardResident),
-    [residentLaterInvoiceStart.id]: getExpectedResidentInformation(
-      residentLaterInvoiceStart,
-    ),
+  ongoingIncidentalsInformation: {
+    apartment: {
+      incidentalsId: 'apartment',
+      name: 'Ongoing Incidentals per Apartment',
+      deductionType: DeductionType.PerApartment,
+      totalCost: 180,
+    },
+    resident: {
+      incidentalsId: 'resident',
+      name: 'Ongoing Incidentals per Resident',
+      deductionType: DeductionType.PerResident,
+      totalCost: 300,
+    },
   },
-  waterCosts: expectedWaterCosts.waterCosts,
+  oneTimeIncidentalsInformation: {
+    apartment: {
+      incidentalsId: 'apartment',
+      name: 'OneTime Incidentals per Apartment',
+      deductionType: DeductionType.PerApartment,
+      totalCost: 120,
+    },
+    resident: {
+      incidentalsId: 'resident',
+      name: 'OneTime Incidentals per Resident',
+      deductionType: DeductionType.PerResident,
+      totalCost: 180,
+    },
+  },
+  waterCosts: {
+    waterUsageCostPerCubicMeter: 3,
+    sewageCostPerCubicMeter: 2,
+    totalMonthlyDeductions: 600,
+  },
+  residentInformation: {
+    resident1: {
+      residentId: 'resident1',
+      names: [
+        {
+          salutation: Salutation.Male,
+          firstName: 'Max 1',
+          lastName: 'Mustermann 1',
+        },
+        {
+          salutation: Salutation.Female,
+          firstName: 'Maxine 1',
+          lastName: 'Musterfrau 1',
+        },
+      ],
+      ongoingIncidentalsCosts: {
+        apartment: 45,
+        resident: 105,
+      },
+      oneTimeIncidentalsCosts: {
+        apartment: 30,
+        resident: 63,
+      },
+      individualIncidentalsCosts: {
+        Stellplatz: 40,
+      },
+      rentPayments: [
+        {
+          dueDate: invoiceEnd,
+          rent: 100,
+          incidentals: 10,
+          paymentAmount: 110,
+          paymentMissing: 0,
+        },
+        {
+          dueDate: invoiceStart.addMonths(1),
+          rent: 90,
+          incidentals: 5,
+          paymentAmount: 90,
+          paymentMissing: 5,
+        },
+        {
+          dueDate: invoiceStart,
+          rent: 75,
+          incidentals: 10,
+          paymentAmount: 95,
+          paymentMissing: -10,
+        },
+      ],
+      waterCosts: {
+        lastWaterMeterCount: 10000,
+        currentWaterMeterCount: 10030,
+        waterUsage: 30,
+        waterUsageCosts: 90,
+        sewageCosts: 60,
+        monthlyDeductionCosts: 150,
+      },
+      totalCosts: {
+        ongoingIncidentalsCosts: 150,
+        oneTimeIncidentalsCosts: 93,
+        individualIncidentalsCosts: 40,
+        waterCosts: 300,
+        totalIncidentalsCosts: 583,
+        missingRentPayments: -5,
+        totalCosts: 578,
+        totalPaidIncidentals: 25,
+        totalMissingCosts: 553,
+        newIncidentalsDeduction: 195,
+      },
+    },
+    resident2: {
+      residentId: 'resident2',
+      names: [
+        {
+          salutation: Salutation.Male,
+          firstName: 'Max 2',
+          lastName: 'Mustermann 2',
+        },
+      ],
+      ongoingIncidentalsCosts: {
+        apartment: 45,
+        resident: 65,
+      },
+      oneTimeIncidentalsCosts: {
+        apartment: 30,
+        resident: 39,
+      },
+      individualIncidentalsCosts: {},
+      rentPayments: [
+        {
+          dueDate: invoiceEnd,
+          rent: 85,
+          incidentals: 15,
+          paymentAmount: 100,
+          paymentMissing: 0,
+        },
+        {
+          dueDate: invoiceStart.addMonths(1),
+          rent: 100,
+          incidentals: 10,
+          paymentAmount: 100,
+          paymentMissing: 10,
+        },
+        {
+          dueDate: invoiceStart,
+          rent: 90,
+          incidentals: 20,
+          paymentAmount: 105,
+          paymentMissing: 5,
+        },
+      ],
+      waterCosts: {
+        lastWaterMeterCount: 20000,
+        currentWaterMeterCount: 20050,
+        waterUsage: 50,
+        waterUsageCosts: 150,
+        sewageCosts: 100,
+        monthlyDeductionCosts: 150,
+      },
+      totalCosts: {
+        ongoingIncidentalsCosts: 110,
+        oneTimeIncidentalsCosts: 69,
+        individualIncidentalsCosts: 0,
+        waterCosts: 400,
+        totalIncidentalsCosts: 579,
+        missingRentPayments: 15,
+        totalCosts: 594,
+        totalPaidIncidentals: 45,
+        totalMissingCosts: 549,
+        newIncidentalsDeduction: 193,
+      },
+    },
+    residentPartial: {
+      residentId: 'residentPartial',
+      names: [
+        {
+          salutation: Salutation.Male,
+          firstName: 'Max 3',
+          lastName: 'Mustermann 3',
+        },
+      ],
+      ongoingIncidentalsCosts: {
+        apartment: 30,
+        resident: 40,
+      },
+      oneTimeIncidentalsCosts: {
+        apartment: 20,
+        resident: 24,
+      },
+      individualIncidentalsCosts: {
+        Stellplatz: 20,
+      },
+      rentPayments: [
+        {
+          dueDate: invoiceEnd,
+          rent: 100,
+          incidentals: 50,
+          paymentAmount: 290,
+          paymentMissing: -140,
+        },
+        {
+          dueDate: invoiceStart.addMonths(1),
+          rent: 100,
+          incidentals: 40,
+          paymentAmount: 0,
+          paymentMissing: 140,
+        },
+      ],
+      waterCosts: {
+        lastWaterMeterCount: 30000,
+        currentWaterMeterCount: 30010,
+        waterUsage: 10,
+        waterUsageCosts: 30,
+        sewageCosts: 20,
+        monthlyDeductionCosts: 100,
+      },
+      totalCosts: {
+        ongoingIncidentalsCosts: 70,
+        oneTimeIncidentalsCosts: 44,
+        individualIncidentalsCosts: 20,
+        waterCosts: 150,
+        totalIncidentalsCosts: 284,
+        missingRentPayments: 0,
+        totalCosts: 284,
+        totalPaidIncidentals: 90,
+        totalMissingCosts: 194,
+        newIncidentalsDeduction: 142,
+      },
+    },
+  },
+  landlord,
   property: {
     address: property.address,
   },
-  landlord,
 };
-
-function getExpectedResidentInformation(
-  resident: Resident,
-): ResidentInvoiceInformation {
-  return {
-    residentId: resident.id,
-    name: resident.contractResidents[0].name,
-    ongoingIncidentalsCosts:
-      expectedIncidentalsCosts.residentInformation[resident.id]
-        .ongoingIncidentalsCosts,
-    oneTimeIncidentalsCosts:
-      expectedIncidentalsCosts.residentInformation[resident.id]
-        .oneTimeIncidentalsCosts,
-    rentPayments: expectedRentPayments[resident.id],
-    waterCosts: expectedWaterCosts.residentCosts[resident.id],
-    totalCosts: expectedTotalCosts[resident.id],
-  };
-}
-
-export const expectedResidentsAfterInvoiceGeneration: Resident[] = [
-  {
-    ...standardResident,
-    rentInformation: [
-      ...standardResident.rentInformation
-        .slice(0, -2)
-        .map((r) => ({ ...r, wasDeductedInInvoice: true })),
-      standardResident.rentInformation.at(-2)!,
-      {
-        ...standardResident.rentInformation.at(-1)!,
-        incidentals:
-          expectedTotalCosts[standardResident.id].newIncidentalsDeduction,
-        wasDeductedInInvoice: false,
-      },
-    ].reverse(),
-    waterMeterReadings: standardResident.waterMeterReadings
-      .map((r) => ({
-        ...r,
-        wasDeductedInInvoice: true,
-      }))
-      .reverse(),
-  },
-  {
-    ...residentLaterInvoiceStart,
-    rentInformation: [
-      ...residentLaterInvoiceStart.rentInformation
-        .slice(0, -1)
-        .map((r) => ({
-          ...r,
-          wasDeductedInInvoice: true,
-        })),
-      residentLaterInvoiceStart.rentInformation.at(-1)!,
-      new RentInformationBuilder()
-        .withDueDate(new MonthYear(4, 2023))
-        .withRent(700)
-        .withIncidentals(
-          expectedTotalCosts[residentLaterInvoiceStart.id]
-            .newIncidentalsDeduction,
-        )
-        .build(),
-    ].reverse(),
-    waterMeterReadings: residentLaterInvoiceStart.waterMeterReadings
-      .map((r) => ({
-        ...r,
-        wasDeductedInInvoice: true,
-      }))
-      .reverse(),
-  },
-  ...notIncludedResidents,
-];

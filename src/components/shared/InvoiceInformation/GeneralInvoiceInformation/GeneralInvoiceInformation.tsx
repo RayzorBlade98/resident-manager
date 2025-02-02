@@ -1,4 +1,3 @@
-import { Button } from '@mui/material';
 import React from 'react';
 import Invoice from '_/models/invoice/invoice';
 
@@ -17,16 +16,7 @@ function GeneralInvoiceInformation(
 ): JSX.Element {
   const invoice = props.invoice;
   return (
-    <>
-      <p>{`${invoice.start.toString()} - ${invoice.end.toString()}`}</p>
-      <Button
-        onClick={() => {
-          void window.ipcAPI.documentGeneration.generateInvoicePdfs(invoice);
-        }}
-      >
-        Pdf generieren
-      </Button>
-    </>
+    <p>{`${invoice.start.toString()} - ${invoice.end.toString()}`}</p>
   );
 }
 
