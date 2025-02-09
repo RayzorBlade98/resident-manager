@@ -197,12 +197,15 @@ function useResident(residentId: string) {
     [applyChangesToResident],
   );
 
-  const disableResident = useCallback((disabledAt: Date) => {
-    applyChangesToResident((r) => ({
-      ...r,
-      disabledAt,
-    }));
-  }, [applyChangesToResident]);
+  const disableResident = useCallback(
+    (disabledAt: MonthYear) => {
+      applyChangesToResident((r) => ({
+        ...r,
+        disabledAt,
+      }));
+    },
+    [applyChangesToResident],
+  );
 
   return {
     /**

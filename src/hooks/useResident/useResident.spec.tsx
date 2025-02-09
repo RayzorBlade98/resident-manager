@@ -546,7 +546,7 @@ describe('useResident', () => {
         },
       );
 
-      const disabledAt = new Date(2025, 1, 9);
+      const disabledAt = new MonthYear(1, 2025);
 
       // Act
       act(() => {

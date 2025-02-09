@@ -96,7 +96,7 @@ export interface Resident {
   documents: LinkedDocument[];
 
   /**
-   * Date when the contract of the resident ended
+   * Month when the contract of the resident ended
    */
-  disabledAt: Date | undefined;
+  disabledAt: MonthYear | undefined;
 }

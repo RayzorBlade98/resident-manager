@@ -3,6 +3,7 @@ import { mock } from 'jest-mock-extended';
 import { generateImage } from 'jsdom-screenshot';
 import React from 'react';
 import { DisableResidentModal } from './DisableResidentModal';
+import MonthYear from '_/extensions/date/month_year.extension';
 import useResident from '_/hooks/useResident/useResident';
 import * as useResidentModule from '_/hooks/useResident/useResident';
 import ReactTestWrapper from '_/test/ReactTestWrapper';
@@ -16,7 +17,7 @@ describe('DisableResidentModal', () => {
   const resident = new ResidentBuilder().build();
 
   const validInputValues = {
-    disabledAt: new Date(2025, 1, 9).toUTC(),
+    disabledAt: new MonthYear(1, 2025),
   };
 
   const invalidInputValues = {
@@ -24,7 +25,7 @@ describe('DisableResidentModal', () => {
   };
 
   function inputToForm(inputValues: {
-    disabledAt: Date | undefined;
+    disabledAt: MonthYear | undefined;
   }) {
     function input(element: Element | null, value: string | undefined) {
       if (!element) {
@@ -38,7 +39,7 @@ describe('DisableResidentModal', () => {
     act(() => {
       input(
         baseElement.querySelector('#disabledAt'),
-        inputValues.disabledAt?.toPreferredString() ?? '',
+        inputValues.disabledAt?.toPreferredString().slice(3) ?? '',
       );
     });
   }

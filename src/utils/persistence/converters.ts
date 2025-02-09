@@ -114,7 +114,7 @@ export function convertImportedResident(
       creationDate: new Date(document.creationDate),
       subjectDate: new Date(document.subjectDate),
     })),
-    disabledAt: imported.disabledAt ? new Date(imported.disabledAt) : undefined,
+    disabledAt: imported.disabledAt ? MonthYear.fromString(imported.disabledAt) : undefined,
   };
 }
 

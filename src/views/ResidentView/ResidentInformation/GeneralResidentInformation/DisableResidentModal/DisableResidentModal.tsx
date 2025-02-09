@@ -2,8 +2,9 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import { ValidationConstraint } from '../../../../../utils/validation/constraints';
 import Validator from '../../../../../utils/validation/validator';
-import StandardDateField from '_/components/form/StandardDateField/StandardDateField';
+import MonthYearDateField from '_/components/form/MonthYearDateField/MonthYearDateField';
 import GenericModal from '_/components/generic/GenericModal/GenericModal';
+import MonthYear from '_/extensions/date/month_year.extension';
 import useFormValidation from '_/hooks/useFormValidation/useFormValidation';
 import useResident from '_/hooks/useResident/useResident';
 import { Resident } from '_/models/resident/resident';
@@ -26,7 +27,7 @@ type DisableResidentModalProps = {
 };
 
 type DisableResidentInput = {
-  disabledAt: Date;
+  disabledAt: MonthYear;
 };
 
 /**
@@ -46,7 +47,7 @@ export function DisableResidentModal(props: DisableResidentModalProps): JSX.Elem
       disabledAt: ValidationConstraint.Defined,
     }),
     defaultFormInput: {
-      disabledAt: new Date().toUTC(),
+      disabledAt: new MonthYear(),
     },
     submitButtonLabel: 'Deaktivieren',
     onSubmitSuccess: (values) => {
@@ -66,7 +67,7 @@ export function DisableResidentModal(props: DisableResidentModalProps): JSX.Elem
     >
       <Grid container>
         <Grid item xs={12}>
-          <StandardDateField
+          <MonthYearDateField
             required
             id="disabledAt"
             label="Vertragsende"
