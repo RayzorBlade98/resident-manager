@@ -31,6 +31,7 @@ class ResidentBuilder {
       },
       history: [],
       documents: [],
+      disabledAt: undefined,
     };
   }
 

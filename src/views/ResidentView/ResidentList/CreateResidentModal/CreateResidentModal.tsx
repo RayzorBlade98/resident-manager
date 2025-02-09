@@ -84,6 +84,7 @@ function CreateResidentModal(props: CreateResidentModalProps): JSX.Element {
         },
         history: [],
         documents: [],
+        disabledAt: undefined,
       });
       props.onCloseModal();
     },

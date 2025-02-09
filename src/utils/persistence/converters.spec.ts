@@ -345,6 +345,7 @@ describe('convertImportedResidents', () => {
             subjectDate: new Date(2023, 5, 7),
           },
         ],
+        disabledAt: new Date(2025, 1, 9),
       },
     ];
     const residentsJson = JSON.parse(JSON.stringify(residents));

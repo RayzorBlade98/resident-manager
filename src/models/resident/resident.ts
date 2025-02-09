@@ -94,4 +94,9 @@ export interface Resident {
    * Documents linked to the resident
    */
   documents: LinkedDocument[];
+
+  /**
+   * Date when the contract of the resident ended
+   */
+  disabledAt: Date | undefined;
 }
