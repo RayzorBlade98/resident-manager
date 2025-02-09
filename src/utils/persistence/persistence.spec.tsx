@@ -44,18 +44,49 @@ const invoices: InvoiceState = [
   new InvoiceBuilder().build(),
   new InvoiceBuilder().build(),
 ].reverse();
+
 const residents: ResidentState = [
   new ResidentBuilder()
     .addRentInformation(
-      new RentInformationBuilder().withDueDate(new MonthYear()).build(),
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear().addMonths(-3))
+        .build(),
     )
+    .withDisabledAt(new MonthYear().addMonths(-1))
     .build(),
   new ResidentBuilder()
     .addRentInformation(
-      new RentInformationBuilder().withDueDate(new MonthYear()).build(),
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear().addMonths(-3))
+        .build(),
     )
     .build(),
 ];
+const expectedResidents: ResidentState = [
+  {
+    ...residents[0],
+    rentInformation: [
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear().addMonths(-2))
+        .build(),
+      ...residents[0].rentInformation,
+    ],
+  },
+  {
+    ...residents[1],
+    rentInformation: [
+      new RentInformationBuilder().withDueDate(new MonthYear()).build(),
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear().addMonths(-1))
+        .build(),
+      new RentInformationBuilder()
+        .withDueDate(new MonthYear().addMonths(-2))
+        .build(),
+      ...residents[1].rentInformation,
+    ],
+  },
+];
+
 const property: PropertyState = new PropertyBuilder().build();
 const waterCosts: WaterCostsState = new WaterCostsBuilder()
   .addSewageCost(100, new MonthYear())
@@ -103,7 +134,7 @@ describe('importSaveStates', () => {
     // Assert
     expect(getRecoil(incidentalsState)).toEqual(incidentals);
     expect(getRecoil(invoiceState)).toEqual(invoices);
-    expect(getRecoil(residentState)).toEqual(residents);
+    expect(getRecoil(residentState)).toEqual(expectedResidents);
     expect(getRecoil(propertyState)).toEqual(property);
     expect(getRecoil(waterCostsState)).toEqual(waterCosts);
     expect(getRecoil(landlordState)).toEqual(landlord);

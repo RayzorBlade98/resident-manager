@@ -13,8 +13,8 @@ export default abstract class RentInformationUtils {
    * If the due date of the last provided rent information is in the future, no new information will be added.
    * @param rentInformation List of current rent information
    */
-  public static addMissingMonths(rentInformation: RentInformation[]): void {
-    this.addUntilMonth(rentInformation, new MonthYear());
+  public static addMissingMonths(rentInformation: RentInformation[]): RentInformation[] {
+    return this.addUntilMonth(rentInformation, new MonthYear());
   }
 
   /**

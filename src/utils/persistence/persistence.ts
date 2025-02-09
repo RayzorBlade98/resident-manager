@@ -58,11 +58,13 @@ export async function importSaveStates(): Promise<void> {
     residentState,
     (r) => {
       const residents = convertImportedResidents(r);
-      residents
-        .map((resident) => resident.rentInformation)
-        .forEach((rent) => {
-          RentInformationUtils.addMissingMonths(rent);
-        });
+      residents.forEach((resident) => {
+        resident.rentInformation = RentInformationUtils.addMissingMonths(
+          resident.rentInformation,
+        ).filter((rent) => (resident.disabledAt === undefined
+          ? true
+          : rent.dueDate < resident.disabledAt));
+      });
       return residents;
     },
   );
@@ -102,25 +104,40 @@ export function exportSaveStates(): void {
 
   // Invoices
   const invoices = getRecoil(invoiceState);
-  void window.ipcAPI.persistence.exportObject(invoices, persistenceFilenames.invoices);
+  void window.ipcAPI.persistence.exportObject(
+    invoices,
+    persistenceFilenames.invoices,
+  );
 
   // Residents
   const residents = getRecoil(residentState);
-  void window.ipcAPI.persistence.exportObject(residents, persistenceFilenames.residents);
+  void window.ipcAPI.persistence.exportObject(
+    residents,
+    persistenceFilenames.residents,
+  );
 
   // Property
   const property = getRecoil(propertyState);
   if (property) {
-    void window.ipcAPI.persistence.exportObject(property, persistenceFilenames.property);
+    void window.ipcAPI.persistence.exportObject(
+      property,
+      persistenceFilenames.property,
+    );
   }
 
   // Water costs
   const waterCosts = getRecoil(waterCostsState);
-  void window.ipcAPI.persistence.exportObject(waterCosts, persistenceFilenames.waterCosts);
+  void window.ipcAPI.persistence.exportObject(
+    waterCosts,
+    persistenceFilenames.waterCosts,
+  );
 
   // Landlord
   const landlord = getRecoil(landlordState);
-  void window.ipcAPI.persistence.exportObject(landlord, persistenceFilenames.landlord);
+  void window.ipcAPI.persistence.exportObject(
+    landlord,
+    persistenceFilenames.landlord,
+  );
 }
 
 /**

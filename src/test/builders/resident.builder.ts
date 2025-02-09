@@ -88,6 +88,11 @@ class ResidentBuilder {
     return this;
   }
 
+  public withDisabledAt(disabledAt: MonthYear | undefined): ResidentBuilder {
+    this.resident.disabledAt = disabledAt;
+    return this;
+  }
+
   public addDocument(document: LinkedDocument): ResidentBuilder {
     this.resident.documents.push(document);
     return this;
