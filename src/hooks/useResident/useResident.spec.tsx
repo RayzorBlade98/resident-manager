@@ -546,7 +546,7 @@ describe('useResident', () => {
         },
       );
 
-      const disabledAt = new MonthYear(1, 2025);
+      const disabledAt = new MonthYear(8, 2023);
 
       // Act
       act(() => {
@@ -557,6 +557,7 @@ describe('useResident', () => {
       expect(result.current.resident).toEqual({
         ...selectedResident,
         disabledAt,
+        rentInformation: selectedResident.rentInformation.slice(1),
       });
     });
   });

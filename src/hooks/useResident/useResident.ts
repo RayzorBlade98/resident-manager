@@ -199,10 +199,16 @@ function useResident(residentId: string) {
 
   const disableResident = useCallback(
     (disabledAt: MonthYear) => {
-      applyChangesToResident((r) => ({
-        ...r,
-        disabledAt,
-      }));
+      applyChangesToResident((r) => {
+        // Remove all rent information that is due after the contract end
+        const rentInformation = r.rentInformation.filter((rent) => rent.dueDate < disabledAt);
+
+        return {
+          ...r,
+          rentInformation,
+          disabledAt,
+        };
+      });
     },
     [applyChangesToResident],
   );
