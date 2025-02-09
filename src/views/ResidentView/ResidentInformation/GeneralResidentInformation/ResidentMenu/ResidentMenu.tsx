@@ -42,18 +42,22 @@ export function ResidentMenu(props: ResidentMenuProps): JSX.Element {
         open={menuAnchor !== null}
         onClose={() => setMenuAnchor(null)}
       >
-        <MenuItem
-          onClick={() => onMenuItemClicked(() => setShowEditModal(true))}
-        >
-          <EditIcon sx={styles.menuItemIcon} />
-          Bearbeiten
-        </MenuItem>
-        <MenuItem
-          onClick={() => onMenuItemClicked(() => setShowDisableModal(true))}
-        >
-          <BlockIcon sx={styles.menuItemIcon} />
-          Deaktivieren
-        </MenuItem>
+        {props.resident.disabledAt === undefined && (
+          <>
+            <MenuItem
+              onClick={() => onMenuItemClicked(() => setShowEditModal(true))}
+            >
+              <EditIcon sx={styles.menuItemIcon} />
+              Bearbeiten
+            </MenuItem>
+            <MenuItem
+              onClick={() => onMenuItemClicked(() => setShowDisableModal(true))}
+            >
+              <BlockIcon sx={styles.menuItemIcon} />
+              Deaktivieren
+            </MenuItem>
+          </>
+        )}
       </Menu>
 
       <EditResidentModal
