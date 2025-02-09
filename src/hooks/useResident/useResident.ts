@@ -197,6 +197,13 @@ function useResident(residentId: string) {
     [applyChangesToResident],
   );
 
+  const disableResident = useCallback((disabledAt: Date) => {
+    applyChangesToResident((r) => ({
+      ...r,
+      disabledAt,
+    }));
+  }, [applyChangesToResident]);
+
   return {
     /**
      * Resident with the matching id
@@ -234,6 +241,12 @@ function useResident(residentId: string) {
      * Function to update some resident values
      */
     editResident,
+
+    /**
+     * Function to disable the selected resident
+     * @param disabledAt Date when the contract of the resident ends
+     */
+    disableResident,
   };
 }
 

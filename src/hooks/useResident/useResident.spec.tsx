@@ -531,4 +531,33 @@ describe('useResident', () => {
       expect(result.current.resident).toEqual(selectedResident);
     });
   });
+
+  describe('disableResident', () => {
+    test('should set state correctly', () => {
+      // Arrange
+      const { result } = renderHook(
+        () => useInitializedRecoilState({
+          state: residentState,
+          stateValue: residents,
+          hook: () => useResident(selectedResident.id),
+        }),
+        {
+          wrapper: RecoilRoot,
+        },
+      );
+
+      const disabledAt = new Date(2025, 1, 9);
+
+      // Act
+      act(() => {
+        result.current.disableResident(disabledAt);
+      });
+
+      // Assert
+      expect(result.current.resident).toEqual({
+        ...selectedResident,
+        disabledAt,
+      });
+    });
+  });
 });
